@@ -1,111 +1,253 @@
-from flask import Flask, jsonify, request
-import joblib
-import numpy as np
-import os
+from pathlib import Path
+import json
+import math
+from typing import List, Optional
 
-app = Flask(__name__)
+import joblib
+import pandas as pd
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel, Field
+
+MODELS_DIR = Path("models")
+SENTIMENT_MODEL_PATH = MODELS_DIR / "sentiment_model.pkl"
+VECTORIZER_PATH = MODELS_DIR / "vectorizer.pkl"
+SENTIMENT_SKIP_FLAG = MODELS_DIR / "sentiment_skipped.flag"
+RECOMMENDATION_MODEL_PATH = MODELS_DIR / "recommendation_model.pkl"
+RECOMMENDATION_METADATA_PATH = MODELS_DIR / "recommendation_metadata.json"
+
+DEFAULT_FEATURE_COLUMNS = [
+    "rating",
+    "sentiment",
+    "review_count",
+    "review_avg_rating",
+    "user_ratings_total",
+    "has_review",
+    "review_length",
+    "popularity_signal",
+    "category",
+]
+
+app = FastAPI(title="Smart Itinerary Planner ML Service")
 
 sentiment_model = None
 vectorizer = None
 recommendation_model = None
+recommendation_metadata = {
+    "feature_columns": DEFAULT_FEATURE_COLUMNS,
+}
+
+
+class SentimentPayload(BaseModel):
+    review: str
+
+
+class RecommendationPayload(BaseModel):
+    rating: float
+    sentiment: float = Field(ge=0.0, le=1.0)
+    category: str = "other"
+    review_count: int = 0
+    review_avg_rating: Optional[float] = None
+    user_ratings_total: int = 0
+    has_review: int = 0
+    review_length: int = 0
+    popularity_signal: Optional[float] = None
+
+
+class PlacePayload(BaseModel):
+    place_id: Optional[str] = None
+    name: Optional[str] = None
+    category: str = "other"
+    rating: float = 0.0
+    review: str = ""
+    city: Optional[str] = None
+    lat: Optional[float] = None
+    lng: Optional[float] = None
+    reviews: List[str] = Field(default_factory=list)
+    review_count: Optional[int] = None
+    review_avg_rating: Optional[float] = None
+    user_ratings_total: int = 0
+
+
+class RecommendRequest(BaseModel):
+    places: List[PlacePayload]
+    top_k: Optional[int] = None
 
 
 def load_models():
-	global sentiment_model, vectorizer, recommendation_model
+    global sentiment_model, vectorizer, recommendation_model, recommendation_metadata
 
-	sentiment_path = 'models/sentiment_model.pkl'
-	vectorizer_path = 'models/vectorizer.pkl'
-	recommendation_path = 'models/recommendation_model.pkl'
+    if RECOMMENDATION_MODEL_PATH.exists():
+        recommendation_model = joblib.load(RECOMMENDATION_MODEL_PATH)
+    else:
+        raise FileNotFoundError("Recommendation model missing. Run train_recommendation.py first.")
 
-	if not os.path.exists(sentiment_path) or not os.path.exists(vectorizer_path):
-		raise FileNotFoundError('Sentiment artifacts missing. Run train_sentiment.py first.')
+    if RECOMMENDATION_METADATA_PATH.exists():
+        recommendation_metadata = json.loads(RECOMMENDATION_METADATA_PATH.read_text(encoding="utf-8"))
 
-	if not os.path.exists(recommendation_path):
-		raise FileNotFoundError('Recommendation model missing. Run train_recommendation.py first.')
-
-	sentiment_model = joblib.load(sentiment_path)
-	vectorizer = joblib.load(vectorizer_path)
-	recommendation_model = joblib.load(recommendation_path)
+    if not SENTIMENT_SKIP_FLAG.exists() and SENTIMENT_MODEL_PATH.exists() and VECTORIZER_PATH.exists():
+        sentiment_model = joblib.load(SENTIMENT_MODEL_PATH)
+        vectorizer = joblib.load(VECTORIZER_PATH)
 
 
-@app.get('/health')
+def safe_sentiment(review_text: str) -> float:
+    review_text = (review_text or "").strip()
+    if not review_text or sentiment_model is None or vectorizer is None:
+        return 0.5
+
+    review_vec = vectorizer.transform([review_text])
+    return float(sentiment_model.predict_proba(review_vec)[0][1])
+
+
+def review_text_from_place(place: PlacePayload) -> str:
+    if place.review.strip():
+        return place.review.strip()
+
+    cleaned_reviews = [review.strip() for review in place.reviews if isinstance(review, str) and review.strip()]
+    return " || ".join(cleaned_reviews)
+
+
+def build_feature_row(payload: RecommendationPayload) -> dict:
+    review_avg_rating = payload.review_avg_rating if payload.review_avg_rating is not None else payload.rating
+    popularity_signal = (
+        payload.popularity_signal
+        if payload.popularity_signal is not None
+        else math.log1p(max(payload.user_ratings_total, 0))
+    )
+
+    return {
+        "rating": float(payload.rating),
+        "sentiment": float(payload.sentiment),
+        "review_count": int(payload.review_count),
+        "review_avg_rating": float(review_avg_rating),
+        "user_ratings_total": int(payload.user_ratings_total),
+        "has_review": int(payload.has_review),
+        "review_length": int(payload.review_length),
+        "popularity_signal": float(popularity_signal),
+        "category": payload.category or "other",
+    }
+
+
+def predict_recommendation_score(feature_row: dict) -> float:
+    feature_columns = recommendation_metadata.get("feature_columns", DEFAULT_FEATURE_COLUMNS)
+    frame = pd.DataFrame([{column: feature_row.get(column) for column in feature_columns}])
+    probabilities = recommendation_model.predict_proba(frame)[0]
+    return float(probabilities[1])
+
+
+@app.on_event("startup")
+def startup_event():
+    load_models()
+
+
+@app.get("/health")
 def health():
-	return jsonify({'success': True, 'status': 'ok'})
+    return {
+        "success": True,
+        "status": "ok",
+        "sentiment_model_loaded": sentiment_model is not None and vectorizer is not None,
+        "recommendation_model_loaded": recommendation_model is not None,
+    }
 
 
-@app.post('/predict/sentiment')
-def predict_sentiment():
-	payload = request.get_json(silent=True) or {}
-	review = str(payload.get('review', '')).strip()
+@app.post("/predict/sentiment")
+def predict_sentiment(payload: SentimentPayload):
+    if not payload.review.strip():
+        raise HTTPException(status_code=400, detail="review is required")
 
-	if not review:
-		return jsonify({'success': False, 'error': 'review is required'}), 400
-
-	review_vec = vectorizer.transform([review])
-	probabilities = sentiment_model.predict_proba(review_vec)[0]
-	predicted_class = int(sentiment_model.predict(review_vec)[0])
-
-	return jsonify({
-		'success': True,
-		'data': {
-			'sentiment_label': 'positive' if predicted_class == 1 else 'negative',
-			'sentiment_score': float(probabilities[1]),
-		},
-	})
+    sentiment_score = safe_sentiment(payload.review)
+    return {
+        "success": True,
+        "data": {
+            "sentiment_label": "positive" if sentiment_score >= 0.5 else "negative",
+            "sentiment_score": sentiment_score,
+        },
+    }
 
 
-@app.post('/predict/recommendation')
-def predict_recommendation():
-	payload = request.get_json(silent=True) or {}
+@app.post("/predict/recommendation")
+def predict_recommendation(payload: RecommendationPayload):
+    feature_row = build_feature_row(payload)
+    score = predict_recommendation_score(feature_row)
 
-	try:
-		rating = float(payload.get('rating'))
-		sentiment = float(payload.get('sentiment'))
-	except (TypeError, ValueError):
-		return jsonify({'success': False, 'error': 'rating and sentiment must be numeric'}), 400
-
-	features = np.array([[rating, sentiment]])
-	probabilities = recommendation_model.predict_proba(features)[0]
-	prediction = int(recommendation_model.predict(features)[0])
-
-	return jsonify({
-		'success': True,
-		'data': {
-			'recommend': prediction,
-			'confidence': float(max(probabilities)),
-		},
-	})
+    return {
+        "success": True,
+        "data": {
+            "recommend": int(score >= 0.5),
+            "confidence": score,
+            "score": score,
+        },
+    }
 
 
-@app.post('/predict/place')
-def predict_place():
-	payload = request.get_json(silent=True) or {}
-	review = str(payload.get('review', '')).strip()
+@app.post("/predict/place")
+def predict_place(payload: PlacePayload):
+    review_text = review_text_from_place(payload)
+    review_count = payload.review_count if payload.review_count is not None else len(payload.reviews)
+    sentiment_score = safe_sentiment(review_text)
 
-	try:
-		rating = float(payload.get('rating'))
-	except (TypeError, ValueError):
-		return jsonify({'success': False, 'error': 'rating must be numeric'}), 400
+    recommendation_payload = RecommendationPayload(
+        rating=payload.rating,
+        sentiment=sentiment_score,
+        category=payload.category,
+        review_count=review_count,
+        review_avg_rating=payload.review_avg_rating if payload.review_avg_rating is not None else payload.rating,
+        user_ratings_total=payload.user_ratings_total,
+        has_review=1 if review_text else 0,
+        review_length=len(review_text.split()) if review_text else 0,
+    )
+    feature_row = build_feature_row(recommendation_payload)
+    score = predict_recommendation_score(feature_row)
 
-	sentiment = 0.5
-	if review:
-		review_vec = vectorizer.transform([review])
-		sentiment = float(sentiment_model.predict_proba(review_vec)[0][1])
-
-	features = np.array([[rating, sentiment]])
-	probabilities = recommendation_model.predict_proba(features)[0]
-	prediction = int(recommendation_model.predict(features)[0])
-
-	return jsonify({
-		'success': True,
-		'data': {
-			'sentiment_score': sentiment,
-			'recommend': prediction,
-			'confidence': float(max(probabilities)),
-		},
-	})
+    return {
+        "success": True,
+        "data": {
+            "sentiment_score": sentiment_score,
+            "recommend": int(score >= 0.5),
+            "confidence": score,
+            "score": score,
+        },
+    }
 
 
-if __name__ == '__main__':
-	load_models()
-	app.run(host='0.0.0.0', port=5000, debug=False)
+@app.post("/recommend")
+def recommend_places(payload: RecommendRequest):
+    ranked_places = []
+
+    for place in payload.places:
+        review_text = review_text_from_place(place)
+        review_count = place.review_count if place.review_count is not None else len(place.reviews)
+        sentiment_score = safe_sentiment(review_text)
+
+        recommendation_payload = RecommendationPayload(
+            rating=place.rating,
+            sentiment=sentiment_score,
+            category=place.category,
+            review_count=review_count,
+            review_avg_rating=place.review_avg_rating if place.review_avg_rating is not None else place.rating,
+            user_ratings_total=place.user_ratings_total,
+            has_review=1 if review_text else 0,
+            review_length=len(review_text.split()) if review_text else 0,
+        )
+        feature_row = build_feature_row(recommendation_payload)
+        score = predict_recommendation_score(feature_row)
+
+        ranked_places.append({
+            "place_id": place.place_id,
+            "name": place.name,
+            "category": place.category,
+            "city": place.city,
+            "lat": place.lat,
+            "lng": place.lng,
+            "rating": place.rating,
+            "sentiment_score": sentiment_score,
+            "recommendation_score": score,
+            "recommend": int(score >= 0.5),
+        })
+
+    ranked_places.sort(key=lambda place: place["recommendation_score"], reverse=True)
+    top_k = payload.top_k or len(ranked_places)
+
+    return {
+        "recommendations": ranked_places[:top_k],
+        "total": len(ranked_places),
+    }

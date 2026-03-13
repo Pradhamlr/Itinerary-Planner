@@ -5,6 +5,7 @@ const connectDB = require('./config/db');
 const authRoutes = require('./routes/authRoutes');
 const tripRoutes = require('./routes/tripRoutes');
 const placesRoutes = require('./routes/placesRoutes');
+const recommendationRoutes = require('./routes/recommendationRoutes');
 const initializePlacesDataset = require('./startup/seedPlaces');
 
 // Initialize Express app
@@ -56,6 +57,9 @@ const startServer = async () => {
             getByType: 'GET /api/places/type/:city/:type',
             getByCity: 'GET /api/places/:city',
           },
+          recommendations: {
+            getByTrip: 'GET /api/recommendations/:tripId',
+          },
         },
       });
     });
@@ -64,6 +68,7 @@ const startServer = async () => {
     app.use('/api/auth', authRoutes);
     app.use('/api/trips', tripRoutes);
     app.use('/api/places', placesRoutes);
+    app.use('/api/recommendations', recommendationRoutes);
 
     // 404 handler
     app.use((req, res) => {

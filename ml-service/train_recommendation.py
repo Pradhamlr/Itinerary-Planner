@@ -1,162 +1,205 @@
 """
-Recommendation Model Training
-Smart Itinerary Planner - Phase 2
+Recommendation model training for Smart Itinerary Planner.
 
-Trains a Random Forest classifier to predict high-quality places.
-Uses rating and sentiment as features.
+The model uses engineered place signals to estimate whether a place belongs in
+the upper-quality tier used for ranking recommendations.
 """
 
-import pandas as pd
-import numpy as np
-from sklearn.model_selection import train_test_split, cross_val_score
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import classification_report, accuracy_score, confusion_matrix
-import joblib
-import os
+from pathlib import Path
+import json
 import warnings
-warnings.filterwarnings('ignore')
 
-QUALITY_THRESHOLD = 4.0
+import joblib
+import numpy as np
+import pandas as pd
+from sklearn.compose import ColumnTransformer
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.impute import SimpleImputer
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+from sklearn.model_selection import StratifiedKFold, cross_val_score, train_test_split
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import OneHotEncoder
 
-print("\n" + "="*60)
-print("RECOMMENDATION MODEL TRAINING - Smart Itinerary Planner")
-print("="*60 + "\n")
+warnings.filterwarnings("ignore")
 
-# Step 1: Load feature dataset
-print("📂 Loading feature dataset...")
-try:
-    df = pd.read_csv('dataset/place_features.csv')
-    print(f"✓ Loaded {len(df)} places with features")
-except FileNotFoundError:
-    print("✗ Error: dataset/place_features.csv not found!")
-    print("  Run: python create_features.py")
-    exit(1)
+FEATURES_PATH = Path("dataset/place_features.csv")
+MODEL_PATH = Path("models/recommendation_model.pkl")
+METADATA_PATH = Path("models/recommendation_metadata.json")
 
-required_columns = {'rating', 'sentiment'}
-missing_columns = required_columns - set(df.columns)
-if missing_columns:
-    print(f"✗ Error: Missing columns in feature dataset: {sorted(missing_columns)}")
-    exit(1)
-
-df['rating'] = pd.to_numeric(df['rating'], errors='coerce')
-df['sentiment'] = pd.to_numeric(df['sentiment'], errors='coerce')
-df = df.dropna(subset=['rating', 'sentiment'])
-
-if len(df) < 20:
-    print("✗ Error: Not enough valid samples to train recommendation model")
-    exit(1)
-
-# Step 2: Prepare features and labels
-print("\n🎯 Preparing training data...")
-
-# Features: rating and sentiment
-X = df[['rating', 'sentiment']].values
-
-# Target: rating > QUALITY_THRESHOLD (good places = 1, others = 0)
-y = (df['rating'] > QUALITY_THRESHOLD).astype(int).values
-
-print(f"✓ Features (X): {X.shape}")
-print(f"  - rating: continuous (0-5)")
-print(f"  - sentiment: continuous (0-1)")
-print(f"\n✓ Labels (y): {len(y)} places")
-print(f"  - Good places (rating > {QUALITY_THRESHOLD}): {sum(y)} ({sum(y)/len(y)*100:.1f}%)")
-print(f"  - Other places (rating ≤ {QUALITY_THRESHOLD}): {len(y) - sum(y)} ({(len(y)-sum(y))/len(y)*100:.1f}%)")
-
-# Check class balance
-if sum(y) < 10 or (len(y) - sum(y)) < 10:
-    print("\n⚠️  Warning: Imbalanced dataset detected")
-    print("   Consider collecting more data for better model performance")
-
-# Step 3: Split dataset
-print("\n✂️  Splitting dataset...")
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.2, random_state=42, stratify=y
-)
-print(f"✓ Training set: {len(X_train)} samples")
-print(f"✓ Test set: {len(X_test)} samples")
-
-# Step 4: Train Random Forest model
-print("\n🌲 Training Random Forest Classifier...")
-model = RandomForestClassifier(
-    n_estimators=100,
-    max_depth=10,
-    min_samples_split=5,
-    min_samples_leaf=2,
-    random_state=42,
-    n_jobs=-1
-)
-
-model.fit(X_train, y_train)
-print("✓ Model training complete")
-
-# Step 5: Evaluate model
-print("\n📊 Evaluating model performance...")
-y_pred = model.predict(X_test)
-accuracy = accuracy_score(y_test, y_pred)
-
-print(f"\n✓ Accuracy: {accuracy:.4f} ({accuracy*100:.2f}%)")
-
-# Cross-validation
-print("\n🔄 Cross-validation (5-fold)...")
-cv_scores = cross_val_score(model, X_train, y_train, cv=5)
-print(f"✓ CV Scores: {cv_scores}")
-print(f"✓ Mean CV Score: {cv_scores.mean():.4f} (±{cv_scores.std()*2:.4f})")
-
-print("\n📈 Classification Report:")
-print(classification_report(y_test, y_pred, 
-                          target_names=['Other Places', 'Good Places'],
-                          digits=4))
-
-print("🔢 Confusion Matrix:")
-cm = confusion_matrix(y_test, y_pred)
-print(f"  True Negative: {cm[0][0]}, False Positive: {cm[0][1]}")
-print(f"  False Negative: {cm[1][0]}, True Positive: {cm[1][1]}")
-
-# Step 6: Feature importance
-print("\n🎯 Feature Importance:")
-feature_names = ['rating', 'sentiment']
-importances = model.feature_importances_
-for name, importance in zip(feature_names, importances):
-    print(f"  {name}: {importance:.4f} ({importance*100:.1f}%)")
-
-# Step 7: Save model
-print("\n💾 Saving recommendation model...")
-os.makedirs('models', exist_ok=True)
-
-joblib.dump(model, 'models/recommendation_model.pkl')
-print("✓ Saved: models/recommendation_model.pkl")
-
-# Step 8: Test predictions
-print("\n🧪 Testing predictions...")
-test_cases = [
-    {'rating': 4.8, 'sentiment': 0.95, 'desc': 'High rating, very positive'},
-    {'rating': 4.2, 'sentiment': 0.75, 'desc': 'Good rating, positive'},
-    {'rating': 3.5, 'sentiment': 0.50, 'desc': 'Average rating, neutral'},
-    {'rating': 2.8, 'sentiment': 0.30, 'desc': 'Low rating, negative'},
+NUMERIC_FEATURES = [
+    "rating",
+    "sentiment",
+    "review_count",
+    "review_avg_rating",
+    "user_ratings_total",
+    "has_review",
+    "review_length",
+    "popularity_signal",
 ]
+CATEGORICAL_FEATURES = ["category"]
+ALL_FEATURES = NUMERIC_FEATURES + CATEGORICAL_FEATURES
 
-for case in test_cases:
-    X_test_case = np.array([[case['rating'], case['sentiment']]])
-    prediction = model.predict(X_test_case)[0]
-    probability = model.predict_proba(X_test_case)[0]
-    
-    result = "✓ Recommend" if prediction == 1 else "✗ Don't recommend"
-    confidence = max(probability) * 100
-    
-    print(f"\nTest: {case['desc']}")
-    print(f"  Rating: {case['rating']}, Sentiment: {case['sentiment']}")
-    print(f"  → {result} (confidence: {confidence:.1f}%)")
 
-print("\n" + "="*60)
-print("✅ RECOMMENDATION MODEL TRAINED SUCCESSFULLY!")
-print("="*60 + "\n")
+def normalize_numeric(series, default=0.0):
+    return pd.to_numeric(series, errors="coerce").fillna(default)
 
-# Step 9: Model summary
-print("📦 Model Summary:")
-print(f"  Algorithm: Random Forest Classifier")
-print(f"  Trees: {model.n_estimators}")
-print(f"  Features: rating, sentiment")
-print(f"  Training samples: {len(X_train)}")
-print(f"  Test accuracy: {accuracy*100:.2f}%")
-print(f"  Model file: models/recommendation_model.pkl")
-print()
+
+def build_target(df):
+    rating_component = df["rating"].clip(0, 5) / 5.0
+    sentiment_component = df["sentiment"].clip(0, 1)
+    review_avg_component = df["review_avg_rating"].clip(0, 5) / 5.0
+    popularity_raw = df["user_ratings_total"].clip(lower=0)
+    popularity_scale = popularity_raw.max() or 1
+    popularity_component = np.log1p(popularity_raw) / np.log1p(popularity_scale)
+
+    quality_score = (
+        (rating_component * 0.50)
+        + (sentiment_component * 0.20)
+        + (review_avg_component * 0.15)
+        + (popularity_component * 0.10)
+        + (df["has_review"] * 0.05)
+    )
+
+    threshold = float(np.quantile(quality_score, 0.65))
+    labels = (quality_score >= threshold).astype(int)
+    return quality_score, labels, threshold
+
+
+def main():
+    print("\n" + "=" * 60)
+    print("RECOMMENDATION MODEL TRAINING")
+    print("=" * 60 + "\n")
+
+    if not FEATURES_PATH.exists():
+        print("Error: dataset/place_features.csv not found. Run python create_features.py")
+        raise SystemExit(1)
+
+    df = pd.read_csv(FEATURES_PATH)
+    missing_columns = set(ALL_FEATURES) - set(df.columns)
+    if missing_columns:
+        print(f"Error: Missing columns in feature dataset: {sorted(missing_columns)}")
+        raise SystemExit(1)
+
+    for column in NUMERIC_FEATURES:
+        df[column] = normalize_numeric(df[column])
+    df["category"] = df["category"].fillna("other").astype(str)
+    df = df.dropna(subset=["rating", "sentiment"]).copy()
+
+    if len(df) < 20:
+        print("Error: Not enough valid samples to train recommendation model")
+        raise SystemExit(1)
+
+    quality_score, y, threshold = build_target(df)
+    df["quality_score"] = quality_score
+
+    positive_count = int(y.sum())
+    negative_count = int(len(y) - positive_count)
+
+    print(f"Training rows: {len(df)}")
+    print(f"Positive labels: {positive_count}")
+    print(f"Negative labels: {negative_count}")
+    print(f"Quality-score threshold: {threshold:.4f}")
+
+    X = df[ALL_FEATURES]
+
+    X_train, X_test, y_train, y_test = train_test_split(
+        X,
+        y,
+        test_size=0.2,
+        random_state=42,
+        stratify=y,
+    )
+
+    preprocessor = ColumnTransformer(
+        transformers=[
+            ("numeric", Pipeline(steps=[("imputer", SimpleImputer(strategy="median"))]), NUMERIC_FEATURES),
+            ("category", OneHotEncoder(handle_unknown="ignore"), CATEGORICAL_FEATURES),
+        ]
+    )
+
+    model = Pipeline(
+        steps=[
+            ("preprocessor", preprocessor),
+            (
+                "classifier",
+                RandomForestClassifier(
+                    n_estimators=250,
+                    max_depth=12,
+                    min_samples_split=6,
+                    min_samples_leaf=2,
+                    class_weight="balanced_subsample",
+                    random_state=42,
+                    n_jobs=1,
+                ),
+            ),
+        ]
+    )
+
+    sample_weight = 1.0 + np.clip(np.log1p(df.loc[X_train.index, "user_ratings_total"]), 0, None)
+    model.fit(X_train, y_train, classifier__sample_weight=sample_weight)
+
+    y_pred = model.predict(X_test)
+    accuracy = accuracy_score(y_test, y_pred)
+    print(f"Accuracy: {accuracy:.4f}")
+
+    cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
+    cv_scores = cross_val_score(model, X, y, cv=cv, scoring="accuracy", n_jobs=1)
+    print(f"CV accuracy: {cv_scores.mean():.4f} (+/- {cv_scores.std() * 2:.4f})")
+
+    print("Classification report:")
+    print(classification_report(y_test, y_pred, target_names=["other", "recommended"], digits=4))
+
+    cm = confusion_matrix(y_test, y_pred)
+    print("Confusion matrix:")
+    print(f"  true_negative={cm[0][0]} false_positive={cm[0][1]}")
+    print(f"  false_negative={cm[1][0]} true_positive={cm[1][1]}")
+
+    MODEL_PATH.parent.mkdir(parents=True, exist_ok=True)
+    joblib.dump(model, MODEL_PATH)
+
+    metadata = {
+        "feature_columns": ALL_FEATURES,
+        "numeric_features": NUMERIC_FEATURES,
+        "categorical_features": CATEGORICAL_FEATURES,
+        "quality_threshold": threshold,
+    }
+    METADATA_PATH.write_text(json.dumps(metadata, indent=2), encoding="utf-8")
+
+    print(f"Saved: {MODEL_PATH}")
+    print(f"Saved: {METADATA_PATH}")
+
+    test_cases = pd.DataFrame([
+        {
+            "rating": 4.8,
+            "sentiment": 0.92,
+            "review_count": 5,
+            "review_avg_rating": 4.8,
+            "user_ratings_total": 2000,
+            "has_review": 1,
+            "review_length": 35,
+            "popularity_signal": np.log1p(2000),
+            "category": "tourist attraction",
+        },
+        {
+            "rating": 3.8,
+            "sentiment": 0.52,
+            "review_count": 0,
+            "review_avg_rating": 3.8,
+            "user_ratings_total": 20,
+            "has_review": 0,
+            "review_length": 0,
+            "popularity_signal": np.log1p(20),
+            "category": "museum",
+        },
+    ])
+
+    probabilities = model.predict_proba(test_cases)[:, 1]
+    print("Sample recommendation scores:")
+    for index, probability in enumerate(probabilities, start=1):
+        print(f"  case_{index}: {probability:.4f}")
+
+    print("\nRecommendation training complete\n")
+
+
+if __name__ == "__main__":
+    main()

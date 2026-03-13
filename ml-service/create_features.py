@@ -1,129 +1,131 @@
 """
-Feature Dataset Generation
-Smart Itinerary Planner - Phase 2
+Feature dataset generation for Smart Itinerary Planner.
 
-Loads the trained sentiment model and generates sentiment scores for all places.
-Creates a feature dataset with: category, rating, sentiment
+Creates a stable feature table from `dataset/places.csv` that can be consumed by
+the recommendation model and the inference API.
 """
 
-import pandas as pd
-import numpy as np
-import joblib
-import os
+from pathlib import Path
+import math
 import warnings
-warnings.filterwarnings('ignore')
+
+import joblib
+import pandas as pd
+
+warnings.filterwarnings("ignore")
+
+DATASET_PATH = Path("dataset/places.csv")
+FEATURES_PATH = Path("dataset/place_features.csv")
+MODELS_DIR = Path("models")
+SENTIMENT_MODEL_PATH = MODELS_DIR / "sentiment_model.pkl"
+VECTORIZER_PATH = MODELS_DIR / "vectorizer.pkl"
+SKIP_FLAG_PATH = MODELS_DIR / "sentiment_skipped.flag"
 
 
 def has_review_text(value):
-    return pd.notna(value) and str(value).strip() != ''
+    return pd.notna(value) and str(value).strip() != ""
 
-print("\n" + "="*60)
-print("FEATURE DATASET GENERATION - Smart Itinerary Planner")
-print("="*60 + "\n")
 
-# Step 1: Load original dataset
-print("📂 Loading original dataset...")
-try:
-    df = pd.read_csv('dataset/places.csv')
-    print(f"✓ Loaded {len(df)} places")
-except FileNotFoundError:
-    print("✗ Error: dataset/places.csv not found!")
-    exit(1)
+def normalize_numeric(series, default=0.0):
+    return pd.to_numeric(series, errors="coerce").fillna(default)
 
-required_columns = {'name', 'category', 'rating', 'review', 'city', 'lat', 'lng'}
-missing_columns = required_columns - set(df.columns)
-if missing_columns:
-    print(f"✗ Error: Missing columns in dataset: {sorted(missing_columns)}")
-    exit(1)
 
-df['rating'] = pd.to_numeric(df['rating'], errors='coerce')
-df = df.dropna(subset=['rating']).copy()
+def get_numeric_column(df, column_name, default=0.0):
+    if column_name in df.columns:
+        return normalize_numeric(df[column_name], default=default)
 
-# Step 2: Load trained sentiment model (optional — skipped when no reviews)
-print("\n🤖 Loading trained sentiment model...")
-sentiment_model = None
-vectorizer = None
+    return pd.Series([default] * len(df), index=df.index)
 
-if os.path.exists('models/sentiment_skipped.flag'):
-    print("⚠️  Sentiment model was skipped (no review text in dataset)")
-    print("  All places will receive neutral sentiment score (0.5)")
-elif os.path.exists('models/sentiment_model.pkl') and os.path.exists('models/vectorizer.pkl'):
+
+def load_sentiment_artifacts():
+    if SKIP_FLAG_PATH.exists():
+        print("Sentiment model skipped earlier; using neutral sentiment defaults")
+        return None, None
+
+    if not SENTIMENT_MODEL_PATH.exists() or not VECTORIZER_PATH.exists():
+        print("Sentiment artifacts missing; using neutral sentiment defaults")
+        return None, None
+
     try:
-        sentiment_model = joblib.load('models/sentiment_model.pkl')
-        vectorizer = joblib.load('models/vectorizer.pkl')
-        print("✓ Sentiment model loaded")
-        print("✓ Vectorizer loaded")
-    except Exception as e:
-        print(f"⚠️  Could not load sentiment model: {e}")
-        print("  Falling back to neutral sentiment (0.5) for all places")
-else:
-    print("⚠️  Sentiment model not found — using neutral sentiment (0.5) for all places")
+        return joblib.load(SENTIMENT_MODEL_PATH), joblib.load(VECTORIZER_PATH)
+    except Exception as error:
+        print(f"Failed to load sentiment artifacts: {error}")
+        print("Falling back to neutral sentiment defaults")
+        return None, None
 
-# Step 3: Generate sentiment scores
-print("\n🎯 Generating sentiment scores...")
 
-sentiment_scores = []
-places_with_reviews = 0
-places_without_reviews = 0
-
-for idx, row in df.iterrows():
-    review = row['review']
-    
+def infer_sentiment(review, sentiment_model, vectorizer):
     if not has_review_text(review) or sentiment_model is None or vectorizer is None:
-        # No review text, or no trained model: use neutral sentiment
-        sentiment = 0.5
-        places_without_reviews += 1
-    else:
-        # Has review and model: predict sentiment
-        review_vec = vectorizer.transform([str(review).strip()])
-        prediction_proba = sentiment_model.predict_proba(review_vec)[0]
-        sentiment = prediction_proba[1]  # Probability of positive class
-        places_with_reviews += 1
-    
-    sentiment_scores.append(sentiment)
-    
-    # Progress indicator
-    if (idx + 1) % 1000 == 0:
-        print(f"  Processed {idx + 1}/{len(df)} places...")
+        return 0.5
 
-print(f"\n✓ Generated sentiment scores for {len(df)} places")
-print(f"  - With reviews: {places_with_reviews}")
-print(f"  - Without reviews: {places_without_reviews}")
+    review_vec = vectorizer.transform([str(review).strip()])
+    return float(sentiment_model.predict_proba(review_vec)[0][1])
 
-# Step 4: Create feature dataset
-print("\n📊 Creating feature dataset...")
 
-feature_df = pd.DataFrame({
-    'name': df['name'],
-    'category': df['category'],
-    'rating': df['rating'],
-    'sentiment': sentiment_scores,
-    'city': df['city'],
-    'lat': df['lat'],
-    'lng': df['lng']
-})
+def main():
+    print("\n" + "=" * 60)
+    print("FEATURE DATASET GENERATION")
+    print("=" * 60 + "\n")
 
-# Step 5: Display statistics
-print("\n📈 Dataset Statistics:")
-print(f"  Total places: {len(feature_df)}")
-print(f"  Average rating: {feature_df['rating'].mean():.2f}")
-print(f"  Average sentiment: {feature_df['sentiment'].mean():.2f}")
-print(f"\n  Sentiment distribution:")
-print(f"    High (>0.7): {len(feature_df[feature_df['sentiment'] > 0.7])}")
-print(f"    Medium (0.4-0.7): {len(feature_df[(feature_df['sentiment'] >= 0.4) & (feature_df['sentiment'] <= 0.7)])}")
-print(f"    Low (<0.4): {len(feature_df[feature_df['sentiment'] < 0.4])}")
+    if not DATASET_PATH.exists():
+        print("Error: dataset/places.csv not found")
+        raise SystemExit(1)
 
-# Step 6: Save feature dataset
-print("\n💾 Saving feature dataset...")
-output_path = 'dataset/place_features.csv'
-os.makedirs('dataset', exist_ok=True)
-feature_df.to_csv(output_path, index=False)
-print(f"✓ Saved: {output_path}")
+    df = pd.read_csv(DATASET_PATH)
+    required_columns = {"name", "category", "rating", "review", "city", "lat", "lng"}
+    missing_columns = required_columns - set(df.columns)
+    if missing_columns:
+        print(f"Error: Missing columns in dataset: {sorted(missing_columns)}")
+        raise SystemExit(1)
 
-# Step 7: Display sample data
-print("\n📋 Sample data (first 5 rows):")
-print(feature_df[['name', 'category', 'rating', 'sentiment']].head())
+    df["rating"] = normalize_numeric(df["rating"])
+    df["review_count"] = get_numeric_column(df, "review_count", default=0).astype(int)
+    df["review_avg_rating"] = get_numeric_column(df, "review_avg_rating", default=0.0)
+    df["user_ratings_total"] = get_numeric_column(df, "user_ratings_total", default=0.0)
+    df["lat"] = normalize_numeric(df["lat"])
+    df["lng"] = normalize_numeric(df["lng"])
+    df = df.dropna(subset=["rating", "lat", "lng"]).copy()
+    df["review_avg_rating"] = df["review_avg_rating"].where(df["review_avg_rating"] > 0, df["rating"])
 
-print("\n" + "="*60)
-print("✅ FEATURE DATASET CREATED SUCCESSFULLY!")
-print("="*60 + "\n")
+    sentiment_model, vectorizer = load_sentiment_artifacts()
+
+    print(f"Loaded {len(df)} places")
+    print("Generating sentiment scores...")
+
+    df["review"] = df["review"].fillna("").astype(str)
+    df["sentiment"] = df["review"].apply(lambda review: infer_sentiment(review, sentiment_model, vectorizer))
+    df["has_review"] = df["review"].apply(lambda review: 1 if has_review_text(review) else 0)
+    df["review_length"] = df["review"].apply(lambda review: len(review.split()) if has_review_text(review) else 0)
+    df["popularity_signal"] = df["user_ratings_total"].apply(lambda value: round(math.log1p(max(value, 0)), 6))
+
+    feature_df = pd.DataFrame({
+        "name": df["name"].fillna("Unknown"),
+        "category": df["category"].fillna("other"),
+        "rating": df["rating"],
+        "sentiment": df["sentiment"],
+        "city": df["city"].fillna("unknown"),
+        "lat": df["lat"],
+        "lng": df["lng"],
+        "review_count": df["review_count"],
+        "review_avg_rating": df["review_avg_rating"],
+        "user_ratings_total": df["user_ratings_total"],
+        "has_review": df["has_review"],
+        "review_length": df["review_length"],
+        "popularity_signal": df["popularity_signal"],
+    })
+
+    FEATURES_PATH.parent.mkdir(parents=True, exist_ok=True)
+    feature_df.to_csv(FEATURES_PATH, index=False)
+
+    print(f"Saved: {FEATURES_PATH}")
+    print(f"Average rating: {feature_df['rating'].mean():.2f}")
+    print(f"Average sentiment: {feature_df['sentiment'].mean():.2f}")
+    print(f"Places with reviews: {int(feature_df['has_review'].sum())}")
+    print(f"Places without reviews: {len(feature_df) - int(feature_df['has_review'].sum())}")
+    print("\nSample data:")
+    print(feature_df.head(5).to_string(index=False))
+    print("\nFeature generation complete\n")
+
+
+if __name__ == "__main__":
+    main()

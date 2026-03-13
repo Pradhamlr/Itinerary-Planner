@@ -1,0 +1,27 @@
+{
+  "feature_columns": [
+    "rating",
+    "sentiment",
+    "review_count",
+    "review_avg_rating",
+    "user_ratings_total",
+    "has_review",
+    "review_length",
+    "popularity_signal",
+    "category"
+  ],
+  "numeric_features": [
+    "rating",
+    "sentiment",
+    "review_count",
+    "review_avg_rating",
+    "user_ratings_total",
+    "has_review",
+    "review_length",
+    "popularity_signal"
+  ],
+  "categorical_features": [
+    "category"
+  ],
+  "quality_threshold": 0.7887732395951638
+}

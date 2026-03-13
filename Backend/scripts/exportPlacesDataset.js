@@ -4,132 +4,159 @@ const fs = require('fs');
 const path = require('path');
 const Place = require('../models/Place');
 
-// Connect to MongoDB
+const CORE_COLUMNS = ['name', 'category', 'rating', 'review', 'city', 'lat', 'lng'];
+const ENRICHED_COLUMNS = ['review_count', 'review_avg_rating', 'user_ratings_total'];
+
 const connectDB = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URI);
-    console.log('✓ MongoDB connected');
+    console.log('MongoDB connected');
   } catch (error) {
-    console.error('✗ MongoDB connection failed:', error.message);
+    console.error('MongoDB connection failed:', error.message);
     process.exit(1);
   }
 };
 
-// Export dataset to CSV
+const escapeCsv = (value) => {
+  if (value === null || value === undefined) {
+    return '""';
+  }
+
+  const sanitized = String(value)
+    .replace(/"/g, '""')
+    .replace(/\r/g, ' ')
+    .replace(/\n/g, ' ');
+
+  return `"${sanitized}"`;
+};
+
+const normalizeCategory = (types) => {
+  if (!Array.isArray(types) || types.length === 0) {
+    return 'other';
+  }
+
+  return String(types[0]).replace(/_/g, ' ').trim() || 'other';
+};
+
+const extractReviewSignals = (place) => {
+  const reviews = Array.isArray(place.reviews) ? place.reviews : [];
+  const normalizedReviews = reviews
+    .map((review) => {
+      if (typeof review === 'string') {
+        return {
+          text: review.trim(),
+          rating: null,
+        };
+      }
+
+      return {
+        text: typeof review?.text === 'string' ? review.text.trim() : '',
+        rating: Number.isFinite(review?.rating) ? Number(review.rating) : null,
+      };
+    })
+    .filter((review) => review.text.length > 0);
+
+  const reviewText = normalizedReviews.map((review) => review.text).join(' || ');
+  const ratings = normalizedReviews
+    .map((review) => review.rating)
+    .filter((rating) => Number.isFinite(rating));
+
+  const reviewCount = normalizedReviews.length;
+  const reviewAvgRating = ratings.length > 0
+    ? ratings.reduce((sum, rating) => sum + rating, 0) / ratings.length
+    : (Number.isFinite(place.rating) ? place.rating : 0);
+
+  return {
+    reviewText,
+    reviewCount,
+    reviewAvgRating,
+  };
+};
+
 const exportDataset = async () => {
   try {
-    console.log('\n📊 Starting dataset export...\n');
+    console.log('\nStarting dataset export...\n');
     console.log('='.repeat(60));
 
-    // Fetch all places from MongoDB
     const places = await Place.find({});
-    console.log(`✓ Fetched ${places.length} places from MongoDB`);
+    console.log(`Fetched ${places.length} places from MongoDB`);
 
     if (places.length === 0) {
-      console.log('✗ No places found in database. Run the seeder first.');
+      console.log('No places found in database. Run the seeder first.');
       process.exit(1);
     }
 
-    // Prepare CSV data
     const csvRows = [];
-    
-    // CSV Header
-    csvRows.push('name,category,rating,review,city,lat,lng');
+    csvRows.push([...CORE_COLUMNS, ...ENRICHED_COLUMNS].join(','));
 
-    // Process each place
     let placesWithReviews = 0;
     let placesWithoutReviews = 0;
     let skippedInvalidRows = 0;
 
     for (const place of places) {
-      // Get primary category from types array
-      const category = place.types && place.types.length > 0 
-        ? place.types[0].replace(/_/g, ' ') 
-        : 'other';
+      const category = normalizeCategory(place.types);
+      const { reviewText, reviewCount, reviewAvgRating } = extractReviewSignals(place);
 
-      // Aggregate all review text into one training field.
-      let reviewText = '';
-      if (place.reviews && place.reviews.length > 0) {
-        const reviewSnippets = place.reviews
-          .map((review) => {
-            if (typeof review === 'string') {
-              return review.trim();
-            }
-
-            if (review && review.text) {
-              return String(review.text).trim();
-            }
-
-            return '';
-          })
-          .filter((text) => text.length > 0);
-
-        reviewText = reviewSnippets
-          .join(' || ')
-          .replace(/"/g, '""')
-          .replace(/\n/g, ' ')
-          .replace(/\r/g, ' ');
-
-        if (reviewText) {
-          placesWithReviews++;
-        } else {
-          placesWithoutReviews++;
-        }
+      if (reviewCount > 0) {
+        placesWithReviews += 1;
       } else {
-        placesWithoutReviews++;
+        placesWithoutReviews += 1;
       }
 
-      // Escape name for CSV
-      const name = place.name ? place.name.replace(/"/g, '""') : 'Unknown';
-      const city = place.city || 'unknown';
-      const rating = Number.isFinite(place.rating) ? place.rating : 0;
+      const rating = Number.isFinite(place.rating) ? Math.max(0, Math.min(5, place.rating)) : 0;
       const lat = Number.isFinite(place.lat) ? place.lat : null;
       const lng = Number.isFinite(place.lng) ? place.lng : null;
+      const userRatingsTotal = Number.isFinite(place.user_ratings_total) ? place.user_ratings_total : 0;
 
-      // Skip malformed coordinate rows because downstream ML assumes numeric coordinates.
       if (lat === null || lng === null) {
-        skippedInvalidRows++;
+        skippedInvalidRows += 1;
         continue;
       }
 
-      const boundedRating = Math.max(0, Math.min(5, rating));
+      const row = [
+        escapeCsv(place.name || 'Unknown'),
+        escapeCsv(category),
+        rating,
+        escapeCsv(reviewText),
+        escapeCsv(place.city || 'unknown'),
+        lat,
+        lng,
+        reviewCount,
+        Number(reviewAvgRating.toFixed(4)),
+        userRatingsTotal,
+      ].join(',');
 
-      // Create CSV row
-      const row = `"${name}","${category}",${boundedRating},"${reviewText}","${city}",${lat},${lng}`;
       csvRows.push(row);
     }
 
-    // Write to CSV file
     const outputPath = path.join(__dirname, '../../ml-service/dataset/places.csv');
     fs.mkdirSync(path.dirname(outputPath), { recursive: true });
+
     const csvContent = csvRows.join('\n');
-    
     fs.writeFileSync(outputPath, csvContent, 'utf-8');
 
     console.log('\n' + '='.repeat(60));
-    console.log('✓ Dataset exported successfully!');
-    console.log(`\n📁 Output file: ${outputPath}`);
-    console.log(`📊 Total places: ${places.length}`);
-    console.log(`⚠️ Skipped invalid rows: ${skippedInvalidRows}`);
-    console.log(`📊 Exported rows: ${csvRows.length - 1}`);
-    console.log(`📝 Places with reviews: ${placesWithReviews}`);
-    console.log(`📝 Places without reviews: ${placesWithoutReviews}`);
-    console.log(`💾 File size: ${(csvContent.length / 1024).toFixed(2)} KB`);
-    console.log('\n✅ Ready for ML training!\n');
-
+    console.log('Dataset exported successfully');
+    console.log(`Output file: ${outputPath}`);
+    console.log(`Total places: ${places.length}`);
+    console.log(`Skipped invalid rows: ${skippedInvalidRows}`);
+    console.log(`Exported rows: ${csvRows.length - 1}`);
+    console.log(`Places with reviews: ${placesWithReviews}`);
+    console.log(`Places without reviews: ${placesWithoutReviews}`);
+    console.log(`File size: ${(csvContent.length / 1024).toFixed(2)} KB`);
+    console.log('\nReady for ML training\n');
   } catch (error) {
-    console.error('\n✗ Export failed:', error.message);
+    console.error('\nExport failed:', error.message);
     throw error;
   }
 };
 
-// Main execution
 const main = async () => {
   try {
     await connectDB();
     await exportDataset();
     await mongoose.connection.close();
-    console.log('✓ MongoDB connection closed\n');
+    console.log('MongoDB connection closed\n');
     process.exit(0);
   } catch (error) {
     console.error('Fatal error:', error);
