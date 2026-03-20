@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import LocationAutocomplete from '../components/LocationAutocomplete'
 import api from '../services/api'
 import { INTEREST_OPTIONS, formatCurrency, getInterestMeta } from '../utils/travel'
 
@@ -8,7 +9,9 @@ function CreateTrip() {
     city: '',
     days: '',
     budget: '',
+    startDate: '',
     interests: [],
+    hotelLocation: null,
   })
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
@@ -26,6 +29,20 @@ function CreateTrip() {
       interests: prev.interests.includes(interest)
         ? prev.interests.filter((item) => item !== interest)
         : [...prev.interests, interest],
+    }))
+  }
+
+  const handleLocationSelect = (location) => {
+    setFormData((prev) => ({
+      ...prev,
+      hotelLocation: location,
+    }))
+  }
+
+  const clearLocation = () => {
+    setFormData((prev) => ({
+      ...prev,
+      hotelLocation: null,
     }))
   }
 
@@ -51,11 +68,30 @@ function CreateTrip() {
       return
     }
 
+    if (formData.hotelLocation) {
+      if (
+        !Number.isFinite(Number(formData.hotelLocation.lat))
+        || !Number.isFinite(Number(formData.hotelLocation.lng))
+      ) {
+        setError('Please select a valid hotel or start location from search.')
+        return
+      }
+    }
+
     const payload = {
       city: formData.city.trim(),
       days: parsedDays,
       budget: parsedBudget,
+      startDate: formData.startDate || undefined,
       interests: formData.interests,
+      hotelLocation: formData.hotelLocation
+        ? {
+            name: formData.hotelLocation.name,
+            place_id: formData.hotelLocation.place_id,
+            lat: Number(formData.hotelLocation.lat),
+            lng: Number(formData.hotelLocation.lng),
+          }
+        : undefined,
     }
 
     setLoading(true)
@@ -92,9 +128,15 @@ function CreateTrip() {
                 <p className="mt-1 font-semibold">{formData.days || 0} day plan</p>
               </div>
               <div className="rounded-2xl bg-white/10 p-3">
-                <p className="text-slate-300">Interest count</p>
-                <p className="mt-1 font-semibold">{formData.interests.length} selected</p>
+                <p className="text-slate-300">Start date</p>
+                <p className="mt-1 font-semibold">{formData.startDate || 'Flexible dates'}</p>
               </div>
+            </div>
+            <div className="rounded-2xl bg-white/10 p-3 text-sm text-slate-200">
+              <p className="text-slate-300">Start location</p>
+              <p className="mt-1 font-semibold">
+                {formData.hotelLocation?.name ? 'Hotel routing enabled' : 'Start from top attraction'}
+              </p>
             </div>
           </div>
         </div>
@@ -158,6 +200,35 @@ function CreateTrip() {
                 className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition focus:border-cyan-300 focus:bg-white focus:ring-4 focus:ring-cyan-100"
               />
             </div>
+
+            <div>
+              <label htmlFor="startDate" className="mb-2 block text-sm font-semibold text-slate-700">
+                Trip start date
+              </label>
+              <input
+                id="startDate"
+                name="startDate"
+                type="date"
+                value={formData.startDate}
+                onChange={handleChange}
+                className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition focus:border-cyan-300 focus:bg-white focus:ring-4 focus:ring-cyan-100"
+              />
+            </div>
+          </div>
+
+          <div>
+            <div className="mb-3">
+              <label className="block text-sm font-semibold text-slate-700">Hotel / start location</label>
+              <p className="mt-1 text-sm text-slate-500">
+                Optional. Search for your hotel, stay, or preferred starting point instead of entering coordinates manually.
+              </p>
+            </div>
+            <LocationAutocomplete
+              city={formData.city}
+              value={formData.hotelLocation}
+              onSelect={handleLocationSelect}
+              onClear={clearLocation}
+            />
           </div>
 
           <div>

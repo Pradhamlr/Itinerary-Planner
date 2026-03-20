@@ -44,7 +44,7 @@ const fetchPlaceDetails = async (placeId) => {
     timeout: REQUEST_TIMEOUT_MS,
     params: {
       place_id: placeId,
-      fields: 'reviews,rating,user_ratings_total',
+      fields: 'reviews,rating,user_ratings_total,current_opening_hours',
       key: GOOGLE_API_KEY,
     },
   });
@@ -83,6 +83,29 @@ const normalizeReviews = (reviews) => {
       };
     })
     .filter(Boolean);
+};
+
+const normalizeOpeningHours = (openingHours) => {
+  if (!openingHours || typeof openingHours !== 'object') {
+    return {
+      open_now: undefined,
+      weekday_text: [],
+      periods: [],
+    };
+  }
+
+  return {
+    open_now: typeof openingHours.open_now === 'boolean' ? openingHours.open_now : undefined,
+    weekday_text: Array.isArray(openingHours.weekday_text) ? openingHours.weekday_text : [],
+    periods: Array.isArray(openingHours.periods)
+      ? openingHours.periods
+        .map((period) => ({
+          open: period?.open?.time ? { day: period.open.day, time: String(period.open.time) } : undefined,
+          close: period?.close?.time ? { day: period.close.day, time: String(period.close.time) } : undefined,
+        }))
+        .filter((period) => period.open)
+      : [],
+  };
 };
 
 const enrichPlaceReviews = async () => {
@@ -137,6 +160,7 @@ const enrichPlaceReviews = async () => {
         const reviewDocs = normalizeReviews(apiResponse.result?.reviews);
         const update = {
           reviews: reviewDocs,
+          opening_hours: normalizeOpeningHours(apiResponse.result?.current_opening_hours),
         };
 
         if (Number.isFinite(apiResponse.result?.rating)) {

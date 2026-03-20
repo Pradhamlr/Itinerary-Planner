@@ -5,7 +5,7 @@ const TripService = require('../services/tripService');
 // @access  Private
 exports.createTrip = async (req, res) => {
   try {
-    const { city, days, budget, interests } = req.body;
+    const { city, days, budget, interests, hotelLocation, startDate } = req.body;
     const userId = req.user.userId;
 
     // Validation
@@ -20,7 +20,9 @@ exports.createTrip = async (req, res) => {
       city,
       days,
       budget,
+      startDate,
       interests: interests || [],
+      hotelLocation,
     };
 
     const trip = await TripService.createTrip(userId, tripData);

@@ -20,6 +20,8 @@ const savedPlaceSchema = new mongoose.Schema(
     must_see_boost: Number,
     final_score: Number,
     explanation_tags: [String],
+    travel_time_to_next: String,
+    time_slot: String,
   },
   { _id: false }
 );
@@ -27,9 +29,25 @@ const savedPlaceSchema = new mongoose.Schema(
 const itineraryDaySchema = new mongoose.Schema(
   {
     day: Number,
+    start_location: {
+      lat: Number,
+      lng: Number,
+    },
+    routing_mode: String,
+    opening_hours_applied: Boolean,
     center: {
       lat: Number,
       lng: Number,
+    },
+    meal_suggestions: {
+      type: [new mongoose.Schema(
+        {
+          type: String,
+          restaurant: savedPlaceSchema,
+        },
+        { _id: false }
+      )],
+      default: [],
     },
     route: {
       type: [savedPlaceSchema],
@@ -112,6 +130,9 @@ const tripSchema = new mongoose.Schema(
       required: [true, 'Please provide a budget'],
       min: [0, 'Budget cannot be negative'],
     },
+    startDate: {
+      type: Date,
+    },
     interests: {
       type: [String],
       enum: [
@@ -127,6 +148,12 @@ const tripSchema = new mongoose.Schema(
         'sports',
       ],
       default: [],
+    },
+    hotelLocation: {
+      place_id: String,
+      name: String,
+      lat: Number,
+      lng: Number,
     },
     places: [
       {

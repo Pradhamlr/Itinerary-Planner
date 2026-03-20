@@ -1,5 +1,6 @@
 import { Fragment } from 'react'
 import { GoogleMap, Marker, Polyline, useJsApiLoader } from '@react-google-maps/api'
+import { GOOGLE_MAPS_LIBRARIES, GOOGLE_MAPS_LOADER_ID } from '../utils/googleMaps'
 
 const DAY_COLORS = ['#1E88E5', '#43A047', '#E53935', '#FB8C00', '#8E24AA']
 
@@ -26,7 +27,8 @@ function ItineraryMap({ itinerary }) {
   const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY
   const { isLoaded, loadError } = useJsApiLoader({
     googleMapsApiKey: apiKey || '',
-    id: 'smart-itinerary-map',
+    libraries: GOOGLE_MAPS_LIBRARIES,
+    id: GOOGLE_MAPS_LOADER_ID,
   })
 
   if (!apiKey) {

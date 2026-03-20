@@ -52,6 +52,26 @@ const placeSchema = new mongoose.Schema(
       }],
       default: [],
     },
+    opening_hours: {
+      open_now: Boolean,
+      weekday_text: {
+        type: [String],
+        default: [],
+      },
+      periods: {
+        type: [{
+          open: {
+            day: Number,
+            time: String,
+          },
+          close: {
+            day: Number,
+            time: String,
+          },
+        }],
+        default: [],
+      },
+    },
     source: {
       type: String,
       default: 'google',

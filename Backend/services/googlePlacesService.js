@@ -123,7 +123,7 @@ const getPlaceDetails = async (placeId) => {
     const response = await axios.get(PLACE_DETAILS_URL, {
       params: {
         place_id: placeId,
-        fields: 'reviews,editorial_summary',
+        fields: 'reviews,editorial_summary,current_opening_hours',
         key: GOOGLE_API_KEY,
       },
     });
@@ -154,6 +154,11 @@ const normalizePlaceData = (place, cityName) => {
     types: place.types || [],
     description: place.vicinity || '',
     reviews: [],
+    opening_hours: {
+      open_now: place.opening_hours?.open_now ?? undefined,
+      weekday_text: Array.isArray(place.opening_hours?.weekday_text) ? place.opening_hours.weekday_text : [],
+      periods: [],
+    },
     source: 'google',
   };
 };

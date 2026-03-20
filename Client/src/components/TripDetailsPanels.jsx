@@ -18,6 +18,23 @@ function formatGeneratedAt(value) {
   }).format(date)
 }
 
+function formatDayDate(value) {
+  if (!value) {
+    return null
+  }
+
+  const date = new Date(value)
+  if (Number.isNaN(date.getTime())) {
+    return null
+  }
+
+  return new Intl.DateTimeFormat('en-IN', {
+    weekday: 'short',
+    day: 'numeric',
+    month: 'short',
+  }).format(date)
+}
+
 function RecommendationSkeletons({ count = 6 }) {
   return (
     <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
@@ -62,7 +79,17 @@ function DayPlaceRow({ place, order }) {
         <div>
           <h4 className="font-semibold text-slate-950">{place.name}</h4>
           <p className="mt-1 text-sm text-slate-500">{formatCategory(place.category || place.types?.[0] || 'place')}</p>
+          {place.time_slot ? (
+            <p className="mt-2 text-xs font-semibold uppercase tracking-[0.18em] text-sky-700">
+              {place.time_slot}
+            </p>
+          ) : null}
           <p className="mt-2 text-sm font-medium text-amber-500">{renderStars(place.rating)}</p>
+          {place.travel_time_to_next ? (
+            <p className="mt-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+              Next stop in {place.travel_time_to_next}
+            </p>
+          ) : null}
         </div>
       </div>
 
@@ -288,6 +315,7 @@ export function ItineraryPanel({
 
           {itineraryDays.map((dayPlan) => {
             const route = dayPlan.route || []
+            const formattedDayDate = formatDayDate(dayPlan.date)
 
             return (
               <article
@@ -298,6 +326,9 @@ export function ItineraryPanel({
                   <div>
                     <h3 className="text-2xl font-semibold text-slate-950">Day {dayPlan.day}</h3>
                     <p className="mt-1 text-sm text-slate-500">{route.length} planned stops</p>
+                    {formattedDayDate ? (
+                      <p className="mt-1 text-sm text-slate-500">{formattedDayDate}</p>
+                    ) : null}
                   </div>
                   <div className="flex items-center gap-3">
                     <div
@@ -311,8 +342,24 @@ export function ItineraryPanel({
                 </div>
 
                 {dayPlan.center ? (
-                  <p className="mb-4 text-sm text-slate-500">
+                  <p className="mb-2 text-sm text-slate-500">
                     Cluster center: {dayPlan.center.lat.toFixed(4)}, {dayPlan.center.lng.toFixed(4)}
+                  </p>
+                ) : null}
+
+                {dayPlan.start_location ? (
+                  <p className="mb-2 text-sm text-slate-500">
+                    Start from: {dayPlan.start_location.lat.toFixed(4)}, {dayPlan.start_location.lng.toFixed(4)}
+                  </p>
+                ) : null}
+
+                {dayPlan.routing_mode ? (
+                  <p className="mb-2 text-sm text-slate-500">Routing mode: {dayPlan.routing_mode}</p>
+                ) : null}
+
+                {typeof dayPlan.opening_hours_applied === 'boolean' ? (
+                  <p className="mb-4 text-sm text-slate-500">
+                    Opening hours: {dayPlan.opening_hours_applied ? 'Applied where available' : 'Not available yet'}
                   </p>
                 ) : null}
 
@@ -325,6 +372,20 @@ export function ItineraryPanel({
                     />
                   ))}
                 </div>
+
+                {dayPlan.meal_suggestions?.length ? (
+                  <div className="mt-5 rounded-2xl border border-slate-100 bg-white p-4">
+                    <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">Suggested meals</p>
+                    <div className="mt-3 space-y-2">
+                      {dayPlan.meal_suggestions.map((meal) => (
+                        <div key={`${dayPlan.day}-${meal.type}-${meal.restaurant?.place_id || meal.restaurant?.name}`} className="flex items-center justify-between gap-3 text-sm">
+                          <span className="font-semibold text-slate-700">{meal.type}</span>
+                          <span className="text-slate-600">{meal.restaurant?.name}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ) : null}
               </article>
             )
           })}

@@ -4,6 +4,21 @@ import { ItineraryPanel, RecommendationsPanel } from '../components/TripDetailsP
 import api from '../services/api'
 import { formatCurrency, getCityGradient, getInterestMeta } from '../utils/travel'
 
+function formatTripDate(value) {
+  if (!value) {
+    return 'Flexible dates'
+  }
+
+  const date = new Date(value)
+  if (Number.isNaN(date.getTime())) {
+    return 'Flexible dates'
+  }
+
+  return new Intl.DateTimeFormat('en-IN', {
+    dateStyle: 'medium',
+  }).format(date)
+}
+
 function TripDetails() {
   const { id } = useParams()
   const navigate = useNavigate()
@@ -217,6 +232,11 @@ function TripDetails() {
               <p className="text-sm text-white/75">planned spend</p>
             </div>
             <div className="rounded-[24px] bg-white/14 p-5 backdrop-blur">
+              <p className="text-sm text-white/75">Start date</p>
+              <p className="mt-2 text-2xl font-semibold">{formatTripDate(trip.startDate)}</p>
+              <p className="text-sm text-white/75">used for weekday-aware planning</p>
+            </div>
+            <div className="rounded-[24px] bg-white/14 p-5 backdrop-blur sm:col-span-3">
               <p className="text-sm text-white/75">Interests</p>
               <div className="mt-3 flex flex-wrap gap-2">
                 {trip.interests?.length ? (
@@ -232,6 +252,16 @@ function TripDetails() {
                   <span className="text-sm text-white/80">Flexible trip</span>
                 )}
               </div>
+            </div>
+            <div className="rounded-[24px] bg-white/14 p-5 backdrop-blur sm:col-span-3">
+              <p className="text-sm text-white/75">Start location</p>
+              <p className="mt-2 text-lg font-semibold">
+                {trip.hotelLocation?.name
+                  ? trip.hotelLocation.name
+                  : trip.hotelLocation?.lat && trip.hotelLocation?.lng
+                  ? `${trip.hotelLocation.lat.toFixed(4)}, ${trip.hotelLocation.lng.toFixed(4)}`
+                  : 'Routes start from the strongest attraction when no hotel location is set.'}
+              </p>
             </div>
           </div>
         </div>
