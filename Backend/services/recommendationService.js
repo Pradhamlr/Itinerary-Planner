@@ -119,6 +119,66 @@ const previewPlaceNames = (places, limit = 10) =>
     .join(' | ');
 
 const hasAnyType = (place, typeSet) => getNormalizedTypes(place).some((type) => typeSet.has(type));
+const LANDMARK_TYPES = new Set([
+  'tourist_attraction',
+  'historical_landmark',
+  'landmark',
+  'monument',
+  'museum',
+  'beach',
+  'church',
+  'temple',
+  'hindu_temple',
+  'mosque',
+  'synagogue',
+  'art_gallery',
+]);
+
+const normalizeNameForDedup = (name) => String(name || '')
+  .toLowerCase()
+  .replace(/[^a-z0-9\s]/g, ' ')
+  .replace(/\b(the|a|an|ticket counter|entry gate|parking|view point|viewpoint)\b/g, ' ')
+  .replace(/\s+/g, ' ')
+  .trim();
+
+const arePlacesNear = (first, second, maxDelta = 0.02) => {
+  const latA = Number(first.lat);
+  const lngA = Number(first.lng);
+  const latB = Number(second.lat);
+  const lngB = Number(second.lng);
+
+  if (![latA, lngA, latB, lngB].every(Number.isFinite)) {
+    return false;
+  }
+
+  return Math.abs(latA - latB) <= maxDelta && Math.abs(lngA - lngB) <= maxDelta;
+};
+
+const dedupePlaces = (places) => {
+  const deduped = [];
+
+  places.forEach((place) => {
+    const normalizedName = normalizeNameForDedup(place.name);
+    const existingIndex = deduped.findIndex((candidate) =>
+      normalizeNameForDedup(candidate.name) === normalizedName && arePlacesNear(candidate, place),
+    );
+
+    if (existingIndex === -1) {
+      deduped.push(place);
+      return;
+    }
+
+    const existing = deduped[existingIndex];
+    const existingScore = Number(existing.user_ratings_total || 0) + (Number(existing.rating || 0) * 100);
+    const incomingScore = Number(place.user_ratings_total || 0) + (Number(place.rating || 0) * 100);
+
+    if (incomingScore > existingScore) {
+      deduped[existingIndex] = place;
+    }
+  });
+
+  return deduped;
+};
 
 const isAllowedAttraction = (place) => {
   const normalizedTypes = getNormalizedTypes(place);
@@ -150,6 +210,101 @@ const filterByInterests = (places, tripInterests, requiredAttractionCount) => {
   };
 };
 
+const getInterestMatchScore = (place, tripInterests) => {
+  const normalizedInterests = (tripInterests || []).map(normalizeInterest).filter(Boolean);
+  if (normalizedInterests.length === 0) {
+    return 0;
+  }
+
+  const allowedTypes = new Set(normalizedInterests.flatMap((interest) => interestTypeMap[interest] || []));
+  return getNormalizedTypes(place).some((type) => allowedTypes.has(type)) ? 1 : 0;
+};
+
+const getMustSeeBoost = (place) => {
+  const rating = Number(place.rating || 0);
+  const totalRatings = Number(place.user_ratings_total || 0);
+  const hasLandmarkType = getNormalizedTypes(place).some((type) => LANDMARK_TYPES.has(type));
+
+  if (!hasLandmarkType) {
+    return 0;
+  }
+
+  if (rating >= 4.6 && totalRatings >= 5000) {
+    return 0.12;
+  }
+
+  if (rating >= 4.5 && totalRatings >= 2500) {
+    return 0.08;
+  }
+
+  if (rating >= 4.4 && totalRatings >= 1200) {
+    return 0.04;
+  }
+
+  return 0;
+};
+
+const buildExplanationTags = ({
+  place,
+  weightedRating,
+  normalizedPopularitySignal,
+  interestMatchScore,
+  mustSeeBoost,
+}) => {
+  const tags = [];
+
+  if (mustSeeBoost > 0) {
+    tags.push('Must-see');
+  }
+
+  if (normalizedPopularitySignal >= 0.75 || Number(place.user_ratings_total || 0) >= 2000) {
+    tags.push('Popular');
+  }
+
+  if (weightedRating >= 4.5 || Number(place.rating || 0) >= 4.6) {
+    tags.push('Highly rated');
+  }
+
+  if (interestMatchScore > 0) {
+    tags.push('Matches your interests');
+  }
+
+  const primaryType = getPrimaryCategory(place);
+  if (primaryType && !tags.includes(primaryType)) {
+    tags.push(primaryType.replace(/\b\w/g, (char) => char.toUpperCase()));
+  }
+
+  return tags.slice(0, 4);
+};
+
+const selectDiverseAttractions = (rankedAttractions, totalAttractions) => {
+  const selected = [];
+  const remaining = [...rankedAttractions];
+  const categoryCounts = new Map();
+  const maxPerCategory = Math.max(2, Math.ceil(totalAttractions / 3));
+
+  while (remaining.length > 0 && selected.length < totalAttractions) {
+    const nextIndex = remaining.findIndex((place) => {
+      const category = place.category || 'other';
+      return (categoryCounts.get(category) || 0) < maxPerCategory;
+    });
+
+    if (nextIndex === -1) {
+      break;
+    }
+
+    const [chosen] = remaining.splice(nextIndex, 1);
+    selected.push(chosen);
+    categoryCounts.set(chosen.category || 'other', (categoryCounts.get(chosen.category || 'other') || 0) + 1);
+  }
+
+  while (remaining.length > 0 && selected.length < totalAttractions) {
+    selected.push(remaining.shift());
+  }
+
+  return selected;
+};
+
 const buildAttractionResponse = (place, scores) => {
   const reviewTexts = getReviewTexts(place);
   const reviewSnippet = reviewTexts[0] || place.description || 'No review snippet available yet.';
@@ -170,7 +325,10 @@ const buildAttractionResponse = (place, scores) => {
     weighted_rating: Number(scores.weightedRating.toFixed(4)),
     popularity_score: Number(scores.normalizedPopularitySignal.toFixed(4)),
     sentiment_score: Number(scores.sentimentScore.toFixed(4)),
+    interest_match_score: scores.interestMatchScore,
+    must_see_boost: Number(scores.mustSeeBoost.toFixed(4)),
     final_score: Number(scores.finalScore.toFixed(4)),
+    explanation_tags: scores.explanationTags || [],
   };
 };
 
@@ -240,8 +398,10 @@ class RecommendationService {
       })
       .slice(0, recommendationConfig.candidatePoolLimit);
 
+    const dedupedCandidatePool = dedupePlaces(candidatePool);
+
     const { places: interestFilteredPlaces, interestFilterApplied } = filterByInterests(
-      candidatePool,
+      dedupedCandidatePool,
       tripInterests,
       requiredAttractionCount,
     );
@@ -253,13 +413,14 @@ class RecommendationService {
     console.log('[recommendations] quality_filter_preview:', previewPlaceNames(afterQualityFilter));
     console.log('[recommendations] after_popularity_filter:', afterPopularityFilter.length);
     console.log('[recommendations] popularity_filter_preview:', previewPlaceNames(afterPopularityFilter));
-    console.log('[recommendations] candidate_pool_size:', candidatePool.length);
+    console.log('[recommendations] candidate_pool_size:', dedupedCandidatePool.length);
     console.log('[recommendations] after_interest_filter:', interestFilteredPlaces.length);
     console.log('[recommendations] interest_filter_preview:', previewPlaceNames(interestFilteredPlaces));
 
     return {
       candidatePool: interestFilteredPlaces,
       interestFilterApplied,
+      dedupedCount: candidatePool.length - dedupedCandidatePool.length,
     };
   }
 
@@ -279,7 +440,7 @@ class RecommendationService {
       .slice(0, recommendationConfig.restaurantPoolLimit);
   }
 
-  static rankAttractions(attractions, mlScoreMap) {
+  static rankAttractions(attractions, mlScoreMap, tripInterests) {
     const ratingValues = attractions
       .map((place) => Number(place.rating || 0))
       .filter((rating) => Number.isFinite(rating) && rating > 0);
@@ -298,19 +459,32 @@ class RecommendationService {
           + ((recommendationConfig.weightedRatingThreshold / (reviewCount + recommendationConfig.weightedRatingThreshold)) * averageRating);
         const normalizedPopularitySignal = normalizePopularitySignal(getPopularitySignal(place));
         const sentimentScore = getSentimentSignal(place);
+        const interestMatchScore = getInterestMatchScore(place, tripInterests);
+        const mustSeeBoost = getMustSeeBoost(place);
         const mlScore = Number(mlScoreMap.get(place.place_id) || 0);
         const finalScore = (mlScore * 0.35)
           + (weightedRating * 0.30)
           + (normalizedPopularitySignal * 0.25)
           + (sentimentScore * 0.10)
+          + mustSeeBoost
           + (Math.random() * 0.02);
+        const explanationTags = buildExplanationTags({
+          place,
+          weightedRating,
+          normalizedPopularitySignal,
+          interestMatchScore,
+          mustSeeBoost,
+        });
 
         return buildAttractionResponse(place, {
           mlScore,
           weightedRating,
           normalizedPopularitySignal,
           sentimentScore,
+          interestMatchScore,
+          mustSeeBoost,
           finalScore,
+          explanationTags,
         });
       })
       .sort((first, second) => {
@@ -343,7 +517,7 @@ class RecommendationService {
     );
     const requiredAttractionCount = totalAttractions;
     const candidatePlaces = await this.fetchCandidatePlaces(trip.city);
-    const { candidatePool, interestFilterApplied } = this.buildAttractionCandidatePool(
+    const { candidatePool, interestFilterApplied, dedupedCount } = this.buildAttractionCandidatePool(
       candidatePlaces,
       trip.interests,
       requiredAttractionCount,
@@ -393,8 +567,8 @@ class RecommendationService {
       }
     }
 
-    const rankedAttractions = this.rankAttractions(sampledCandidates, mlScoreMap);
-    const selectedAttractions = rankedAttractions.slice(0, totalAttractions);
+    const rankedAttractions = this.rankAttractions(sampledCandidates, mlScoreMap, trip.interests);
+    const selectedAttractions = selectDiverseAttractions(rankedAttractions, totalAttractions);
     console.log('[recommendations] final_attraction_count:', selectedAttractions.length);
     console.log('[recommendations] final_attraction_preview:', previewPlaceNames(selectedAttractions));
 
@@ -408,6 +582,7 @@ class RecommendationService {
         ranking_mode: (trip.interests || []).length > 0 ? 'hybrid' : 'popularity',
         total_candidates: candidatePlaces.length,
         interest_filter_applied: interestFilterApplied,
+        deduplicated_candidates: dedupedCount,
         ranking_strategy: 'dynamic multi-stage tourism ranking',
         ml_service_fallback: sampledCandidates.length > 0 && sampledCandidates.every((place) =>
           Number(mlScoreMap.get(place.place_id)) === recommendationConfig.mlFallbackScore),

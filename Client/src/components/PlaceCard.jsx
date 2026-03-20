@@ -17,6 +17,7 @@ function PlaceCard({ place }) {
   const visual = getPlaceVisual(place)
   const reviewSnippet = place.reviewSnippet || place.description || 'A promising stop for your itinerary.'
   const rating = Number(place.rating || 0)
+  const explanationTags = Array.isArray(place.explanation_tags) ? place.explanation_tags.slice(0, 3) : []
 
   return (
     <article className="group overflow-hidden rounded-[26px] border border-white/70 bg-white/90 shadow-[0_18px_55px_rgba(15,23,42,0.08)] backdrop-blur transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_80px_rgba(15,23,42,0.14)]">
@@ -67,6 +68,19 @@ function PlaceCard({ place }) {
             <ScoreBadge label="Match" value="Yes" tone="bg-emerald-100 text-emerald-800" />
           ) : null}
         </div>
+
+        {explanationTags.length > 0 ? (
+          <div className="flex flex-wrap gap-2">
+            {explanationTags.map((tag) => (
+              <span
+                key={`${place.place_id || place.name}-${tag}`}
+                className="rounded-full border border-slate-200 bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        ) : null}
 
         <div>
           <p className="text-sm font-semibold text-amber-500">{renderStars(rating)}</p>

@@ -8,19 +8,26 @@ exports.getRecommendationsByTrip = async (req, res) => {
 
     const trip = await TripService.getTripById(tripId, userId);
     const recommendations = await RecommendationService.getRecommendationsForTrip(trip);
+    const responseMetadata = {
+      ...recommendations.metadata,
+      tripId: trip._id,
+      city: trip.city,
+      interests: trip.interests || [],
+      trip_days: trip.days,
+    };
+
+    await TripService.saveRecommendationSnapshot(tripId, userId, {
+      attractions: recommendations.attractions,
+      restaurants: recommendations.restaurants,
+      metadata: responseMetadata,
+    });
 
     res.status(200).json({
       success: true,
       message: 'Recommendations generated successfully',
       attractions: recommendations.attractions,
       restaurants: recommendations.restaurants,
-      metadata: {
-        ...recommendations.metadata,
-        tripId: trip._id,
-        city: trip.city,
-        interests: trip.interests || [],
-        trip_days: trip.days,
-      },
+      metadata: responseMetadata,
     });
   } catch (error) {
     if (error.message === 'Trip not found') {

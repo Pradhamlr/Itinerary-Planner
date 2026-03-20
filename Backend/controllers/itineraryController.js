@@ -3,11 +3,25 @@ const ItineraryService = require('../services/itineraryService');
 
 exports.getItinerary = async (req, res) => {
   try {
-    const trip = await TripService.getTripById(req.params.tripId, req.user.userId);
+    const tripId = req.params.tripId;
+    const userId = req.user.userId;
+    const trip = await TripService.getTripById(tripId, userId);
 
     const result = await ItineraryService.generateItinerary(trip);
+    const responsePayload = {
+      ...result,
+      metadata: {
+        ...(result.metadata || {}),
+        tripId: trip._id,
+        city: trip.city,
+        interests: trip.interests || [],
+        trip_days: trip.days,
+      },
+    };
 
-    res.status(200).json(result);
+    await TripService.saveItinerarySnapshot(tripId, userId, responsePayload);
+
+    res.status(200).json(responsePayload);
   } catch (error) {
     if (error.message === 'Trip not found') {
       return res.status(404).json({ message: 'Trip not found' });
