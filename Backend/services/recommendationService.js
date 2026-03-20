@@ -102,6 +102,15 @@ const buildScoreNormalizer = (values) => {
   return (value) => (value - minValue) / (maxValue - minValue);
 };
 
+const roundTo = (value, precision = 2) => {
+  const numericValue = Number(value);
+  if (!Number.isFinite(numericValue)) {
+    return 0;
+  }
+
+  return Number(numericValue.toFixed(precision));
+};
+
 const shuffleArray = (items) => {
   const cloned = [...items];
   for (let index = cloned.length - 1; index > 0; index -= 1) {
@@ -113,6 +122,8 @@ const shuffleArray = (items) => {
 
 const sampleArray = (items, sampleSize) => shuffleArray(items).slice(0, Math.min(sampleSize, items.length));
 
+const takeTopByScore = (items, limit) => [...items].slice(0, Math.min(limit, items.length));
+
 const previewPlaceNames = (places, limit = 10) =>
   places
     .slice(0, limit)
@@ -120,6 +131,8 @@ const previewPlaceNames = (places, limit = 10) =>
     .join(' | ');
 
 const hasAnyType = (place, typeSet) => getNormalizedTypes(place).some((type) => typeSet.has(type));
+const attractionDrivenInterests = new Set(['beaches', 'culture', 'nature', 'history', 'art', 'adventure', 'sports']);
+const restaurantDrivenInterests = new Set(['food', 'nightlife']);
 const LANDMARK_TYPES = new Set([
   'tourist_attraction',
   'historical_landmark',
@@ -191,8 +204,18 @@ const isAllowedAttraction = (place) => {
 
 const isBlockedRestaurant = (place) => getNormalizedTypes(place).some((type) => blockedRestaurantTypes.has(type));
 
+const getAttractionRelevantInterests = (tripInterests) =>
+  (tripInterests || [])
+    .map(normalizeInterest)
+    .filter((interest) => attractionDrivenInterests.has(interest));
+
+const getRestaurantRelevantInterests = (tripInterests) =>
+  (tripInterests || [])
+    .map(normalizeInterest)
+    .filter((interest) => restaurantDrivenInterests.has(interest));
+
 const filterByInterests = (places, tripInterests, requiredAttractionCount) => {
-  const normalizedInterests = (tripInterests || []).map(normalizeInterest).filter(Boolean);
+  const normalizedInterests = getAttractionRelevantInterests(tripInterests);
   if (normalizedInterests.length === 0) {
     return {
       places,
@@ -212,13 +235,33 @@ const filterByInterests = (places, tripInterests, requiredAttractionCount) => {
 };
 
 const getInterestMatchScore = (place, tripInterests) => {
-  const normalizedInterests = (tripInterests || []).map(normalizeInterest).filter(Boolean);
+  const normalizedInterests = getAttractionRelevantInterests(tripInterests);
   if (normalizedInterests.length === 0) {
     return 0;
   }
 
   const allowedTypes = new Set(normalizedInterests.flatMap((interest) => interestTypeMap[interest] || []));
   return getNormalizedTypes(place).some((type) => allowedTypes.has(type)) ? 1 : 0;
+};
+
+const getRestaurantInterestBoost = (place, tripInterests) => {
+  const normalizedInterests = getRestaurantRelevantInterests(tripInterests);
+  if (normalizedInterests.length === 0) {
+    return 0;
+  }
+
+  const types = getNormalizedTypes(place);
+  let boost = 0;
+
+  if (normalizedInterests.includes('food') && types.some((type) => ['restaurant', 'cafe', 'bakery', 'meal_takeaway'].includes(type))) {
+    boost += 1;
+  }
+
+  if (normalizedInterests.includes('nightlife') && types.some((type) => ['bar', 'night_club'].includes(type))) {
+    boost += 1;
+  }
+
+  return boost;
 };
 
 const getMustSeeBoost = (place) => {
@@ -306,6 +349,69 @@ const selectDiverseAttractions = (rankedAttractions, totalAttractions) => {
   return selected;
 };
 
+const blendCandidatePools = (popularPool, interestPool, targetSize) => {
+  const desiredPopularCount = Math.ceil(targetSize * 0.6);
+  const desiredInterestCount = Math.max(0, targetSize - desiredPopularCount);
+
+  const blended = [
+    ...takeTopByScore(popularPool, desiredPopularCount),
+    ...sampleArray(interestPool, desiredInterestCount),
+  ];
+
+  return dedupePlaces(blended);
+};
+
+const sampleCandidatesWithExploration = (items, sampleSize) => {
+  if (items.length <= sampleSize) {
+    return items;
+  }
+
+  const primaryBandSize = Math.min(items.length, Math.max(sampleSize * 2, 40));
+  const primaryBand = items.slice(0, primaryBandSize);
+  const exploratoryBand = items.slice(primaryBandSize);
+  const primarySampleSize = Math.min(primaryBand.length, Math.max(1, Math.ceil(sampleSize * 0.7)));
+  const exploratorySampleSize = Math.max(0, sampleSize - primarySampleSize);
+
+  return dedupePlaces([
+    ...sampleArray(primaryBand, primarySampleSize),
+    ...sampleArray(exploratoryBand.length > 0 ? exploratoryBand : primaryBand, exploratorySampleSize),
+  ]);
+};
+
+const shuffleTopBand = (rankedAttractions, totalAttractions) => {
+  if (rankedAttractions.length <= totalAttractions) {
+    return rankedAttractions;
+  }
+
+  const topBandSize = Math.min(rankedAttractions.length, Math.max(totalAttractions * 3, 24));
+  const topBand = rankedAttractions.slice(0, topBandSize)
+    .map((place, index) => ({
+      place,
+      weight: place.final_score
+        + (Math.random() * 0.06)
+        - ((index / Math.max(1, topBandSize)) * 0.01),
+    }))
+    .sort((first, second) => second.weight - first.weight)
+    .map((entry) => entry.place);
+
+  return [
+    ...topBand,
+    ...rankedAttractions.slice(topBandSize),
+  ];
+};
+
+const buildRestaurantWeight = (place, tripInterests) => {
+  const rating = Number(place.rating || 0);
+  const reviewCount = Number(place.user_ratings_total || 0);
+  const popularitySignal = getPopularitySignal(place);
+  const interestBoost = getRestaurantInterestBoost(place, tripInterests);
+
+  return (rating * 0.45)
+    + (popularitySignal * 0.35)
+    + (Math.log10(reviewCount + 1) * 0.15)
+    + (interestBoost * 0.35);
+};
+
 const buildAttractionResponse = (place, scores) => {
   const reviewTexts = getReviewTexts(place);
   const reviewSnippet = reviewTexts[0] || place.description || 'No review snippet available yet.';
@@ -383,15 +489,17 @@ class RecommendationService {
       .filter((place) => Number(place.rating || 0) >= recommendationConfig.minAttractionRating)
       .filter((place) => Number(place.user_ratings_total || 0) >= recommendationConfig.minAttractionReviews);
 
+    let popularityGateUsed = recommendationConfig.popularityGatePrimary;
     let afterPopularityFilter = afterQualityFilter
       .filter((place) => getPopularitySignal(place) >= recommendationConfig.popularityGatePrimary);
 
     if (afterPopularityFilter.length < recommendationConfig.popularityGateMinResults) {
+      popularityGateUsed = recommendationConfig.popularityGateFallback;
       afterPopularityFilter = afterQualityFilter
         .filter((place) => getPopularitySignal(place) >= recommendationConfig.popularityGateFallback);
     }
 
-    const candidatePool = afterPopularityFilter
+    const popularPool = afterPopularityFilter
       .sort((a, b) => {
         const scoreA = (getPopularitySignal(a) * 0.7) + ((a.rating || 0) * 0.3);
         const scoreB = (getPopularitySignal(b) * 0.7) + ((b.rating || 0) * 0.3);
@@ -399,13 +507,29 @@ class RecommendationService {
       })
       .slice(0, recommendationConfig.candidatePoolLimit);
 
-    const dedupedCandidatePool = dedupePlaces(candidatePool);
+    const dedupedPopularPool = dedupePlaces(popularPool);
+
+    const broaderInterestSource = afterQualityFilter
+      .sort((a, b) => {
+        const scoreA = (getPopularitySignal(a) * 0.7) + ((a.rating || 0) * 0.3);
+        const scoreB = (getPopularitySignal(b) * 0.7) + ((b.rating || 0) * 0.3);
+        return scoreB - scoreA;
+      })
+      .slice(0, Math.min(recommendationConfig.candidateFetchLimit, recommendationConfig.candidatePoolLimit * 4));
 
     const { places: interestFilteredPlaces, interestFilterApplied } = filterByInterests(
-      dedupedCandidatePool,
+      broaderInterestSource,
       tripInterests,
       requiredAttractionCount,
     );
+
+    const interestPool = dedupePlaces(interestFilteredPlaces);
+    const candidatePool = interestFilterApplied
+      ? blendCandidatePools(dedupedPopularPool, interestPool, recommendationConfig.candidatePoolLimit)
+      : dedupedPopularPool;
+    const interestPoolContribution = candidatePool.filter((place) =>
+      interestPool.some((interestPlace) => interestPlace.place_id === place.place_id),
+    ).length;
 
     logger.info('Recommendation candidate pipeline', {
       total_places: places.length,
@@ -414,26 +538,40 @@ class RecommendationService {
       after_quality_filter: afterQualityFilter.length,
       quality_filter_preview: previewPlaceNames(afterQualityFilter),
       after_popularity_filter: afterPopularityFilter.length,
+      popularity_gate_used: popularityGateUsed,
       popularity_filter_preview: previewPlaceNames(afterPopularityFilter),
-      candidate_pool_size: dedupedCandidatePool.length,
+      popular_pool_size: dedupedPopularPool.length,
+      interest_pool_size: interestPool.length,
+      candidate_pool_size: candidatePool.length,
+      interest_pool_contribution_count: interestPoolContribution,
+      interest_pool_contribution_ratio: roundTo(
+        candidatePool.length > 0 ? interestPoolContribution / candidatePool.length : 0,
+        3,
+      ),
       after_interest_filter: interestFilteredPlaces.length,
       interest_filter_preview: previewPlaceNames(interestFilteredPlaces),
     });
 
     return {
-      candidatePool: interestFilteredPlaces,
+      candidatePool,
       interestFilterApplied,
-      dedupedCount: candidatePool.length - dedupedCandidatePool.length,
+      dedupedCount: popularPool.length - dedupedPopularPool.length,
     };
   }
 
-  static buildRestaurantPool(places) {
+  static buildRestaurantPool(places, tripInterests) {
     return places
       .filter((place) => hasAnyType(place, restaurantTypes))
       .filter((place) => !isBlockedRestaurant(place))
       .filter((place) => Number(place.rating || 0) >= recommendationConfig.minRestaurantRating)
       .filter((place) => Number(place.user_ratings_total || 0) >= recommendationConfig.minRestaurantReviews)
       .sort((first, second) => {
+        const secondInterestBoost = getRestaurantInterestBoost(second, tripInterests);
+        const firstInterestBoost = getRestaurantInterestBoost(first, tripInterests);
+        if (secondInterestBoost !== firstInterestBoost) {
+          return secondInterestBoost - firstInterestBoost;
+        }
+
         if ((second.rating || 0) !== (first.rating || 0)) {
           return (second.rating || 0) - (first.rating || 0);
         }
@@ -469,6 +607,7 @@ class RecommendationService {
           + (weightedRating * 0.30)
           + (normalizedPopularitySignal * 0.25)
           + (sentimentScore * 0.10)
+          + (interestMatchScore * 0.12)
           + mustSeeBoost
           + (Math.random() * 0.02);
         const explanationTags = buildExplanationTags({
@@ -499,18 +638,36 @@ class RecommendationService {
       });
   }
 
-  static buildRestaurants(restaurants) {
-    const sampledRestaurants = sampleArray(restaurants, recommendationConfig.restaurantSampleSize)
-      .sort((first, second) => {
-        if ((second.rating || 0) !== (first.rating || 0)) {
-          return (second.rating || 0) - (first.rating || 0);
-        }
+  static buildRestaurants(restaurants, tripInterests) {
+    const weightedRestaurants = restaurants.map((place) => ({
+      place,
+      weight: buildRestaurantWeight(place, tripInterests),
+    }));
 
-        return (second.user_ratings_total || 0) - (first.user_ratings_total || 0);
-      })
-      .slice(0, recommendationConfig.restaurantReturnCount);
+    const primaryBandSize = Math.min(weightedRestaurants.length, Math.max(recommendationConfig.restaurantSampleSize * 2, 24));
+    const primaryBand = weightedRestaurants
+      .sort((first, second) => second.weight - first.weight)
+      .slice(0, primaryBandSize);
+    const exploratoryBand = weightedRestaurants
+      .sort((first, second) => second.weight - first.weight)
+      .slice(primaryBandSize, Math.min(weightedRestaurants.length, recommendationConfig.restaurantPoolLimit));
 
-    return sampledRestaurants.map(buildRestaurantResponse);
+    const sampledPrimary = sampleArray(primaryBand, Math.min(primaryBand.length, Math.max(1, Math.ceil(recommendationConfig.restaurantReturnCount * 0.7))));
+    const sampledExploratory = sampleArray(
+      exploratoryBand.length > 0 ? exploratoryBand : primaryBand,
+      Math.max(0, recommendationConfig.restaurantReturnCount - sampledPrimary.length),
+    );
+
+    const selectedRestaurants = [...sampledPrimary, ...sampledExploratory]
+      .map((entry, index) => ({
+        place: entry.place,
+        weight: entry.weight + (Math.random() * 0.2) - (index * 0.01),
+      }))
+      .sort((first, second) => second.weight - first.weight)
+      .slice(0, recommendationConfig.restaurantReturnCount)
+      .map((entry) => entry.place);
+
+    return dedupePlaces(selectedRestaurants).slice(0, recommendationConfig.restaurantReturnCount).map(buildRestaurantResponse);
   }
 
   static async getRecommendationsForTrip(trip) {
@@ -526,8 +683,8 @@ class RecommendationService {
       requiredAttractionCount,
     );
 
-    const dynamicSampleSize = Math.max(recommendationConfig.candidateSampleSize, requiredAttractionCount * 3);
-    const normalizedInterests = (trip.interests || []).map(normalizeInterest);
+    const dynamicSampleSize = Math.max(recommendationConfig.candidateSampleSize, requiredAttractionCount * 4);
+    const normalizedInterests = getAttractionRelevantInterests(trip.interests);
     const interestTypes = new Set(normalizedInterests.flatMap((interest) => interestTypeMap[interest] || []));
 
     let sampledCandidates;
@@ -539,18 +696,20 @@ class RecommendationService {
       const otherPlaces = candidatePool.filter((place) => !interestMatches.includes(place));
 
       if (interestMatches.length > 0) {
-        const interestSample = sampleArray(interestMatches, Math.floor(dynamicSampleSize * 0.7));
-        const otherSample = sampleArray(otherPlaces, dynamicSampleSize - interestSample.length);
+        const interestSample = sampleCandidatesWithExploration(interestMatches, Math.floor(dynamicSampleSize * 0.7));
+        const otherSample = sampleCandidatesWithExploration(otherPlaces, dynamicSampleSize - interestSample.length);
         sampledCandidates = [...interestSample, ...otherSample];
       } else {
-        sampledCandidates = sampleArray(candidatePool, dynamicSampleSize);
+        sampledCandidates = sampleCandidatesWithExploration(candidatePool, dynamicSampleSize);
       }
     } else {
-      sampledCandidates = sampleArray(candidatePool, dynamicSampleSize);
+      sampledCandidates = sampleCandidatesWithExploration(candidatePool, dynamicSampleSize);
     }
 
     logger.info('Recommendation sampling complete', {
       sampled_candidates: sampledCandidates.length,
+      dynamic_sample_size: dynamicSampleSize,
+      sampled_interest_matches: sampledCandidates.filter((place) => getInterestMatchScore(place, trip.interests) > 0).length,
     });
 
     let mlScoreMap = new Map();
@@ -573,14 +732,15 @@ class RecommendationService {
     }
 
     const rankedAttractions = this.rankAttractions(sampledCandidates, mlScoreMap, trip.interests);
-    const selectedAttractions = selectDiverseAttractions(rankedAttractions, totalAttractions);
+    const variedTopAttractions = shuffleTopBand(rankedAttractions, totalAttractions);
+    const selectedAttractions = selectDiverseAttractions(variedTopAttractions, totalAttractions);
     logger.info('Recommendation ranking complete', {
       final_attraction_count: selectedAttractions.length,
       final_attraction_preview: previewPlaceNames(selectedAttractions),
     });
 
-    const restaurantPool = this.buildRestaurantPool(candidatePlaces);
-    const restaurants = this.buildRestaurants(restaurantPool);
+    const restaurantPool = this.buildRestaurantPool(candidatePlaces, trip.interests);
+    const restaurants = this.buildRestaurants(restaurantPool, trip.interests);
 
     return {
       attractions: selectedAttractions,
@@ -589,6 +749,8 @@ class RecommendationService {
         ranking_mode: (trip.interests || []).length > 0 ? 'hybrid' : 'popularity',
         total_candidates: candidatePlaces.length,
         interest_filter_applied: interestFilterApplied,
+        attraction_interest_count: getAttractionRelevantInterests(trip.interests).length,
+        side_channel_interest_count: getRestaurantRelevantInterests(trip.interests).length,
         deduplicated_candidates: dedupedCount,
         ranking_strategy: 'dynamic multi-stage tourism ranking',
         ml_service_fallback: sampledCandidates.length > 0 && sampledCandidates.every((place) =>

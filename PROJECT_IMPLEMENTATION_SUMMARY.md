@@ -153,11 +153,10 @@ Popularity uses:
 
 Gate logic:
 
-1. keep places with `popularity_signal >= 7.8`
-2. if fewer than `120` remain, fallback to `>= 7.5`
-3. sort remaining candidates using:
+1. build a strong popularity pool using `popularity_signal >= 7.5`
+2. sort remaining candidates using:
    - `0.7 * popularity_signal + 0.3 * rating`
-4. keep top `120`
+3. keep top `120`
 
 ### 4.5 Deduplication
 
@@ -185,13 +184,23 @@ Examples:
 - `nightlife -> bar, night_club`
 - `history -> museum, historical_landmark, monument, church, synagogue, temple`
 
-If interest filtering leaves fewer results than needed for the itinerary, the system falls back to the broader candidate pool.
+The engine now builds two attraction streams:
+
+- `popularPool` from the stronger popularity-ranked set
+- `interestPool` from the broader quality-filtered set
+
+When interests apply cleanly, the final candidate pool is blended from both, roughly:
+
+- 60% popularity-driven
+- 40% interest-driven
+
+This preserves tourism quality while improving personalization.
 
 ### 4.7 Dynamic Sampling
 
 To avoid deterministic outputs:
 
-- sample size = `max(candidateSampleSize, requiredAttractionCount * 3)`
+- sample size = `max(candidateSampleSize, requiredAttractionCount * 4)`
 - default candidate sample size = `40`
 
 If interests exist:
@@ -275,6 +284,7 @@ Before final return, selected attractions go through a diversity step:
 
 - avoids too many same-category attractions
 - keeps output more itinerary-friendly
+- lightly reshuffles the top recommendation band to reduce repeated refresh results
 
 ### 4.13 Attraction Count
 
@@ -437,10 +447,31 @@ Meal logic:
 
 - lunch is chosen near the midpoint of the day route
 - dinner is chosen near the last stop
+- meal insertion is skipped when the day is too short to justify both breaks
 
 Restaurants come from the separate recommendation restaurant pool.
 
-### 5.9 Itinerary Response
+### 5.9 Daily Pacing Controls
+
+The itinerary engine now applies pacing constraints after route ordering.
+
+Current pacing controls:
+
+- estimated visit duration per stop
+- maximum day stop count
+- maximum total day travel minutes
+- maximum total day minutes
+- overflow carry-forward into later days
+
+Each attraction receives a simple visit-duration estimate based on attraction type.
+
+If a day becomes too heavy:
+
+1. the last stop is removed
+2. route stats are recomputed
+3. excess stops are carried into later days when possible
+
+### 5.10 Itinerary Response
 
 Each day currently returns:
 
@@ -451,12 +482,15 @@ Each day currently returns:
 - `start_location`
 - `routing_mode`
 - `meal_suggestions`
+- `route_stats`
 - `opening_hours_applied`
 
 Each route stop may include:
 
 - `travel_time_to_next`
 - `time_slot`
+- `visit_duration_minutes`
+- `locked`
 
 Global itinerary metadata includes:
 
@@ -465,6 +499,9 @@ Global itinerary metadata includes:
 - whether start location is enabled
 - whether opening hours were applied
 - schedule intelligence summary
+- pacing limits
+- unscheduled overflow places
+- editable-itinerary capability flags
 
 ## 6. Persistence
 
@@ -487,6 +524,12 @@ Saved on trip:
 - itinerary days
 - restaurants
 - itinerary metadata
+
+Saved itinerary days now also preserve:
+
+- lock state on individual places
+- route stats
+- visit duration estimates
 
 Frontend reads these snapshots so reopening a trip restores previously generated plans.
 
@@ -514,6 +557,8 @@ Trip details now support:
 - load saved recommendation snapshot automatically
 - load saved itinerary snapshot automatically
 - refresh/regenerate actions
+- lock individual itinerary places
+- regenerate a single day
 - explanation tags on place cards
 - clear loading, empty, and error states
 
@@ -563,10 +608,13 @@ The system currently supports:
 - saved recommendations
 - saved itineraries
 - day-wise itinerary generation
+- editable itinerary day regeneration
+- locked places within itinerary days
 - hotel-start routing
 - Google travel-time-aware ordering
 - opening-hours-aware time slots
 - day-aware scheduling with `startDate`
+- pacing-aware daily planning
 - Google Maps route visualization with synced UI interactions
 
 This is now a working smart itinerary planner MVP+ with real recommendation, planning, persistence, and map support.

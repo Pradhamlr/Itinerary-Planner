@@ -70,12 +70,43 @@ function ItinerarySkeleton() {
   )
 }
 
-function DayPlaceRow({ place, order, selected, onSelect }) {
+function formatMinutes(value) {
+  if (!Number.isFinite(value) || value <= 0) {
+    return '0 mins'
+  }
+
+  if (value < 60) {
+    return `${value} mins`
+  }
+
+  const hours = Math.floor(value / 60)
+  const minutes = value % 60
+  return minutes ? `${hours} hr ${minutes} mins` : `${hours} hr`
+}
+
+function DayPlaceRow({
+  place,
+  order,
+  selected,
+  onSelect,
+  onToggleLock,
+  draggable,
+  onDragStart,
+  onDragEnd,
+  onDragOver,
+  onDrop,
+  isDragTarget,
+}) {
   return (
     <div
       role="button"
       tabIndex={0}
+      draggable={draggable}
       onClick={onSelect}
+      onDragStart={onDragStart}
+      onDragEnd={onDragEnd}
+      onDragOver={onDragOver}
+      onDrop={onDrop}
       onKeyDown={(event) => {
         if (event.key === 'Enter' || event.key === ' ') {
           event.preventDefault()
@@ -85,6 +116,8 @@ function DayPlaceRow({ place, order, selected, onSelect }) {
       className={`flex w-full items-start justify-between gap-4 rounded-2xl border p-4 text-left transition ${
         selected
           ? 'border-sky-200 bg-sky-50/80 shadow-sm'
+          : isDragTarget
+          ? 'border-amber-200 bg-amber-50/80 shadow-sm'
           : 'border-slate-100 bg-slate-50/70 hover:border-slate-200 hover:bg-white'
       }`}
     >
@@ -93,11 +126,22 @@ function DayPlaceRow({ place, order, selected, onSelect }) {
           {order}
         </div>
         <div>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">Drag to reorder</p>
           <h4 className="font-semibold text-slate-950">{place.name}</h4>
           <p className="mt-1 text-sm text-slate-500">{formatCategory(place.category || place.types?.[0] || 'place')}</p>
+          {place.locked ? (
+            <p className="mt-2 text-xs font-semibold uppercase tracking-[0.18em] text-emerald-700">
+              Locked for regeneration
+            </p>
+          ) : null}
           {place.time_slot ? (
             <p className="mt-2 text-xs font-semibold uppercase tracking-[0.18em] text-sky-700">
               {place.time_slot}
+            </p>
+          ) : null}
+          {place.travel_time_from_start ? (
+            <p className="mt-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+              From start: {place.travel_time_from_start}
             </p>
           ) : null}
           <p className="mt-2 text-sm font-medium text-amber-500">{renderStars(place.rating)}</p>
@@ -106,18 +150,39 @@ function DayPlaceRow({ place, order, selected, onSelect }) {
               Next stop in {place.travel_time_to_next}
             </p>
           ) : null}
+          {place.return_travel_time_to_start ? (
+            <p className="mt-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+              Return to start: {place.return_travel_time_to_start}
+            </p>
+          ) : null}
         </div>
       </div>
 
-      <a
-        href={`https://www.google.com/maps/search/?api=1&query=${place.lat},${place.lng}&query_place_id=${place.place_id}`}
-        target="_blank"
-        rel="noopener noreferrer"
-        onClick={(event) => event.stopPropagation()}
-        className="inline-flex shrink-0 items-center justify-center rounded-full border border-slate-200 px-4 py-2 text-xs font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-white"
-      >
-        Open map
-      </a>
+      <div className="flex shrink-0 flex-col gap-2">
+        <button
+          type="button"
+          onClick={(event) => {
+            event.stopPropagation()
+            onToggleLock?.()
+          }}
+          className={`inline-flex items-center justify-center rounded-full border px-4 py-2 text-xs font-semibold transition ${
+            place.locked
+              ? 'border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
+              : 'border-slate-200 text-slate-700 hover:border-slate-300 hover:bg-white'
+          }`}
+        >
+          {place.locked ? 'Unlock' : 'Lock'}
+        </button>
+        <a
+          href={`https://www.google.com/maps/search/?api=1&query=${place.lat},${place.lng}&query_place_id=${place.place_id}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={(event) => event.stopPropagation()}
+          className="inline-flex items-center justify-center rounded-full border border-slate-200 px-4 py-2 text-xs font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-white"
+        >
+          Open map
+        </a>
+      </div>
     </div>
   )
 }
@@ -258,16 +323,25 @@ export function RecommendationsPanel({
 
 export function ItineraryPanel({
   itineraryDays,
-  itineraryRestaurants,
   loading,
   generated,
   error,
   onRefresh,
   generatedAt,
   hydratedFromSnapshot,
+  onToggleLock,
+  onRegenerateDay,
+  onReorderDay,
+  actionDay,
+  onFinalize,
+  savingFinalized,
+  finalizedGeneratedAt,
 }) {
   const formattedGeneratedAt = formatGeneratedAt(generatedAt)
+  const formattedFinalizedAt = formatGeneratedAt(finalizedGeneratedAt)
   const [selectedStopKey, setSelectedStopKey] = useState(null)
+  const [draggedStop, setDraggedStop] = useState(null)
+  const [dragTarget, setDragTarget] = useState(null)
 
   const getStopKey = (dayPlan, place, index) => `${dayPlan.day}-${place.place_id || place.name}-${index}`
 
@@ -282,12 +356,21 @@ export function ItineraryPanel({
         </div>
 
         {generated && !loading ? (
-          <button
-            onClick={onRefresh}
-            className="inline-flex items-center justify-center rounded-full border border-slate-200 px-5 py-3 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-slate-50"
-          >
-            Refresh itinerary
-          </button>
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <button
+              onClick={onFinalize}
+              disabled={savingFinalized}
+              className="inline-flex items-center justify-center rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-900 disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {savingFinalized ? 'Saving final...' : 'Save Final Itinerary'}
+            </button>
+            <button
+              onClick={onRefresh}
+              className="inline-flex items-center justify-center rounded-full border border-slate-200 px-5 py-3 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-slate-50"
+            >
+              Refresh itinerary
+            </button>
+          </div>
         ) : null}
       </div>
 
@@ -320,6 +403,11 @@ export function ItineraryPanel({
             </span>
             {formattedGeneratedAt ? (
               <span>Last generated: {formattedGeneratedAt}</span>
+            ) : null}
+            {formattedFinalizedAt ? (
+              <span className="rounded-full bg-emerald-50 px-3 py-1 font-semibold text-emerald-700">
+                Final itinerary saved: {formattedFinalizedAt}
+              </span>
             ) : null}
           </div>
 
@@ -355,6 +443,13 @@ export function ItineraryPanel({
                     ) : null}
                   </div>
                   <div className="flex items-center gap-3">
+                    <button
+                      type="button"
+                      onClick={() => onRegenerateDay?.(dayPlan.day)}
+                      className="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-600 transition hover:border-slate-300 hover:bg-slate-50"
+                    >
+                      {actionDay === dayPlan.day ? 'Regenerating...' : 'Regenerate day'}
+                    </button>
                     <div
                       className="h-3 w-3 rounded-full"
                       style={{ backgroundColor: DAY_COLORS[(dayPlan.day - 1) % DAY_COLORS.length] }}
@@ -381,6 +476,33 @@ export function ItineraryPanel({
                   <p className="mb-2 text-sm text-slate-500">Routing mode: {dayPlan.routing_mode}</p>
                 ) : null}
 
+                {dayPlan.customized_order ? (
+                  <div className="mb-4 rounded-2xl border border-sky-200 bg-sky-50 px-4 py-3 text-sm text-sky-700">
+                    Stop order was customized manually. Travel timings and day totals were recalculated for this arrangement.
+                  </div>
+                ) : null}
+
+                {dayPlan.route_stats ? (
+                  <div className="mb-4 grid gap-3 md:grid-cols-4">
+                    <div className="rounded-2xl bg-white px-4 py-3 text-sm text-slate-600 shadow-sm">
+                      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">Travel</p>
+                      <p className="mt-1 font-semibold text-slate-900">{formatMinutes(dayPlan.route_stats.total_travel_minutes)}</p>
+                    </div>
+                    <div className="rounded-2xl bg-white px-4 py-3 text-sm text-slate-600 shadow-sm">
+                      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">Visits</p>
+                      <p className="mt-1 font-semibold text-slate-900">{formatMinutes(dayPlan.route_stats.total_visit_minutes)}</p>
+                    </div>
+                    <div className="rounded-2xl bg-white px-4 py-3 text-sm text-slate-600 shadow-sm">
+                      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">Meals</p>
+                      <p className="mt-1 font-semibold text-slate-900">{formatMinutes(dayPlan.route_stats.meal_break_minutes)}</p>
+                    </div>
+                    <div className="rounded-2xl bg-white px-4 py-3 text-sm text-slate-600 shadow-sm">
+                      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">Day total</p>
+                      <p className="mt-1 font-semibold text-slate-900">{formatMinutes(dayPlan.route_stats.total_day_minutes)}</p>
+                    </div>
+                  </div>
+                ) : null}
+
                 {typeof dayPlan.opening_hours_applied === 'boolean' ? (
                   <p className="mb-4 text-sm text-slate-500">
                     Opening hours: {dayPlan.opening_hours_applied ? 'Applied where available' : 'Not available yet'}
@@ -395,6 +517,29 @@ export function ItineraryPanel({
                       order={index + 1}
                       selected={selectedStopKey === getStopKey(dayPlan, place, index)}
                       onSelect={() => setSelectedStopKey(getStopKey(dayPlan, place, index))}
+                      onToggleLock={() => onToggleLock?.(dayPlan.day, place.place_id)}
+                      draggable
+                      onDragStart={() => {
+                        setDraggedStop({ day: dayPlan.day, index })
+                        setDragTarget({ day: dayPlan.day, index })
+                      }}
+                      onDragEnd={() => {
+                        setDraggedStop(null)
+                        setDragTarget(null)
+                      }}
+                      onDragOver={(event) => {
+                        event.preventDefault()
+                        setDragTarget({ day: dayPlan.day, index })
+                      }}
+                      onDrop={(event) => {
+                        event.preventDefault()
+                        if (draggedStop && draggedStop.day === dayPlan.day && draggedStop.index !== index) {
+                          onReorderDay?.(dayPlan.day, draggedStop.index, index)
+                        }
+                        setDraggedStop(null)
+                        setDragTarget(null)
+                      }}
+                      isDragTarget={dragTarget?.day === dayPlan.day && dragTarget?.index === index}
                     />
                   ))}
                 </div>
@@ -412,23 +557,15 @@ export function ItineraryPanel({
                     </div>
                   </div>
                 ) : null}
+
+                {dayPlan.route_stats?.over_travel_limit || dayPlan.route_stats?.over_total_limit ? (
+                  <div className="mt-4 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-700">
+                    This day is close to your pacing limit. Lock the must-see places and regenerate this day if you want a lighter route.
+                  </div>
+                ) : null}
               </article>
             )
           })}
-
-          {itineraryRestaurants.length > 0 ? (
-            <div className="rounded-[28px] border border-slate-100 bg-slate-50/60 p-5 shadow-sm">
-              <h3 className="text-2xl font-semibold text-slate-950">Meal Suggestions</h3>
-              <p className="mt-2 text-sm leading-7 text-slate-600">
-                These restaurants came along with the itinerary response and can be used for lunch or dinner planning later.
-              </p>
-              <div className="mt-5 grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
-                {itineraryRestaurants.map((place) => (
-                  <PlaceCard key={place.place_id || place._id} place={place} />
-                ))}
-              </div>
-            </div>
-          ) : null}
         </div>
       )}
     </div>

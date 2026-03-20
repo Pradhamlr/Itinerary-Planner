@@ -71,6 +71,7 @@ class TripService {
         'optimizedRoute',
         'recommendationSnapshot',
         'itinerarySnapshot',
+        'finalizedItinerarySnapshot',
       ];
       Object.keys(updateData).forEach((key) => {
         if (allowedUpdates.includes(key)) {
@@ -130,6 +131,21 @@ class TripService {
 
       await trip.save();
       return trip.itinerarySnapshot;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static async saveFinalizedItinerarySnapshot(tripId, userId, snapshot) {
+    try {
+      const trip = await this.getTripById(tripId, userId);
+      trip.finalizedItinerarySnapshot = {
+        ...snapshot,
+        generatedAt: new Date(),
+      };
+
+      await trip.save();
+      return trip.finalizedItinerarySnapshot;
     } catch (error) {
       throw error;
     }

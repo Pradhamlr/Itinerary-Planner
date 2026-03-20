@@ -19,6 +19,52 @@ function formatTripDate(value) {
   }).format(date)
 }
 
+function parseDurationToMinutes(durationText) {
+  if (!durationText || typeof durationText !== 'string') {
+    return 0
+  }
+
+  const hourMatch = durationText.match(/(\d+)\s*hr/)
+  const minuteMatch = durationText.match(/(\d+)\s*mins?/)
+  const hours = hourMatch ? Number(hourMatch[1]) : 0
+  const minutes = minuteMatch ? Number(minuteMatch[1]) : 0
+  return (hours * 60) + minutes
+}
+
+function normalizeItineraryDays(days) {
+  return (days || []).map((day) => {
+    if (day?.route_stats) {
+      return day
+    }
+
+    const route = day?.route || []
+    const mealSuggestions = day?.meal_suggestions || []
+    const travelMinutes = route.reduce((sum, place) => (
+      sum
+      + parseDurationToMinutes(place.travel_time_from_start)
+      + parseDurationToMinutes(place.travel_time_to_next)
+      + parseDurationToMinutes(place.return_travel_time_to_start)
+    ), 0)
+    const visitMinutes = route.reduce((sum, place) => sum + Number(place.visit_duration_minutes || 0), 0)
+    const mealBreakMinutes = mealSuggestions.reduce((sum, meal) => (
+      sum + (meal.type === 'Dinner' ? 75 : 60)
+    ), 0)
+
+    return {
+      ...day,
+      route_stats: {
+        stop_count: route.length,
+        total_travel_minutes: travelMinutes,
+        total_visit_minutes: visitMinutes,
+        meal_break_minutes: mealBreakMinutes,
+        total_day_minutes: travelMinutes + visitMinutes + mealBreakMinutes,
+        over_travel_limit: false,
+        over_total_limit: false,
+      },
+    }
+  })
+}
+
 function TripDetails() {
   const { id } = useParams()
   const navigate = useNavigate()
@@ -29,11 +75,14 @@ function TripDetails() {
   const [metadata, setMetadata] = useState(null)
   const [itineraryDays, setItineraryDays] = useState([])
   const [itineraryRestaurants, setItineraryRestaurants] = useState([])
+  const [itineraryMetadata, setItineraryMetadata] = useState(null)
   const [recommendationsGeneratedAt, setRecommendationsGeneratedAt] = useState('')
   const [itineraryGeneratedAt, setItineraryGeneratedAt] = useState('')
+  const [finalizedItineraryGeneratedAt, setFinalizedItineraryGeneratedAt] = useState('')
   const [loadingTrip, setLoadingTrip] = useState(true)
   const [loadingRecommendations, setLoadingRecommendations] = useState(false)
   const [loadingItinerary, setLoadingItinerary] = useState(false)
+  const [savingFinalizedItinerary, setSavingFinalizedItinerary] = useState(false)
   const [recommendationsGenerated, setRecommendationsGenerated] = useState(false)
   const [itineraryGenerated, setItineraryGenerated] = useState(false)
   const [recommendationsError, setRecommendationsError] = useState('')
@@ -41,10 +90,12 @@ function TripDetails() {
   const [tripError, setTripError] = useState('')
   const [recommendationsFromSnapshot, setRecommendationsFromSnapshot] = useState(false)
   const [itineraryFromSnapshot, setItineraryFromSnapshot] = useState(false)
+  const [itineraryActionDay, setItineraryActionDay] = useState(null)
 
   const hydrateSavedPlans = (tripData) => {
     const recommendationSnapshot = tripData?.recommendationSnapshot
     const itinerarySnapshot = tripData?.itinerarySnapshot
+    const finalizedItinerarySnapshot = tripData?.finalizedItinerarySnapshot
 
     if (recommendationSnapshot) {
       setAttractions(recommendationSnapshot.attractions || [])
@@ -65,20 +116,24 @@ function TripDetails() {
     }
 
     if (itinerarySnapshot) {
-      setItineraryDays(itinerarySnapshot.itinerary || [])
+      setItineraryDays(normalizeItineraryDays(itinerarySnapshot.itinerary || []))
       setItineraryRestaurants(itinerarySnapshot.restaurants || [])
+      setItineraryMetadata(itinerarySnapshot.metadata || null)
       setItineraryGenerated(Boolean(
-        (itinerarySnapshot.itinerary || []).length || (itinerarySnapshot.restaurants || []).length,
+        (itinerarySnapshot.itinerary || []).length,
       ))
       setItineraryGeneratedAt(itinerarySnapshot.generatedAt || '')
       setItineraryFromSnapshot(true)
     } else {
       setItineraryDays([])
       setItineraryRestaurants([])
+      setItineraryMetadata(null)
       setItineraryGenerated(false)
       setItineraryGeneratedAt('')
       setItineraryFromSnapshot(false)
     }
+
+    setFinalizedItineraryGeneratedAt(finalizedItinerarySnapshot?.generatedAt || '')
   }
 
   const fetchTrip = async () => {
@@ -124,8 +179,9 @@ function TripDetails() {
       const response = await api.get(`/itinerary/${id}`)
       const itineraryData = response.data || {}
 
-      setItineraryDays(itineraryData.itinerary || [])
+      setItineraryDays(normalizeItineraryDays(itineraryData.itinerary || []))
       setItineraryRestaurants(itineraryData.restaurants || [])
+      setItineraryMetadata(itineraryData.metadata || null)
       setItineraryGenerated(true)
       setItineraryGeneratedAt(new Date().toISOString())
       setItineraryFromSnapshot(false)
@@ -134,6 +190,136 @@ function TripDetails() {
       setItineraryGenerated(true)
     } finally {
       setLoadingItinerary(false)
+    }
+  }
+
+  const persistItinerarySnapshot = async (nextItineraryDays) => {
+    const snapshotPayload = {
+      generatedAt: itineraryGeneratedAt || new Date().toISOString(),
+      itinerary: normalizeItineraryDays(nextItineraryDays),
+      restaurants: itineraryRestaurants || [],
+      metadata: itineraryMetadata || {},
+    }
+
+    await api.put(`/trips/${id}`, {
+      itinerarySnapshot: snapshotPayload,
+    })
+  }
+
+  const toggleLockedPlace = async (dayNumber, placeId) => {
+    const nextItineraryDays = normalizeItineraryDays(itineraryDays.map((day) => (
+      day.day !== dayNumber
+        ? day
+        : {
+            ...day,
+            route: (day.route || []).map((place) => (
+              place.place_id === placeId ? { ...place, locked: !place.locked } : place
+            )),
+          }
+    )))
+
+    setItineraryDays(nextItineraryDays)
+
+    try {
+      await persistItinerarySnapshot(nextItineraryDays)
+    } catch (err) {
+      setItineraryError(err.response?.data?.message || 'Failed to save locked places.')
+      fetchTrip()
+    }
+  }
+
+  const reorderDayStops = async (dayNumber, fromIndex, toIndex) => {
+    if (fromIndex === toIndex) {
+      return
+    }
+
+    const nextItineraryDays = normalizeItineraryDays(itineraryDays.map((day) => {
+      if (day.day !== dayNumber) {
+        return day
+      }
+
+      const nextRoute = [...(day.route || [])]
+      const [movedPlace] = nextRoute.splice(fromIndex, 1)
+      nextRoute.splice(toIndex, 0, movedPlace)
+
+      return {
+        ...day,
+        customized_order: true,
+        route: nextRoute,
+      }
+    }))
+
+    setItineraryDays(nextItineraryDays)
+
+    try {
+      setItineraryActionDay(dayNumber)
+      const targetDay = nextItineraryDays.find((day) => day.day === dayNumber)
+      const response = await api.post(`/itinerary/${id}/recalculate-day/${dayNumber}`, {
+        route: targetDay?.route || [],
+      })
+      const itineraryData = response.data || {}
+
+      setItineraryDays(normalizeItineraryDays(itineraryData.itinerary || []))
+      setItineraryRestaurants(itineraryData.restaurants || [])
+      setItineraryMetadata(itineraryData.metadata || null)
+      setItineraryGenerated(true)
+      setItineraryGeneratedAt(new Date().toISOString())
+      setItineraryFromSnapshot(false)
+    } catch (err) {
+      setItineraryError(err.response?.data?.message || 'Failed to recalculate reordered itinerary day.')
+      fetchTrip()
+    } finally {
+      setItineraryActionDay(null)
+    }
+  }
+
+  const regenerateDay = async (dayNumber) => {
+    try {
+      setItineraryActionDay(dayNumber)
+      setItineraryError('')
+      const response = await api.post(`/itinerary/${id}/regenerate-day/${dayNumber}`)
+      const itineraryData = response.data || {}
+
+      setItineraryDays(normalizeItineraryDays(itineraryData.itinerary || []))
+      setItineraryRestaurants(itineraryData.restaurants || [])
+      setItineraryMetadata(itineraryData.metadata || null)
+      setItineraryGenerated(true)
+      setItineraryGeneratedAt(new Date().toISOString())
+      setItineraryFromSnapshot(false)
+    } catch (err) {
+      setItineraryError(err.response?.data?.message || 'Failed to regenerate itinerary day.')
+    } finally {
+      setItineraryActionDay(null)
+    }
+  }
+
+  const finalizeItinerary = async () => {
+    try {
+      setSavingFinalizedItinerary(true)
+      setItineraryError('')
+
+      const snapshotPayload = {
+        generatedAt: itineraryGeneratedAt || new Date().toISOString(),
+        itinerary: normalizeItineraryDays(itineraryDays),
+        restaurants: itineraryRestaurants || [],
+        metadata: itineraryMetadata || {},
+      }
+
+      const response = await api.post(`/itinerary/${id}/finalize`, {
+        itinerarySnapshot: snapshotPayload,
+      })
+
+      const finalizedSnapshot = response.data?.finalizedItinerarySnapshot
+      setTrip((currentTrip) => (
+        currentTrip
+          ? { ...currentTrip, finalizedItinerarySnapshot: finalizedSnapshot }
+          : currentTrip
+      ))
+      setFinalizedItineraryGeneratedAt(finalizedSnapshot?.generatedAt || new Date().toISOString())
+    } catch (err) {
+      setItineraryError(err.response?.data?.message || 'Failed to save final itinerary.')
+    } finally {
+      setSavingFinalizedItinerary(false)
     }
   }
 
@@ -282,13 +468,19 @@ function TripDetails() {
 
       <ItineraryPanel
         itineraryDays={itineraryDays}
-        itineraryRestaurants={itineraryRestaurants}
         loading={loadingItinerary}
         generated={itineraryGenerated}
         error={itineraryError}
         onRefresh={fetchItinerary}
         generatedAt={itineraryGeneratedAt}
         hydratedFromSnapshot={itineraryFromSnapshot}
+        onToggleLock={toggleLockedPlace}
+        onRegenerateDay={regenerateDay}
+        onReorderDay={reorderDayStops}
+        actionDay={itineraryActionDay}
+        onFinalize={finalizeItinerary}
+        savingFinalized={savingFinalizedItinerary}
+        finalizedGeneratedAt={finalizedItineraryGeneratedAt}
       />
     </section>
   )

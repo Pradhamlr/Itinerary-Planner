@@ -20,8 +20,15 @@ const savedPlaceSchema = new mongoose.Schema(
     must_see_boost: Number,
     final_score: Number,
     explanation_tags: [String],
+    travel_time_from_start: String,
     travel_time_to_next: String,
+    return_travel_time_to_start: String,
     time_slot: String,
+    visit_duration_minutes: Number,
+    locked: {
+      type: Boolean,
+      default: false,
+    },
   },
   { _id: false }
 );
@@ -29,15 +36,28 @@ const savedPlaceSchema = new mongoose.Schema(
 const itineraryDaySchema = new mongoose.Schema(
   {
     day: Number,
+    date: String,
     start_location: {
+      place_id: String,
+      name: String,
       lat: Number,
       lng: Number,
     },
     routing_mode: String,
+    customized_order: Boolean,
     opening_hours_applied: Boolean,
     center: {
       lat: Number,
       lng: Number,
+    },
+    route_stats: {
+      stop_count: Number,
+      total_travel_minutes: Number,
+      total_visit_minutes: Number,
+      meal_break_minutes: Number,
+      total_day_minutes: Number,
+      over_travel_limit: Boolean,
+      over_total_limit: Boolean,
     },
     meal_suggestions: {
       type: [new mongoose.Schema(
@@ -177,6 +197,10 @@ const tripSchema = new mongoose.Schema(
       default: null,
     },
     itinerarySnapshot: {
+      type: itinerarySnapshotSchema,
+      default: null,
+    },
+    finalizedItinerarySnapshot: {
       type: itinerarySnapshotSchema,
       default: null,
     },
