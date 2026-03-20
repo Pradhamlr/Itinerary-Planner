@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import ItineraryMap from './ItineraryMap'
 import PlaceCard from './PlaceCard'
 import { formatCategory, renderStars } from '../utils/travel'
@@ -69,9 +70,24 @@ function ItinerarySkeleton() {
   )
 }
 
-function DayPlaceRow({ place, order }) {
+function DayPlaceRow({ place, order, selected, onSelect }) {
   return (
-    <div className="flex items-start justify-between gap-4 rounded-2xl border border-slate-100 bg-slate-50/70 p-4">
+    <div
+      role="button"
+      tabIndex={0}
+      onClick={onSelect}
+      onKeyDown={(event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault()
+          onSelect()
+        }
+      }}
+      className={`flex w-full items-start justify-between gap-4 rounded-2xl border p-4 text-left transition ${
+        selected
+          ? 'border-sky-200 bg-sky-50/80 shadow-sm'
+          : 'border-slate-100 bg-slate-50/70 hover:border-slate-200 hover:bg-white'
+      }`}
+    >
       <div className="flex items-start gap-4">
         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-slate-900 text-sm font-semibold text-white">
           {order}
@@ -97,6 +113,7 @@ function DayPlaceRow({ place, order }) {
         href={`https://www.google.com/maps/search/?api=1&query=${place.lat},${place.lng}&query_place_id=${place.place_id}`}
         target="_blank"
         rel="noopener noreferrer"
+        onClick={(event) => event.stopPropagation()}
         className="inline-flex shrink-0 items-center justify-center rounded-full border border-slate-200 px-4 py-2 text-xs font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-white"
       >
         Open map
@@ -250,6 +267,9 @@ export function ItineraryPanel({
   hydratedFromSnapshot,
 }) {
   const formattedGeneratedAt = formatGeneratedAt(generatedAt)
+  const [selectedStopKey, setSelectedStopKey] = useState(null)
+
+  const getStopKey = (dayPlan, place, index) => `${dayPlan.day}-${place.place_id || place.name}-${index}`
 
   return (
     <div className="rounded-[32px] border border-white/60 bg-white/90 p-6 shadow-[0_18px_60px_rgba(15,23,42,0.08)] backdrop-blur sm:p-8">
@@ -303,15 +323,19 @@ export function ItineraryPanel({
             ) : null}
           </div>
 
-          <div>
-            <h3 className="text-2xl font-semibold text-slate-950">Smart Itinerary Map</h3>
-            <p className="mt-2 text-sm leading-7 text-slate-600">
-              Routes are drawn directly on the map with a different color for each day, using the optimized order returned by the backend.
-            </p>
-            <div className="mt-5">
-              <ItineraryMap itinerary={itineraryDays} />
+            <div>
+              <h3 className="text-2xl font-semibold text-slate-950">Smart Itinerary Map</h3>
+              <p className="mt-2 text-sm leading-7 text-slate-600">
+                Routes are drawn directly on the map with a different color for each day, using the optimized order returned by the backend.
+              </p>
+              <div className="mt-5">
+                <ItineraryMap
+                  itinerary={itineraryDays}
+                  selectedStopKey={selectedStopKey}
+                  onSelectStop={setSelectedStopKey}
+                />
+              </div>
             </div>
-          </div>
 
           {itineraryDays.map((dayPlan) => {
             const route = dayPlan.route || []
@@ -369,6 +393,8 @@ export function ItineraryPanel({
                       key={place.place_id || `${dayPlan.day}-${index}`}
                       place={place}
                       order={index + 1}
+                      selected={selectedStopKey === getStopKey(dayPlan, place, index)}
+                      onSelect={() => setSelectedStopKey(getStopKey(dayPlan, place, index))}
                     />
                   ))}
                 </div>
