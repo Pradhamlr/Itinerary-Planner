@@ -214,6 +214,12 @@ const getRestaurantRelevantInterests = (tripInterests) =>
     .map(normalizeInterest)
     .filter((interest) => restaurantDrivenInterests.has(interest));
 
+const getAllowedTypesForInterests = (tripInterests, interestResolver = getAttractionRelevantInterests) =>
+  new Set(
+    interestResolver(tripInterests)
+      .flatMap((interest) => interestTypeMap[interest] || []),
+  );
+
 const filterByInterests = (places, tripInterests, requiredAttractionCount) => {
   const normalizedInterests = getAttractionRelevantInterests(tripInterests);
   if (normalizedInterests.length === 0) {
@@ -240,8 +246,23 @@ const getInterestMatchScore = (place, tripInterests) => {
     return 0;
   }
 
-  const allowedTypes = new Set(normalizedInterests.flatMap((interest) => interestTypeMap[interest] || []));
-  return getNormalizedTypes(place).some((type) => allowedTypes.has(type)) ? 1 : 0;
+  const normalizedTypes = getNormalizedTypes(place);
+  const matchingInterests = normalizedInterests.filter((interest) =>
+    (interestTypeMap[interest] || []).some((type) => normalizedTypes.includes(type)),
+  );
+  const matchingTypes = normalizedTypes.filter((type) =>
+    matchingInterests.some((interest) => (interestTypeMap[interest] || []).includes(type)),
+  );
+
+  if (matchingInterests.length === 0) {
+    return 0;
+  }
+
+  const interestCoverage = matchingInterests.length / normalizedInterests.length;
+  const typeCoverage = Math.min(1, matchingTypes.length / Math.max(1, normalizedTypes.length));
+  const score = 0.65 + (interestCoverage * 0.45) + (typeCoverage * 0.25);
+
+  return Math.min(1.35, roundTo(score, 3));
 };
 
 const getRestaurantInterestBoost = (place, tripInterests) => {
@@ -352,19 +373,46 @@ const selectDiverseAttractions = (rankedAttractions, totalAttractions, tripInter
   const remaining = [...rankedAttractions];
   const themeCounts = new Map();
   const attractionInterests = getAttractionRelevantInterests(tripInterests);
+  const minimumInterestMatches = attractionInterests.length > 0
+    ? Math.min(
+        rankedAttractions.filter((place) => getInterestMatchScore(place, tripInterests) > 0).length,
+        Math.max(2, Math.ceil(totalAttractions * 0.35)),
+      )
+    : 0;
   const religiousCap = attractionInterests.some((interest) => ['culture', 'history'].includes(interest))
     ? Math.max(3, Math.ceil(totalAttractions / 4))
     : Math.max(2, Math.ceil(totalAttractions / 6));
   const defaultThemeCap = Math.max(2, Math.ceil(totalAttractions / 3));
+  let selectedInterestMatches = 0;
 
   while (remaining.length > 0 && selected.length < totalAttractions) {
+    const prioritizeInterestMatch = selectedInterestMatches < minimumInterestMatches;
     const nextIndex = remaining.findIndex((place) => {
       const theme = getThemeBucket(place);
       const cap = theme === 'religious' ? religiousCap : defaultThemeCap;
-      return (themeCounts.get(theme) || 0) < cap;
+      const withinThemeCap = (themeCounts.get(theme) || 0) < cap;
+      const isInterestMatch = getInterestMatchScore(place, tripInterests) > 0;
+
+      if (prioritizeInterestMatch) {
+        return withinThemeCap && isInterestMatch;
+      }
+
+      return withinThemeCap;
     });
 
     if (nextIndex === -1) {
+      if (selectedInterestMatches < minimumInterestMatches) {
+        const fallbackInterestIndex = remaining.findIndex((place) => getInterestMatchScore(place, tripInterests) > 0);
+        if (fallbackInterestIndex >= 0) {
+          const [chosen] = remaining.splice(fallbackInterestIndex, 1);
+          selected.push(chosen);
+          const chosenTheme = getThemeBucket(chosen);
+          themeCounts.set(chosenTheme, (themeCounts.get(chosenTheme) || 0) + 1);
+          selectedInterestMatches += 1;
+          continue;
+        }
+      }
+
       break;
     }
 
@@ -372,6 +420,9 @@ const selectDiverseAttractions = (rankedAttractions, totalAttractions, tripInter
     selected.push(chosen);
     const chosenTheme = getThemeBucket(chosen);
     themeCounts.set(chosenTheme, (themeCounts.get(chosenTheme) || 0) + 1);
+    if (getInterestMatchScore(chosen, tripInterests) > 0) {
+      selectedInterestMatches += 1;
+    }
   }
 
   while (remaining.length > 0 && selected.length < totalAttractions) {
@@ -657,7 +708,7 @@ class RecommendationService {
           + (weightedRating * 0.30)
           + (normalizedPopularitySignal * 0.25)
           + (sentimentScore * 0.10)
-          + (interestMatchScore * 0.50)
+          + (interestMatchScore * 0.22)
           + mustSeeBoost
           + (Math.random() * 0.02);
         const explanationTags = buildExplanationTags({
