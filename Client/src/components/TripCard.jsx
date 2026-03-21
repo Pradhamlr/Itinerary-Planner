@@ -35,7 +35,7 @@ function TripCard({ trip, onDelete }) {
               return (
                 <span
                   key={interest}
-                  className={`rounded-full border px-3 py-1 text-xs font-semibold uppercase tracking-wide ${meta.accent}`}
+                  className={`inline-flex items-center rounded-full border px-3 py-1.5 leading-none text-[11px] font-semibold uppercase tracking-[0.18em] ${meta.accent}`}
                 >
                   {meta.label}
                 </span>
@@ -45,7 +45,7 @@ function TripCard({ trip, onDelete }) {
             <span className="text-sm text-slate-500">No interests added yet</span>
           )}
           {interests.length > 4 ? (
-            <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-slate-500">
+            <span className="inline-flex items-center rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 leading-none text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
               +{interests.length - 4} more
             </span>
           ) : null}

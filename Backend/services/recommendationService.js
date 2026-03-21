@@ -321,16 +321,47 @@ const buildExplanationTags = ({
   return tags.slice(0, 4);
 };
 
-const selectDiverseAttractions = (rankedAttractions, totalAttractions) => {
+const getThemeBucket = (place) => {
+  const types = getNormalizedTypes(place);
+
+  if (types.some((type) => ['church', 'temple', 'hindu_temple', 'mosque', 'synagogue'].includes(type))) {
+    return 'religious';
+  }
+
+  if (types.some((type) => ['museum', 'historical_landmark', 'monument'].includes(type))) {
+    return 'history';
+  }
+
+  if (types.some((type) => ['beach', 'park', 'zoo', 'aquarium', 'natural_feature', 'amusement_park'].includes(type))) {
+    return 'nature';
+  }
+
+  if (types.some((type) => ['art_gallery'].includes(type))) {
+    return 'art';
+  }
+
+  if (types.some((type) => ['tourist_attraction', 'landmark'].includes(type))) {
+    return 'landmark';
+  }
+
+  return 'other';
+};
+
+const selectDiverseAttractions = (rankedAttractions, totalAttractions, tripInterests) => {
   const selected = [];
   const remaining = [...rankedAttractions];
-  const categoryCounts = new Map();
-  const maxPerCategory = Math.max(2, Math.ceil(totalAttractions / 3));
+  const themeCounts = new Map();
+  const attractionInterests = getAttractionRelevantInterests(tripInterests);
+  const religiousCap = attractionInterests.some((interest) => ['culture', 'history'].includes(interest))
+    ? Math.max(3, Math.ceil(totalAttractions / 4))
+    : Math.max(2, Math.ceil(totalAttractions / 6));
+  const defaultThemeCap = Math.max(2, Math.ceil(totalAttractions / 3));
 
   while (remaining.length > 0 && selected.length < totalAttractions) {
     const nextIndex = remaining.findIndex((place) => {
-      const category = place.category || 'other';
-      return (categoryCounts.get(category) || 0) < maxPerCategory;
+      const theme = getThemeBucket(place);
+      const cap = theme === 'religious' ? religiousCap : defaultThemeCap;
+      return (themeCounts.get(theme) || 0) < cap;
     });
 
     if (nextIndex === -1) {
@@ -339,7 +370,8 @@ const selectDiverseAttractions = (rankedAttractions, totalAttractions) => {
 
     const [chosen] = remaining.splice(nextIndex, 1);
     selected.push(chosen);
-    categoryCounts.set(chosen.category || 'other', (categoryCounts.get(chosen.category || 'other') || 0) + 1);
+    const chosenTheme = getThemeBucket(chosen);
+    themeCounts.set(chosenTheme, (themeCounts.get(chosenTheme) || 0) + 1);
   }
 
   while (remaining.length > 0 && selected.length < totalAttractions) {
@@ -349,13 +381,13 @@ const selectDiverseAttractions = (rankedAttractions, totalAttractions) => {
   return selected;
 };
 
-const blendCandidatePools = (popularPool, interestPool, targetSize) => {
-  const desiredPopularCount = Math.ceil(targetSize * 0.6);
-  const desiredInterestCount = Math.max(0, targetSize - desiredPopularCount);
+const blendCandidatePools = (primaryPool, secondaryPool, targetSize, primaryRatio = 0.6) => {
+  const desiredPrimaryCount = Math.ceil(targetSize * primaryRatio);
+  const desiredSecondaryCount = Math.max(0, targetSize - desiredPrimaryCount);
 
   const blended = [
-    ...takeTopByScore(popularPool, desiredPopularCount),
-    ...sampleArray(interestPool, desiredInterestCount),
+    ...takeTopByScore(primaryPool, desiredPrimaryCount),
+    ...sampleArray(secondaryPool, desiredSecondaryCount),
   ];
 
   return dedupePlaces(blended);
@@ -508,6 +540,22 @@ class RecommendationService {
       .slice(0, recommendationConfig.candidatePoolLimit);
 
     const dedupedPopularPool = dedupePlaces(popularPool);
+    const explorationPool = dedupePlaces(
+      afterQualityFilter
+        .sort((a, b) => {
+          const scoreA = (getPopularitySignal(a) * 0.55) + ((a.rating || 0) * 0.45);
+          const scoreB = (getPopularitySignal(b) * 0.55) + ((b.rating || 0) * 0.45);
+          return scoreB - scoreA;
+        })
+        .filter((place) => !dedupedPopularPool.some((popularPlace) => popularPlace.place_id === place.place_id))
+        .slice(0, Math.min(afterQualityFilter.length, recommendationConfig.candidatePoolLimit * 2)),
+    );
+    const baseCandidatePool = blendCandidatePools(
+      dedupedPopularPool,
+      explorationPool,
+      Math.min(afterQualityFilter.length, recommendationConfig.candidatePoolLimit + Math.max(20, requiredAttractionCount)),
+      0.7,
+    );
 
     const broaderInterestSource = afterQualityFilter
       .sort((a, b) => {
@@ -525,8 +573,8 @@ class RecommendationService {
 
     const interestPool = dedupePlaces(interestFilteredPlaces);
     const candidatePool = interestFilterApplied
-      ? blendCandidatePools(dedupedPopularPool, interestPool, recommendationConfig.candidatePoolLimit)
-      : dedupedPopularPool;
+      ? blendCandidatePools(baseCandidatePool, interestPool, Math.max(baseCandidatePool.length, requiredAttractionCount * 2), 0.6)
+      : baseCandidatePool;
     const interestPoolContribution = candidatePool.filter((place) =>
       interestPool.some((interestPlace) => interestPlace.place_id === place.place_id),
     ).length;
@@ -541,6 +589,8 @@ class RecommendationService {
       popularity_gate_used: popularityGateUsed,
       popularity_filter_preview: previewPlaceNames(afterPopularityFilter),
       popular_pool_size: dedupedPopularPool.length,
+      exploration_pool_size: explorationPool.length,
+      base_candidate_pool_size: baseCandidatePool.length,
       interest_pool_size: interestPool.length,
       candidate_pool_size: candidatePool.length,
       interest_pool_contribution_count: interestPoolContribution,
@@ -607,7 +657,7 @@ class RecommendationService {
           + (weightedRating * 0.30)
           + (normalizedPopularitySignal * 0.25)
           + (sentimentScore * 0.10)
-          + (interestMatchScore * 0.12)
+          + (interestMatchScore * 0.50)
           + mustSeeBoost
           + (Math.random() * 0.02);
         const explanationTags = buildExplanationTags({
@@ -733,7 +783,7 @@ class RecommendationService {
 
     const rankedAttractions = this.rankAttractions(sampledCandidates, mlScoreMap, trip.interests);
     const variedTopAttractions = shuffleTopBand(rankedAttractions, totalAttractions);
-    const selectedAttractions = selectDiverseAttractions(variedTopAttractions, totalAttractions);
+    const selectedAttractions = selectDiverseAttractions(variedTopAttractions, totalAttractions, trip.interests);
     logger.info('Recommendation ranking complete', {
       final_attraction_count: selectedAttractions.length,
       final_attraction_preview: previewPlaceNames(selectedAttractions),
