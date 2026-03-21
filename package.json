@@ -1,0 +1,9 @@
+{
+  "name": "smart-itinerary-planner-workspace",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "powershell -ExecutionPolicy Bypass -File .\\scripts\\start-all.ps1",
+    "stop:dev": "powershell -ExecutionPolicy Bypass -File .\\scripts\\stop-all.ps1"
+  }
+}

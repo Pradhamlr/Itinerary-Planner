@@ -1,5 +1,132 @@
 const mongoose = require('mongoose');
 
+const savedPlaceSchema = new mongoose.Schema(
+  {
+    place_id: String,
+    name: String,
+    lat: Number,
+    lng: Number,
+    city: String,
+    rating: Number,
+    reviewSnippet: String,
+    types: [String],
+    category: String,
+    user_ratings_total: Number,
+    ml_score: Number,
+    weighted_rating: Number,
+    popularity_score: Number,
+    sentiment_score: Number,
+    interest_match_score: Number,
+    must_see_boost: Number,
+    final_score: Number,
+    explanation_tags: [String],
+    travel_time_from_start: String,
+    travel_time_to_next: String,
+    return_travel_time_to_start: String,
+    time_slot: String,
+    visit_duration_minutes: Number,
+    locked: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  { _id: false }
+);
+
+const itineraryDaySchema = new mongoose.Schema(
+  {
+    day: Number,
+    date: String,
+    start_location: {
+      place_id: String,
+      name: String,
+      lat: Number,
+      lng: Number,
+    },
+    routing_mode: String,
+    customized_order: Boolean,
+    opening_hours_applied: Boolean,
+    center: {
+      lat: Number,
+      lng: Number,
+    },
+    route_stats: {
+      stop_count: Number,
+      total_travel_minutes: Number,
+      total_visit_minutes: Number,
+      meal_break_minutes: Number,
+      total_day_minutes: Number,
+      over_travel_limit: Boolean,
+      over_total_limit: Boolean,
+    },
+    meal_suggestions: {
+      type: [new mongoose.Schema(
+        {
+          type: String,
+          restaurant: savedPlaceSchema,
+        },
+        { _id: false }
+      )],
+      default: [],
+    },
+    route: {
+      type: [savedPlaceSchema],
+      default: [],
+    },
+  },
+  { _id: false }
+);
+
+const recommendationSnapshotSchema = new mongoose.Schema(
+  {
+    generatedAt: {
+      type: Date,
+      default: Date.now,
+    },
+    attractions: {
+      type: [savedPlaceSchema],
+      default: [],
+    },
+    restaurants: {
+      type: [savedPlaceSchema],
+      default: [],
+    },
+    metadata: {
+      ranking_mode: String,
+      total_candidates: Number,
+      interest_filter_applied: Boolean,
+      ranking_strategy: String,
+      ml_service_fallback: Boolean,
+      trip_days: Number,
+      city: String,
+      interests: [String],
+    },
+  },
+  { _id: false }
+);
+
+const itinerarySnapshotSchema = new mongoose.Schema(
+  {
+    generatedAt: {
+      type: Date,
+      default: Date.now,
+    },
+    itinerary: {
+      type: [itineraryDaySchema],
+      default: [],
+    },
+    restaurants: {
+      type: [savedPlaceSchema],
+      default: [],
+    },
+    metadata: {
+      type: mongoose.Schema.Types.Mixed,
+      default: {},
+    },
+  },
+  { _id: false }
+);
+
 const tripSchema = new mongoose.Schema(
   {
     userId: {
@@ -23,6 +150,9 @@ const tripSchema = new mongoose.Schema(
       required: [true, 'Please provide a budget'],
       min: [0, 'Budget cannot be negative'],
     },
+    startDate: {
+      type: Date,
+    },
     interests: {
       type: [String],
       enum: [
@@ -38,6 +168,12 @@ const tripSchema = new mongoose.Schema(
         'sports',
       ],
       default: [],
+    },
+    hotelLocation: {
+      place_id: String,
+      name: String,
+      lat: Number,
+      lng: Number,
     },
     places: [
       {
@@ -56,6 +192,18 @@ const tripSchema = new mongoose.Schema(
         duration: Number, // in hours
       },
     ],
+    recommendationSnapshot: {
+      type: recommendationSnapshotSchema,
+      default: null,
+    },
+    itinerarySnapshot: {
+      type: itinerarySnapshotSchema,
+      default: null,
+    },
+    finalizedItinerarySnapshot: {
+      type: itinerarySnapshotSchema,
+      default: null,
+    },
     createdAt: {
       type: Date,
       default: Date.now,

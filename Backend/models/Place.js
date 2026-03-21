@@ -2,6 +2,11 @@ const mongoose = require('mongoose');
 
 const placeSchema = new mongoose.Schema(
   {
+    place_id: {
+      type: String,
+      required: true,
+      unique: true,
+    },
     name: {
       type: String,
       required: [true, 'Please provide a place name'],
@@ -21,41 +26,55 @@ const placeSchema = new mongoose.Schema(
       type: Number,
       required: [true, 'Please provide longitude'],
     },
-    category: {
-      type: String,
-      enum: [
-        'museum',
-        'monument',
-        'historic',
-        'nature',
-        'religious',
-        'architecture',
-        'entertainment',
-        'restaurant',
-        'park',
-        'interesting_places',
-        'other',
-      ],
-      default: 'other',
-    },
     rating: {
       type: Number,
       min: 0,
       max: 5,
     },
+    user_ratings_total: {
+      type: Number,
+      default: 0,
+    },
+    types: {
+      type: [String],
+      default: [],
+    },
     description: {
       type: String,
       trim: true,
     },
+    reviews: {
+      type: [{
+        author_name: String,
+        rating: Number,
+        text: String,
+        time: Number,
+      }],
+      default: [],
+    },
+    opening_hours: {
+      open_now: Boolean,
+      weekday_text: {
+        type: [String],
+        default: [],
+      },
+      periods: {
+        type: [{
+          open: {
+            day: Number,
+            time: String,
+          },
+          close: {
+            day: Number,
+            time: String,
+          },
+        }],
+        default: [],
+      },
+    },
     source: {
       type: String,
-      enum: ['opentripmap', 'google', 'osm', 'manual'],
-      default: 'opentripmap',
-    },
-    place_id: {
-      type: String,
-      unique: true,
-      sparse: true,
+      default: 'google',
     },
     createdAt: {
       type: Date,
@@ -68,7 +87,8 @@ const placeSchema = new mongoose.Schema(
 );
 
 // Index for faster queries
-placeSchema.index({ city: 1, category: 1 });
+placeSchema.index({ city: 1 });
 placeSchema.index({ place_id: 1 });
+placeSchema.index({ types: 1 });
 
 module.exports = mongoose.model('Place', placeSchema);

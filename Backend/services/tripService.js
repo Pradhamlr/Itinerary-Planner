@@ -60,7 +60,19 @@ class TripService {
       }
 
       // Update only allowed fields
-      const allowedUpdates = ['city', 'days', 'budget', 'interests', 'places', 'optimizedRoute'];
+      const allowedUpdates = [
+        'city',
+        'days',
+        'budget',
+        'startDate',
+        'interests',
+        'hotelLocation',
+        'places',
+        'optimizedRoute',
+        'recommendationSnapshot',
+        'itinerarySnapshot',
+        'finalizedItinerarySnapshot',
+      ];
       Object.keys(updateData).forEach((key) => {
         if (allowedUpdates.includes(key)) {
           trip[key] = updateData[key];
@@ -89,6 +101,51 @@ class TripService {
 
       await Trip.findByIdAndDelete(tripId);
       return { message: 'Trip deleted successfully' };
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static async saveRecommendationSnapshot(tripId, userId, snapshot) {
+    try {
+      const trip = await this.getTripById(tripId, userId);
+      trip.recommendationSnapshot = {
+        ...snapshot,
+        generatedAt: new Date(),
+      };
+
+      await trip.save();
+      return trip.recommendationSnapshot;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static async saveItinerarySnapshot(tripId, userId, snapshot) {
+    try {
+      const trip = await this.getTripById(tripId, userId);
+      trip.itinerarySnapshot = {
+        ...snapshot,
+        generatedAt: new Date(),
+      };
+
+      await trip.save();
+      return trip.itinerarySnapshot;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static async saveFinalizedItinerarySnapshot(tripId, userId, snapshot) {
+    try {
+      const trip = await this.getTripById(tripId, userId);
+      trip.finalizedItinerarySnapshot = {
+        ...snapshot,
+        generatedAt: new Date(),
+      };
+
+      await trip.save();
+      return trip.finalizedItinerarySnapshot;
     } catch (error) {
       throw error;
     }

@@ -1,0 +1,12 @@
+{
+  "name": "smart-itinerary-planner-ml-service",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Scripts for the Smart Itinerary Planner ML service",
+  "scripts": {
+    "dev": "..\\.venv\\Scripts\\python.exe -m uvicorn app:app --host 0.0.0.0 --port 8000 --reload",
+    "start": "..\\.venv\\Scripts\\python.exe -m uvicorn app:app --host 0.0.0.0 --port 8000",
+    "train": "..\\.venv\\Scripts\\python.exe train_pipeline.py",
+    "health": "..\\.venv\\Scripts\\python.exe -c \"import app; app.load_models(); print(app.health())\""
+  }
+}
