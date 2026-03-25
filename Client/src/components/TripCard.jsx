@@ -16,8 +16,8 @@ function TripCard({ trip, onDelete }) {
     || Math.max(trip.days * 4, 0)
 
   return (
-    <article className="group overflow-hidden rounded-[28px] border border-white/70 bg-brand-surfaceLowest shadow-[0_18px_40px_-28px_rgba(15,23,42,0.35)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_56px_-28px_rgba(15,23,42,0.45)]">
-      <div className={`relative h-48 bg-gradient-to-br ${gradient}`}>
+    <article className="group overflow-hidden rounded-[24px] border border-gray-200 bg-white shadow-[0_8px_24px_-8px_rgba(15,23,42,0.15)] transition duration-300 hover:-translate-y-2 hover:shadow-[0_16px_40px_-12px_rgba(15,23,42,0.2)]">
+      <div className={`relative h-48 bg-gradient-to-br ${gradient} overflow-hidden`}>
         {cityHero && !imageFailed ? (
           <img
             src={cityHero.url}
@@ -27,79 +27,75 @@ function TripCard({ trip, onDelete }) {
             style={{ objectPosition: cityHero.position || 'center' }}
           />
         ) : null}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(90,248,251,0.16),transparent_34%),linear-gradient(180deg,rgba(0,0,0,0.02),rgba(0,5,20,0.38))]" />
-        <div className="relative flex h-full flex-col justify-between p-5 text-white">
-          <div className="flex items-start justify-between gap-4">
-            <span className="inline-flex items-center rounded-full bg-white/80 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.24em] text-brand-palm backdrop-blur">
-              {formattedDate}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
+        <div className="absolute inset-x-4 top-4 flex items-start justify-between">
+          <span className="inline-flex items-center rounded-full bg-white/90 px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.24em] text-brand-palm backdrop-blur-sm">
+            {formattedDate}
+          </span>
+          <div className="flex -space-x-2">
+            <span className="inline-flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-white/20 text-[10px] font-semibold text-white backdrop-blur-sm">A</span>
+            <span className="inline-flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-white/20 text-[10px] font-semibold text-white backdrop-blur-sm">M</span>
+            <span className="inline-flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-brand-secondary text-[10px] font-semibold text-white">
+              +{Math.max(interests.length, 1)}
             </span>
-            <div className="flex -space-x-2">
-              <span className="inline-flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-brand-surfaceHigh text-xs font-semibold text-brand-palm">A</span>
-              <span className="inline-flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-brand-surfaceHigh text-xs font-semibold text-brand-palm">M</span>
-              <span className="inline-flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-brand-secondary text-xs font-semibold text-white">
-                +{Math.max(interests.length, 1)}
-              </span>
-            </div>
           </div>
-
-          <div className="space-y-2">
-            <h3 className="editorial-title text-3xl font-semibold">{trip.city}</h3>
-            <div className="flex items-center justify-between text-sm text-white/90">
-              <span>{trip.days} day{trip.days > 1 ? 's' : ''}</span>
-              <span>{formatCurrency(trip.budget)}</span>
-            </div>
+        </div>
+        <div className="absolute inset-x-4 bottom-4 text-white">
+          <h3 className="editorial-title text-2xl font-bold">{trip.city}</h3>
+          <div className="flex items-center justify-between text-sm font-semibold mt-2">
+            <span>{trip.days} day{trip.days > 1 ? 's' : ''}</span>
+            <span>{formatCurrency(trip.budget)}</span>
           </div>
         </div>
       </div>
 
-      <div className="space-y-5 p-5">
-        <div className="flex min-h-[52px] flex-wrap gap-2">
+      <div className="space-y-4 p-5">
+        <div className="flex min-h-[40px] flex-wrap gap-2">
           {interests.length > 0 ? (
-            interests.slice(0, 4).map((interest) => {
+            interests.slice(0, 3).map((interest) => {
               const meta = getInterestMeta(interest)
               return (
                 <span
                   key={interest}
-                  className={`inline-flex items-center rounded-md px-2.5 py-1 leading-none text-[11px] font-semibold ${meta.accent}`}
+                  className={`inline-flex items-center rounded-md px-2.5 py-1 text-[11px] font-semibold ${meta.accent}`}
                 >
                   {meta.label}
                 </span>
               )
             })
           ) : (
-            <span className="text-sm text-brand-onSurfaceVariant">No interests added yet</span>
+            <span className="text-sm text-gray-500">No interests added yet</span>
           )}
-          {interests.length > 4 ? (
-            <span className="inline-flex items-center rounded-md bg-brand-surfaceHigh px-2.5 py-1 leading-none text-[11px] font-semibold text-brand-onSurfaceVariant">
-              +{interests.length - 4} more
+          {interests.length > 3 ? (
+            <span className="inline-flex items-center rounded-md bg-gray-100 px-2.5 py-1 text-[11px] font-semibold text-gray-600">
+              +{interests.length - 3} more
             </span>
           ) : null}
         </div>
 
-        <div className="flex items-center justify-between border-t border-brand-surfaceHigh pt-4 text-sm">
+        <div className="flex items-center justify-between border-t border-gray-200 pt-4">
           <div>
-            <p className="text-brand-onSurfaceVariant">{trip.city}, {trip.country || 'Journey planned'}</p>
-            <p className="mt-1 inline-flex items-center rounded-md bg-[#def7f7] px-2.5 py-1 text-xs font-medium text-brand-secondary">
+            <p className="text-sm text-gray-600">{trip.city}, {trip.country || 'Journey planned'}</p>
+            <p className="mt-2 text-xs font-semibold text-brand-secondary">
               {destinationCount} destinations
             </p>
           </div>
           <Link
             to={`/trip/${trip._id}`}
-            className="inline-flex items-center gap-2 text-sm font-semibold text-brand-palm transition hover:text-brand-secondary"
+            className="text-sm font-semibold text-brand-palm hover:text-brand-secondary transition"
           >
-            View plan
-            <span aria-hidden="true">→</span>
+            View plan →
           </Link>
         </div>
 
-        <div className="flex items-center justify-between gap-3">
-          <div className="text-sm text-brand-onSurfaceVariant">
+        <div className="flex items-center justify-between gap-3 pt-2">
+          <span className="text-sm text-gray-600">
             {trip.days >= 6 ? 'Slow travel' : trip.days >= 3 ? 'Balanced pace' : 'Quick escape'}
-          </div>
+          </span>
           <button
             type="button"
             onClick={() => onDelete(trip._id)}
-            className="rounded-full bg-[#ffdad6] px-4 py-2 text-sm font-semibold text-[#93000a] transition hover:brightness-95"
+            className="rounded-full bg-red-100 px-4 py-2 text-sm font-semibold text-red-700 hover:bg-red-200 transition"
           >
             Delete
           </button>

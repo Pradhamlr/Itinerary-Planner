@@ -16,6 +16,10 @@ function Signup() {
 
   const navigate = useNavigate()
 
+  const handleHomeClick = () => {
+    navigate('/login')
+  }
+
   const handleChange = (event) => {
     const { name, value } = event.target
     setFormData((prev) => ({ ...prev, [name]: value }))
@@ -150,7 +154,14 @@ function Signup() {
       <div className="relative hidden lg:block">
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,34,68,0.24),rgba(1,9,24,0.72)),radial-gradient(circle_at_top,rgba(90,248,251,0.18),transparent_24%),linear-gradient(180deg,#8db8d4_0%,#456a8c_48%,#081120_100%)]" />
         <div className="relative flex h-full flex-col justify-between p-12 text-white">
-          <span className="editorial-title text-xl font-semibold">Voyager</span>
+          <div className="flex items-center justify-between">
+            <span className="editorial-title text-xl font-semibold">Voyager</span>
+            <button type="button" onClick={handleHomeClick} className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20" aria-label="Back to login">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
+                <path d="M15 18l-6-6 6-6" />
+              </svg>
+            </button>
+          </div>
           <div>
             <p className="text-sm font-semibold uppercase tracking-[0.28em] text-[#8cf0f2]">Curated journeys</p>
             <h1 className="editorial-title mt-5 max-w-md text-5xl font-semibold leading-[1.02]">Your global itinerary, refined.</h1>

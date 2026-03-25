@@ -458,7 +458,7 @@ function TripDetails() {
   return (
     <section className="space-y-8">
       <div className="space-y-8">
-        <header className="flex flex-col gap-5 rounded-[30px] bg-white px-6 py-5 shadow-[0_18px_46px_-30px_rgba(15,23,42,0.35)] lg:flex-row lg:items-center lg:justify-between">
+        <header className="flex flex-col gap-5 rounded-[30px] bg-white px-6 py-5 shadow-[0_12px_32px_-8px_rgba(15,23,42,0.22)] lg:flex-row lg:items-center lg:justify-between">
           <div>
             <p className="text-[1.7rem] font-semibold text-brand-palm">{trip.city}</p>
             <p className="mt-1 text-brand-onSurfaceVariant">Curated trip workspace</p>
@@ -479,7 +479,7 @@ function TripDetails() {
         </header>
 
         <div className="grid gap-5 lg:grid-cols-[1.05fr_0.95fr]">
-          <div className="rounded-[30px] bg-white p-6 shadow-[0_18px_46px_-30px_rgba(15,23,42,0.35)]">
+          <div className="rounded-[30px] bg-white p-6 shadow-[0_12px_32px_-8px_rgba(15,23,42,0.22)]">
             <p className="field-label">ML data processed</p>
             <h1 className="editorial-title mt-3 text-[2rem] font-semibold text-brand-palm">Curated for you</h1>
             <p className="mt-3 max-w-2xl text-base leading-7 text-brand-onSurfaceVariant">

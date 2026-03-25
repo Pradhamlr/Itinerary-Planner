@@ -68,7 +68,7 @@ function Dashboard() {
 
   return (
     <section className="space-y-14">
-      <div className="relative overflow-hidden rounded-[34px] bg-brand-palm text-white shadow-[0_24px_60px_-28px_rgba(15,23,42,0.55)]">
+      <div className="relative overflow-hidden rounded-[34px] bg-brand-palm text-white shadow-[0_16px_40px_-8px_rgba(15,23,42,0.35)]">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_20%,rgba(90,248,251,0.15),transparent_28%),radial-gradient(circle_at_80%_10%,rgba(214,227,255,0.14),transparent_26%)]" />
         <div className="relative grid gap-10 px-8 py-10 lg:grid-cols-[1.05fr_0.95fr] lg:px-12 lg:py-12">
           <div className="flex flex-col justify-center">
@@ -97,7 +97,7 @@ function Dashboard() {
           </div>
 
           <div className="relative mx-auto w-full max-w-[420px] lg:mr-0">
-            <div className="relative overflow-hidden rounded-[28px] shadow-[0_30px_60px_-32px_rgba(0,0,0,0.5)]">
+            <div className="relative overflow-hidden rounded-[28px] shadow-[0_20px_40px_-12px_rgba(15,23,42,0.25)]">
               {HERO_EDITORIAL_IMAGES.dashboard && !heroImageFailed ? (
                 <img
                   src={HERO_EDITORIAL_IMAGES.dashboard.url}

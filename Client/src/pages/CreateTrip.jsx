@@ -256,7 +256,7 @@ function CreateTrip() {
 
   return (
     <section className="space-y-8">
-      <header className="flex items-center justify-between border-b border-brand-surfaceHigh pb-4">
+      <header className="flex items-center justify-between border-b border-brand-surfaceHigh/50 pb-4">
         <div className="flex items-center gap-5">
           <button
             type="button"
@@ -271,24 +271,7 @@ function CreateTrip() {
           <span className="editorial-title text-[1.7rem] font-semibold text-brand-palm">Voyager</span>
         </div>
 
-        <div className="hidden items-center gap-4 md:flex">
-          <span className="text-xs font-semibold uppercase tracking-[0.28em] text-brand-onSurfaceVariant">Step 4 of 4</span>
-          <div className="h-2 w-44 overflow-hidden rounded-full bg-brand-surfaceHigh">
-            <div className="h-full w-full rounded-full bg-brand-secondary" />
-          </div>
-        </div>
 
-        <div className="hidden items-center gap-3 md:flex">
-          <span className="inline-flex items-center gap-2 rounded-full bg-brand-surfaceLow px-4 py-2 text-sm font-medium text-brand-onSurfaceVariant">
-            <span className="inline-flex h-2.5 w-2.5 rounded-full bg-brand-secondary" />
-            Draft saved
-          </span>
-          <span className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-brand-surfaceHigh text-brand-palm">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="h-4.5 w-4.5">
-              <path d="M12 3l1.6 5.1L19 10l-5.4 1.9L12 17l-1.6-5.1L5 10l5.4-1.9L12 3z" />
-            </svg>
-          </span>
-        </div>
       </header>
 
       <form onSubmit={handleSubmit} className="grid gap-8 xl:grid-cols-[0.72fr_1.28fr] xl:items-start">
@@ -302,7 +285,7 @@ function CreateTrip() {
             </p>
           </div>
 
-          <div className="relative overflow-hidden rounded-[24px] bg-[linear-gradient(180deg,#b8ece4_0%,#6bbfce_35%,#0f3560_100%)] shadow-[0_24px_56px_-24px_rgba(15,23,42,0.35)]">
+            <div className="relative overflow-hidden rounded-[24px] bg-[linear-gradient(180deg,#d1e8e3_0%,#8bc9d4_35%,#1f4c6a_100%)] shadow-[0_16px_40px_-12px_rgba(15,23,42,0.3)]">
             {HERO_EDITORIAL_IMAGES.createTrip && !editorialImageFailed ? (
               <img
                 src={HERO_EDITORIAL_IMAGES.createTrip.url}
@@ -343,17 +326,16 @@ function CreateTrip() {
                   key={interest.value}
                   type="button"
                   onClick={() => toggleInterest(interest.value)}
-                  className={`flex min-h-[110px] flex-col items-center justify-center gap-3 rounded-[22px] border px-4 py-4 text-center transition duration-200 ${
+                  className={`flex h-[140px] w-[140px] flex-col items-center justify-center gap-3 rounded-full border px-4 py-4 text-center transition duration-200 ${
                     selected
-                      ? 'border-brand-secondary bg-brand-secondary text-white shadow-[0_20px_36px_-24px_rgba(0,105,107,0.75)]'
-                      : 'border-brand-surfaceHigh bg-white text-brand-palm shadow-[0_14px_36px_-28px_rgba(15,23,42,0.35)] hover:-translate-y-1 hover:shadow-[0_24px_46px_-28px_rgba(15,23,42,0.28)]'
+                      ? 'border-brand-secondary bg-brand-secondary text-white shadow-[0_12px_24px_-8px_rgba(0,105,107,0.4)]'
+                      : 'border-brand-surfaceHigh bg-white text-brand-palm shadow-[0_8px_20px_-8px_rgba(15,23,42,0.2)] hover:-translate-y-1 hover:shadow-[0_16px_32px_-8px_rgba(15,23,42,0.25)]'
                   }`}
                 >
                   <span className="inline-flex items-center justify-center">
                     <InterestIcon type={interest.value} selected={selected} />
                   </span>
-                  <span className="text-[11px] font-semibold uppercase tracking-[0.24em] opacity-80">{accentLabel}</span>
-                  <span className="text-[1rem] font-medium">{interest.label}</span>
+                  <span className="text-sm font-semibold uppercase tracking-[0.24em]">{accentLabel}</span>
                 </button>
               )
             })}
@@ -435,8 +417,6 @@ function CreateTrip() {
                 <div className="rounded-2xl bg-white px-4 py-4 shadow-sm">
                   <div className="flex items-center gap-2 text-brand-secondary">
                     <span>INR</span>
-                    <span>INR</span>
-                    <span className={`${Number(formData.budget) >= 150000 ? 'text-brand-secondary' : 'text-brand-outlineVariant'}`}>INR</span>
                   </div>
                   <p className="mt-3 text-xl font-semibold text-brand-palm">{selectedBudgetLabel}</p>
                   <p className="mt-1 text-sm text-brand-onSurfaceVariant">
@@ -447,7 +427,7 @@ function CreateTrip() {
             </div>
           </section>
 
-          <section className="rounded-[28px] bg-white p-6 shadow-[0_16px_40px_-28px_rgba(15,23,42,0.38)]">
+          <section className="rounded-[28px] bg-white p-6 shadow-[0_12px_32px_-8px_rgba(15,23,42,0.25)]">
             <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
               <div>
                 <label className="field-label block">Hotel / Start Location</label>
@@ -471,12 +451,14 @@ function CreateTrip() {
                     formData.interests.map((interest) => {
                       const meta = getInterestMeta(interest)
                       return (
-                        <span
+                        <div
                           key={interest}
-                          className={`inline-flex items-center rounded-full px-3 py-1.5 text-xs font-semibold ${meta.accent}`}
+                          className="inline-flex h-[80px] w-[80px] items-center justify-center rounded-full text-xs font-semibold"
                         >
-                          {meta.label}
-                        </span>
+                          <span className={`inline-flex h-full w-full items-center justify-center rounded-full ${meta.accent}`}>
+                            {meta.label}
+                          </span>
+                        </div>
                       )
                     })
                   ) : (

@@ -269,13 +269,20 @@ export default function ForgotPassword() {
   );
 
   return (
-    <section className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
-      <div className="hero-panel p-8 sm:p-10">
-        <p className="field-label text-[#d6e3ff]">Recovery Flow</p>
-        <h1 className="editorial-title mt-4 text-4xl font-semibold">Recover access without losing your travel workspace.</h1>
-        <p className="mt-4 max-w-md text-sm leading-7 text-[#d6e3ff]">
-          Verify your email, confirm the code, and set a new password to get back to your saved journeys.
-        </p>
+    <section className="space-y-6">
+      <Link to="/login" className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-brand-surfaceHigh bg-white text-brand-palm transition hover:bg-brand-surfaceLow" aria-label="Back to login">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
+          <path d="M15 18l-6-6 6-6" />
+        </svg>
+      </Link>
+      <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+        <div className="hero-panel p-8 sm:p-10">
+          <p className="field-label text-[#d6e3ff]">Recovery Flow</p>
+          <h1 className="editorial-title mt-4 text-4xl font-semibold">Recover access without losing your travel workspace.</h1>
+          <p className="mt-4 max-w-md text-sm leading-7 text-[#d6e3ff]">
+            Verify your email, confirm the code, and set a new password to get back to your saved journeys.
+          </p>
+        </div>
       </div>
 
       <div className="mx-auto w-full max-w-xl soft-panel p-7 sm:p-10">
