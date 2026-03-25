@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import ProtectedRoute from './components/ProtectedRoute'
 import { useAuth } from './context/useAuth'
@@ -11,12 +11,14 @@ import ForgotPassword from './pages/ForgotPassword'
 
 function App() {
   const { token } = useAuth()
+  const location = useLocation()
+  const hideNavbar = ['/login', '/signup', '/forgot-password', '/create-trip'].includes(location.pathname)
 
   return (
     <div className="min-h-screen bg-brand-surface">
-      <div className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(circle_at_10%_0%,rgba(253,160,85,0.12),transparent_26%),radial-gradient(circle_at_95%_0%,rgba(1,45,29,0.12),transparent_34%)]" />
-      <Navbar />
-      <main className="mx-auto w-full max-w-6xl px-6 py-8 sm:px-7 lg:px-8">
+      <div className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(circle_at_10%_0%,rgba(90,248,251,0.16),transparent_22%),radial-gradient(circle_at_95%_0%,rgba(0,30,67,0.14),transparent_32%)]" />
+      {hideNavbar ? null : <Navbar />}
+      <main className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <Routes>
           <Route path="/login" element={token ? <Navigate to="/dashboard" replace /> : <Login />} />
           <Route path="/signup" element={token ? <Navigate to="/dashboard" replace /> : <Signup />} />

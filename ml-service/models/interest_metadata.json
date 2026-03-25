@@ -1,0 +1,30 @@
+{
+  "classes": [
+    "adventure",
+    "art",
+    "beaches",
+    "culture",
+    "food",
+    "history",
+    "nature",
+    "nightlife",
+    "shopping",
+    "sports"
+  ],
+  "threshold": 0.35,
+  "labeled_rows": 5436,
+  "class_counts": {
+    "adventure": 773,
+    "art": 1813,
+    "beaches": 183,
+    "culture": 1711,
+    "food": 1798,
+    "history": 2308,
+    "nature": 2104,
+    "nightlife": 154,
+    "shopping": 582,
+    "sports": 942
+  },
+  "micro_f1": 0.8186528497409327,
+  "macro_f1": 0.7596889649132355
+}

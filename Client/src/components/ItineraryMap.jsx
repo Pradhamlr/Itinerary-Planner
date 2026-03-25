@@ -6,7 +6,7 @@ const DAY_COLORS = ['#1E88E5', '#43A047', '#E53935', '#FB8C00', '#8E24AA']
 
 const containerStyle = {
   width: '100%',
-  height: '460px',
+  height: '560px',
 }
 
 function getRouteCenter(itinerary) {

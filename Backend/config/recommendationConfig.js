@@ -6,6 +6,9 @@ const recommendationConfig = {
   placesPerDay: Number(process.env.PLACES_PER_DAY || 4),
   minAttractionRating: Number(process.env.MIN_ATTRACTION_RATING || 4.2),
   minAttractionReviews: Number(process.env.MIN_ATTRACTION_REVIEWS || 500),
+  explorationAttractionRating: Number(process.env.EXPLORATION_ATTRACTION_RATING || 3.9),
+  explorationAttractionReviews: Number(process.env.EXPLORATION_ATTRACTION_REVIEWS || 100),
+  explorationPoolMultiplier: Number(process.env.EXPLORATION_POOL_MULTIPLIER || 3),
   popularityGatePrimary: Number(process.env.POPULARITY_GATE_PRIMARY || 7.8),
   popularityGateFallback: Number(process.env.POPULARITY_GATE_FALLBACK || 7.5),
   popularityGateMinResults: Number(process.env.POPULARITY_GATE_MIN_RESULTS || 120),
@@ -14,7 +17,7 @@ const recommendationConfig = {
   minRestaurantReviews: Number(process.env.MIN_RESTAURANT_REVIEWS || 300),
   restaurantPoolLimit: Number(process.env.RESTAURANT_POOL_LIMIT || 80),
   restaurantSampleSize: Number(process.env.RESTAURANT_SAMPLE_SIZE || 20),
-  restaurantReturnCount: Number(process.env.RESTAURANT_RETURN_COUNT || 8),
+  restaurantReturnCount: Number(process.env.RESTAURANT_RETURN_COUNT || 10),
   mlFallbackScore: Number(process.env.ML_FALLBACK_SCORE || 0.5),
 }
 

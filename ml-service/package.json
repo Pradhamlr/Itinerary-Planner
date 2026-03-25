@@ -7,6 +7,7 @@
     "dev": "..\\.venv\\Scripts\\python.exe -m uvicorn app:app --host 0.0.0.0 --port 8000 --reload",
     "start": "..\\.venv\\Scripts\\python.exe -m uvicorn app:app --host 0.0.0.0 --port 8000",
     "train": "..\\.venv\\Scripts\\python.exe train_pipeline.py",
-    "health": "..\\.venv\\Scripts\\python.exe -c \"import app; app.load_models(); print(app.health())\""
+    "health": "..\\.venv\\Scripts\\python.exe -c \"import app; app.load_models(); print(app.health())\"",
+    "interest:sample": "..\\.venv\\Scripts\\python.exe create_interest_validation_candidates.py"
   }
 }

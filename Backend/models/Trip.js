@@ -20,6 +20,14 @@ const savedPlaceSchema = new mongoose.Schema(
     must_see_boost: Number,
     final_score: Number,
     explanation_tags: [String],
+    why_recommended: [String],
+    interest_match_details: {
+      manual_type_match: Number,
+      ml_interest_match: Number,
+      keyword_match: Number,
+      matched_interests: [String],
+    },
+    inferred_interest_tags: [String],
     travel_time_from_start: String,
     travel_time_to_next: String,
     return_travel_time_to_start: String,
@@ -36,6 +44,7 @@ const savedPlaceSchema = new mongoose.Schema(
 const itineraryDaySchema = new mongoose.Schema(
   {
     day: Number,
+    day_title: String,
     date: String,
     start_location: {
       place_id: String,
@@ -63,6 +72,8 @@ const itineraryDaySchema = new mongoose.Schema(
       type: [new mongoose.Schema(
         {
           type: String,
+          highlight_label: String,
+          near_stop_label: String,
           restaurant: savedPlaceSchema,
         },
         { _id: false }
@@ -84,6 +95,14 @@ const recommendationSnapshotSchema = new mongoose.Schema(
       default: Date.now,
     },
     attractions: {
+      type: [savedPlaceSchema],
+      default: [],
+    },
+    masterAttractionPool: {
+      type: [savedPlaceSchema],
+      default: [],
+    },
+    replacementAttractionPool: {
       type: [savedPlaceSchema],
       default: [],
     },

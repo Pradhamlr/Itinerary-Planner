@@ -18,6 +18,8 @@ exports.getRecommendationsByTrip = async (req, res) => {
 
     await TripService.saveRecommendationSnapshot(tripId, userId, {
       attractions: recommendations.attractions,
+      masterAttractionPool: recommendations.masterAttractionPool || [],
+      replacementAttractionPool: recommendations.replacementAttractionPool || [],
       restaurants: recommendations.restaurants,
       metadata: responseMetadata,
     });

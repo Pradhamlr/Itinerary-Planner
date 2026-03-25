@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const Place = require('../models/Place');
 
-const CORE_COLUMNS = ['name', 'category', 'rating', 'review', 'city', 'lat', 'lng'];
+const CORE_COLUMNS = ['name', 'category', 'types', 'rating', 'review', 'city', 'lat', 'lng'];
 const ENRICHED_COLUMNS = ['review_count', 'review_avg_rating', 'user_ratings_total'];
 
 const connectDB = async () => {
@@ -116,6 +116,7 @@ const exportDataset = async () => {
       const row = [
         escapeCsv(place.name || 'Unknown'),
         escapeCsv(category),
+        escapeCsv(Array.isArray(place.types) ? place.types.join(' | ') : ''),
         rating,
         escapeCsv(reviewText),
         escapeCsv(place.city || 'unknown'),

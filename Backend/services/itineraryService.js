@@ -606,7 +606,12 @@ function buildMealSuggestions(route, restaurants) {
       .sort((a, b) => haversineDistance(midpoint, a) - haversineDistance(midpoint, b))[0] || null;
 
     if (lunchRestaurant) {
-      suggestions.push({ type: 'Lunch', restaurant: lunchRestaurant });
+      suggestions.push({
+        type: 'Lunch',
+        restaurant: lunchRestaurant,
+        highlight_label: 'Great for lunch',
+        near_stop_label: `Near stop ${Math.floor(route.length / 2) + 1}`,
+      });
     }
   }
 
@@ -617,7 +622,12 @@ function buildMealSuggestions(route, restaurants) {
       .sort((a, b) => haversineDistance(finalStop, a) - haversineDistance(finalStop, b))[0] || null;
 
     if (dinnerRestaurant) {
-      suggestions.push({ type: 'Dinner', restaurant: dinnerRestaurant });
+      suggestions.push({
+        type: 'Dinner',
+        restaurant: dinnerRestaurant,
+        highlight_label: 'Good dinner finish',
+        near_stop_label: `Near stop ${route.length}`,
+      });
     }
   }
 
@@ -760,6 +770,251 @@ function getStartLocation(trip) {
     : null;
 }
 
+function buildDayTitle(dayNumber, stats) {
+  const travelMinutes = Number(stats?.total_travel_minutes || 0);
+  const stopCount = Number(stats?.stop_count || 0);
+
+  let descriptor = 'Balanced Discovery';
+  if (travelMinutes <= 45 && stopCount <= 3) {
+    descriptor = 'Relaxed & Nearby';
+  } else if (travelMinutes <= 75 && stopCount <= 4) {
+    descriptor = 'Balanced Highlights';
+  } else if (travelMinutes <= 120) {
+    descriptor = 'Exploration Day';
+  } else {
+    descriptor = 'Big Adventure Day';
+  }
+
+  return `Day ${dayNumber} - ${descriptor}`;
+}
+
+function getThemeBucket(place) {
+  const types = Array.isArray(place?.types) ? place.types.map((type) => String(type).toLowerCase()) : [];
+
+  if (types.some((type) => ['church', 'temple', 'hindu_temple', 'mosque', 'synagogue'].includes(type))) {
+    return 'religious';
+  }
+  if (types.some((type) => ['museum', 'historical_landmark', 'monument'].includes(type))) {
+    return 'history';
+  }
+  if (types.some((type) => ['beach', 'park', 'zoo', 'aquarium', 'natural_feature', 'amusement_park'].includes(type))) {
+    return 'nature';
+  }
+  if (types.some((type) => ['art_gallery'].includes(type))) {
+    return 'art';
+  }
+  if (types.some((type) => ['tourist_attraction', 'landmark'].includes(type))) {
+    return 'landmark';
+  }
+
+  return 'other';
+}
+
+function getExcludedPlaceIdsByDay(metadata, dayNumber) {
+  const perDay = metadata?.excluded_place_ids_by_day || {};
+  const dayKey = String(dayNumber);
+  return new Set(Array.isArray(perDay[dayKey]) ? perDay[dayKey] : []);
+}
+
+function withExcludedPlaceIdsByDay(metadata, dayNumber, placeIds) {
+  const perDay = {
+    ...(metadata?.excluded_place_ids_by_day || {}),
+  };
+  perDay[String(dayNumber)] = [...new Set((placeIds || []).filter(Boolean))];
+
+  return {
+    ...(metadata || {}),
+    excluded_place_ids_by_day: perDay,
+  };
+}
+
+async function getReplacementRecommendationSource(trip) {
+  const snapshot = trip?.recommendationSnapshot;
+  if (snapshot?.replacementAttractionPool?.length || snapshot?.masterAttractionPool?.length) {
+    return {
+      source: snapshot?.replacementAttractionPool?.length
+        ? 'recommendation-snapshot-replacement-pool'
+        : 'recommendation-snapshot-master-pool',
+      attractions: (snapshot.replacementAttractionPool || snapshot.masterAttractionPool || [])
+        .map(normalizeSavedPlace)
+        .filter(isValidPlaceEntry),
+      restaurants: (snapshot.restaurants || []).map(normalizeSavedPlace).filter(isValidPlaceEntry),
+      metadata: snapshot.metadata || {},
+    };
+  }
+
+  const freshRecommendation = await RecommendationService.getRecommendationsForTrip(trip);
+  return {
+    source: (freshRecommendation.replacementAttractionPool || []).length > 0
+      ? 'fresh-recommendation-replacement-pool'
+      : 'fresh-recommendation-master-pool',
+    attractions: (freshRecommendation.replacementAttractionPool || freshRecommendation.masterAttractionPool || freshRecommendation.attractions || [])
+      .map(normalizeSavedPlace)
+      .filter(isValidPlaceEntry),
+    restaurants: (freshRecommendation.restaurants || []).map(normalizeSavedPlace).filter(isValidPlaceEntry),
+    metadata: freshRecommendation.metadata || {},
+  };
+}
+
+async function getFreshReplacementRecommendationSource(trip) {
+  const freshRecommendation = await RecommendationService.getRecommendationsForTrip(trip);
+  return {
+    source: (freshRecommendation.replacementAttractionPool || []).length > 0
+      ? 'fresh-recommendation-replacement-pool'
+      : 'fresh-recommendation-master-pool',
+    attractions: (freshRecommendation.replacementAttractionPool || freshRecommendation.masterAttractionPool || freshRecommendation.attractions || [])
+      .map(normalizeSavedPlace)
+      .filter(isValidPlaceEntry),
+    restaurants: (freshRecommendation.restaurants || []).map(normalizeSavedPlace).filter(isValidPlaceEntry),
+    metadata: freshRecommendation.metadata || {},
+  };
+}
+
+async function getItineraryRecommendationSource(trip) {
+  const snapshot = trip?.recommendationSnapshot;
+  const snapshotAttractions = (snapshot?.attractions || [])
+    .map(normalizeSavedPlace)
+    .filter(isValidPlaceEntry);
+  const snapshotRestaurants = (snapshot?.restaurants || [])
+    .map(normalizeSavedPlace)
+    .filter(isValidPlaceEntry);
+
+  if (snapshotAttractions.length > 0) {
+    return {
+      source: 'recommendation-snapshot-visible-attractions',
+      attractions: snapshotAttractions,
+      restaurants: snapshotRestaurants,
+      metadata: snapshot.metadata || {},
+    };
+  }
+
+  const freshRecommendation = await RecommendationService.getRecommendationsForTrip(trip);
+  return {
+    source: 'fresh-recommendation-run',
+    attractions: (freshRecommendation.attractions || []).map(normalizeSavedPlace).filter(isValidPlaceEntry),
+    restaurants: (freshRecommendation.restaurants || []).map(normalizeSavedPlace).filter(isValidPlaceEntry),
+    metadata: freshRecommendation.metadata || {},
+  };
+}
+
+function getUsedMealRestaurantIds(itineraryDays = [], excludeDayNumber = null) {
+  return new Set(
+    (itineraryDays || [])
+      .filter((day) => day.day !== excludeDayNumber)
+      .flatMap((day) => day.meal_suggestions || [])
+      .map((meal) => meal?.restaurant?.place_id)
+      .filter(Boolean),
+  );
+}
+
+function buildSwapCandidates(sourcePlaces, options) {
+  const {
+    occupiedPlaceIds = new Set(),
+    excludedPlaceIds = new Set(),
+    originalPlace,
+    targetCenter,
+    limit = 3,
+    tripInterests = [],
+  } = options;
+
+  const originalTheme = getThemeBucket(originalPlace);
+  const originalTypes = Array.isArray(originalPlace?.types) ? originalPlace.types.map((type) => String(type).toLowerCase()) : [];
+  const originalPrimaryType = originalTypes[0] || String(originalPlace?.category || '').toLowerCase().replace(/\s+/g, '_');
+  const originalRating = Number(originalPlace?.rating || 0);
+  const baseCandidates = dedupeByPlaceId(
+    sourcePlaces.filter((place) =>
+      !occupiedPlaceIds.has(place.place_id)
+      && !excludedPlaceIds.has(place.place_id)
+      && place.place_id !== originalPlace?.place_id,
+    ),
+  );
+
+  const strictCandidates = baseCandidates.filter((place) => {
+    const placeTypes = Array.isArray(place?.types) ? place.types.map((type) => String(type).toLowerCase()) : [];
+    const samePrimaryType = originalPrimaryType && placeTypes.includes(originalPrimaryType);
+    const sameTheme = getThemeBucket(place) === originalTheme;
+    const similarRating = Math.abs(Number(place.rating || 0) - originalRating) <= 0.5;
+    return (samePrimaryType || sameTheme) && similarRating;
+  });
+  const mediumCandidates = baseCandidates.filter((place) => {
+    const placeTypes = Array.isArray(place?.types) ? place.types.map((type) => String(type).toLowerCase()) : [];
+    const samePrimaryType = originalPrimaryType && placeTypes.includes(originalPrimaryType);
+    const sameTheme = getThemeBucket(place) === originalTheme;
+    const similarRating = Math.abs(Number(place.rating || 0) - originalRating) <= 0.8;
+    return samePrimaryType || sameTheme || similarRating;
+  });
+
+  const candidateSource = strictCandidates.length >= limit
+    ? strictCandidates
+    : mediumCandidates.length > 0
+      ? mediumCandidates
+      : baseCandidates;
+  const popularityValues = candidateSource.map((place) => Math.log((Number(place.user_ratings_total) || 0) + 1));
+  const maxPopularity = Math.max(...popularityValues, 1);
+  const normalizedInterests = Array.isArray(tripInterests) ? tripInterests.map((interest) => String(interest).toLowerCase()) : [];
+
+  return candidateSource
+    .map((place) => {
+      const placeTypes = Array.isArray(place?.types) ? place.types.map((type) => String(type).toLowerCase()) : [];
+      const samePrimaryType = originalPrimaryType && placeTypes.includes(originalPrimaryType);
+      const sameTheme = getThemeBucket(place) === originalTheme;
+      const normalizedRating = Math.min(1, Math.max(0, Number(place.rating || 0) / 5));
+      const popularityScore = Math.log((Number(place.user_ratings_total) || 0) + 1) / maxPopularity;
+      const inferredTags = Array.isArray(place.inferred_interest_tags)
+        ? place.inferred_interest_tags.map((tag) => String(tag).toLowerCase())
+        : [];
+      const interestOverlapCount = normalizedInterests.filter((interest) =>
+        inferredTags.includes(interest) || placeTypes.includes(interest),
+      ).length;
+      const interestOverlap = normalizedInterests.length > 0 ? interestOverlapCount / normalizedInterests.length : 0;
+      const diversityBoost = samePrimaryType ? 1 : sameTheme ? 0.7 : 0.4;
+      const distanceKm = isValidPoint(targetCenter) ? haversineDistance(place, targetCenter) : 0;
+      const score = (normalizedRating * 0.4)
+        + (popularityScore * 0.3)
+        + (interestOverlap * 0.2)
+        + (diversityBoost * 0.1)
+        - (Math.min(distanceKm, 20) / 120);
+
+      let swapMatchReason = 'Strong alternative';
+      if (samePrimaryType && sameTheme) {
+        swapMatchReason = 'Most similar match';
+      } else if (samePrimaryType) {
+        swapMatchReason = 'Same kind of stop';
+      } else if (sameTheme) {
+        swapMatchReason = 'Similar vibe nearby';
+      } else if (interestOverlap > 0) {
+        swapMatchReason = 'Matches your trip vibe';
+      }
+
+      return {
+        ...place,
+        swap_match_reason: swapMatchReason,
+        swap_score: roundTo(score, 4),
+      };
+    })
+    .sort((first, second) => second.swap_score - first.swap_score)
+    .slice(0, limit);
+}
+
+function buildSwapCandidateUniverse(sourcePlaces, options) {
+  const {
+    occupiedPlaceIds = new Set(),
+    excludedPlaceIds = new Set(),
+    originalPlace,
+    targetCenter,
+    tripInterests = [],
+  } = options;
+
+  return buildSwapCandidates(sourcePlaces, {
+    occupiedPlaceIds,
+    excludedPlaceIds,
+    originalPlace,
+    targetCenter,
+    limit: Math.max(50, sourcePlaces.length),
+    tripInterests,
+  });
+}
+
 async function buildDayPlan(cluster, index, dayDate, startLocation, restaurants, lockedPlaceIds = new Set(), lockedPlaces = []) {
   const normalizedCluster = cluster.filter(isValidPlaceEntry);
   const originalCenter = getClusterCenter(normalizedCluster);
@@ -798,6 +1053,7 @@ async function buildDayPlan(cluster, index, dayDate, startLocation, restaurants,
   return {
     dayPlan: {
       day: index + 1,
+      day_title: buildDayTitle(index + 1, finalStats),
       date: dayDate.toISOString(),
       route: finalRoute,
       center: finalCenter,
@@ -813,7 +1069,7 @@ async function buildDayPlan(cluster, index, dayDate, startLocation, restaurants,
 
 class ItineraryService {
   static async generateItinerary(trip) {
-    const recommendation = await RecommendationService.getRecommendationsForTrip(trip);
+    const recommendation = await getItineraryRecommendationSource(trip);
     const attractions = recommendation.attractions || [];
     const clusters = clusterAttractions(attractions, trip.days);
     const baseDate = getTripBaseDate(trip);
@@ -822,6 +1078,7 @@ class ItineraryService {
 
     const itinerary = [];
     let carryForwardPlaces = [];
+    const usedMealRestaurantIds = new Set();
 
     for (let index = 0; index < clusters.length; index += 1) {
       const clusterCenter = clusterCenters[index];
@@ -830,16 +1087,24 @@ class ItineraryService {
         ...stickyCarryForwardPlaces,
         ...clusters[index],
       ];
+      const availableRestaurants = (recommendation.restaurants || []).filter(
+        (restaurant) => !usedMealRestaurantIds.has(restaurant.place_id),
+      );
       const dayDate = getDateForDay(baseDate, index);
       const { dayPlan, overflow } = await buildDayPlan(
         cluster,
         index,
         dayDate,
         startLocation,
-        recommendation.restaurants || [],
+        availableRestaurants.length > 0 ? availableRestaurants : (recommendation.restaurants || []),
         new Set(),
         [],
       );
+      (dayPlan.meal_suggestions || []).forEach((meal) => {
+        if (meal?.restaurant?.place_id) {
+          usedMealRestaurantIds.add(meal.restaurant.place_id);
+        }
+      });
       carryForwardPlaces = [
         ...carryForwardPlaces.filter((place) => !stickyCarryForwardPlaces.some((carryPlace) => carryPlace.place_id === place.place_id)),
         ...overflow,
@@ -862,7 +1127,7 @@ class ItineraryService {
       unscheduled_places: unscheduledPlaces.length,
       max_day_travel_minutes: MAX_DAY_TRAVEL_MINUTES,
       max_day_total_minutes: MAX_DAY_TOTAL_MINUTES,
-      recommendation_source: 'fresh-recommendation-run',
+      recommendation_source: recommendation.source,
     });
 
     return {
@@ -870,7 +1135,7 @@ class ItineraryService {
       restaurants: recommendation.restaurants || [],
       metadata: {
         ...(recommendation.metadata || {}),
-        recommendation_source: 'fresh-recommendation-run',
+        recommendation_source: recommendation.source,
         trip_start_date: baseDate.toISOString(),
         routing_mode: itinerary[0]?.routing_mode || 'none',
         start_location_enabled: Boolean(startLocation),
@@ -898,7 +1163,7 @@ class ItineraryService {
       throw new Error('Requested itinerary day not found');
     }
 
-    const recommendation = await RecommendationService.getRecommendationsForTrip(trip);
+    const recommendation = await getReplacementRecommendationSource(trip);
     const startLocation = getStartLocation(trip);
     const baseDate = getTripBaseDate(trip);
     const dayDate = targetDay.date ? new Date(targetDay.date) : getDateForDay(baseDate, parsedDayNumber - 1);
@@ -925,6 +1190,11 @@ class ItineraryService {
         .map((place) => place.place_id)
         .filter(Boolean),
     );
+    const excludedPlaceIds = getExcludedPlaceIdsByDay(existingSnapshot.metadata, parsedDayNumber);
+    const reservedMealRestaurantIds = getUsedMealRestaurantIds(existingSnapshot.itinerary || [], parsedDayNumber);
+    const availableRestaurants = (recommendation.restaurants || []).filter(
+      (restaurant) => !reservedMealRestaurantIds.has(restaurant.place_id),
+    );
 
     const baseReplacementSource = dedupeByPlaceId(
       (recommendation.attractions || []).filter((place) =>
@@ -932,16 +1202,17 @@ class ItineraryService {
         && !sameDayUnlockedPlaceIds.has(place.place_id),
       ),
     );
+    const filteredReplacementSource = baseReplacementSource.filter((place) => !excludedPlaceIds.has(place.place_id));
 
     const stickyReplacementCandidates = filterPlacesNearCenter(
-      baseReplacementSource,
+      filteredReplacementSource,
       targetDayCenter,
       CLUSTER_STICKINESS_KM,
     );
 
     const refillCandidates = stickyReplacementCandidates.length > 0
       ? stickyReplacementCandidates
-      : baseReplacementSource;
+      : filteredReplacementSource;
 
     const refillPlaces = refillCandidates.slice(0, Math.max(0, desiredStops - lockedPlaces.length));
 
@@ -955,7 +1226,7 @@ class ItineraryService {
       parsedDayNumber - 1,
       dayDate,
       startLocation,
-      recommendation.restaurants || [],
+      availableRestaurants.length > 0 ? availableRestaurants : (recommendation.restaurants || []),
       lockedPlaceIds,
       lockedPlaces,
     );
@@ -963,13 +1234,19 @@ class ItineraryService {
     const updatedItinerary = (existingSnapshot.itinerary || []).map((day) => (
       day.day === parsedDayNumber ? dayPlan : day
     ));
+    const nextExcludedPlaceIds = new Set([
+      ...excludedPlaceIds,
+      ...sameDayUnlockedPlaceIds,
+    ]);
+    const updatedMetadata = withExcludedPlaceIdsByDay(existingSnapshot.metadata, parsedDayNumber, [...nextExcludedPlaceIds]);
 
     logger.info('Itinerary day regenerated', {
       day: parsedDayNumber,
-      recommendation_source: 'fresh-recommendation-run',
-      regeneration_replacement_source: stickyReplacementCandidates.length > 0 ? 'sticky-fresh-candidates' : 'broad-fresh-candidates',
+      recommendation_source: recommendation.source,
+      regeneration_replacement_source: stickyReplacementCandidates.length > 0 ? 'sticky-master-candidates' : 'broad-master-candidates',
       locked_place_count: lockedPlaces.length,
       excluded_same_day_places: sameDayUnlockedPlaceIds.size,
+      excluded_day_memory_count: nextExcludedPlaceIds.size,
       target_day_center_lat: roundTo(targetDayCenter.lat, 4),
       target_day_center_lng: roundTo(targetDayCenter.lng, 4),
       refill_candidate_count: refillCandidates.length,
@@ -980,7 +1257,7 @@ class ItineraryService {
       itinerary: updatedItinerary,
       restaurants: recommendation.restaurants || existingSnapshot.restaurants || [],
       metadata: {
-        ...(existingSnapshot.metadata || {}),
+        ...updatedMetadata,
         ...(recommendation.metadata || {}),
         trip_start_date: baseDate.toISOString(),
         routing_mode: updatedItinerary[0]?.routing_mode || 'none',
@@ -991,10 +1268,168 @@ class ItineraryService {
         max_day_total_minutes: MAX_DAY_TOTAL_MINUTES,
         supports_day_regeneration: true,
         supports_locked_places: true,
-        recommendation_source: 'fresh-recommendation-run',
-        regeneration_replacement_source: stickyReplacementCandidates.length > 0 ? 'sticky-fresh-candidates' : 'broad-fresh-candidates',
+        supports_place_swaps: true,
+        recommendation_source: recommendation.source,
+        regeneration_replacement_source: stickyReplacementCandidates.length > 0 ? 'sticky-master-candidates' : 'broad-master-candidates',
         excluded_same_day_places: sameDayUnlockedPlaceIds.size,
         previous_day_place_count: currentDayPlaceIds.size,
+      },
+    };
+  }
+
+  static async getSwapSuggestions(trip, dayNumber, placeId) {
+    const parsedDayNumber = Number(dayNumber);
+    const existingSnapshot = trip.itinerarySnapshot;
+
+    if (!existingSnapshot?.itinerary?.length) {
+      throw new Error('Generate a full itinerary before swapping a place');
+    }
+
+    const targetDay = existingSnapshot.itinerary.find((day) => day.day === parsedDayNumber);
+    if (!targetDay) {
+      throw new Error('Requested itinerary day not found');
+    }
+
+    const originalPlace = (targetDay.route || []).find((place) => place.place_id === placeId);
+    if (!originalPlace) {
+      throw new Error('Requested place not found in this itinerary day');
+    }
+
+    const recommendation = await getReplacementRecommendationSource(trip);
+    const targetDayCenter = targetDay.center && Number.isFinite(Number(targetDay.center.lat)) && Number.isFinite(Number(targetDay.center.lng))
+      ? { lat: Number(targetDay.center.lat), lng: Number(targetDay.center.lng) }
+      : getClusterCenter((targetDay.route || []).filter(isValidPlaceEntry));
+    const occupiedPlaceIds = new Set(
+      (existingSnapshot.itinerary || [])
+        .flatMap((day) => day.route || [])
+        .map((place) => place.place_id),
+    );
+    occupiedPlaceIds.delete(placeId);
+    const excludedPlaceIds = getExcludedPlaceIdsByDay(existingSnapshot.metadata, parsedDayNumber);
+
+    let suggestions = buildSwapCandidates(recommendation.attractions || [], {
+      occupiedPlaceIds,
+      excludedPlaceIds,
+      originalPlace,
+      targetCenter: targetDayCenter,
+      limit: 3,
+      tripInterests: trip.interests || [],
+    });
+
+    let recommendationSource = recommendation.source;
+    if (suggestions.length === 0) {
+      const freshRecommendation = await getFreshReplacementRecommendationSource(trip);
+      suggestions = buildSwapCandidates(freshRecommendation.attractions || [], {
+        occupiedPlaceIds,
+        excludedPlaceIds,
+        originalPlace,
+        targetCenter: targetDayCenter,
+        limit: 3,
+        tripInterests: trip.interests || [],
+      });
+      recommendationSource = `${recommendation.source}->${freshRecommendation.source}`;
+    }
+
+    logger.info('Swap suggestions prepared', {
+      day: parsedDayNumber,
+      place_id: placeId,
+      suggestion_count: suggestions.length,
+      recommendation_source: recommendationSource,
+      original_place_type: originalPlace.category || originalPlace.types?.[0] || 'place',
+    });
+
+    return {
+      day: parsedDayNumber,
+      place: originalPlace,
+      suggestions,
+      metadata: {
+        recommendation_source: recommendationSource,
+        excluded_day_memory_count: excludedPlaceIds.size,
+      },
+    };
+  }
+
+  static async swapPlaceInDay(trip, dayNumber, placeId, replacementPlaceId) {
+    const parsedDayNumber = Number(dayNumber);
+    const existingSnapshot = trip.itinerarySnapshot;
+
+    if (!existingSnapshot?.itinerary?.length) {
+      throw new Error('Generate a full itinerary before swapping a place');
+    }
+
+    const targetDay = existingSnapshot.itinerary.find((day) => day.day === parsedDayNumber);
+    if (!targetDay) {
+      throw new Error('Requested itinerary day not found');
+    }
+
+    const originalPlace = (targetDay.route || []).find((place) => place.place_id === placeId);
+    if (!originalPlace) {
+      throw new Error('Requested place not found in this itinerary day');
+    }
+
+    if (originalPlace.locked) {
+      throw new Error('Unlock this place before swapping it');
+    }
+
+    const recommendation = await getReplacementRecommendationSource(trip);
+    const targetDayCenter = targetDay.center && Number.isFinite(Number(targetDay.center.lat)) && Number.isFinite(Number(targetDay.center.lng))
+      ? { lat: Number(targetDay.center.lat), lng: Number(targetDay.center.lng) }
+      : getClusterCenter((targetDay.route || []).filter(isValidPlaceEntry));
+    const occupiedPlaceIds = new Set(
+      (existingSnapshot.itinerary || [])
+        .flatMap((day) => day.route || [])
+        .map((place) => place.place_id),
+    );
+    occupiedPlaceIds.delete(placeId);
+    const excludedPlaceIds = getExcludedPlaceIdsByDay(existingSnapshot.metadata, parsedDayNumber);
+
+    let suggestionUniverse = buildSwapCandidateUniverse(recommendation.attractions || [], {
+      occupiedPlaceIds,
+      excludedPlaceIds,
+      originalPlace,
+      targetCenter: targetDayCenter,
+      tripInterests: trip.interests || [],
+    });
+
+    let recommendationSource = recommendation.source;
+    if (suggestionUniverse.length === 0) {
+      const freshRecommendation = await getFreshReplacementRecommendationSource(trip);
+      suggestionUniverse = buildSwapCandidateUniverse(freshRecommendation.attractions || [], {
+        occupiedPlaceIds,
+        excludedPlaceIds,
+        originalPlace,
+        targetCenter: targetDayCenter,
+        tripInterests: trip.interests || [],
+      });
+      recommendationSource = `${recommendation.source}->${freshRecommendation.source}`;
+    }
+
+    const replacement = suggestionUniverse.find((place) => place.place_id === replacementPlaceId);
+    if (!replacement) {
+      throw new Error('Requested replacement is no longer available');
+    }
+
+    const reorderedRoute = (targetDay.route || []).map((place) => (
+      place.place_id === placeId
+        ? { ...replacement, locked: false }
+        : place
+    ));
+
+    const recalculated = await this.recalculateDayOrder(trip, parsedDayNumber, reorderedRoute);
+    const updatedExcludedPlaceIds = new Set([
+      ...excludedPlaceIds,
+      placeId,
+    ]);
+
+    return {
+      ...recalculated,
+      metadata: {
+        ...(recalculated.metadata || {}),
+        ...withExcludedPlaceIdsByDay(recalculated.metadata, parsedDayNumber, [...updatedExcludedPlaceIds]),
+        swapped_day: parsedDayNumber,
+        swapped_out_place_id: placeId,
+        swapped_in_place_id: replacementPlaceId,
+        recommendation_source: recommendationSource,
       },
     };
   }
@@ -1018,11 +1453,19 @@ class ItineraryService {
     const lockedPlaceIds = new Set((reorderedRoute || []).filter((place) => place.locked).map((place) => place.place_id));
     const { route, routingMode } = await buildOrderedRouteWithTimings(reorderedRoute || [], startLocation);
     const orderedRoute = applyLockedFlags(assignTimeSlotsPreservingOrder(route, dayDate), lockedPlaceIds);
-    const mealSuggestions = buildMealSuggestions(orderedRoute, existingSnapshot.restaurants || []);
+    const reservedMealRestaurantIds = getUsedMealRestaurantIds(existingSnapshot.itinerary || [], parsedDayNumber);
+    const availableRestaurants = (existingSnapshot.restaurants || []).filter(
+      (restaurant) => !reservedMealRestaurantIds.has(restaurant.place_id),
+    );
+    const mealSuggestions = buildMealSuggestions(
+      orderedRoute,
+      availableRestaurants.length > 0 ? availableRestaurants : (existingSnapshot.restaurants || []),
+    );
     const stats = buildDayStats(orderedRoute, mealSuggestions);
     const updatedDay = {
       ...targetDay,
       day: parsedDayNumber,
+      day_title: buildDayTitle(parsedDayNumber, stats),
       date: dayDate.toISOString(),
       route: orderedRoute,
       center: getClusterCenter(orderedRoute),

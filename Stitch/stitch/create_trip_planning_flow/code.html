@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Create New Trip - Voyager</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-tertiary-fixed": "#00201e",
+              "on-tertiary-fixed-variant": "#00504c",
+              "surface-variant": "#e1e3e4",
+              "primary-fixed-dim": "#a9c7ff",
+              "surface-container-lowest": "#ffffff",
+              "secondary": "#00696b",
+              "tertiary-fixed-dim": "#59dad1",
+              "on-secondary-container": "#006e70",
+              "inverse-primary": "#a9c7ff",
+              "tertiary-container": "#002321",
+              "surface-container-highest": "#e1e3e4",
+              "background": "#f8f9fa",
+              "on-error-container": "#93000a",
+              "error-container": "#ffdad6",
+              "inverse-on-surface": "#f0f1f2",
+              "surface-tint": "#405f91",
+              "on-primary-container": "#6887bc",
+              "tertiary-fixed": "#79f6ed",
+              "on-primary-fixed": "#001b3d",
+              "on-secondary-fixed": "#002020",
+              "primary-fixed": "#d6e3ff",
+              "tertiary": "#000606",
+              "outline-variant": "#c4c6cf",
+              "primary": "#000514",
+              "surface-dim": "#d9dadb",
+              "on-tertiary": "#ffffff",
+              "surface": "#f8f9fa",
+              "inverse-surface": "#2e3132",
+              "on-primary-fixed-variant": "#264778",
+              "on-error": "#ffffff",
+              "secondary-fixed": "#5af8fb",
+              "on-secondary-fixed-variant": "#004f51",
+              "surface-container-low": "#f3f4f5",
+              "error": "#ba1a1a",
+              "secondary-container": "#56f5f8",
+              "primary-container": "#001e43",
+              "surface-bright": "#f8f9fa",
+              "secondary-fixed-dim": "#2ddbde",
+              "surface-container": "#edeeef",
+              "on-secondary": "#ffffff",
+              "surface-container-high": "#e7e8e9",
+              "on-surface": "#191c1d",
+              "on-background": "#191c1d",
+              "outline": "#74777f",
+              "on-tertiary-container": "#00968f",
+              "on-surface-variant": "#43474e",
+              "on-primary": "#ffffff"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .step-active { width: 25%; transition: width 0.5s ease-in-out; }
+        .glass-morphism {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface antialiased">
+<!-- Top Navigation Suppression: Linear Task Focus implies no global nav cluster -->
+<header class="fixed top-0 w-full z-50 bg-slate-50/70 backdrop-blur-xl shadow-sm h-16 flex items-center justify-between px-6">
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-slate-100/50 rounded-full transition-colors active:scale-95 duration-200">
+<span class="material-symbols-outlined text-slate-500">close</span>
+</button>
+<span class="text-xl font-bold tracking-tight text-navy-950 font-headline">Voyager</span>
+</div>
+<div class="hidden md:flex items-center gap-2">
+<span class="text-xs font-medium text-slate-400 uppercase tracking-widest">Step 4 of 4</span>
+<div class="w-32 h-1 bg-slate-200 rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-full"></div>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<span class="hidden md:block text-sm font-medium text-slate-500">Draft saved</span>
+<div class="w-8 h-8 rounded-full bg-slate-200 overflow-hidden">
+<img alt="User avatar" data-alt="close up professional portrait of a smiling person with neutral studio lighting and clean background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBVf9DhKhNbTpXktJjQSxAVtWkkGsun3e0kclDJD_RjV-QJcldnkBxAHLJEFhTdRhoRFJV9IV11K1r2QD3Qni7d5pt2p0sv1bNpMVBrkp3aolsPmH8Tt41E5BN1-67rTWvlHdn7d0HVbkPRlf9tvFhptsrwriaHNdTpCIIC8pvRMXaY29zbPm_y0SDhrHzBSD7u73-twuH-zD0gRX6i6GTvs8NnRjELRHk7pETu4pcb5IvHJkOjXct-ITkNl_Q6v5SZBY7vuVTHHH8"/>
+</div>
+</div>
+</header>
+<main class="pt-24 pb-12 px-6 min-h-screen flex flex-col items-center">
+<!-- Progress Indicator for Mobile -->
+<div class="md:hidden w-full max-w-2xl mb-8">
+<div class="flex justify-between mb-2">
+<span class="text-xs font-bold text-secondary uppercase tracking-widest">Interests</span>
+<span class="text-xs font-bold text-slate-400">Step 4/4</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-full"></div>
+</div>
+</div>
+<div class="w-full max-w-4xl grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+<!-- Left Column: Context & Inspiration -->
+<div class="lg:col-span-5 space-y-8 sticky top-24">
+<div class="space-y-4">
+<h1 class="text-4xl font-extrabold tracking-tight text-primary font-headline leading-tight">
+                        What kind of <span class="text-secondary">vibe</span> are we chasing?
+                    </h1>
+<p class="text-on-surface-variant text-lg leading-relaxed">
+                        Select the interests that define this journey. We'll use these to curate exclusive itineraries and hidden gems just for you.
+                    </p>
+</div>
+<div class="relative rounded-2xl overflow-hidden aspect-[4/3] group shadow-2xl shadow-on-surface/5">
+<img alt="Travel inspiration" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="cinematic shot of a vintage turquoise van parked on a coastal cliff overlooking a turquoise ocean at sunset with warm hazy light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAhAvfrzmes-J0YQ1kFxZ7eIqZbnU3mGHeugFnkA8_M96_pI8Ll-nvWaUE7CiifF1rmZOo6THqVBDZf47GcuhdeG1jBsYwnnT3DZHkTHQkGQeh-c6C8gLRTlhQrxkY0w-iLifKAe0SUDnsdIHtfLEg7KmL5TpommSCVqVAowDoJpVdIeD2snxcRdyuQHY08b1cBSVxD7DFrcl6TBelM0NOTUoDzmsWhfq7hb1fEUs2nYEleeIFR9lT2OxgQJPVijxiRmzgGezr7Ehw"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 via-transparent to-transparent"></div>
+<div class="absolute bottom-6 left-6 right-6">
+<p class="text-white font-medium italic">"The real voyage of discovery consists not in seeking new landscapes, but in having new eyes."</p>
+</div>
+</div>
+</div>
+<!-- Right Column: The Focused Form -->
+<div class="lg:col-span-7 space-y-12">
+<!-- Multi-Step Form Container (Showing Step 4 Logic) -->
+<div class="space-y-10">
+<!-- Form Section: Interests -->
+<section class="space-y-6">
+<div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+<!-- Interest Chip: Beaches -->
+<button class="flex flex-col items-center justify-center p-6 gap-3 bg-secondary text-white rounded-xl transition-all shadow-lg shadow-secondary/20 ring-2 ring-secondary">
+<span class="material-symbols-outlined text-3xl" data-icon="beach_access">beach_access</span>
+<span class="font-medium text-sm tracking-wide">Beaches</span>
+</button>
+<!-- Interest Chip: Shopping -->
+<button class="flex flex-col items-center justify-center p-6 gap-3 bg-surface-container-lowest text-on-surface-variant rounded-xl border-none hover:bg-surface-container-high transition-all active:scale-95">
+<span class="material-symbols-outlined text-3xl" data-icon="shopping_bag">shopping_bag</span>
+<span class="font-medium text-sm tracking-wide">Shopping</span>
+</button>
+<!-- Interest Chip: Culture -->
+<button class="flex flex-col items-center justify-center p-6 gap-3 bg-secondary text-white rounded-xl transition-all shadow-lg shadow-secondary/20 ring-2 ring-secondary">
+<span class="material-symbols-outlined text-3xl" data-icon="museum">museum</span>
+<span class="font-medium text-sm tracking-wide">Culture</span>
+</button>
+<!-- Interest Chip: History -->
+<button class="flex flex-col items-center justify-center p-6 gap-3 bg-surface-container-lowest text-on-surface-variant rounded-xl border-none hover:bg-surface-container-high transition-all active:scale-95">
+<span class="material-symbols-outlined text-3xl" data-icon="account_balance">account_balance</span>
+<span class="font-medium text-sm tracking-wide">History</span>
+</button>
+<!-- Interest Chip: Nature -->
+<button class="flex flex-col items-center justify-center p-6 gap-3 bg-surface-container-lowest text-on-surface-variant rounded-xl border-none hover:bg-surface-container-high transition-all active:scale-95">
+<span class="material-symbols-outlined text-3xl" data-icon="park">park</span>
+<span class="font-medium text-sm tracking-wide">Nature</span>
+</button>
+<!-- Interest Chip: Food -->
+<button class="flex flex-col items-center justify-center p-6 gap-3 bg-surface-container-lowest text-on-surface-variant rounded-xl border-none hover:bg-surface-container-high transition-all active:scale-95">
+<span class="material-symbols-outlined text-3xl" data-icon="restaurant">restaurant</span>
+<span class="font-medium text-sm tracking-wide">Food</span>
+</button>
+<!-- Interest Chip: Nightlife -->
+<button class="flex flex-col items-center justify-center p-6 gap-3 bg-surface-container-lowest text-on-surface-variant rounded-xl border-none hover:bg-surface-container-high transition-all active:scale-95">
+<span class="material-symbols-outlined text-3xl" data-icon="nightlife">nightlife</span>
+<span class="font-medium text-sm tracking-wide">Nightlife</span>
+</button>
+<!-- Interest Chip: Art -->
+<button class="flex flex-col items-center justify-center p-6 gap-3 bg-surface-container-lowest text-on-surface-variant rounded-xl border-none hover:bg-surface-container-high transition-all active:scale-95">
+<span class="material-symbols-outlined text-3xl" data-icon="palette">palette</span>
+<span class="font-medium text-sm tracking-wide">Art</span>
+</button>
+<!-- Interest Chip: Adventure -->
+<button class="flex flex-col items-center justify-center p-6 gap-3 bg-secondary text-white rounded-xl transition-all shadow-lg shadow-secondary/20 ring-2 ring-secondary">
+<span class="material-symbols-outlined text-3xl" data-icon="hiking">hiking</span>
+<span class="font-medium text-sm tracking-wide">Adventure</span>
+</button>
+</div>
+</section>
+<!-- Summary Recap (Asymmetric Bento Element) -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="p-6 bg-surface-container-low rounded-2xl space-y-3">
+<span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Destination &amp; Dates</span>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary" data-icon="location_on">location_on</span>
+<p class="font-bold text-primary">Kyoto, Japan</p>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary" data-icon="calendar_month">calendar_month</span>
+<p class="text-sm text-on-surface-variant">Nov 12 — Nov 18, 2024</p>
+</div>
+</div>
+<div class="p-6 bg-surface-container-low rounded-2xl space-y-3">
+<span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Selected Budget</span>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary" data-icon="payments" style="font-variation-settings: 'FILL' 1;">payments</span>
+<span class="material-symbols-outlined text-secondary" data-icon="payments" style="font-variation-settings: 'FILL' 1;">payments</span>
+<span class="material-symbols-outlined text-slate-300" data-icon="payments">payments</span>
+<span class="ml-2 font-bold text-primary">Mid-Range</span>
+</div>
+<p class="text-xs text-on-surface-variant">Balanced comfort and value</p>
+</div>
+</div>
+<!-- Navigation Actions -->
+<div class="pt-8 flex items-center justify-between border-t border-slate-100">
+<button class="px-8 py-4 text-secondary font-semibold hover:bg-surface-container-high rounded-full transition-all">
+                            Back
+                        </button>
+<button class="px-12 py-4 bg-gradient-to-r from-primary to-primary-container text-white font-bold rounded-full shadow-xl shadow-primary/20 active:scale-95 transition-all">
+                            Create Trip
+                        </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Contextual Map Overlay (Floating Glass Element) -->
+<div class="fixed bottom-8 right-8 hidden xl:block w-80">
+<div class="glass-morphism rounded-3xl p-1 overflow-hidden shadow-2xl ring-1 ring-white/20">
+<div class="relative h-48 rounded-2xl overflow-hidden grayscale contrast-125 opacity-80">
+<img alt="Kyoto Map View" class="w-full h-full object-cover" data-location="Kyoto" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUS7EQGTEQ9hdLqGubOZEL3aqPi3yk5M-1aWhfg55WBiCw6p9rS2plGoENlZ1-RSpQ4SPWjie16LfSZsYipA4htFHQTHeh12gEx8jC5N25b_l5rz9aUU2_jnf9dRSwtdYXhh9jZyqEWrl8K9Sr_OviAHEC0QEaiZbeK8TIlynawis23U-ICplg0XL2WlZRKJ0rwoDB1eAgmtHO6khLjPjU10QkbSYVpNR7alejxQS8M1nNBRS4gjeKldaXCyi8mrzHAfbMB6fJcMI"/>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="w-12 h-12 bg-secondary/20 rounded-full animate-ping absolute"></div>
+<div class="w-4 h-4 bg-secondary border-2 border-white rounded-full relative shadow-lg"></div>
+</div>
+</div>
+<div class="p-4 flex items-center justify-between">
+<div>
+<h4 class="text-sm font-bold text-primary font-headline">Exploring Kyoto</h4>
+<p class="text-[10px] text-slate-500 uppercase tracking-wider">6 Destinations Mapped</p>
+</div>
+<span class="material-symbols-outlined text-secondary" data-icon="map">map</span>
+</div>
+</div>
+</div>
+<!-- Hidden Step Preview (Visual Reference for Layout Consistency) -->
+<div class="sr-only">
+<!-- Step 1: Destination -->
+<input class="w-full px-6 py-4 bg-white rounded-xl border-none shadow-sm focus:ring-2 focus:ring-secondary" placeholder="Where to next?" type="text"/>
+<!-- Step 3: Budget Icons -->
+<div class="flex gap-4">
+<div class="flex flex-col items-center p-6 bg-white rounded-xl border-2 border-transparent">
+<span class="material-symbols-outlined" data-icon="savings">savings</span>
+<span>Value</span>
+</div>
+<div class="flex flex-col items-center p-6 bg-white rounded-xl border-2 border-secondary">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span>Standard</span>
+</div>
+<div class="flex flex-col items-center p-6 bg-white rounded-xl border-2 border-transparent">
+<span class="material-symbols-outlined" data-icon="diamond">diamond</span>
+<span>Luxury</span>
+</div>
+</div>
+</div>
+</body></html>

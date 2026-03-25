@@ -14,6 +14,9 @@ VECTORIZER_PATH = MODELS_DIR / "vectorizer.pkl"
 SENTIMENT_SKIP_FLAG = MODELS_DIR / "sentiment_skipped.flag"
 RECOMMENDATION_MODEL_PATH = MODELS_DIR / "recommendation_model.pkl"
 RECOMMENDATION_METADATA_PATH = MODELS_DIR / "recommendation_metadata.json"
+INTEREST_MODEL_PATH = MODELS_DIR / "interest_model.pkl"
+INTEREST_METADATA_PATH = MODELS_DIR / "interest_metadata.json"
+INTEREST_SKIP_FLAG = MODELS_DIR / "interest_skipped.flag"
 
 DEFAULT_FEATURE_COLUMNS = [
     "rating",
@@ -32,8 +35,16 @@ app = FastAPI(title="Smart Itinerary Planner ML Service")
 sentiment_model = None
 vectorizer = None
 recommendation_model = None
+interest_model = None
 recommendation_metadata = {
     "feature_columns": DEFAULT_FEATURE_COLUMNS,
+}
+interest_metadata = {
+    "classes": [],
+    "threshold": 0.35,
+    "class_thresholds": {},
+    "max_return_tags": 2,
+    "secondary_gap": 0.18,
 }
 
 
@@ -73,8 +84,12 @@ class RecommendRequest(BaseModel):
     top_k: Optional[int] = None
 
 
+class InterestBatchRequest(BaseModel):
+    places: List[PlacePayload]
+
+
 def load_models():
-    global sentiment_model, vectorizer, recommendation_model, recommendation_metadata
+    global sentiment_model, vectorizer, recommendation_model, recommendation_metadata, interest_model, interest_metadata
 
     if RECOMMENDATION_MODEL_PATH.exists():
         recommendation_model = joblib.load(RECOMMENDATION_MODEL_PATH)
@@ -87,6 +102,10 @@ def load_models():
     if not SENTIMENT_SKIP_FLAG.exists() and SENTIMENT_MODEL_PATH.exists() and VECTORIZER_PATH.exists():
         sentiment_model = joblib.load(SENTIMENT_MODEL_PATH)
         vectorizer = joblib.load(VECTORIZER_PATH)
+
+    if not INTEREST_SKIP_FLAG.exists() and INTEREST_MODEL_PATH.exists() and INTEREST_METADATA_PATH.exists():
+        interest_model = joblib.load(INTEREST_MODEL_PATH)
+        interest_metadata = json.loads(INTEREST_METADATA_PATH.read_text(encoding="utf-8"))
 
 
 def safe_sentiment(review_text: str) -> float:
@@ -127,6 +146,62 @@ def build_feature_row(payload: RecommendationPayload) -> dict:
     }
 
 
+def build_interest_text(place: PlacePayload) -> str:
+    category = place.category or "other"
+    review_text = review_text_from_place(place)
+    parts = [
+        (place.name or "").strip(),
+        str(category).strip(),
+        review_text,
+        (place.city or "").strip(),
+    ]
+    return " [SEP] ".join(part for part in parts if part)
+
+
+def predict_interest_scores(place: PlacePayload) -> dict:
+    if interest_model is None:
+        return {}
+
+    classes = interest_metadata.get("classes", [])
+    if not classes:
+        return {}
+
+    text = build_interest_text(place)
+    probabilities = interest_model.predict_proba([text])[0]
+    return {
+        label: float(probability)
+        for label, probability in zip(classes, probabilities)
+    }
+
+
+def extract_interest_tags(interest_scores: dict) -> list[str]:
+    default_threshold = float(interest_metadata.get("threshold", 0.35))
+    class_thresholds = interest_metadata.get("class_thresholds", {})
+    max_return_tags = int(interest_metadata.get("max_return_tags", 2))
+    secondary_gap = float(interest_metadata.get("secondary_gap", 0.18))
+    ranked = sorted(interest_scores.items(), key=lambda item: item[1], reverse=True)
+    accepted = []
+
+    for index, (label, score) in enumerate(ranked):
+        label_threshold = float(class_thresholds.get(label, default_threshold))
+        if score < label_threshold:
+            continue
+
+        if index > 0 and accepted:
+            top_score = ranked[0][1]
+            if (top_score - score) > secondary_gap:
+                continue
+
+        accepted.append(label)
+        if len(accepted) >= max_return_tags:
+            break
+
+    if accepted:
+        return accepted
+
+    return [label for label, _ in ranked[:1]]
+
+
 def predict_recommendation_score(feature_row: dict) -> float:
     feature_columns = recommendation_metadata.get("feature_columns", DEFAULT_FEATURE_COLUMNS)
     frame = pd.DataFrame([{column: feature_row.get(column) for column in feature_columns}])
@@ -146,6 +221,7 @@ def health():
         "status": "ok",
         "sentiment_model_loaded": sentiment_model is not None and vectorizer is not None,
         "recommendation_model_loaded": recommendation_model is not None,
+        "interest_model_loaded": interest_model is not None,
     }
 
 
@@ -205,7 +281,45 @@ def predict_place(payload: PlacePayload):
             "recommend": int(score >= 0.5),
             "confidence": score,
             "score": score,
+            "interest_tags": extract_interest_tags(predict_interest_scores(payload)) if interest_model is not None else [],
         },
+    }
+
+
+@app.post("/predict/interests")
+def predict_interests(payload: PlacePayload):
+    if interest_model is None:
+        raise HTTPException(status_code=503, detail="Interest model unavailable. Run train_interest_model.py first.")
+
+    interest_scores = predict_interest_scores(payload)
+    return {
+        "success": True,
+        "data": {
+            "interest_tags": extract_interest_tags(interest_scores),
+            "interest_scores": interest_scores,
+        },
+    }
+
+
+@app.post("/predict/interests/batch")
+def predict_interests_batch(payload: InterestBatchRequest):
+    if interest_model is None:
+        raise HTTPException(status_code=503, detail="Interest model unavailable. Run train_interest_model.py first.")
+
+    results = []
+    for place in payload.places:
+        interest_scores = predict_interest_scores(place)
+        results.append({
+            "place_id": place.place_id,
+            "name": place.name,
+            "interest_tags": extract_interest_tags(interest_scores),
+            "interest_scores": interest_scores,
+        })
+
+    return {
+        "success": True,
+        "results": results,
+        "total": len(results),
     }
 
 

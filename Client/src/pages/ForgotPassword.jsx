@@ -269,17 +269,27 @@ export default function ForgotPassword() {
   );
 
   return (
-    <section className="mx-auto w-full max-w-xl surface-card p-7 sm:p-10">
-      {step === 1 && renderStep1()}
-      {step === 2 && renderStep2()}
-      {step === 3 && renderStep3()}
+    <section className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+      <div className="hero-panel p-8 sm:p-10">
+        <p className="field-label text-[#d6e3ff]">Recovery Flow</p>
+        <h1 className="editorial-title mt-4 text-4xl font-semibold">Recover access without losing your travel workspace.</h1>
+        <p className="mt-4 max-w-md text-sm leading-7 text-[#d6e3ff]">
+          Verify your email, confirm the code, and set a new password to get back to your saved journeys.
+        </p>
+      </div>
 
-      <p className="mt-6 text-sm text-[#5a5843]">
-        Remember your password?{' '}
-        <Link to="/login" className="font-semibold text-brand-secondary hover:text-brand-terracottaInk hover:underline">
-          Sign in
-        </Link>
-      </p>
+      <div className="mx-auto w-full max-w-xl soft-panel p-7 sm:p-10">
+        {step === 1 && renderStep1()}
+        {step === 2 && renderStep2()}
+        {step === 3 && renderStep3()}
+
+        <p className="mt-6 text-sm text-brand-onSurfaceVariant">
+          Remember your password?{' '}
+          <Link to="/login" className="font-semibold text-brand-secondary hover:underline">
+            Sign in
+          </Link>
+        </p>
+      </div>
     </section>
   );
 }

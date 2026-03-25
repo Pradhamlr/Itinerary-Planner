@@ -120,6 +120,21 @@ def main():
         print("\nPipeline aborted: recommendation artifact missing\n")
         raise SystemExit(1)
 
+    if not run_script("create_interest_labels.py", "Generating interest label dataset"):
+        print("\nPipeline failed at interest label generation\n")
+        raise SystemExit(1)
+
+    if not check_columns(
+        "dataset/place_interest_labels.csv",
+        ["name", "category", "review", "city", "interest_tags"],
+    ):
+        print("\nPipeline aborted: interest label dataset schema invalid\n")
+        raise SystemExit(1)
+
+    if not run_script("train_interest_model.py", "Training interest model"):
+        print("\nPipeline failed at interest model training\n")
+        raise SystemExit(1)
+
     print("\n" + "=" * 70)
     print("PIPELINE COMPLETE")
     print("=" * 70 + "\n")
@@ -129,8 +144,12 @@ def main():
         "models/vectorizer.pkl",
         "models/sentiment_skipped.flag",
         "dataset/place_features.csv",
+        "dataset/place_interest_labels.csv",
         "models/recommendation_model.pkl",
         "models/recommendation_metadata.json",
+        "models/interest_model.pkl",
+        "models/interest_metadata.json",
+        "models/interest_skipped.flag",
     ]:
         if Path(artifact).exists():
             print(f"  {artifact}")

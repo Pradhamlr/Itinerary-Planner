@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-tertiary-fixed": "#00201e",
+              "on-tertiary-fixed-variant": "#00504c",
+              "surface-variant": "#e1e3e4",
+              "primary-fixed-dim": "#a9c7ff",
+              "surface-container-lowest": "#ffffff",
+              "secondary": "#00696b",
+              "tertiary-fixed-dim": "#59dad1",
+              "on-secondary-container": "#006e70",
+              "inverse-primary": "#a9c7ff",
+              "tertiary-container": "#002321",
+              "surface-container-highest": "#e1e3e4",
+              "background": "#f8f9fa",
+              "on-error-container": "#93000a",
+              "error-container": "#ffdad6",
+              "inverse-on-surface": "#f0f1f2",
+              "surface-tint": "#405f91",
+              "on-primary-container": "#6887bc",
+              "tertiary-fixed": "#79f6ed",
+              "on-primary-fixed": "#001b3d",
+              "on-secondary-fixed": "#002020",
+              "primary-fixed": "#d6e3ff",
+              "tertiary": "#000606",
+              "outline-variant": "#c4c6cf",
+              "primary": "#000514",
+              "surface-dim": "#d9dadb",
+              "on-tertiary": "#ffffff",
+              "surface": "#f8f9fa",
+              "inverse-surface": "#2e3132",
+              "on-primary-fixed-variant": "#264778",
+              "on-error": "#ffffff",
+              "secondary-fixed": "#5af8fb",
+              "on-secondary-fixed-variant": "#004f51",
+              "surface-container-low": "#f3f4f5",
+              "error": "#ba1a1a",
+              "secondary-container": "#56f5f8",
+              "primary-container": "#001e43",
+              "surface-bright": "#f8f9fa",
+              "secondary-fixed-dim": "#2ddbde",
+              "surface-container": "#edeeef",
+              "on-secondary": "#ffffff",
+              "surface-container-high": "#e7e8e9",
+              "on-surface": "#191c1d",
+              "on-background": "#191c1d",
+              "outline": "#74777f",
+              "on-tertiary-container": "#00968f",
+              "on-surface-variant": "#43474e",
+              "on-primary": "#ffffff"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .day-marker-line::before {
+        content: '';
+        position: absolute;
+        left: 11px;
+        top: 24px;
+        bottom: -24px;
+        width: 2px;
+        background-color: #e1e3e4;
+      }
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface overflow-hidden h-screen flex flex-col">
+<!-- Top Navigation Shell -->
+<header class="fixed top-0 w-full z-50 bg-slate-50/70 dark:bg-slate-900/70 backdrop-blur-xl shadow-sm text-navy-900 dark:text-navy-100 font-plus-jakarta-sans antialiased flex items-center justify-between px-6 h-16 w-full">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold tracking-tight text-navy-950 dark:text-white">Voyager</span>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-slate-500 dark:text-slate-400 hover:text-navy-900 dark:hover:text-white transition-colors" href="#">Explore</a>
+<a class="text-teal-600 dark:text-teal-400 font-semibold border-b-2 border-teal-600 transition-colors" href="#">Itineraries</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-navy-900 dark:hover:text-white transition-colors" href="#">Discovery</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2 px-3 py-1.5 bg-surface-container-low rounded-full">
+<span class="material-symbols-outlined text-sm text-secondary" data-icon="calendar_today">calendar_today</span>
+<span class="text-xs font-medium">Nov 12 - Nov 18</span>
+</div>
+<button class="bg-primary text-white px-5 py-2 rounded-full font-semibold text-sm hover:opacity-90 active:scale-95 transition-all">Save Finalized</button>
+<div class="flex gap-2">
+<button class="p-2 hover:bg-slate-100/50 dark:hover:bg-slate-800/50 rounded-full transition-colors active:scale-95">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 hover:bg-slate-100/50 dark:hover:bg-slate-800/50 rounded-full transition-colors active:scale-95">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+</div>
+<img alt="User profile avatar" class="w-8 h-8 rounded-full object-cover" data-alt="Close-up professional headshot of a person with friendly expression in soft studio lighting against a neutral grey background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDB8jMz-VNz_91ed5spKQywZ7jHs2-g3pg__C_k58QpZ4HwtsavzBFAdlBJQUpEFaYXQ1NHYsIwfeWgmQe1vN0Q7dFCPFBmnMss79NuSgk8UxB5_FDPKJkNNbFRUHlP-iD0lqx2dbBmphvMNrv4ggYjiZVeGsUSNa-FeODRNz8VBU9H_dIKBboIOS6Fb5OwigFL2nkW3GrGcmr0LNybTIGIYzwVIb0XNZabExo-JLgCkqQaAQmxcuj-0K0F0RmNZQDKLH1h_0NrFEA"/>
+</div>
+</header>
+<!-- Main Workspace Layout -->
+<main class="flex flex-1 pt-16 h-full overflow-hidden">
+<!-- Sidebar Navigation Shell -->
+<aside class="hidden lg:flex flex-col p-4 space-y-2 bg-slate-50 dark:bg-slate-900 h-full w-64 text-navy-900 dark:text-navy-100 font-inter text-sm border-r-0">
+<div class="mb-6 px-2">
+<h2 class="font-plus-jakarta-sans font-bold text-navy-900 text-lg">Kyoto Autumn</h2>
+<p class="text-slate-500 text-xs">Itinerary Workspace</p>
+</div>
+<a class="flex items-center gap-3 p-3 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/50 rounded-lg hover:translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Overview</span>
+</a>
+<a class="flex items-center gap-3 p-3 bg-white dark:bg-slate-800 text-teal-600 dark:text-teal-400 rounded-lg shadow-sm font-medium hover:translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_today">calendar_today</span>
+<span>Daily Plan</span>
+</a>
+<a class="flex items-center gap-3 p-3 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/50 rounded-lg hover:translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="map">map</span>
+<span>Map View</span>
+</a>
+<a class="flex items-center gap-3 p-3 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/50 rounded-lg hover:translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span>Budget</span>
+</a>
+<a class="flex items-center gap-3 p-3 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/50 rounded-lg hover:translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span>Documents</span>
+</a>
+<div class="mt-auto pt-6 border-t border-slate-100 space-y-1">
+<a class="flex items-center gap-3 p-3 text-slate-500 hover:bg-slate-100 rounded-lg transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+<span>Help</span>
+</a>
+<a class="flex items-center gap-3 p-3 text-slate-500 hover:bg-slate-100 rounded-lg transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="archive">archive</span>
+<span>Archive</span>
+</a>
+</div>
+</aside>
+<!-- Itinerary Content Column -->
+<section class="flex-1 max-w-xl bg-surface overflow-y-auto no-scrollbar pb-24 lg:pb-12">
+<div class="p-6">
+<div class="flex items-center justify-between mb-8">
+<h1 class="text-2xl font-bold font-headline tracking-tight">Day-by-Day Journey</h1>
+<button class="p-2 bg-surface-container-high rounded-full text-secondary hover:bg-secondary hover:text-white transition-colors">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+</button>
+</div>
+<!-- Day 1 Container -->
+<div class="relative space-y-6 mb-12">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-6 h-6 rounded-full bg-secondary flex items-center justify-center text-[10px] text-white font-bold ring-4 ring-secondary/10">1</div>
+<h3 class="font-headline font-bold text-lg">Day 1: Arrival &amp; Tradition</h3>
+<span class="text-xs text-on-surface-variant bg-surface-container rounded-full px-3 py-1 ml-auto">Nov 12</span>
+</div>
+<!-- Attraction Card 1 -->
+<div class="ml-3 pl-8 relative day-marker-line">
+<div class="text-[10px] font-bold text-secondary mb-1 uppercase tracking-wider">09:00 - 11:00 AM</div>
+<div class="bg-surface-container-lowest p-4 rounded-xl shadow-sm border border-outline-variant/15 flex gap-4 group">
+<img class="w-24 h-24 rounded-lg object-cover" data-alt="Beautiful Kinkaku-ji temple reflected in calm water surrounded by lush greenery and pine trees" src="https://lh3.googleusercontent.com/aida-public/AB6AXuArJnOVEt7SBvL1xJMYTgCBBAlBw0XB5iwHkefZ9JFLenxPYycEjIyxNrzbdGNX2pdGMSEnG5-k6tuI4Bt5Zm98UpGpCpcsiC6yaDHY--S19a79yydxcyk_qRkeJzsvWztysUGkyveWf6e0pilw7-5Ptt1z7uEAvVZMAHKgzMoLfEPHdZQWStJET4w0245KiAVk4yy9SZJREhXt6ZdkgOsbcsXo_yl8-rIf8lYJ1GH7kp-_sP6Skyu1SXzVMLGnKoK8EfoEDzw7wH8"/>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-bold text-primary">Kinkaku-ji (Golden Pavilion)</h4>
+<div class="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1 hover:bg-surface-container rounded transition-colors" title="Lock"><span class="material-symbols-outlined text-sm" data-icon="lock">lock</span></button>
+<button class="p-1 hover:bg-surface-container rounded transition-colors" title="Swap"><span class="material-symbols-outlined text-sm" data-icon="swap_horiz">swap_horiz</span></button>
+<button class="p-1 hover:bg-surface-container rounded transition-colors" title="Reorder"><span class="material-symbols-outlined text-sm" data-icon="drag_indicator">drag_indicator</span></button>
+</div>
+</div>
+<p class="text-xs text-on-surface-variant line-clamp-2 mb-3">Zen Buddhist temple with two top floors covered in gold leaf. Iconic Kyoto landmark.</p>
+<div class="flex items-center gap-2">
+<span class="text-[10px] px-2 py-0.5 bg-secondary-container text-on-secondary-container rounded-md font-semibold">Temple</span>
+<span class="text-[10px] text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[12px]" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span> 4.8</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Pacing Divider -->
+<div class="ml-11 py-2 flex items-center gap-3">
+<div class="w-px h-8 bg-dashed border-l-2 border-dashed border-outline-variant/40"></div>
+<span class="text-[10px] font-medium text-on-surface-variant bg-surface-container-high px-3 py-1 rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="directions_car">directions_car</span>
+                            15 min drive
+                        </span>
+</div>
+<!-- Attraction Card 2 -->
+<div class="ml-3 pl-8 relative day-marker-line">
+<div class="text-[10px] font-bold text-secondary mb-1 uppercase tracking-wider">11:30 - 01:30 PM</div>
+<div class="bg-surface-container-lowest p-4 rounded-xl shadow-sm border border-outline-variant/15 flex gap-4 group">
+<img class="w-24 h-24 rounded-lg object-cover" data-alt="Peaceful bamboo forest path in Arashiyama with soft sunlight filtering through tall green bamboo stalks" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJ33a9CKjRP6c_pHw9FaoA8sTgFTwdT58ds-wEs7m6zag6EAc8J-fXw8FB7L0WelyVfHiLZyaQXIBlumCDnfWpB8nS7tToV6ZZ5zuEBUWxurXjcacu8A8zbbQwMu2EWn3WCAmSX1Ov8qoM4VEy-dkqgjO8l2ykmA82N1nwWFwU4eg1tBqg9sppFbSV9_ctlt3wZ6DtcSQzM3NIVFEhsgIBcJ2eCp0jFiYpljbpq-5ESd8Txx1SikJC7IFMFEqpzRkfAQeLrMFMEI4"/>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-bold text-primary">Arashiyama Bamboo Grove</h4>
+<div class="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1 hover:bg-surface-container rounded transition-colors"><span class="material-symbols-outlined text-sm" data-icon="lock">lock</span></button>
+<button class="p-1 hover:bg-surface-container rounded transition-colors"><span class="material-symbols-outlined text-sm" data-icon="swap_horiz">swap_horiz</span></button>
+<button class="p-1 hover:bg-surface-container rounded transition-colors"><span class="material-symbols-outlined text-sm" data-icon="drag_indicator">drag_indicator</span></button>
+</div>
+</div>
+<p class="text-xs text-on-surface-variant line-clamp-2 mb-3">Immersive natural path through soaring bamboo stalks. Perfect for photography.</p>
+<div class="flex items-center gap-2">
+<span class="text-[10px] px-2 py-0.5 bg-secondary-container text-on-secondary-container rounded-md font-semibold">Nature</span>
+<span class="text-[10px] text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[12px]" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span> 4.9</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Day 2 Container -->
+<div class="relative space-y-6">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-6 h-6 rounded-full bg-slate-300 flex items-center justify-center text-[10px] text-slate-700 font-bold">2</div>
+<h3 class="font-headline font-bold text-lg">Day 2: Historical Gates</h3>
+<span class="text-xs text-on-surface-variant bg-surface-container rounded-full px-3 py-1 ml-auto">Nov 13</span>
+</div>
+<!-- Attraction Card 3 -->
+<div class="ml-3 pl-8 relative day-marker-line">
+<div class="text-[10px] font-bold text-slate-400 mb-1 uppercase tracking-wider">08:00 - 10:30 AM</div>
+<div class="bg-surface-container-lowest p-4 rounded-xl shadow-sm border border-outline-variant/15 flex gap-4 group opacity-80 hover:opacity-100 transition-opacity">
+<img class="w-24 h-24 rounded-lg object-cover" data-alt="Vibrant orange torii gates of Fushimi Inari Shrine winding up a wooded hillside in soft morning light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAYGk-aLErTvPJ0l8LrfABJ5c9BHrOks2oDmMfCe-0pGdFlh8vSSntdvL_ecpz6-jK0hm8iwNrOkCgZD-Np-24i9fH8KihCE8yQCpB8MvI_EJj_Y2QJhIfdORMWcdlF1Yq0yP223DPwhP2YCBHdB8YXN2drY_nMXgeg0TAwjtmDDTkYC1si7gtrukOpSnNOlgJ4A8SOF9F2Exg3jT-sPCo6XZlFw2wIHa9oYtia28ym65mcDpHzEkYJ8YuSnKCxSam-bvRFU_yBm2E"/>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-bold text-primary">Fushimi Inari-taisha</h4>
+<div class="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1 hover:bg-surface-container rounded transition-colors"><span class="material-symbols-outlined text-sm" data-icon="lock">lock</span></button>
+<button class="p-1 hover:bg-surface-container rounded transition-colors"><span class="material-symbols-outlined text-sm" data-icon="swap_horiz">swap_horiz</span></button>
+<button class="p-1 hover:bg-surface-container rounded transition-colors"><span class="material-symbols-outlined text-sm" data-icon="drag_indicator">drag_indicator</span></button>
+</div>
+</div>
+<p class="text-xs text-on-surface-variant line-clamp-2 mb-3">Thousands of vermilion torii gates stretching along mountain trails.</p>
+<div class="flex items-center gap-2">
+<span class="text-[10px] px-2 py-0.5 bg-surface-container-high text-on-surface rounded-md font-semibold">Shrine</span>
+<span class="text-[10px] text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[12px]" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span> 5.0</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Map Column -->
+<section class="hidden md:block flex-[2] relative bg-surface-container-low border-l border-outline-variant/20 overflow-hidden">
+<!-- Simulated Map Texture -->
+<div class="absolute inset-0 bg-[#e5e3df] overflow-hidden">
+<div class="w-full h-full opacity-50 contrast-125" data-location="Kyoto" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBbOkYl7Rl5H7TV06g5Pl5nn0tbNMXhub8HiQOeb0HNP6lNI7clBxgqZmCDUzvJkJfxzEMvtqqLOBY8l3YYig4HISXpKrY4ccGz_c3RjzF4P2Oeth0ngBWKvTNCHV68_CXqwN4_m5O5Bc8PUaQO3bT7cK4nXi7FBaexdbEUqpf_dxzuAMyEyGYgC1h_UkI2WK9SsPmyAzzjZxrsYivTu_Bmkd7RPJv-Y6yoJKyrewWpg9-GcyhhCOXBwCLms9_ucNtCxtM-VP2W6m8'); background-size: cover;"></div>
+<!-- Map Markers -->
+<div class="absolute top-[30%] left-[45%] group cursor-pointer">
+<div class="relative flex flex-col items-center">
+<div class="bg-primary text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-lg mb-1 transition-transform group-hover:scale-110">Kinkaku-ji</div>
+<div class="w-4 h-4 rounded-full bg-secondary border-2 border-white shadow-md ring-4 ring-secondary/20"></div>
+</div>
+</div>
+<div class="absolute top-[45%] left-[25%] group cursor-pointer">
+<div class="relative flex flex-col items-center">
+<div class="bg-primary text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-lg mb-1 transition-transform group-hover:scale-110">Arashiyama</div>
+<div class="w-4 h-4 rounded-full bg-secondary border-2 border-white shadow-md ring-4 ring-secondary/20"></div>
+</div>
+</div>
+<div class="absolute bottom-[25%] left-[65%] group cursor-pointer">
+<div class="relative flex flex-col items-center">
+<div class="bg-primary text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-lg mb-1 transition-transform group-hover:scale-110">Fushimi Inari</div>
+<div class="w-4 h-4 rounded-full bg-slate-400 border-2 border-white shadow-md ring-4 ring-slate-400/20"></div>
+</div>
+</div>
+<!-- Route Line Simulation -->
+<svg class="absolute inset-0 pointer-events-none" height="100%" width="100%">
+<path d="M 45% 35% Q 35% 40% 25% 45%" fill="none" stroke="#00696b" stroke-dasharray="8,8" stroke-width="3"></path>
+<path d="M 25% 45% Q 50% 60% 65% 75%" fill="none" stroke="#94a3b8" stroke-dasharray="8,8" stroke-width="3"></path>
+</svg>
+</div>
+<!-- Map Controls Overlays -->
+<div class="absolute top-6 right-6 flex flex-col gap-2">
+<button class="bg-white p-2 rounded-lg shadow-md text-on-surface hover:bg-slate-50 transition-colors">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+</button>
+<button class="bg-white p-2 rounded-lg shadow-md text-on-surface hover:bg-slate-50 transition-colors border-t border-slate-100">
+<span class="material-symbols-outlined" data-icon="remove">remove</span>
+</button>
+</div>
+<div class="absolute bottom-6 left-6 right-6">
+<div class="bg-white/80 backdrop-blur-md p-4 rounded-2xl shadow-xl flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="flex -space-x-2">
+<img class="w-8 h-8 rounded-full border-2 border-white" data-alt="Close-up portrait of man" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHyLFavAd-edGXiTFZC0UED6mw2QhRfgoDrEBL_ba3Ye1LnUi4gp11IcBq0Nma3R7tMBXq-0FUTw03w9pbKiEoGsniXtxPYw2etnYD02JDhaOr8IjzqeIetazOVOJEKOdHoh2jkOYttV1v7jb05o_H2l_EzWKtFOOexU_c8nmSpFctBuEo2BWsyRRH1Xx3Na6JDfj0yokj1WQHAUGOht8rf0qKaR2lDu2oJNKa26LItTW_gTyKtkxp7tSaY45xUlAcA44gr4azYwY"/>
+<img class="w-8 h-8 rounded-full border-2 border-white" data-alt="Portrait of woman" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAiHA35u6CkigNGwzMhKEzXZgzIQ7ssUv9iJBu9uh06Oz4_VBXkZkWyx7re3IMugEwYZzsFPBqH_99e_KwHf4qxiHBqckp-cv0xFLWOCV-2aoUBsHNeBrQD-ubjPT8PD4H2tj7ffhfAQnIOhg0IfEq_Nou1nC4w6rCJtfD82LtNupRb4l6VlqCe6dLmBn5k4M_yOVf1_vgsWlnYewIKuZf7hBwWYEZUcjh_hYchaMRBkFHXlFNSQsRVE-p96mLvPbZrrpzNUb1uWdQ"/>
+</div>
+<p class="text-xs font-medium text-slate-600">Travel buddies are viewing this map</p>
+</div>
+<button class="text-xs font-bold text-secondary flex items-center gap-1 hover:underline">
+<span class="material-symbols-outlined text-sm" data-icon="share">share</span> Share Live
+                    </button>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation Shell (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-20 px-6 pb-safe bg-white/80 dark:bg-slate-950/80 backdrop-blur-2xl shadow-[0_-4px_24px_rgba(0,0,0,0.04)] text-navy-900 dark:text-navy-100 font-medium text-[10px] rounded-t-3xl border-t border-slate-100 dark:border-slate-800">
+<a class="flex flex-col items-center justify-center text-teal-600 dark:text-teal-400 active:scale-90 transition-all" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="luggage" style="font-variation-settings: 'FILL' 1;">luggage</span>
+<span>Trips</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 active:scale-90 transition-all" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="add_circle">add_circle</span>
+<span>Create</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 active:scale-90 transition-all" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="explore">explore</span>
+<span>Explore</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 active:scale-90 transition-all" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="account_circle">account_circle</span>
+<span>Profile</span>
+</a>
+</nav>
+</body></html>

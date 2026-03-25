@@ -3,6 +3,55 @@ import ItineraryMap from './ItineraryMap'
 import PlaceCard from './PlaceCard'
 import { formatCategory, renderStars } from '../utils/travel'
 
+function ActionIcon({ type }) {
+  const commonProps = {
+    fill: 'none',
+    stroke: 'currentColor',
+    strokeWidth: '1.8',
+    strokeLinecap: 'round',
+    strokeLinejoin: 'round',
+    viewBox: '0 0 24 24',
+    className: 'h-4 w-4',
+  }
+
+  if (type === 'lock') {
+    return (
+      <svg {...commonProps}>
+        <rect x="5" y="11" width="14" height="9" rx="2" />
+        <path d="M8 11V8a4 4 0 1 1 8 0v3" />
+      </svg>
+    )
+  }
+
+  if (type === 'unlock') {
+    return (
+      <svg {...commonProps}>
+        <rect x="5" y="11" width="14" height="9" rx="2" />
+        <path d="M8 11V8a4 4 0 0 1 7.2-2.4" />
+      </svg>
+    )
+  }
+
+  if (type === 'swap') {
+    return (
+      <svg {...commonProps}>
+        <path d="M16 3h5v5" />
+        <path d="M21 3l-7 7" />
+        <path d="M8 21H3v-5" />
+        <path d="M3 21l7-7" />
+      </svg>
+    )
+  }
+
+  return (
+    <svg {...commonProps}>
+      <circle cx="12" cy="5" r="1.8" fill="currentColor" stroke="none" />
+      <circle cx="12" cy="12" r="1.8" fill="currentColor" stroke="none" />
+      <circle cx="12" cy="19" r="1.8" fill="currentColor" stroke="none" />
+    </svg>
+  )
+}
+
 function formatGeneratedAt(value) {
   if (!value) {
     return null
@@ -36,16 +85,15 @@ function formatDayDate(value) {
   }).format(date)
 }
 
-function RecommendationSkeletons({ count = 6 }) {
+function RecommendationSkeletons({ count = 3 }) {
   return (
-    <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
+    <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
       {Array.from({ length: count }).map((_, index) => (
-        <div key={index} className="overflow-hidden rounded-[26px] bg-brand-surfaceLow shadow-soft">
-          <div className="h-44 animate-pulse bg-[#ddd7be]" />
-          <div className="space-y-4 p-5">
+        <div key={index} className="overflow-hidden rounded-[26px] bg-white shadow-soft">
+          <div className="h-48 animate-pulse bg-[#ddd7be]" />
+          <div className="space-y-4 p-4">
             <div className="h-5 w-2/3 animate-pulse rounded-full bg-[#ddd7be]" />
             <div className="h-4 w-full animate-pulse rounded-full bg-[#ddd7be]" />
-            <div className="h-4 w-4/5 animate-pulse rounded-full bg-[#ddd7be]" />
           </div>
         </div>
       ))}
@@ -55,17 +103,16 @@ function RecommendationSkeletons({ count = 6 }) {
 
 function ItinerarySkeleton() {
   return (
-    <div className="space-y-4">
-      {Array.from({ length: 2 }).map((_, index) => (
-        <div key={index} className="rounded-[26px] bg-brand-surfaceLow p-5 shadow-soft">
-          <div className="h-5 w-28 animate-pulse rounded-full bg-[#ddd7be]" />
-          <div className="mt-4 space-y-3">
-            {Array.from({ length: 3 }).map((__, placeIndex) => (
-              <div key={placeIndex} className="h-16 animate-pulse rounded-2xl bg-[#ece4c9]" />
-            ))}
+    <div className="grid gap-6 xl:grid-cols-[minmax(0,1.14fr)_minmax(340px,0.86fr)] 2xl:grid-cols-[minmax(0,1.2fr)_minmax(380px,0.8fr)]">
+      <div className="space-y-4">
+        {Array.from({ length: 3 }).map((_, index) => (
+          <div key={index} className="rounded-[26px] bg-white p-4 shadow-soft">
+            <div className="h-5 w-32 animate-pulse rounded-full bg-[#ddd7be]" />
+            <div className="mt-4 h-32 animate-pulse rounded-[22px] bg-[#ece4c9]" />
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
+      <div className="min-h-[560px] rounded-[30px] bg-[#ece4c9]" />
     </div>
   )
 }
@@ -84,12 +131,91 @@ function formatMinutes(value) {
   return minutes ? `${hours} hr ${minutes} mins` : `${hours} hr`
 }
 
+function parseMealStopIndex(label) {
+  if (!label) {
+    return null
+  }
+
+  const match = label.match(/Near stop\s+(\d+)/i)
+  if (!match) {
+    return null
+  }
+
+  const stopNumber = Number(match[1])
+  if (!Number.isFinite(stopNumber) || stopNumber <= 0) {
+    return null
+  }
+
+  return stopNumber - 1
+}
+
+function MealFlowCard({ meal }) {
+  const mealTone =
+    meal.type?.toLowerCase() === 'lunch'
+      ? 'bg-[#fff3e2] text-[#8a5418]'
+      : 'bg-[#efe9ff] text-[#5b43a9]'
+
+  return (
+    <div className="relative ml-10 rounded-[22px] border border-brand-surfaceHigh bg-white p-4 shadow-[0_14px_30px_-26px_rgba(15,23,42,0.2)]">
+      <div className="absolute -left-10 top-5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-[#f4eee6] text-[11px] font-semibold text-brand-palm">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.8"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="h-3.5 w-3.5"
+        >
+          <path d="M8 3v8" />
+          <path d="M5 3v8" />
+          <path d="M5 7h3" />
+          <path d="M16 3v18" />
+          <path d="M19 3v6a3 3 0 0 1-3 3h0" />
+        </svg>
+      </div>
+
+      <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-brand-secondary">
+        {meal.type?.toLowerCase() === 'lunch' ? 'Afternoon food' : 'Evening food'}
+      </p>
+
+      <div className="mt-2 flex items-start justify-between gap-4">
+        <div>
+          <h4 className="text-base font-semibold text-brand-palm">
+            {meal.restaurant?.name || 'Food suggestion'}
+          </h4>
+          <p className="mt-1 text-sm text-brand-onSurfaceVariant">
+            {meal.type || 'Meal stop'} suggestion placed naturally into your day flow.
+          </p>
+        </div>
+        <span className={`rounded-full px-3 py-1 text-xs font-semibold ${mealTone}`}>
+          {meal.type || 'Meal'}
+        </span>
+      </div>
+
+      <div className="mt-3 flex flex-wrap gap-2">
+        {meal.highlight_label ? (
+          <span className="rounded-full bg-[#f5d9c2] px-3 py-1 text-xs font-semibold text-[#7a3d11]">
+            {meal.highlight_label}
+          </span>
+        ) : null}
+        {meal.near_stop_label ? (
+          <span className="rounded-full bg-brand-surfaceHigh px-3 py-1 text-xs font-semibold text-brand-onSurfaceVariant">
+            {meal.near_stop_label}
+          </span>
+        ) : null}
+      </div>
+    </div>
+  )
+}
+
 function DayPlaceRow({
   place,
   order,
   selected,
   onSelect,
   onToggleLock,
+  onRequestSwap,
   draggable,
   onDragStart,
   onDragEnd,
@@ -98,96 +224,106 @@ function DayPlaceRow({
   isDragTarget,
 }) {
   return (
-    <div
-      role="button"
-      tabIndex={0}
-      draggable={draggable}
-      onClick={onSelect}
-      onDragStart={onDragStart}
-      onDragEnd={onDragEnd}
-      onDragOver={onDragOver}
-      onDrop={onDrop}
-      onKeyDown={(event) => {
-        if (event.key === 'Enter' || event.key === ' ') {
-          event.preventDefault()
-          onSelect()
-        }
-      }}
-      className={`flex w-full items-start justify-between gap-4 rounded-2xl border p-4 text-left transition ${
-        selected
-          ? 'bg-[#e8e0c4] shadow-soft'
-          : isDragTarget
-          ? 'bg-[#f0dfc2] shadow-soft'
-          : 'bg-[#efe8cd] hover:bg-[#f3ecd2]'
-      }`}
-    >
-      <div className="flex items-start gap-4">
-        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-palm text-sm font-semibold text-white">
-          {order}
-        </div>
-        <div>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#8b886f]">Drag to reorder</p>
-          <h4 className="font-semibold text-brand-palm">{place.name}</h4>
-          <p className="mt-1 text-sm text-[#6d6a51]">{formatCategory(place.category || place.types?.[0] || 'place')}</p>
-          {place.locked ? (
-            <p className="mt-2 text-xs font-semibold uppercase tracking-[0.18em] text-emerald-700">
-              Locked for regeneration
-            </p>
-          ) : null}
-          {place.time_slot ? (
-            <p className="mt-2 text-xs font-semibold uppercase tracking-[0.18em] text-sky-700">
-              {place.time_slot}
-            </p>
-          ) : null}
-          {place.travel_time_from_start ? (
-            <p className="mt-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
-              From start: {place.travel_time_from_start}
-            </p>
-          ) : null}
-          <p className="mt-2 text-sm font-medium text-brand-secondary">{renderStars(place.rating)}</p>
-          {place.travel_time_to_next ? (
-            <p className="mt-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
-              Next stop in {place.travel_time_to_next}
-            </p>
-          ) : null}
-          {place.return_travel_time_to_start ? (
-            <p className="mt-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
-              Return to start: {place.return_travel_time_to_start}
-            </p>
-          ) : null}
+    <div className="relative pl-10">
+      <div className="absolute left-[11px] top-[18px] bottom-[-28px] w-px bg-brand-surfaceHigh last:hidden" />
+      <div className="absolute left-0 top-4 inline-flex h-6 w-6 items-center justify-center rounded-full bg-brand-secondary text-[11px] font-semibold text-white">
+        {order}
+      </div>
+
+      {place.time_slot ? (
+        <p className="mb-2 ml-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-brand-secondary">
+          {place.time_slot}
+        </p>
+      ) : null}
+
+      <div
+        role="button"
+        tabIndex={0}
+        draggable={draggable}
+        onClick={onSelect}
+        onDragStart={onDragStart}
+        onDragEnd={onDragEnd}
+        onDragOver={onDragOver}
+        onDrop={onDrop}
+        onKeyDown={(event) => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault()
+            onSelect()
+          }
+        }}
+        className={`group flex gap-4 rounded-[24px] border p-4 text-left transition ${
+          selected
+            ? 'border-brand-secondary/20 bg-[#edf9f8] shadow-[0_18px_32px_-24px_rgba(0,105,107,0.35)]'
+            : isDragTarget
+            ? 'border-[#d2ece7] bg-[#f2fbfb]'
+            : 'border-brand-surfaceHigh bg-white shadow-[0_14px_32px_-26px_rgba(15,23,42,0.22)] hover:-translate-y-0.5'
+        }`}
+      >
+        <div className="h-24 w-24 shrink-0 rounded-[18px] bg-[linear-gradient(160deg,#d2edf0,#73c7d3,#0f4c81)]" />
+
+        <div className="min-w-0 flex-1">
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <h4 className="text-xl font-semibold leading-tight text-brand-palm">{place.name}</h4>
+              <p className="mt-2 text-sm leading-6 text-brand-onSurfaceVariant">
+                {place.description || place.reviewSnippet || 'A thoughtfully selected stop for this day.'}
+              </p>
+            </div>
+            <div className="flex gap-1 opacity-0 transition group-hover:opacity-100">
+              <button
+                type="button"
+                onClick={(event) => {
+                  event.stopPropagation()
+                  onToggleLock?.()
+                }}
+                className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-brand-surfaceLow text-brand-palm transition hover:bg-brand-surfaceHigh"
+                title={place.locked ? 'Unlock' : 'Lock'}
+              >
+                <ActionIcon type={place.locked ? 'unlock' : 'lock'} />
+              </button>
+              <button
+                type="button"
+                disabled={place.locked}
+                onClick={(event) => {
+                  event.stopPropagation()
+                  onRequestSwap?.()
+                }}
+                className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-brand-surfaceLow text-brand-palm transition hover:bg-brand-surfaceHigh disabled:cursor-not-allowed disabled:opacity-40"
+                title="Swap"
+              >
+                <ActionIcon type="swap" />
+              </button>
+              <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-brand-surfaceLow text-brand-palm">
+                <ActionIcon type="more" />
+              </span>
+            </div>
+          </div>
+
+          <div className="mt-4 flex flex-wrap items-center gap-2">
+            <span className="rounded-full bg-[#dcf7f7] px-3 py-1 text-xs font-semibold text-brand-secondary">
+              {formatCategory(place.category || place.types?.[0] || 'place')}
+            </span>
+            <span className="text-sm font-semibold text-brand-palm">{renderStars(place.rating)} {Number(place.rating || 0).toFixed(1)}</span>
+            {place.locked ? (
+              <span className="rounded-full bg-[#edf7ed] px-3 py-1 text-xs font-semibold text-[#2c6a3d]">Locked</span>
+            ) : null}
+          </div>
         </div>
       </div>
 
-      <div className="flex shrink-0 flex-col gap-2">
-        <button
-          type="button"
-          onClick={(event) => {
-            event.stopPropagation()
-            onToggleLock?.()
-          }}
-          className={`inline-flex items-center justify-center rounded-full border px-4 py-2 text-xs font-semibold transition ${
-            place.locked
-              ? 'border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
-              : 'bg-[#e7e3ca] text-[#5d5a43] hover:bg-[#ddd7be]'
-          }`}
-        >
-          {place.locked ? 'Unlock' : 'Lock'}
-        </button>
-        <a
-          href={`https://www.google.com/maps/search/?api=1&query=${place.lat},${place.lng}&query_place_id=${place.place_id}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={(event) => event.stopPropagation()}
-          className="inline-flex items-center justify-center rounded-full bg-[#e7e3ca] px-4 py-2 text-xs font-semibold text-[#5d5a43] transition hover:bg-[#ddd7be]"
-        >
-          Open map
-        </a>
-      </div>
+      {place.travel_time_to_next ? (
+        <div className="ml-2 mt-4 flex items-center gap-3">
+          <div className="h-8 border-l-2 border-dashed border-brand-outlineVariant/70" />
+          <span className="inline-flex items-center rounded-full bg-brand-surfaceHigh px-3 py-1 text-xs font-semibold text-brand-onSurfaceVariant">
+            ~ {place.travel_time_to_next} travel to next stop
+          </span>
+        </div>
+      ) : null}
     </div>
   )
 }
 
-const DAY_COLORS = ['#1E88E5', '#43A047', '#E53935', '#FB8C00', '#8E24AA']
+const DAY_COLORS = ['#00696b', '#4f46e5', '#f97316', '#0ea5e9', '#a855f7']
 
 export function RecommendationsPanel({
   attractions,
@@ -200,25 +336,24 @@ export function RecommendationsPanel({
   onRefresh,
   generatedAt,
   hydratedFromSnapshot,
+  onGenerateItinerary,
+  itineraryLoading,
 }) {
   const formattedGeneratedAt = formatGeneratedAt(generatedAt)
 
   return (
-    <div className="surface-card p-6 sm:p-8">
-      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <section className="space-y-8 rounded-[30px] bg-white p-6 shadow-[0_18px_46px_-30px_rgba(15,23,42,0.35)]">
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
         <div>
-          <h2 className="editorial-title text-4xl font-semibold text-brand-palm">Recommended Attractions</h2>
-          <p className="mt-2 text-sm leading-7 text-[#6d6a51]">
-            Attractions are filtered by your interests, re-ranked with popularity-aware scoring, and trimmed into an itinerary-ready pool.
+          <p className="field-label">Discovery</p>
+          <h2 className="editorial-title mt-2 text-[1.8rem] font-semibold text-brand-palm">Top Attractions</h2>
+          <p className="mt-2 max-w-2xl text-sm leading-6 text-brand-onSurfaceVariant sm:text-base">
+            Smart recommendations based on ratings, popularity, and interest-aware hybrid scoring, shaped for a {tripDays}-day journey.
           </p>
         </div>
-
         {generated && !loading ? (
-          <button
-            onClick={onRefresh}
-            className="btn-secondary"
-          >
-            Refresh results
+          <button onClick={onRefresh} className="btn-secondary">
+            Refresh Results
           </button>
         ) : null}
       </div>
@@ -230,94 +365,85 @@ export function RecommendationsPanel({
         </div>
       ) : loading ? (
         <div className="space-y-8">
-          <RecommendationSkeletons count={6} />
           <RecommendationSkeletons count={3} />
+          <RecommendationSkeletons count={2} />
         </div>
       ) : !generated ? (
-        <div className="rounded-[28px] bg-[#efe8cd] p-10 text-center">
-          <h3 className="editorial-title text-3xl font-semibold text-brand-palm">Ready when you are</h3>
-          <p className="mx-auto mt-3 max-w-2xl text-sm leading-7 text-[#6d6a51]">
-            Generate smart recommendations to prepare attraction candidates for itinerary planning and separate nearby food options.
+        <div className="rounded-[28px] bg-brand-surfaceLow p-10 text-center">
+          <h3 className="text-2xl font-semibold text-brand-palm">Generate your first curated collection</h3>
+          <p className="mx-auto mt-3 max-w-2xl text-sm leading-7 text-brand-onSurfaceVariant">
+            We'll prepare attractions, food spots, and explanation tags before sequencing them into an itinerary.
           </p>
         </div>
       ) : (
-        <div className="space-y-8">
-          <div className="flex flex-wrap items-center gap-3 text-sm text-[#6d6a51]">
-            <span className="rounded-full bg-[#e7e3ca] px-3 py-1 font-semibold text-[#5d5a43]">
-              {hydratedFromSnapshot ? 'Loaded saved recommendations' : 'Freshly generated recommendations'}
+        <div className="space-y-10">
+          <div className="flex flex-wrap items-center gap-3 text-sm text-brand-onSurfaceVariant">
+            <span className="rounded-full bg-brand-surfaceLow px-3 py-1 font-semibold text-brand-palm">
+              {hydratedFromSnapshot ? 'Loaded saved recommendations' : 'Fresh recommendations'}
             </span>
-            {formattedGeneratedAt ? (
-              <span>Last generated: {formattedGeneratedAt}</span>
-            ) : null}
+            {formattedGeneratedAt ? <span>Last generated: {formattedGeneratedAt}</span> : null}
+            <span className="rounded-full bg-[#def7f7] px-3 py-1 font-semibold text-brand-secondary">
+              {metadata?.ranking_mode || 'hybrid'} ranking
+            </span>
           </div>
 
-          <div className="grid gap-4 md:grid-cols-4">
-            <div className="rounded-[24px] bg-[#efe8cd] p-5">
-              <p className="text-sm text-[#6d6a51]">Attractions selected</p>
-              <p className="editorial-title mt-2 text-3xl font-semibold text-brand-palm">{attractions.length}</p>
+          <section className="space-y-5">
+            <div className="flex items-center gap-3">
+              <h3 className="text-[1.35rem] font-semibold text-brand-palm">Top Attractions</h3>
+              <span className="rounded-full bg-brand-surfaceHigh px-3 py-1 text-sm font-medium text-brand-onSurfaceVariant">
+                {attractions.length} selected
+              </span>
             </div>
-            <div className="rounded-[24px] bg-[#efe8cd] p-5">
-              <p className="text-sm text-[#6d6a51]">Food options</p>
-              <p className="editorial-title mt-2 text-3xl font-semibold text-brand-palm">{restaurants.length}</p>
-            </div>
-            <div className="rounded-[24px] bg-[#efe8cd] p-5">
-              <p className="text-sm text-[#6d6a51]">Interest filter</p>
-              <p className="mt-2 text-xl font-semibold text-brand-palm">
-                {metadata?.interest_filter_applied ? 'Applied' : 'Fallback'}
-              </p>
-            </div>
-            <div className="rounded-[24px] bg-[#efe8cd] p-5">
-              <p className="text-sm text-[#6d6a51]">Ranking mode</p>
-              <p className="mt-2 text-xl font-semibold text-brand-palm">{metadata?.ranking_mode || 'hybrid'}</p>
-            </div>
-          </div>
-
-          <div>
-            <h3 className="editorial-title text-3xl font-semibold text-brand-palm">Recommended Attractions</h3>
-            <p className="mt-2 text-sm leading-7 text-[#6d6a51]">
-              Top sites selected for route optimization across {tripDays} day{tripDays > 1 ? 's' : ''}.
-            </p>
-
             {attractions.length === 0 ? (
-              <div className="mt-5 rounded-[28px] bg-[#efe8cd] p-10 text-center">
-                <h4 className="text-xl font-semibold text-brand-palm">No attractions matched</h4>
-                <p className="mx-auto mt-3 max-w-xl text-sm leading-7 text-[#6d6a51]">
-                  We couldn't assemble an attraction pool for this trip yet. Try broadening interests or refreshing after more place data is available.
-                </p>
+              <div className="rounded-[28px] bg-brand-surfaceLow p-10 text-center">
+                <p className="text-lg font-semibold text-brand-palm">No attractions matched this trip yet.</p>
               </div>
             ) : (
-              <div className="mt-5 grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
+              <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
                 {attractions.map((place) => (
                   <PlaceCard key={place.place_id || place._id} place={place} />
                 ))}
               </div>
             )}
-          </div>
+          </section>
 
-          <div>
-            <h3 className="editorial-title text-3xl font-semibold text-brand-palm">Nearby Food Options</h3>
-            <p className="mt-2 text-sm leading-7 text-[#6d6a51]">
-              High-confidence restaurant suggestions are kept separate so they can be slotted into lunch and dinner stops later.
-            </p>
-
+          <section className="space-y-5">
+            <div className="flex items-center gap-3">
+              <h3 className="text-[1.35rem] font-semibold text-brand-palm">Top Restaurants</h3>
+              <span className="rounded-full bg-brand-surfaceHigh px-3 py-1 text-sm font-medium text-brand-onSurfaceVariant">
+                {restaurants.length} selected
+              </span>
+            </div>
             {restaurants.length === 0 ? (
-              <div className="mt-5 rounded-[28px] bg-[#efe8cd] p-10 text-center">
-                <h4 className="text-xl font-semibold text-brand-palm">No restaurant suggestions yet</h4>
-                <p className="mx-auto mt-3 max-w-xl text-sm leading-7 text-[#6d6a51]">
-                  We couldn't find enough highly rated food options for this city right now.
-                </p>
+              <div className="rounded-[28px] bg-brand-surfaceLow p-10 text-center">
+                <p className="text-lg font-semibold text-brand-palm">No restaurant suggestions yet.</p>
               </div>
             ) : (
-              <div className="mt-5 grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
-                {restaurants.map((place) => (
+              <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
+                {restaurants.slice(0, 4).map((place) => (
                   <PlaceCard key={place.place_id || place._id} place={place} />
                 ))}
               </div>
             )}
+          </section>
+
+          <div className="rounded-[32px] bg-[radial-gradient(circle_at_top_left,rgba(90,248,251,0.12),transparent_20%),linear-gradient(135deg,#000514,#001e43)] px-8 py-10 text-center text-white shadow-[0_24px_56px_-30px_rgba(15,23,42,0.6)]">
+            <h3 className="editorial-title text-[1.75rem] font-semibold">Ready for your itinerary?</h3>
+            <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-white/78 sm:text-base">
+              We'll sequence these selections into a logical, high-efficiency route across your trip.
+            </p>
+            <button
+              type="button"
+              onClick={onGenerateItinerary}
+              disabled={itineraryLoading}
+              className="mt-8 inline-flex items-center justify-center rounded-full bg-white px-10 py-4 text-base font-semibold text-brand-palm transition hover:bg-[#f2f7fb] disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {itineraryLoading ? 'Generating...' : 'Generate Itinerary'}
+            </button>
           </div>
         </div>
       )}
-    </div>
+    </section>
   )
 }
 
@@ -336,6 +462,10 @@ export function ItineraryPanel({
   onFinalize,
   savingFinalized,
   finalizedGeneratedAt,
+  onRequestSwap,
+  onApplySwap,
+  onCloseSwap,
+  swapState,
 }) {
   const formattedGeneratedAt = formatGeneratedAt(generatedAt)
   const formattedFinalizedAt = formatGeneratedAt(finalizedGeneratedAt)
@@ -346,29 +476,26 @@ export function ItineraryPanel({
   const getStopKey = (dayPlan, place, index) => `${dayPlan.day}-${place.place_id || place.name}-${index}`
 
   return (
-    <div className="surface-card p-6 sm:p-8">
-      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <section className="space-y-6 rounded-[30px] bg-white p-6 shadow-[0_18px_46px_-30px_rgba(15,23,42,0.35)]">
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
         <div>
-          <h2 className="editorial-title text-4xl font-semibold text-brand-palm">Day-wise Itinerary</h2>
-          <p className="mt-2 text-sm leading-7 text-[#6d6a51]">
-            Clustered attraction groups are ordered with a nearest-neighbor route to preview daily travel flow.
+          <h2 className="editorial-title text-[1.8rem] font-semibold text-brand-palm">Day-by-Day Journey</h2>
+          <p className="mt-2 max-w-2xl text-sm leading-6 text-brand-onSurfaceVariant sm:text-base">
+            Optimized for minimal travel time, then balanced for meals, pacing, and stop variety.
           </p>
         </div>
 
         {generated && !loading ? (
-          <div className="flex flex-col gap-3 sm:flex-row">
+          <div className="flex flex-wrap gap-3">
             <button
               onClick={onFinalize}
               disabled={savingFinalized}
               className="btn-primary disabled:cursor-not-allowed disabled:opacity-60"
             >
-              {savingFinalized ? 'Saving final...' : 'Save Final Itinerary'}
+              {savingFinalized ? 'Saving final...' : 'Save Finalized'}
             </button>
-            <button
-              onClick={onRefresh}
-              className="btn-secondary"
-            >
-              Refresh itinerary
+            <button onClick={onRefresh} className="btn-secondary">
+              Refresh Itinerary
             </button>
           </div>
         ) : null}
@@ -382,41 +509,37 @@ export function ItineraryPanel({
       ) : loading ? (
         <ItinerarySkeleton />
       ) : !generated ? (
-        <div className="rounded-[28px] bg-[#efe8cd] p-10 text-center">
-          <h3 className="editorial-title text-3xl font-semibold text-brand-palm">Build your day plan</h3>
-          <p className="mx-auto mt-3 max-w-2xl text-sm leading-7 text-[#6d6a51]">
-            Generate a day-wise itinerary to inspect how attractions are grouped and ordered before map routes are added.
+        <div className="rounded-[28px] bg-brand-surfaceLow p-10 text-center">
+          <h3 className="text-2xl font-semibold text-brand-palm">Build your day-by-day plan</h3>
+          <p className="mx-auto mt-3 max-w-2xl text-sm leading-7 text-brand-onSurfaceVariant">
+            Generate an itinerary to enter the workspace view with grouped attractions, travel pacing, and map routing.
           </p>
         </div>
       ) : itineraryDays.length === 0 ? (
-        <div className="rounded-[28px] bg-[#efe8cd] p-10 text-center">
-          <h3 className="editorial-title text-3xl font-semibold text-brand-palm">No itinerary yet</h3>
-          <p className="mx-auto mt-3 max-w-xl text-sm leading-7 text-[#6d6a51]">
-            We couldn't build daily routes for this trip yet. Generate recommendations first or try a different trip setup.
-          </p>
+        <div className="rounded-[28px] bg-brand-surfaceLow p-10 text-center">
+          <h3 className="text-2xl font-semibold text-brand-palm">No itinerary available yet</h3>
         </div>
       ) : (
-        <div className="space-y-5">
-          <div className="flex flex-wrap items-center gap-3 text-sm text-slate-500">
-            <span className="rounded-full bg-slate-100 px-3 py-1 font-semibold text-slate-700">
+        <>
+          <div className="flex flex-wrap items-center gap-3 text-sm text-brand-onSurfaceVariant">
+            <span className="rounded-full bg-brand-surfaceLow px-3 py-1 font-semibold text-brand-palm">
               {hydratedFromSnapshot ? 'Loaded saved itinerary' : 'Freshly generated itinerary'}
             </span>
-            {formattedGeneratedAt ? (
-              <span>Last generated: {formattedGeneratedAt}</span>
-            ) : null}
+            {formattedGeneratedAt ? <span>Last generated: {formattedGeneratedAt}</span> : null}
             {formattedFinalizedAt ? (
-              <span className="rounded-full bg-emerald-50 px-3 py-1 font-semibold text-emerald-700">
-                Final itinerary saved: {formattedFinalizedAt}
+              <span className="rounded-full bg-[#edf7ed] px-3 py-1 font-semibold text-[#2c6a3d]">
+                Finalized at {formattedFinalizedAt}
               </span>
             ) : null}
           </div>
 
-            <div>
-              <h3 className="text-2xl font-semibold text-slate-950">Smart Itinerary Map</h3>
-              <p className="mt-2 text-sm leading-7 text-slate-600">
-                Routes are drawn directly on the map with a different color for each day, using the optimized order returned by the backend.
-              </p>
-              <div className="mt-5">
+          <div className="space-y-8">
+            <div className="overflow-hidden rounded-[30px] bg-white shadow-[0_18px_46px_-30px_rgba(15,23,42,0.35)]">
+              <div className="border-b border-brand-surfaceHigh px-5 py-4">
+                <h3 className="text-[1.3rem] font-semibold text-brand-palm">Map View</h3>
+                <p className="mt-1 text-sm text-brand-onSurfaceVariant">See how your day-by-day journey flows across the city.</p>
+              </div>
+              <div className="p-3">
                 <ItineraryMap
                   itinerary={itineraryDays}
                   selectedStopKey={selectedStopKey}
@@ -425,149 +548,190 @@ export function ItineraryPanel({
               </div>
             </div>
 
-          {itineraryDays.map((dayPlan) => {
-            const route = dayPlan.route || []
-            const formattedDayDate = formatDayDate(dayPlan.date)
+            <div className="space-y-6">
+              {itineraryDays.map((dayPlan) => {
+                const route = dayPlan.route || []
+                const mealsByStopIndex = (dayPlan.meal_suggestions || []).reduce((accumulator, meal) => {
+                  const stopIndex = parseMealStopIndex(meal.near_stop_label)
+                  if (stopIndex === null) {
+                    return accumulator
+                  }
 
-            return (
-              <article
-                key={dayPlan.day}
-                className="rounded-[28px] border border-slate-100 bg-slate-50/60 p-5 shadow-sm"
-              >
-                <div className="mb-4 flex items-center justify-between gap-3">
-                  <div>
-                    <h3 className="text-2xl font-semibold text-slate-950">Day {dayPlan.day}</h3>
-                    <p className="mt-1 text-sm text-slate-500">{route.length} planned stops</p>
-                    {formattedDayDate ? (
-                      <p className="mt-1 text-sm text-slate-500">{formattedDayDate}</p>
+                  if (!accumulator[stopIndex]) {
+                    accumulator[stopIndex] = []
+                  }
+
+                  accumulator[stopIndex].push(meal)
+                  return accumulator
+                }, {})
+                const formattedDayDate = formatDayDate(dayPlan.date)
+                const travelAvg = dayPlan.route_stats?.total_travel_minutes
+                  ? Math.round(dayPlan.route_stats.total_travel_minutes / Math.max(route.length, 1))
+                  : 0
+
+                return (
+                  <article key={dayPlan.day} className="rounded-[26px] bg-[#fbfcfd] p-4 ring-1 ring-brand-surfaceHigh">
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="flex items-start gap-4">
+                        <div
+                          className="mt-1 inline-flex h-10 w-10 items-center justify-center rounded-full text-sm font-semibold text-white"
+                          style={{ backgroundColor: DAY_COLORS[(dayPlan.day - 1) % DAY_COLORS.length] }}
+                        >
+                          {dayPlan.day}
+                        </div>
+                        <div>
+                          <h3 className="editorial-title text-[1.55rem] font-semibold text-brand-palm">
+                            {dayPlan.day_title || `Day ${dayPlan.day}`}
+                          </h3>
+                          <p className="mt-2 text-sm text-brand-onSurfaceVariant">
+                            {formattedDayDate || `${route.length} planned stops`}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-3">
+                        {formattedDayDate ? (
+                          <span className="rounded-full bg-brand-surfaceLow px-3 py-2 text-sm font-medium text-brand-onSurfaceVariant">
+                            {formattedDayDate}
+                          </span>
+                        ) : null}
+                        <button
+                          type="button"
+                          onClick={() => onRegenerateDay?.(dayPlan.day)}
+                          className="rounded-full bg-white px-4 py-2 text-sm font-semibold text-brand-secondary ring-1 ring-brand-surfaceHigh transition hover:bg-brand-surfaceLow"
+                        >
+                          {actionDay === dayPlan.day ? 'Regenerating...' : 'Regenerate'}
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="mt-4 rounded-[24px] bg-white p-4 shadow-[0_14px_30px_-26px_rgba(15,23,42,0.2)]">
+                      <p className="text-sm text-brand-onSurfaceVariant">Travel Info</p>
+                      <p className="mt-1 text-sm text-brand-onSurfaceVariant">
+                        ~{formatMinutes(travelAvg)} travel between stops
+                      </p>
+                      <p className="mt-2 text-xs font-semibold uppercase tracking-[0.18em] text-brand-secondary">
+                        Total travel time: {formatMinutes(dayPlan.route_stats?.total_travel_minutes || 0)}
+                      </p>
+                    </div>
+
+                    {dayPlan.customized_order ? (
+                      <div className="mt-4 rounded-2xl border border-sky-200 bg-sky-50 px-4 py-3 text-sm text-sky-700">
+                        Stop order was customized manually. Travel timings and day totals were recalculated for this arrangement.
+                      </div>
                     ) : null}
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <button
-                      type="button"
-                      onClick={() => onRegenerateDay?.(dayPlan.day)}
-                      className="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-600 transition hover:border-slate-300 hover:bg-slate-50"
-                    >
-                      {actionDay === dayPlan.day ? 'Regenerating...' : 'Regenerate day'}
-                    </button>
-                    <div
-                      className="h-3 w-3 rounded-full"
-                      style={{ backgroundColor: DAY_COLORS[(dayPlan.day - 1) % DAY_COLORS.length] }}
-                    />
-                    <div className="rounded-full bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-slate-500 shadow-sm">
-                      Clustered route
-                    </div>
-                  </div>
-                </div>
 
-                {dayPlan.center ? (
-                  <p className="mb-2 text-sm text-slate-500">
-                    Cluster center: {dayPlan.center.lat.toFixed(4)}, {dayPlan.center.lng.toFixed(4)}
-                  </p>
-                ) : null}
+                    <div className="mt-5 space-y-6">
+                      {route.map((place, index) => (
+                        <div key={place.place_id || `${dayPlan.day}-${index}`} className="space-y-4">
+                          <DayPlaceRow
+                            place={place}
+                            order={index + 1}
+                            selected={selectedStopKey === getStopKey(dayPlan, place, index)}
+                            onSelect={() => setSelectedStopKey(getStopKey(dayPlan, place, index))}
+                            onToggleLock={() => onToggleLock?.(dayPlan.day, place.place_id)}
+                            onRequestSwap={() => onRequestSwap?.(dayPlan.day, place)}
+                            draggable
+                            onDragStart={() => {
+                              setDraggedStop({ day: dayPlan.day, index })
+                              setDragTarget({ day: dayPlan.day, index })
+                            }}
+                            onDragEnd={() => {
+                              setDraggedStop(null)
+                              setDragTarget(null)
+                            }}
+                            onDragOver={(event) => {
+                              event.preventDefault()
+                              setDragTarget({ day: dayPlan.day, index })
+                            }}
+                            onDrop={(event) => {
+                              event.preventDefault()
+                              if (draggedStop && draggedStop.day === dayPlan.day && draggedStop.index !== index) {
+                                onReorderDay?.(dayPlan.day, draggedStop.index, index)
+                              }
+                              setDraggedStop(null)
+                              setDragTarget(null)
+                            }}
+                            isDragTarget={dragTarget?.day === dayPlan.day && dragTarget?.index === index}
+                          />
 
-                {dayPlan.start_location ? (
-                  <p className="mb-2 text-sm text-slate-500">
-                    Start from: {dayPlan.start_location.lat.toFixed(4)}, {dayPlan.start_location.lng.toFixed(4)}
-                  </p>
-                ) : null}
-
-                {dayPlan.routing_mode ? (
-                  <p className="mb-2 text-sm text-slate-500">Routing mode: {dayPlan.routing_mode}</p>
-                ) : null}
-
-                {dayPlan.customized_order ? (
-                  <div className="mb-4 rounded-2xl border border-sky-200 bg-sky-50 px-4 py-3 text-sm text-sky-700">
-                    Stop order was customized manually. Travel timings and day totals were recalculated for this arrangement.
-                  </div>
-                ) : null}
-
-                {dayPlan.route_stats ? (
-                  <div className="mb-4 grid gap-3 md:grid-cols-4">
-                    <div className="rounded-2xl bg-white px-4 py-3 text-sm text-slate-600 shadow-sm">
-                      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">Travel</p>
-                      <p className="mt-1 font-semibold text-slate-900">{formatMinutes(dayPlan.route_stats.total_travel_minutes)}</p>
-                    </div>
-                    <div className="rounded-2xl bg-white px-4 py-3 text-sm text-slate-600 shadow-sm">
-                      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">Visits</p>
-                      <p className="mt-1 font-semibold text-slate-900">{formatMinutes(dayPlan.route_stats.total_visit_minutes)}</p>
-                    </div>
-                    <div className="rounded-2xl bg-white px-4 py-3 text-sm text-slate-600 shadow-sm">
-                      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">Meals</p>
-                      <p className="mt-1 font-semibold text-slate-900">{formatMinutes(dayPlan.route_stats.meal_break_minutes)}</p>
-                    </div>
-                    <div className="rounded-2xl bg-white px-4 py-3 text-sm text-slate-600 shadow-sm">
-                      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">Day total</p>
-                      <p className="mt-1 font-semibold text-slate-900">{formatMinutes(dayPlan.route_stats.total_day_minutes)}</p>
-                    </div>
-                  </div>
-                ) : null}
-
-                {typeof dayPlan.opening_hours_applied === 'boolean' ? (
-                  <p className="mb-4 text-sm text-slate-500">
-                    Opening hours: {dayPlan.opening_hours_applied ? 'Applied where available' : 'Not available yet'}
-                  </p>
-                ) : null}
-
-                <div className="space-y-3">
-                  {route.map((place, index) => (
-                    <DayPlaceRow
-                      key={place.place_id || `${dayPlan.day}-${index}`}
-                      place={place}
-                      order={index + 1}
-                      selected={selectedStopKey === getStopKey(dayPlan, place, index)}
-                      onSelect={() => setSelectedStopKey(getStopKey(dayPlan, place, index))}
-                      onToggleLock={() => onToggleLock?.(dayPlan.day, place.place_id)}
-                      draggable
-                      onDragStart={() => {
-                        setDraggedStop({ day: dayPlan.day, index })
-                        setDragTarget({ day: dayPlan.day, index })
-                      }}
-                      onDragEnd={() => {
-                        setDraggedStop(null)
-                        setDragTarget(null)
-                      }}
-                      onDragOver={(event) => {
-                        event.preventDefault()
-                        setDragTarget({ day: dayPlan.day, index })
-                      }}
-                      onDrop={(event) => {
-                        event.preventDefault()
-                        if (draggedStop && draggedStop.day === dayPlan.day && draggedStop.index !== index) {
-                          onReorderDay?.(dayPlan.day, draggedStop.index, index)
-                        }
-                        setDraggedStop(null)
-                        setDragTarget(null)
-                      }}
-                      isDragTarget={dragTarget?.day === dayPlan.day && dragTarget?.index === index}
-                    />
-                  ))}
-                </div>
-
-                {dayPlan.meal_suggestions?.length ? (
-                  <div className="mt-5 rounded-2xl border border-slate-100 bg-white p-4">
-                    <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">Suggested meals</p>
-                    <div className="mt-3 space-y-2">
-                      {dayPlan.meal_suggestions.map((meal) => (
-                        <div key={`${dayPlan.day}-${meal.type}-${meal.restaurant?.place_id || meal.restaurant?.name}`} className="flex items-center justify-between gap-3 text-sm">
-                          <span className="font-semibold text-slate-700">{meal.type}</span>
-                          <span className="text-slate-600">{meal.restaurant?.name}</span>
+                          {(mealsByStopIndex[index] || []).map((meal) => (
+                            <MealFlowCard
+                              key={`${dayPlan.day}-${index}-${meal.type}-${meal.restaurant?.place_id || meal.restaurant?.name}`}
+                              meal={meal}
+                            />
+                          ))}
                         </div>
                       ))}
                     </div>
-                  </div>
-                ) : null}
+                  </article>
+                )
+              })}
+            </div>
+          </div>
 
-                {dayPlan.route_stats?.over_travel_limit || dayPlan.route_stats?.over_total_limit ? (
-                  <div className="mt-4 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-700">
-                    This day is close to your pacing limit. Lock the must-see places and regenerate this day if you want a lighter route.
+          {swapState?.open ? (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
+              <div className="w-full max-w-2xl rounded-[30px] bg-white p-6 shadow-[0_34px_80px_-34px_rgba(15,23,42,0.5)]">
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <h3 className="editorial-title text-[1.55rem] font-semibold text-brand-palm">Similar places you might like</h3>
+                    <p className="mt-2 text-sm leading-7 text-brand-onSurfaceVariant">
+                      Replace <span className="font-semibold text-brand-palm">{swapState.place?.name}</span> with a similar stop that keeps the day feeling coherent.
+                    </p>
                   </div>
-                ) : null}
-              </article>
-            )
-          })}
-        </div>
+                  <button type="button" onClick={onCloseSwap} className="btn-ghost px-4 py-2">
+                    Close
+                  </button>
+                </div>
+
+                {swapState.loading ? (
+                  <div className="mt-6 rounded-2xl bg-brand-surfaceLow p-5 text-sm text-brand-onSurfaceVariant">
+                    Finding swap suggestions...
+                  </div>
+                ) : swapState.suggestions?.length ? (
+                  <div className="mt-6 space-y-3">
+                    {swapState.suggestions.map((suggestion) => (
+                      <div
+                        key={suggestion.place_id}
+                        className="flex flex-col gap-4 rounded-[24px] bg-brand-surfaceLow p-4 lg:flex-row lg:items-center lg:justify-between"
+                      >
+                        <div>
+                          <h4 className="text-xl font-semibold text-brand-palm">{suggestion.name}</h4>
+                          <p className="mt-1 text-sm text-brand-onSurfaceVariant">{formatCategory(suggestion.category || suggestion.types?.[0] || 'place')}</p>
+                          <div className="mt-3 flex flex-wrap gap-2">
+                            {(suggestion.inferred_interest_tags || []).slice(0, 3).map((tag) => (
+                              <span key={`${suggestion.place_id}-${tag}`} className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-brand-onSurfaceVariant">
+                                {formatCategory(tag)}
+                              </span>
+                            ))}
+                          </div>
+                          {suggestion.swap_match_reason ? (
+                            <p className="mt-2 text-xs font-semibold text-brand-secondary">{suggestion.swap_match_reason}</p>
+                          ) : null}
+                          <p className="mt-2 text-sm font-medium text-brand-palm">{renderStars(suggestion.rating)} {Number(suggestion.rating || 0).toFixed(1)}</p>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => onApplySwap?.(suggestion.place_id)}
+                          disabled={swapState.applyingPlaceId === suggestion.place_id}
+                          className="btn-primary px-5 py-3 disabled:cursor-not-allowed disabled:opacity-60"
+                        >
+                          {swapState.applyingPlaceId === suggestion.place_id ? 'Swapping...' : 'Use this'}
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="mt-6 rounded-2xl bg-brand-surfaceLow p-5 text-sm text-brand-onSurfaceVariant">
+                    No good swap suggestions are available for this stop right now.
+                  </div>
+                )}
+              </div>
+            </div>
+          ) : null}
+        </>
       )}
-    </div>
+    </section>
   )
 }

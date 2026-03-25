@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Voyager | Your Digital Concierge</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-primary-fixed-variant": "#264778",
+              "outline": "#74777f",
+              "secondary-fixed": "#5af8fb",
+              "on-surface-variant": "#43474e",
+              "tertiary-fixed-dim": "#59dad1",
+              "surface-container-low": "#f3f4f5",
+              "on-primary-fixed": "#001b3d",
+              "secondary-fixed-dim": "#2ddbde",
+              "primary-fixed-dim": "#a9c7ff",
+              "on-error-container": "#93000a",
+              "tertiary-fixed": "#79f6ed",
+              "on-secondary-fixed-variant": "#004f51",
+              "surface-variant": "#e1e3e4",
+              "surface-container-high": "#e7e8e9",
+              "primary-fixed": "#d6e3ff",
+              "on-tertiary-fixed-variant": "#00504c",
+              "tertiary": "#000606",
+              "on-secondary-fixed": "#002020",
+              "inverse-primary": "#a9c7ff",
+              "background": "#f8f9fa",
+              "on-error": "#ffffff",
+              "error-container": "#ffdad6",
+              "primary": "#000514",
+              "primary-container": "#001e43",
+              "on-primary-container": "#6887bc",
+              "surface-container": "#edeeef",
+              "tertiary-container": "#002321",
+              "inverse-surface": "#2e3132",
+              "on-primary": "#ffffff",
+              "secondary-container": "#56f5f8",
+              "error": "#ba1a1a",
+              "secondary": "#00696b",
+              "surface": "#f8f9fa",
+              "surface-container-lowest": "#ffffff",
+              "on-secondary": "#ffffff",
+              "inverse-on-surface": "#f0f1f2",
+              "outline-variant": "#c4c6cf",
+              "on-tertiary-container": "#00968f",
+              "on-tertiary": "#ffffff",
+              "surface-bright": "#f8f9fa",
+              "on-tertiary-fixed": "#00201e",
+              "surface-container-highest": "#e1e3e4",
+              "on-background": "#191d1d",
+              "surface-tint": "#405f91",
+              "surface-dim": "#d9dadb",
+              "on-secondary-container": "#006e70",
+              "on-surface": "#191c1d"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .glass-nav {
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+      }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body selection:bg-secondary-fixed selection:text-on-secondary-fixed-variant">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-white/70 backdrop-blur-xl shadow-sm font-['Plus_Jakarta_Sans'] tracking-tight">
+<div class="flex justify-between items-center h-20 px-8 max-w-7xl mx-auto">
+<div class="text-xl font-bold tracking-tighter text-slate-900">Voyager</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-teal-600 font-semibold border-b-2 border-teal-600 py-1" href="#">Destinations</a>
+<a class="text-slate-600 hover:text-slate-900 transition-colors" href="#">Itineraries</a>
+<a class="text-slate-600 hover:text-slate-900 transition-colors" href="#">Experience</a>
+<a class="text-slate-600 hover:text-slate-900 transition-colors" href="#">Journal</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-slate-600 hover:text-slate-900 transition-colors px-4 py-2 text-sm font-medium">Login</button>
+<button class="bg-gradient-to-br from-primary to-primary-container text-white px-6 py-2.5 rounded-full text-sm font-semibold hover:opacity-90 transition-all duration-300 active:scale-95">Get Started</button>
+</div>
+</div>
+</nav>
+<main class="pt-20">
+<!-- Hero Section -->
+<section class="relative h-[921px] min-h-[700px] flex items-center overflow-hidden">
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover" data-alt="Cinematic wide shot of a luxury sailing yacht gliding through the turquoise waters of Santorini at sunset with caldera cliffs in background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAETGyRxQFA_MTsqcxcHod0b7qOlnmtJaahNeK8HCgc1-44i3E-_HkhbCxin5I6OAeb6GsiYMyJyOBUK4Pze7DzwKrAHryv3LeInPKM95bwtDJUloXGVOOQOAbz5rbcnM_zScOD7Gwxt-etBADBSeTGxS6ElE2-Ohf1cAbdfximyKCOQ2RXNBG6heVfyI83EixbURZc7HD0Xnc8_8aYcw1HN88AbqvJNYG6AZ1VuJht4oc3nkvq7x2BpjZWS4MwRL84i3KOqoqdf5Q"/>
+<div class="absolute inset-0 bg-gradient-to-r from-primary/80 via-primary/40 to-transparent"></div>
+</div>
+<div class="relative z-10 max-w-7xl mx-auto px-8 w-full">
+<div class="max-w-2xl">
+<span class="inline-block px-4 py-1.5 rounded-full bg-secondary-fixed/20 text-secondary-fixed text-sm font-semibold tracking-wide mb-6 backdrop-blur-md">
+                        REDEFINING MODERN TRAVEL
+                    </span>
+<h1 class="font-headline text-6xl md:text-7xl font-extrabold text-white leading-[1.1] tracking-tighter mb-8">
+                        The World, <br/>Curated for You.
+                    </h1>
+<p class="text-lg md:text-xl text-slate-200 mb-10 leading-relaxed font-body">
+                        Experience travel with an intelligent concierge that anticipates your needs, synchronizes your social circle, and crafts bespoke itineraries in real-time.
+                    </p>
+<div class="flex flex-wrap gap-4">
+<button class="bg-secondary text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-secondary/90 transition-all shadow-xl shadow-secondary/20">
+                            Start Planning
+                        </button>
+<button class="bg-white/10 backdrop-blur-md border border-white/20 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-white/20 transition-all flex items-center gap-2">
+<span class="material-symbols-outlined">play_circle</span>
+                            Watch Story
+                        </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Feature Bento Grid -->
+<section class="py-32 px-8 max-w-7xl mx-auto">
+<div class="mb-20">
+<h2 class="font-headline text-4xl md:text-5xl font-extrabold text-primary mb-6 tracking-tighter">Travel Intelligence.</h2>
+<p class="text-on-surface-variant max-w-xl text-lg">Sophisticated technology meets human-centric design to transform how you explore the planet.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6 h-auto md:h-[600px]">
+<!-- Personalization Card -->
+<div class="md:col-span-7 bg-surface-container-lowest rounded-xl p-10 flex flex-col justify-between group overflow-hidden relative border border-outline-variant/10 shadow-sm">
+<div class="relative z-10">
+<div class="w-12 h-12 rounded-lg bg-primary-fixed-dim/30 flex items-center justify-center text-primary mb-6">
+<span class="material-symbols-outlined" data-weight="fill">psychology</span>
+</div>
+<h3 class="font-headline text-3xl font-bold text-primary mb-4">ML Personalization</h3>
+<p class="text-on-surface-variant text-lg max-w-sm">Our neural engine learns your aesthetic and tempo, suggesting destinations that resonate with your travel soul.</p>
+</div>
+<div class="absolute right-0 bottom-0 w-1/2 opacity-10 group-hover:opacity-20 transition-opacity duration-500">
+<span class="material-symbols-outlined text-[200px]" data-weight="fill">neurology</span>
+</div>
+</div>
+<!-- Interactive Map Card -->
+<div class="md:col-span-5 bg-primary rounded-xl p-10 flex flex-col justify-end relative overflow-hidden group">
+<img class="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:scale-110 transition-transform duration-700" data-alt="Stylized top-down view of a digital map showing glowing blue routes and destination markers over a dark navy topographic terrain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBm3sdsYdz4CTsTu_NIp3yijrUFHp6VWoVdQzWICao5f68m7IXErHPO-wPu4i9BueiPUHEd-Z7LzZNpzwS0GDex2RzyJ9SIL9_T-gZnoMM8EkVkq_tii-OmJg-n7U6r27nWeY9vrJCDX-ooSKUTCxur542pYhW8_RU3sNEGK24EdqVmlE-KePo4idG56yDMswxyd1F0A50pujsZW2L3MrVyr1ciRqYO0aPCFHbLRSdpx_0N6SPmgJTKnQMWy7utdtWL2f26KiUK98A"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary via-transparent to-transparent"></div>
+<div class="relative z-10">
+<h3 class="font-headline text-2xl font-bold text-white mb-2">Interactive Maps</h3>
+<p class="text-primary-fixed/80">Real-time dynamic pathfinding for the spontaneous traveler.</p>
+<div class="mt-6 flex gap-2">
+<div class="px-3 py-1 rounded-full bg-secondary-fixed/20 text-secondary-fixed text-xs font-bold border border-secondary-fixed/30">LIVE TRAFFIC</div>
+<div class="px-3 py-1 rounded-full bg-white/10 text-white text-xs font-bold border border-white/20">3D TERRAIN</div>
+</div>
+</div>
+</div>
+<!-- Social Collaboration -->
+<div class="md:col-span-5 bg-surface-container-low rounded-xl p-10 flex items-center gap-6">
+<div class="flex -space-x-4">
+<img class="w-12 h-12 rounded-full border-4 border-surface-container-low object-cover" data-alt="Portrait of a smiling woman in sunlit garden" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6iq3nmOy-XzF68VKU_C_w69BzqjfWO1mxVbFnOLuUfGjmQ6mNqq8aYA8gcEGo-ItSS_MS_2pT2DsJSe4Vlak2NWlxMnqrWyF0e2iAPtSJMEIf2tpglcC6gGXxKhRJ4_XfyqADKywLFdakX1XUkLVNphTiWMQM30Y305FZYjwBvgi5Ns6oRoc1Z2DhNG_2EfeOrtswEkHU6GSODm7llHB_IuDQtgsk7uGrc7JFHJ-v7YPER0BCTG_MlRau-tofipLtuOIsQSy2EHM"/>
+<img class="w-12 h-12 rounded-full border-4 border-surface-container-low object-cover" data-alt="Portrait of a young man with a beard outdoors" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8uUN6Ncq7jqacKbb3hHoS8TEXnKBOHH43aiQE-1UXblwd8Eki6fGjZMyAhv4N-RlOzLDfTCp2Dv_ZSiBoJVJBa7F6yRoKnsKlUJxulfNPuA6p2UeQRhvV65ZV6U7283fLIbp2z19ZPdpC65eK14Y_XyJ_rhZjVs4kFqln76yRr5SkPJsvA7_vtrHlQ3DK6FlyRetkdwFRSbQbnOZ7ZJ_TCl60Kb-C4CJYOq1u1XXwA70l6tiv3O72VDcMxCjU05lcmJ_FNHE6m0w"/>
+<img class="w-12 h-12 rounded-full border-4 border-surface-container-low object-cover" data-alt="Portrait of a young woman with glasses" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfM4hCP1dd2n5F3-3F1XgEV-CzyHsGXjlUy-8sovRXxDPFZhZD-76k0E0pYyH3q0NXS9Q6sGAY3eqhpQHFYBPyKNGABRJk4B-_NcPaei_C1to6lKfjkzr-Prvame4SgyOjSXNAAJndgaR3PZin192EhCQxuYXZlc8x7SNifuinLw7Ksw0I6PfNP11flzmL7glCrp0CgQljyaSCXT74AMl6Cp3UB3L484rtBIpU14a_fwJli2jPfEjWfFwVexSuY0I5RRcYbKtwvhs"/>
+<div class="w-12 h-12 rounded-full bg-secondary flex items-center justify-center text-white text-xs font-bold border-4 border-surface-container-low">+12</div>
+</div>
+<div>
+<h3 class="font-headline text-xl font-bold text-primary">Social Sync</h3>
+<p class="text-on-surface-variant text-sm">Plan and split expenses with your global crew instantly.</p>
+</div>
+</div>
+<!-- Integration/Stats Card -->
+<div class="md:col-span-7 bg-surface-container-high rounded-xl p-10 flex items-center justify-between">
+<div class="space-y-2">
+<div class="text-4xl font-black text-secondary">98%</div>
+<div class="text-sm font-bold text-primary/60 tracking-widest uppercase">Match Accuracy</div>
+</div>
+<div class="h-12 w-[1px] bg-outline-variant/30"></div>
+<div class="space-y-2">
+<div class="text-4xl font-black text-secondary">2.4M</div>
+<div class="text-sm font-bold text-primary/60 tracking-widest uppercase">Global Spots</div>
+</div>
+<div class="h-12 w-[1px] bg-outline-variant/30"></div>
+<div class="space-y-2">
+<div class="text-4xl font-black text-secondary">150+</div>
+<div class="text-sm font-bold text-primary/60 tracking-widest uppercase">Concierges</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Social Proof / Testimonial Section -->
+<section class="py-32 bg-surface-container-low">
+<div class="max-w-7xl mx-auto px-8">
+<div class="grid md:grid-cols-2 gap-16 items-center">
+<div>
+<div class="flex gap-1 mb-6 text-secondary">
+<span class="material-symbols-outlined" data-weight="fill">star</span>
+<span class="material-symbols-outlined" data-weight="fill">star</span>
+<span class="material-symbols-outlined" data-weight="fill">star</span>
+<span class="material-symbols-outlined" data-weight="fill">star</span>
+<span class="material-symbols-outlined" data-weight="fill">star</span>
+</div>
+<blockquote class="font-headline text-3xl md:text-4xl font-medium text-primary italic leading-tight mb-8">
+                            "Voyager didn't just book a trip; they designed a chapter of my life I'll never forget. The ML recommendations were eerily accurate to my tastes."
+                        </blockquote>
+<div class="flex items-center gap-4">
+<div class="w-14 h-14 rounded-full bg-slate-300 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Headshot of a professional man in a suit smiling subtly" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3O-YMuxRBGEqjslkeM5s3PDRmbuAglx5eiFPFaObw_VpvtZdSnQgBr2CGfjSRO54_0l594wEk2i6AMsj0pwCAkFDpNuU3Xi8VeLuCrNvV7iI8NlwvIzqMbzdkGKytOe3T4tP4pkPvm3WjQyR3ti7qRVL-OKjC3GsuVzKl8LYlqV_bAm_sCY1viNnf6Djl3dvGPO27WnN8GeDQBZ2MEgbK-5kY4d4CYEF_nY4NShrE0hSBXdzsGGOGB1LxKzXVZ0D0Hi0EG4JNf-I"/>
+</div>
+<div>
+<div class="font-bold text-primary">Marcus Thorne</div>
+<div class="text-sm text-on-surface-variant font-medium italic">Venture Partner, London</div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-surface-container-lowest p-8 rounded-2xl shadow-sm space-y-4 translate-y-8">
+<div class="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">explore</span>
+</div>
+<div class="text-2xl font-bold text-primary">12k+</div>
+<p class="text-xs font-semibold text-on-surface-variant uppercase tracking-widest">Luxury Stays</p>
+</div>
+<div class="bg-primary p-8 rounded-2xl shadow-xl space-y-4">
+<div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-secondary-fixed">
+<span class="material-symbols-outlined">verified_user</span>
+</div>
+<div class="text-2xl font-bold text-white">100%</div>
+<p class="text-xs font-semibold text-primary-fixed/60 uppercase tracking-widest">Secure Payments</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Call to Action -->
+<section class="py-24 px-8">
+<div class="max-w-7xl mx-auto bg-gradient-to-br from-primary to-primary-container rounded-[2rem] p-12 md:p-24 overflow-hidden relative text-center">
+<div class="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 100 100">
+<path d="M0 100 C 20 0 50 0 100 100 Z" fill="white" fill-opacity="0.1"></path>
+</svg>
+</div>
+<div class="relative z-10 max-w-2xl mx-auto">
+<h2 class="font-headline text-4xl md:text-5xl font-extrabold text-white mb-8 tracking-tight">Your next story begins with a single click.</h2>
+<p class="text-primary-fixed/80 text-lg mb-12">Join 50,000+ elite travelers who have upgraded their journey with the Digital Concierge.</p>
+<div class="flex flex-col sm:flex-row gap-4 justify-center">
+<button class="bg-secondary-fixed text-on-secondary-fixed-variant px-10 py-4 rounded-full font-bold text-lg hover:brightness-105 transition-all">Start Your Itinerary</button>
+<button class="bg-transparent border border-white/30 text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-white/10 transition-all">View Experiences</button>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-slate-50 w-full py-12 px-8 font-['Inter'] text-sm">
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="text-lg font-black text-slate-900">Voyager</div>
+<div class="flex flex-wrap justify-center gap-8">
+<a class="text-slate-500 hover:text-teal-500 transition-colors" href="#">Privacy Policy</a>
+<a class="text-slate-500 hover:text-teal-500 transition-colors" href="#">Terms of Service</a>
+<a class="text-slate-500 hover:text-teal-500 transition-colors" href="#">Cookie Settings</a>
+<a class="text-slate-500 hover:text-teal-500 transition-colors" href="#">Global Support</a>
+<a class="text-slate-500 hover:text-teal-500 transition-colors" href="#">Partner Program</a>
+</div>
+<div class="text-slate-500 text-xs text-center md:text-right">
+                © 2024 Voyager Digital Concierge. All rights reserved.
+            </div>
+</div>
+</footer>
+</body></html>

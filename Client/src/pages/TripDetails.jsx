@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { ItineraryPanel, RecommendationsPanel } from '../components/TripDetailsPanels'
 import api from '../services/api'
-import { formatCurrency, getCityGradient, getInterestMeta } from '../utils/travel'
+import { formatCurrency, getInterestMeta } from '../utils/travel'
 
 function formatTripDate(value) {
   if (!value) {
@@ -15,7 +15,8 @@ function formatTripDate(value) {
   }
 
   return new Intl.DateTimeFormat('en-IN', {
-    dateStyle: 'medium',
+    day: 'numeric',
+    month: 'short',
   }).format(date)
 }
 
@@ -46,9 +47,7 @@ function normalizeItineraryDays(days) {
       + parseDurationToMinutes(place.return_travel_time_to_start)
     ), 0)
     const visitMinutes = route.reduce((sum, place) => sum + Number(place.visit_duration_minutes || 0), 0)
-    const mealBreakMinutes = mealSuggestions.reduce((sum, meal) => (
-      sum + (meal.type === 'Dinner' ? 75 : 60)
-    ), 0)
+    const mealBreakMinutes = mealSuggestions.reduce((sum, meal) => sum + (meal.type === 'Dinner' ? 75 : 60), 0)
 
     return {
       ...day,
@@ -91,6 +90,14 @@ function TripDetails() {
   const [recommendationsFromSnapshot, setRecommendationsFromSnapshot] = useState(false)
   const [itineraryFromSnapshot, setItineraryFromSnapshot] = useState(false)
   const [itineraryActionDay, setItineraryActionDay] = useState(null)
+  const [swapState, setSwapState] = useState({
+    open: false,
+    dayNumber: null,
+    place: null,
+    suggestions: [],
+    loading: false,
+    applyingPlaceId: '',
+  })
 
   const hydrateSavedPlans = (tripData) => {
     const recommendationSnapshot = tripData?.recommendationSnapshot
@@ -101,9 +108,7 @@ function TripDetails() {
       setAttractions(recommendationSnapshot.attractions || [])
       setRestaurants(recommendationSnapshot.restaurants || [])
       setMetadata(recommendationSnapshot.metadata || null)
-      setRecommendationsGenerated(Boolean(
-        (recommendationSnapshot.attractions || []).length || (recommendationSnapshot.restaurants || []).length,
-      ))
+      setRecommendationsGenerated(Boolean((recommendationSnapshot.attractions || []).length || (recommendationSnapshot.restaurants || []).length))
       setRecommendationsGeneratedAt(recommendationSnapshot.generatedAt || '')
       setRecommendationsFromSnapshot(true)
     } else {
@@ -119,9 +124,7 @@ function TripDetails() {
       setItineraryDays(normalizeItineraryDays(itinerarySnapshot.itinerary || []))
       setItineraryRestaurants(itinerarySnapshot.restaurants || [])
       setItineraryMetadata(itinerarySnapshot.metadata || null)
-      setItineraryGenerated(Boolean(
-        (itinerarySnapshot.itinerary || []).length,
-      ))
+      setItineraryGenerated(Boolean((itinerarySnapshot.itinerary || []).length))
       setItineraryGeneratedAt(itinerarySnapshot.generatedAt || '')
       setItineraryFromSnapshot(true)
     } else {
@@ -323,28 +326,113 @@ function TripDetails() {
     }
   }
 
+  const openSwapSuggestions = async (dayNumber, place) => {
+    try {
+      setSwapState({
+        open: true,
+        dayNumber,
+        place,
+        suggestions: [],
+        loading: true,
+        applyingPlaceId: '',
+      })
+      setItineraryError('')
+
+      const response = await api.post(`/itinerary/${id}/swap-options/${dayNumber}`, {
+        placeId: place.place_id,
+      })
+
+      setSwapState({
+        open: true,
+        dayNumber,
+        place,
+        suggestions: response.data?.suggestions || [],
+        loading: false,
+        applyingPlaceId: '',
+      })
+    } catch (err) {
+      setSwapState({
+        open: false,
+        dayNumber: null,
+        place: null,
+        suggestions: [],
+        loading: false,
+        applyingPlaceId: '',
+      })
+      setItineraryError(err.response?.data?.message || 'Failed to load swap suggestions.')
+    }
+  }
+
+  const closeSwapSuggestions = () => {
+    setSwapState({
+      open: false,
+      dayNumber: null,
+      place: null,
+      suggestions: [],
+      loading: false,
+      applyingPlaceId: '',
+    })
+  }
+
+  const applySwapSuggestion = async (replacementPlaceId) => {
+    if (!swapState.dayNumber || !swapState.place?.place_id) {
+      return
+    }
+
+    try {
+      setSwapState((current) => ({
+        ...current,
+        applyingPlaceId: replacementPlaceId,
+      }))
+      setItineraryActionDay(swapState.dayNumber)
+      setItineraryError('')
+
+      const response = await api.post(`/itinerary/${id}/swap-place/${swapState.dayNumber}`, {
+        placeId: swapState.place.place_id,
+        replacementPlaceId,
+      })
+      const itineraryData = response.data || {}
+
+      setItineraryDays(normalizeItineraryDays(itineraryData.itinerary || []))
+      setItineraryRestaurants(itineraryData.restaurants || [])
+      setItineraryMetadata(itineraryData.metadata || null)
+      setItineraryGenerated(true)
+      setItineraryGeneratedAt(new Date().toISOString())
+      setItineraryFromSnapshot(false)
+      closeSwapSuggestions()
+    } catch (err) {
+      setItineraryError(err.response?.data?.message || 'Failed to swap itinerary place.')
+      setSwapState((current) => ({
+        ...current,
+        applyingPlaceId: '',
+      }))
+    } finally {
+      setItineraryActionDay(null)
+    }
+  }
+
   useEffect(() => {
     fetchTrip()
   }, [id])
 
   if (loadingTrip) {
     return (
-      <section className="surface-card p-8 text-center">
-        <p className="text-[#6d6a51]">Loading trip details...</p>
+      <section className="rounded-[30px] bg-white p-10 text-center shadow-soft">
+        <p className="text-brand-onSurfaceVariant">Loading trip details...</p>
       </section>
     )
   }
 
   if (tripError) {
     return (
-      <section>
+      <section className="space-y-4">
         <button
           onClick={() => navigate('/dashboard')}
-          className="btn-ghost mb-4 px-4 py-2"
+          className="btn-ghost px-4 py-2"
         >
           Back to dashboard
         </button>
-        <div className="surface-card p-8">
+        <div className="rounded-[30px] bg-white p-8 shadow-soft">
           <p className="rounded-2xl bg-[#f5ddd8] px-4 py-3 text-[#8a3022]">{tripError}</p>
         </div>
       </section>
@@ -353,135 +441,138 @@ function TripDetails() {
 
   if (!trip) {
     return (
-      <section>
+      <section className="space-y-4">
         <button
           onClick={() => navigate('/dashboard')}
-          className="btn-ghost mb-4 px-4 py-2"
+          className="btn-ghost px-4 py-2"
         >
           Back to dashboard
         </button>
-        <div className="surface-card p-8 text-center">
-          <p className="text-[#6d6a51]">Trip not found.</p>
+        <div className="rounded-[30px] bg-white p-8 text-center shadow-soft">
+          <p className="text-brand-onSurfaceVariant">Trip not found.</p>
         </div>
       </section>
     )
   }
 
-  const gradient = getCityGradient(trip.city)
-
   return (
     <section className="space-y-8">
-      <button
-        onClick={() => navigate('/dashboard')}
-        className="btn-ghost px-4 py-2"
-      >
-        Back to dashboard
-      </button>
+      <div className="space-y-8">
+        <header className="flex flex-col gap-5 rounded-[30px] bg-white px-6 py-5 shadow-[0_18px_46px_-30px_rgba(15,23,42,0.35)] lg:flex-row lg:items-center lg:justify-between">
+          <div>
+            <p className="text-[1.7rem] font-semibold text-brand-palm">{trip.city}</p>
+            <p className="mt-1 text-brand-onSurfaceVariant">Curated trip workspace</p>
+          </div>
 
-      <div className={`hero-panel bg-gradient-to-br ${gradient}`}>
-        <div className="p-8 sm:p-10">
-          <div className="flex flex-col gap-8 xl:flex-row xl:items-end xl:justify-between">
-            <div className="max-w-2xl">
-              <p className="field-label text-[#f7d9b8]">Trip profile</p>
-              <h1 className="editorial-title mt-4 text-5xl font-semibold sm:text-6xl">{trip.city}</h1>
-              <p className="mt-4 max-w-xl text-sm leading-7 text-[#f5e9d7] sm:text-base">
-                A {trip.days}-day trip ready for tourism-aware ranking, attraction selection, and route ordering.
-              </p>
+          <div className="flex flex-wrap items-center gap-3">
+            <div className="inline-flex items-center rounded-full bg-brand-surfaceLow px-4 py-2 text-sm font-medium text-brand-palm">
+              {formatTripDate(trip.startDate)} • {trip.days} day{trip.days > 1 ? 's' : ''}
             </div>
-            <div className="flex flex-col gap-3 sm:flex-row">
+            <button
+              onClick={finalizeItinerary}
+              disabled={savingFinalizedItinerary || !itineraryGenerated}
+              className="inline-flex items-center justify-center rounded-full bg-brand-palm px-6 py-3 text-sm font-semibold text-white transition hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              {savingFinalizedItinerary ? 'Saving...' : 'Save Finalized'}
+            </button>
+          </div>
+        </header>
+
+        <div className="grid gap-5 lg:grid-cols-[1.05fr_0.95fr]">
+          <div className="rounded-[30px] bg-white p-6 shadow-[0_18px_46px_-30px_rgba(15,23,42,0.35)]">
+            <p className="field-label">ML data processed</p>
+            <h1 className="editorial-title mt-3 text-[2rem] font-semibold text-brand-palm">Curated for you</h1>
+            <p className="mt-3 max-w-2xl text-base leading-7 text-brand-onSurfaceVariant">
+              Our planning engine combines your preferences, place quality, route efficiency, and itinerary pacing to build this collection.
+            </p>
+            <div className="mt-6 flex flex-wrap gap-3">
               <button
                 onClick={fetchRecommendations}
                 disabled={loadingRecommendations}
-                className="btn-secondary px-6 py-3 disabled:cursor-not-allowed disabled:opacity-60"
+                className="btn-secondary disabled:cursor-not-allowed disabled:opacity-60"
               >
-                {loadingRecommendations ? 'Preparing candidates...' : 'Generate Smart Recommendations'}
+                {loadingRecommendations ? 'Refreshing...' : recommendationsGenerated ? 'Refresh Recommendations' : 'Generate Recommendations'}
               </button>
               <button
                 onClick={fetchItinerary}
                 disabled={loadingItinerary}
-                className="btn-ghost border border-white/10 px-6 py-3 text-[#fefae0] hover:text-white disabled:cursor-not-allowed disabled:opacity-60"
+                className="btn-primary disabled:cursor-not-allowed disabled:opacity-60"
               >
-                {loadingItinerary ? 'Building itinerary...' : 'Generate Day-wise Itinerary'}
+                {loadingItinerary ? 'Building...' : itineraryGenerated ? 'Refresh Itinerary' : 'Generate Itinerary'}
               </button>
             </div>
           </div>
 
-          <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
-            <div className="rounded-[24px] bg-white/14 p-5 backdrop-blur">
-              <p className="text-sm text-[#f5e9d7]">Duration</p>
-              <p className="mt-2 text-3xl font-semibold">{trip.days}</p>
-              <p className="text-sm text-[#f5e9d7]">days</p>
-            </div>
-            <div className="rounded-[24px] bg-white/14 p-5 backdrop-blur">
-              <p className="text-sm text-[#f5e9d7]">Budget</p>
-              <p className="mt-2 text-3xl font-semibold">{formatCurrency(trip.budget)}</p>
-              <p className="text-sm text-[#f5e9d7]">planned spend</p>
-            </div>
-            <div className="rounded-[24px] bg-white/14 p-5 backdrop-blur">
-              <p className="text-sm text-[#f5e9d7]">Start date</p>
-              <p className="mt-2 text-2xl font-semibold">{formatTripDate(trip.startDate)}</p>
-              <p className="text-sm text-[#f5e9d7]">used for weekday-aware planning</p>
-            </div>
-            <div className="rounded-[24px] bg-white/14 p-5 backdrop-blur sm:col-span-3">
-              <p className="text-sm text-[#f5e9d7]">Interests</p>
-              <div className="mt-3 flex flex-wrap gap-2">
-                {trip.interests?.length ? (
-                  trip.interests.map((interest) => {
-                    const meta = getInterestMeta(interest)
-                    return (
-                      <span key={interest} className="rounded-full bg-white/16 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-[#fefae0]">
-                        {meta.label}
-                      </span>
-                    )
-                  })
-                ) : (
-                  <span className="text-sm text-[#f5e9d7]">Flexible trip</span>
-                )}
+          <div className="rounded-[30px] bg-white p-6 shadow-[0_18px_46px_-30px_rgba(15,23,42,0.35)]">
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="rounded-[24px] bg-brand-surfaceLow p-4">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-brand-onSurfaceVariant">Destination</p>
+                <p className="mt-3 text-xl font-semibold text-brand-palm">{trip.city}</p>
+              </div>
+              <div className="rounded-[24px] bg-brand-surfaceLow p-4">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-brand-onSurfaceVariant">Dates</p>
+                <p className="mt-3 text-xl font-semibold text-brand-palm">{formatTripDate(trip.startDate)} - {trip.days} day plan</p>
               </div>
             </div>
-            <div className="rounded-[24px] bg-white/14 p-5 backdrop-blur sm:col-span-3">
-              <p className="text-sm text-[#f5e9d7]">Start location</p>
-              <p className="mt-2 text-lg font-semibold">
-                {trip.hotelLocation?.name
-                  ? trip.hotelLocation.name
-                  : trip.hotelLocation?.lat && trip.hotelLocation?.lng
-                  ? `${trip.hotelLocation.lat.toFixed(4)}, ${trip.hotelLocation.lng.toFixed(4)}`
-                  : 'Routes start from the strongest attraction when no hotel location is set.'}
-              </p>
+            <div className="mt-4 flex flex-wrap gap-2">
+              {(trip.interests || []).length ? (
+                trip.interests.map((interest) => {
+                  const meta = getInterestMeta(interest)
+                  return (
+                    <span key={interest} className={`rounded-full px-3 py-1 text-xs font-semibold ${meta.accent}`}>
+                      {meta.label}
+                    </span>
+                  )
+                })
+              ) : (
+                <span className="rounded-full bg-brand-surfaceLow px-3 py-1 text-xs font-semibold text-brand-onSurfaceVariant">
+                  Flexible journey
+                </span>
+              )}
+            </div>
+            <div className="mt-4 rounded-[24px] bg-brand-surfaceLow p-4">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-brand-onSurfaceVariant">Budget</p>
+              <p className="mt-2 text-xl font-semibold text-brand-palm">{formatCurrency(trip.budget)}</p>
             </div>
           </div>
         </div>
+
+        <RecommendationsPanel
+          attractions={attractions}
+          restaurants={restaurants}
+          metadata={metadata}
+          tripDays={trip.days}
+          loading={loadingRecommendations}
+          generated={recommendationsGenerated}
+          error={recommendationsError}
+          onRefresh={fetchRecommendations}
+          generatedAt={recommendationsGeneratedAt}
+          hydratedFromSnapshot={recommendationsFromSnapshot}
+          onGenerateItinerary={fetchItinerary}
+          itineraryLoading={loadingItinerary}
+        />
+
+        <ItineraryPanel
+          itineraryDays={itineraryDays}
+          loading={loadingItinerary}
+          generated={itineraryGenerated}
+          error={itineraryError}
+          onRefresh={fetchItinerary}
+          generatedAt={itineraryGeneratedAt}
+          hydratedFromSnapshot={itineraryFromSnapshot}
+          onToggleLock={toggleLockedPlace}
+          onRegenerateDay={regenerateDay}
+          onReorderDay={reorderDayStops}
+          actionDay={itineraryActionDay}
+          onFinalize={finalizeItinerary}
+          savingFinalized={savingFinalizedItinerary}
+          finalizedGeneratedAt={finalizedItineraryGeneratedAt}
+          onRequestSwap={openSwapSuggestions}
+          onApplySwap={applySwapSuggestion}
+          onCloseSwap={closeSwapSuggestions}
+          swapState={swapState}
+        />
       </div>
-
-      <RecommendationsPanel
-        attractions={attractions}
-        restaurants={restaurants}
-        metadata={metadata}
-        tripDays={trip.days}
-        loading={loadingRecommendations}
-        generated={recommendationsGenerated}
-        error={recommendationsError}
-        onRefresh={fetchRecommendations}
-        generatedAt={recommendationsGeneratedAt}
-        hydratedFromSnapshot={recommendationsFromSnapshot}
-      />
-
-      <ItineraryPanel
-        itineraryDays={itineraryDays}
-        loading={loadingItinerary}
-        generated={itineraryGenerated}
-        error={itineraryError}
-        onRefresh={fetchItinerary}
-        generatedAt={itineraryGeneratedAt}
-        hydratedFromSnapshot={itineraryFromSnapshot}
-        onToggleLock={toggleLockedPlace}
-        onRegenerateDay={regenerateDay}
-        onReorderDay={reorderDayStops}
-        actionDay={itineraryActionDay}
-        onFinalize={finalizeItinerary}
-        savingFinalized={savingFinalizedItinerary}
-        finalizedGeneratedAt={finalizedItineraryGeneratedAt}
-      />
     </section>
   )
 }

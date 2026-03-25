@@ -75,10 +75,10 @@ function LocationAutocomplete({ value, onSelect, onClear, city }) {
       </Autocomplete>
 
       {value?.name ? (
-        <div className="flex flex-col gap-2 rounded-2xl bg-[#efe8cd] px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
-          <div className="min-w-0">
+        <div className="flex flex-col gap-3 rounded-2xl bg-[#efe8cd] px-4 py-3 sm:flex-row sm:items-start sm:justify-between">
+          <div className="min-w-0 flex-1">
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#8b886f]">Selected start location</p>
-            <p className="mt-1 truncate text-sm font-medium text-brand-palm">{value.name}</p>
+            <p className="mt-1 break-words text-sm font-medium leading-6 text-brand-palm">{value.name}</p>
             <p className="mt-1 text-xs text-[#6d6a51]">
               {value.lat?.toFixed?.(4)}, {value.lng?.toFixed?.(4)}
             </p>
@@ -86,7 +86,7 @@ function LocationAutocomplete({ value, onSelect, onClear, city }) {
           <button
             type="button"
             onClick={onClear}
-            className="btn-ghost px-4 py-2 text-xs"
+            className="btn-ghost shrink-0 px-4 py-2 text-xs"
           >
             Clear
           </button>
