@@ -7,6 +7,7 @@ import joblib
 import pandas as pd
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
+from place_tagging import build_place_tags
 
 MODELS_DIR = Path("models")
 SENTIMENT_MODEL_PATH = MODELS_DIR / "sentiment_model.pkl"
@@ -17,6 +18,7 @@ RECOMMENDATION_METADATA_PATH = MODELS_DIR / "recommendation_metadata.json"
 INTEREST_MODEL_PATH = MODELS_DIR / "interest_model.pkl"
 INTEREST_METADATA_PATH = MODELS_DIR / "interest_metadata.json"
 INTEREST_SKIP_FLAG = MODELS_DIR / "interest_skipped.flag"
+HF_LABELS_PATH = Path("dataset/place_interest_labels_hf.csv")
 
 DEFAULT_FEATURE_COLUMNS = [
     "rating",
@@ -46,6 +48,8 @@ interest_metadata = {
     "max_return_tags": 2,
     "secondary_gap": 0.18,
 }
+hf_interest_lookup = {}
+hf_interest_lookup_fuzzy = {}
 
 
 class SentimentPayload(BaseModel):
@@ -68,6 +72,8 @@ class PlacePayload(BaseModel):
     place_id: Optional[str] = None
     name: Optional[str] = None
     category: str = "other"
+    description: Optional[str] = None
+    types: List[str] = Field(default_factory=list)
     rating: float = 0.0
     review: str = ""
     city: Optional[str] = None
@@ -89,7 +95,7 @@ class InterestBatchRequest(BaseModel):
 
 
 def load_models():
-    global sentiment_model, vectorizer, recommendation_model, recommendation_metadata, interest_model, interest_metadata
+    global sentiment_model, vectorizer, recommendation_model, recommendation_metadata, interest_model, interest_metadata, hf_interest_lookup, hf_interest_lookup_fuzzy
 
     if RECOMMENDATION_MODEL_PATH.exists():
         recommendation_model = joblib.load(RECOMMENDATION_MODEL_PATH)
@@ -107,6 +113,32 @@ def load_models():
         interest_model = joblib.load(INTEREST_MODEL_PATH)
         interest_metadata = json.loads(INTEREST_METADATA_PATH.read_text(encoding="utf-8"))
 
+    hf_interest_lookup = {}
+    hf_interest_lookup_fuzzy = {}
+    if HF_LABELS_PATH.exists():
+        hf_df = pd.read_csv(HF_LABELS_PATH)
+        for _, row in hf_df.iterrows():
+            exact_key = build_hf_lookup_key(
+                row.get("name"),
+                row.get("city"),
+                row.get("lat"),
+                row.get("lng"),
+            )
+            fuzzy_key = build_hf_lookup_fuzzy_key(
+                row.get("name"),
+                row.get("city"),
+            )
+            entry = {
+                "interest_tags": parse_pipe_tags(row.get("interest_tags")),
+                "intent_tags": parse_pipe_tags(row.get("intent_tags")),
+                "interest_scores": parse_json_object(row.get("interest_scores_json")),
+                "intent_scores": parse_json_object(row.get("intent_scores_json")),
+            }
+            if exact_key:
+                hf_interest_lookup[exact_key] = entry
+            if fuzzy_key and fuzzy_key not in hf_interest_lookup_fuzzy:
+                hf_interest_lookup_fuzzy[fuzzy_key] = entry
+
 
 def safe_sentiment(review_text: str) -> float:
     review_text = (review_text or "").strip()
@@ -123,6 +155,69 @@ def review_text_from_place(place: PlacePayload) -> str:
 
     cleaned_reviews = [review.strip() for review in place.reviews if isinstance(review, str) and review.strip()]
     return " || ".join(cleaned_reviews)
+
+
+def normalize_lookup_text(value) -> str:
+    return str(value or "").strip().lower()
+
+
+def normalize_coord(value) -> str:
+    try:
+        numeric = float(value)
+    except (TypeError, ValueError):
+        return ""
+    return f"{numeric:.5f}"
+
+
+def build_hf_lookup_key(name, city, lat, lng) -> str:
+    normalized_name = normalize_lookup_text(name)
+    normalized_city = normalize_lookup_text(city)
+    normalized_lat = normalize_coord(lat)
+    normalized_lng = normalize_coord(lng)
+    if not normalized_name:
+        return ""
+    return " | ".join([normalized_name, normalized_city, normalized_lat, normalized_lng])
+
+
+def build_hf_lookup_fuzzy_key(name, city) -> str:
+    normalized_name = normalize_lookup_text(name)
+    normalized_city = normalize_lookup_text(city)
+    if not normalized_name:
+        return ""
+    return " | ".join([normalized_name, normalized_city])
+
+
+def parse_pipe_tags(value) -> list[str]:
+    raw = normalize_lookup_text(value)
+    if not raw:
+        return []
+    return [tag.strip() for tag in raw.split("|") if tag.strip()]
+
+
+def parse_json_object(value) -> dict:
+    if value is None or (isinstance(value, float) and math.isnan(value)):
+        return {}
+    try:
+        parsed = json.loads(str(value))
+    except (json.JSONDecodeError, TypeError, ValueError):
+        return {}
+    return parsed if isinstance(parsed, dict) else {}
+
+
+def get_hf_interest_entry(place: PlacePayload) -> Optional[dict]:
+    exact_key = build_hf_lookup_key(place.name, place.city, place.lat, place.lng)
+    if exact_key and exact_key in hf_interest_lookup:
+        return hf_interest_lookup[exact_key]
+
+    fuzzy_key = build_hf_lookup_fuzzy_key(place.name, place.city)
+    if fuzzy_key and fuzzy_key in hf_interest_lookup_fuzzy:
+        return hf_interest_lookup_fuzzy[fuzzy_key]
+
+    return None
+
+
+def has_hf_interest_data() -> bool:
+    return bool(hf_interest_lookup) or bool(hf_interest_lookup_fuzzy)
 
 
 def build_feature_row(payload: RecommendationPayload) -> dict:
@@ -222,6 +317,7 @@ def health():
         "sentiment_model_loaded": sentiment_model is not None and vectorizer is not None,
         "recommendation_model_loaded": recommendation_model is not None,
         "interest_model_loaded": interest_model is not None,
+        "hf_interest_labels_loaded": has_hf_interest_data(),
     }
 
 
@@ -260,6 +356,7 @@ def predict_place(payload: PlacePayload):
     review_text = review_text_from_place(payload)
     review_count = payload.review_count if payload.review_count is not None else len(payload.reviews)
     sentiment_score = safe_sentiment(review_text)
+    hf_entry = get_hf_interest_entry(payload)
 
     recommendation_payload = RecommendationPayload(
         rating=payload.rating,
@@ -281,15 +378,38 @@ def predict_place(payload: PlacePayload):
             "recommend": int(score >= 0.5),
             "confidence": score,
             "score": score,
-            "interest_tags": extract_interest_tags(predict_interest_scores(payload)) if interest_model is not None else [],
+            "interest_tags": (
+                hf_entry.get("interest_tags", [])
+                if hf_entry
+                else extract_interest_tags(predict_interest_scores(payload)) if interest_model is not None else []
+            ),
+            "intent_tags": (
+                hf_entry.get("intent_tags", []) or build_place_tags(payload)
+                if hf_entry
+                else build_place_tags(payload)
+            ),
         },
     }
 
 
 @app.post("/predict/interests")
 def predict_interests(payload: PlacePayload):
+    hf_entry = get_hf_interest_entry(payload)
+    if hf_entry:
+        return {
+            "success": True,
+            "data": {
+                "interest_tags": hf_entry.get("interest_tags", []),
+                "interest_scores": hf_entry.get("interest_scores", {}),
+                "intent_tags": hf_entry.get("intent_tags", []) or build_place_tags(payload),
+            },
+        }
+
     if interest_model is None:
-        raise HTTPException(status_code=503, detail="Interest model unavailable. Run train_interest_model.py first.")
+        raise HTTPException(
+            status_code=503,
+            detail="Interest model unavailable and no HF interest labels matched this place.",
+        )
 
     interest_scores = predict_interest_scores(payload)
     return {
@@ -297,23 +417,43 @@ def predict_interests(payload: PlacePayload):
         "data": {
             "interest_tags": extract_interest_tags(interest_scores),
             "interest_scores": interest_scores,
+            "intent_tags": build_place_tags(payload),
         },
     }
 
 
 @app.post("/predict/interests/batch")
 def predict_interests_batch(payload: InterestBatchRequest):
-    if interest_model is None:
-        raise HTTPException(status_code=503, detail="Interest model unavailable. Run train_interest_model.py first.")
-
     results = []
     for place in payload.places:
+        hf_entry = get_hf_interest_entry(place)
+        if hf_entry:
+            results.append({
+                "place_id": place.place_id,
+                "name": place.name,
+                "interest_tags": hf_entry.get("interest_tags", []),
+                "interest_scores": hf_entry.get("interest_scores", {}),
+                "intent_tags": hf_entry.get("intent_tags", []) or build_place_tags(place),
+            })
+            continue
+
+        if interest_model is None:
+            results.append({
+                "place_id": place.place_id,
+                "name": place.name,
+                "interest_tags": [],
+                "interest_scores": {},
+                "intent_tags": build_place_tags(place),
+            })
+            continue
+
         interest_scores = predict_interest_scores(place)
         results.append({
             "place_id": place.place_id,
             "name": place.name,
             "interest_tags": extract_interest_tags(interest_scores),
             "interest_scores": interest_scores,
+            "intent_tags": build_place_tags(place),
         })
 
     return {

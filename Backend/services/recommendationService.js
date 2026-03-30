@@ -88,6 +88,8 @@ const buildMlPayloadPlace = (place) => {
     place_id: place.place_id,
     name: place.name,
     category: getPrimaryCategory(place),
+    description: place.description,
+    types: place.types || [],
     rating: Number.isFinite(place.rating) ? Number(place.rating) : 0,
     review: reviewTexts.join(' || '),
     city: place.city,
@@ -224,6 +226,8 @@ const buildInterestPayloadPlace = (place) => {
     place_id: place.place_id,
     name: place.name,
     category: getPrimaryCategory(place),
+    description: place.description,
+    types: place.types || [],
     rating: Number.isFinite(place.rating) ? Number(place.rating) : 0,
     review: reviewTexts.join(' || '),
     city: place.city,
@@ -274,6 +278,7 @@ function getPlaceKeywordText(place) {
     place?.name,
     getPrimaryCategory(place),
     ...(Array.isArray(place?.types) ? place.types : []),
+    ...(Array.isArray(place?.intent_tags) ? place.intent_tags : []),
     ...getReviewTexts(place).slice(0, 3),
   ]
     .filter(Boolean)
@@ -682,6 +687,7 @@ const buildAttractionResponse = (place, scores) => {
       matched_interests: scores.interestSignals?.matchedInterests || [],
     },
     inferred_interest_tags: Array.isArray(place.inferred_interest_tags) ? place.inferred_interest_tags : [],
+    intent_tags: Array.isArray(place.intent_tags) ? place.intent_tags : [],
   };
 };
 
@@ -706,6 +712,7 @@ const buildRestaurantResponse = (place) => {
       Number(place.user_ratings_total || 0) >= 1000 ? 'Popular' : null,
       'Food stop',
     ].filter(Boolean),
+    intent_tags: Array.isArray(place.intent_tags) ? place.intent_tags : [],
   };
 };
 
@@ -717,6 +724,7 @@ const buildMasterPoolSize = (tripDays, rankedCount, visibleCount) => {
 class RecommendationService {
   static async fetchCandidatePlaces(city) {
     return Place.find({ city: String(city).toLowerCase() })
+      .lean()
       .sort({ user_ratings_total: -1 })
       .limit(recommendationConfig.candidateFetchLimit);
   }
@@ -778,6 +786,7 @@ class RecommendationService {
           ...place,
           inferred_interest_tags: prediction.interest_tags || [],
           inferred_interest_scores: prediction.interest_scores || {},
+          intent_tags: prediction.intent_tags || [],
         };
       });
     } catch (error) {

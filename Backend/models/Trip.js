@@ -28,6 +28,7 @@ const savedPlaceSchema = new mongoose.Schema(
       matched_interests: [String],
     },
     inferred_interest_tags: [String],
+    intent_tags: [String],
     travel_time_from_start: String,
     travel_time_to_next: String,
     return_travel_time_to_start: String,
