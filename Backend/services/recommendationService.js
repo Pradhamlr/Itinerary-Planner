@@ -199,13 +199,22 @@ const normalizePhotos = (photos) => (
 );
 const attractionDrivenInterests = new Set(['beaches', 'culture', 'nature', 'history', 'art', 'adventure', 'sports', 'shopping']);
 const restaurantDrivenInterests = new Set(['food', 'nightlife']);
-const interestOnlyAttractionTypes = new Set(['shopping_mall', 'store']);
-const directShoppingTypes = new Set([
+const interestOnlyAttractionTypes = new Set([
   'shopping_mall',
-  'store',
   'market',
   'clothing_store',
-  'electronics_store',
+  'jewelry_store',
+]);
+const directShoppingTypes = new Set([
+  'shopping_mall',
+  'market',
+  'clothing_store',
+  'jewelry_store',
+]);
+const strictRetailDedupTypes = new Set([
+  'shopping_mall',
+  'market',
+  'clothing_store',
   'jewelry_store',
 ]);
 const LANDMARK_TYPES = new Set([
@@ -243,13 +252,21 @@ const arePlacesNear = (first, second, maxDelta = 0.02) => {
   return Math.abs(latA - latB) <= maxDelta && Math.abs(lngA - lngB) <= maxDelta;
 };
 
+const hasStrictRetailDedupType = (place) => getNormalizedTypes(place).some((type) => strictRetailDedupTypes.has(type));
+
+const getPlaceQualityScore = (place) => Number(place.user_ratings_total || 0) + (Number(place.rating || 0) * 100);
+
 const dedupePlaces = (places) => {
   const deduped = [];
 
   places.forEach((place) => {
     const normalizedName = normalizeNameForDedup(place.name);
     const existingIndex = deduped.findIndex((candidate) =>
-      normalizeNameForDedup(candidate.name) === normalizedName && arePlacesNear(candidate, place),
+      normalizeNameForDedup(candidate.name) === normalizedName
+      && (
+        arePlacesNear(candidate, place)
+        || (hasStrictRetailDedupType(candidate) && hasStrictRetailDedupType(place))
+      ),
     );
 
     if (existingIndex === -1) {
@@ -258,8 +275,8 @@ const dedupePlaces = (places) => {
     }
 
     const existing = deduped[existingIndex];
-    const existingScore = Number(existing.user_ratings_total || 0) + (Number(existing.rating || 0) * 100);
-    const incomingScore = Number(place.user_ratings_total || 0) + (Number(place.rating || 0) * 100);
+    const existingScore = getPlaceQualityScore(existing);
+    const incomingScore = getPlaceQualityScore(place);
 
     if (incomingScore > existingScore) {
       deduped[existingIndex] = place;
@@ -516,6 +533,18 @@ function getShoppingIntentBoost(place) {
   }
 
   return roundTo(Math.min(boost, 0.16), 4);
+}
+
+function isHighConfidenceShoppingMatch(place) {
+  const shoppingScore = Number(getInferredInterestScores(place).shopping || 0);
+  return Number.isFinite(shoppingScore) && shoppingScore >= recommendationConfig.shoppingSemanticInterestScoreThreshold;
+}
+
+function isHighConfidenceShoppingCandidate(place) {
+  return isHighConfidenceShoppingMatch(place)
+    && !getNormalizedTypes(place).some((type) => blockedAttractionTypes.has(type))
+    && !isBlockedRestaurant(place)
+    && !isRestaurantLike(place);
 }
 
 function getEligibleInterests(place, normalizedInterests) {
@@ -809,6 +838,25 @@ const selectDiverseAttractions = (rankedAttractions, totalAttractions, tripInter
     : Math.max(2, Math.ceil(totalAttractions / 6));
   const defaultThemeCap = Math.max(2, Math.ceil(totalAttractions / 3));
   let selectedInterestMatches = 0;
+
+  if (attractionInterests.includes('shopping')) {
+    const mandatoryShoppingPlaces = remaining.filter((place) => isHighConfidenceShoppingMatch(place));
+    while (mandatoryShoppingPlaces.length > 0 && selected.length < totalAttractions) {
+      const chosen = mandatoryShoppingPlaces.shift();
+      const remainingIndex = remaining.findIndex((place) => place.place_id === chosen.place_id);
+      if (remainingIndex === -1) {
+        continue;
+      }
+
+      remaining.splice(remainingIndex, 1);
+      selected.push(chosen);
+      const chosenTheme = getThemeBucket(chosen);
+      themeCounts.set(chosenTheme, (themeCounts.get(chosenTheme) || 0) + 1);
+      if (hasStrictInterestMatch(chosen, tripInterests)) {
+        selectedInterestMatches += 1;
+      }
+    }
+  }
 
   while (remaining.length > 0 && selected.length < totalAttractions) {
     const prioritizeInterestMatch = selectedInterestMatches < minimumInterestMatches;
@@ -1249,7 +1297,19 @@ class RecommendationService {
     const strictTypeFilter = dedupePlaces(
       places.filter((place) => isAllowedAttraction(place) || isInterestOnlyAttraction(place, tripInterests)),
     );
+    const highConfidenceShoppingCandidates = hasAttractionInterests && attractionInterests.includes('shopping')
+      ? dedupePlaces(
+          places.filter((place) => isHighConfidenceShoppingCandidate(place)),
+        )
+      : [];
     let afterTypeFilter = strictTypeFilter;
+
+    if (highConfidenceShoppingCandidates.length > 0) {
+      afterTypeFilter = dedupePlaces([
+        ...afterTypeFilter,
+        ...highConfidenceShoppingCandidates,
+      ]);
+    }
 
     if (hasAttractionInterests && afterTypeFilter.length === 0) {
       afterTypeFilter = dedupePlaces(
@@ -1269,10 +1329,12 @@ class RecommendationService {
       recommendationConfig.minAttractionRating,
       recommendationConfig.explorationAttractionRating,
     );
-    const explorationMinReviews = Math.min(
-      recommendationConfig.minAttractionReviews,
-      recommendationConfig.explorationAttractionReviews,
-    );
+    const explorationMinReviews = hasAttractionInterests
+      ? Math.min(
+          recommendationConfig.minAttractionReviews,
+          recommendationConfig.explorationAttractionReviews,
+        )
+      : 500;
     const relaxedExplorationSource = afterTypeFilter
       .filter((place) => Number(place.rating || 0) >= explorationMinRating)
       .filter((place) => Number(place.user_ratings_total || 0) >= explorationMinReviews);
@@ -1312,7 +1374,6 @@ class RecommendationService {
           ),
         ),
     );
-    const noInterestCandidateFloor = Math.max(requiredAttractionCount * 2, 30);
     const baseCandidatePool = hasAttractionInterests
       ? blendCandidatePools(
           dedupedPopularPool,
@@ -1324,14 +1385,14 @@ class RecommendationService {
           popularRatio,
         )
       : (
-        dedupedPopularPool.length >= noInterestCandidateFloor
+        dedupedPopularPool.length >= Math.max(requiredAttractionCount * 2, 30)
           ? dedupedPopularPool
           : blendCandidatePools(
               dedupedPopularPool,
               explorationPool,
               Math.min(
                 relaxedExplorationSource.length,
-                Math.max(noInterestCandidateFloor, requiredAttractionCount * 3),
+                Math.max(Math.max(requiredAttractionCount * 2, 30), requiredAttractionCount * 3),
               ),
               0.78,
             )
@@ -1360,30 +1421,24 @@ class RecommendationService {
       tripInterests,
       requiredAttractionCount,
     );
-    const hasShoppingCombo = attractionInterests.includes('shopping') && attractionInterests.length > 1;
+    const hasMultiInterestCombo = attractionInterests.length > 1;
     let interestPool = dedupePlaces(interestFilteredPlaces);
     let shoppingComboDetails = null;
 
-    if (hasShoppingCombo) {
-      const shoppingLaneResult = filterByNormalizedInterests(
-        broaderInterestSource,
-        ['shopping'],
-        Math.max(1, Math.ceil(requiredAttractionCount * 0.5)),
-      );
-      const companionInterests = attractionInterests.filter((interest) => interest !== 'shopping');
-      const companionLaneResult = filterByNormalizedInterests(
-        broaderInterestSource,
-        companionInterests,
-        Math.max(1, requiredAttractionCount - Math.ceil(requiredAttractionCount * 0.5)),
-      );
-
-      const shoppingTarget = Math.max(1, Math.ceil(requiredAttractionCount * 0.5));
-      const companionTarget = Math.max(1, requiredAttractionCount - shoppingTarget);
+    if (hasMultiInterestCombo) {
+      const laneTarget = Math.max(1, Math.ceil(requiredAttractionCount / attractionInterests.length));
+      const laneResults = attractionInterests.map((interest) => ({
+        interest,
+        result: filterByNormalizedInterests(
+          broaderInterestSource,
+          [interest],
+          laneTarget,
+        ),
+      }));
       const mergedInterestPool = dedupePlaces([
-        ...takeTopByScore(shoppingLaneResult.places, shoppingTarget),
-        ...takeTopByScore(companionLaneResult.places, companionTarget),
-        ...shoppingLaneResult.places,
-        ...companionLaneResult.places,
+        ...laneResults.flatMap(({ result }) => takeTopByScore(result.places, laneTarget)),
+        ...laneResults.flatMap(({ result }) => result.places),
+        ...interestFilteredPlaces,
       ]);
 
       if (mergedInterestPool.length > 0) {
@@ -1391,17 +1446,13 @@ class RecommendationService {
       }
 
       shoppingComboDetails = {
-        shopping_lane_size: shoppingLaneResult.places.length,
-        companion_lane_size: companionLaneResult.places.length,
-        shopping_lane_target: shoppingTarget,
-        companion_lane_target: companionTarget,
-        companion_interests: companionInterests,
+        lane_target: laneTarget,
+        lanes: laneResults.map(({ interest, result }) => ({
+          interest,
+          size: result.places.length,
+        })),
       };
     }
-    const baseMinimumCandidateFloor = hasAttractionInterests
-      ? Math.max(requiredAttractionCount * 3, 36)
-      : Math.max(requiredAttractionCount * 2, 30);
-
     const preFloorCandidatePool = hasAttractionInterests
       ? interestPool
       : baseCandidatePool;
@@ -1417,7 +1468,7 @@ class RecommendationService {
       : fillCandidateFloor(
           preFloorCandidatePool,
           interestAwareFallbackPool,
-          Math.min(interestAwareFallbackPool.length, baseMinimumCandidateFloor),
+          Math.min(interestAwareFallbackPool.length, Math.max(requiredAttractionCount * 2, 30)),
         );
     const interestPoolContribution = candidatePool.filter((place) =>
       interestPool.some((interestPlace) => interestPlace.place_id === place.place_id),
@@ -1444,7 +1495,7 @@ class RecommendationService {
       exploration_pool_size: explorationPool.length,
       base_candidate_pool_size: baseCandidatePool.length,
       pre_floor_candidate_pool_size: preFloorCandidatePool.length,
-      candidate_floor_target: baseMinimumCandidateFloor,
+      candidate_floor_target: hasAttractionInterests ? 0 : Math.max(requiredAttractionCount * 2, 30),
       interest_pool_size: interestPool.length,
       minimum_interest_matches: minimumInterestMatches,
       strict_interest_threshold_used: thresholdUsed,
@@ -1525,8 +1576,15 @@ class RecommendationService {
         const sentimentScore = getSentimentSignal(place);
         const interestSignals = getInterestSignals(place, tripInterests);
         const shoppingIntentBoost = interestSignals.shoppingIntentBoost || 0;
+        const shoppingHighConfidenceBoost = isShoppingTrack
+          ? (
+              interestSignals.maxSelectedScore >= recommendationConfig.strictInterestHighThreshold ? 0.2
+                : interestSignals.maxSelectedScore >= recommendationConfig.shoppingSemanticInterestScoreThreshold ? 0.12
+                  : 0
+            )
+          : 0;
         const interestMatchScore = isShoppingTrack
-          ? Math.min(1, interestSignals.interestScore + shoppingIntentBoost)
+          ? Math.min(1, interestSignals.interestScore + shoppingIntentBoost + shoppingHighConfidenceBoost)
           : interestSignals.interestScore;
         const mustSeeBoost = getMustSeeBoost(place);
         const mlScore = Number(mlScoreMap.get(place.place_id) || 0);
@@ -1540,6 +1598,7 @@ class RecommendationService {
           + (normalizedPopularitySignal * popularityWeight)
           + (sentimentScore * sentimentWeight)
           + (interestMatchScore * interestWeight)
+          + shoppingHighConfidenceBoost
           + mustSeeBoost
           + (Math.random() * 0.02);
         const explanationTags = buildExplanationTags({
@@ -1555,6 +1614,7 @@ class RecommendationService {
           interestSignals.matchedInterests[0] ? `Strong ${interestSignals.matchedInterests[0]} match` : null,
           isShoppingTrack && shoppingIntentBoost >= 0.1 ? 'Strong street-shopping vibe' : null,
           interestSignals.maxSelectedScore >= recommendationConfig.strictInterestHighThreshold ? 'Exceptional interest confidence' : null,
+          isShoppingTrack && interestSignals.maxSelectedScore >= recommendationConfig.shoppingSemanticInterestScoreThreshold ? 'Strong shopping confidence' : null,
           mustSeeBoost > 0 ? 'Strong landmark signal' : null,
         ].filter(Boolean).slice(0, 2);
 
@@ -1640,13 +1700,6 @@ class RecommendationService {
     const interestTypes = new Set(normalizedInterests.flatMap((interest) => interestTypeMap[interest] || []));
     const { popularRatio, interestRatio } = getInterestTrackRatio(trip.interests);
 
-    const broaderSamplingFallbackPool = dedupePlaces([
-      ...candidatePool,
-      ...rankByQualityAndPopularity(
-        candidatePlaces.filter((place) => isAllowedAttraction(place) || isInterestOnlyAttraction(place, trip.interests)),
-      ),
-    ]);
-
     let sampledCandidates;
 
     if (interestTypes.size > 0) {
@@ -1671,9 +1724,14 @@ class RecommendationService {
       ? dedupePlaces(sampledCandidates)
       : fillCandidateFloor(
           dedupePlaces(sampledCandidates),
-          broaderSamplingFallbackPool,
+          dedupePlaces([
+            ...candidatePool,
+            ...rankByQualityAndPopularity(
+              candidatePlaces.filter((place) => isAllowedAttraction(place) || isInterestOnlyAttraction(place, trip.interests)),
+            ),
+          ]),
           Math.min(
-            broaderSamplingFallbackPool.length,
+            candidatePool.length,
             Math.max(requiredAttractionCount * 2, Math.min(dynamicSampleSize, 32)),
           ),
         );

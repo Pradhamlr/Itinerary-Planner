@@ -524,8 +524,7 @@ def process_dataset(df: pd.DataFrame, batch_size: int, token: str) -> tuple[pd.D
     output_rows = []
 
     for index, (_, row) in enumerate(df.iterrows(), start=1):
-        if index % 50 == 0 or index == 1:
-            print(f"Processed {index}/{len(df)}")
+        print(f"Processed {index}/{len(df)}: {row.get('name', 'Unknown place')}")
 
         error_message = ""
         row_output = None

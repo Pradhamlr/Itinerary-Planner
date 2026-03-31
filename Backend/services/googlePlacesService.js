@@ -4,6 +4,7 @@ const GOOGLE_API_KEY = process.env.GOOGLE_MAPS_API_KEY;
 const GEOCODING_URL = 'https://maps.googleapis.com/maps/api/geocode/json';
 const PLACES_URL = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json';
 const PLACE_DETAILS_URL = 'https://maps.googleapis.com/maps/api/place/details/json';
+const TEXT_SEARCH_URL = 'https://maps.googleapis.com/maps/api/place/textsearch/json';
 
 const buildPlacePhotoUrl = (photoReference, maxWidth = 800) => {
   if (!GOOGLE_API_KEY || !photoReference) {
@@ -181,6 +182,44 @@ const normalizePlaceData = (place, cityName) => {
   };
 };
 
+const fetchPlaceByTextQuery = async (query, cityName, options = {}) => {
+  try {
+    const response = await axios.get(TEXT_SEARCH_URL, {
+      params: {
+        query,
+        key: GOOGLE_API_KEY,
+      },
+    });
+
+    if (response.data.status !== 'OK' || !Array.isArray(response.data.results) || response.data.results.length === 0) {
+      console.error(`✗ Failed to fetch "${query}": ${response.data.status}`);
+      return null;
+    }
+
+    const results = response.data.results;
+    const preferredNameIncludes = String(options.preferredNameIncludes || '').trim().toLowerCase();
+    const preferredTypes = Array.isArray(options.preferredTypes)
+      ? options.preferredTypes.map((type) => String(type || '').trim().toLowerCase()).filter(Boolean)
+      : [];
+
+    const primaryResult = results.find((result) => {
+      const resultName = String(result.name || '').trim().toLowerCase();
+      const resultTypes = Array.isArray(result.types)
+        ? result.types.map((type) => String(type || '').trim().toLowerCase())
+        : [];
+
+      const matchesName = !preferredNameIncludes || resultName.includes(preferredNameIncludes);
+      const matchesType = preferredTypes.length === 0 || preferredTypes.some((type) => resultTypes.includes(type));
+
+      return matchesName && matchesType;
+    }) || results[0];
+    return normalizePlaceData(primaryResult, cityName);
+  } catch (error) {
+    console.error(`✗ Error fetching "${query}":`, error.message);
+    return null;
+  }
+};
+
 /**
  * Fetch all places for a city with grid search
  */
@@ -227,6 +266,7 @@ module.exports = {
   fetchPlacesNearby,
   getPlaceDetails,
   fetchPlacesForCity,
+  fetchPlaceByTextQuery,
   normalizePlaceData,
   buildPlacePhotoUrl,
 };

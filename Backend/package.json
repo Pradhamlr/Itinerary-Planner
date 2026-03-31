@@ -10,6 +10,12 @@
     "export-dataset": "node scripts/exportPlacesDataset.js",
     "enrich-reviews": "node scripts/enrichPlaceReviews.js",
     "enrich-shopping": "node scripts/enrichShoppingPlaces.js",
+    "cleanup-shopping-preview": "node scripts/cleanupShoppingMallNoise.js",
+    "cleanup-shopping-apply": "node scripts/cleanupShoppingMallNoise.js --apply",
+    "cleanup-shopping-delete": "node scripts/cleanupShoppingMallNoise.js --delete",
+    "sync-shopping-targets": "node scripts/syncSpecificShoppingPlaces.js",
+    "preview-city-plan": "node scripts/previewCityExpansionPlan.js",
+    "fetch-city-batch": "node scripts/fetchPlannedCities.js",
     "sync-hotels": "node scripts/syncHotels.js",
     "enrich-hotels": "node scripts/enrichHotelsHeuristically.js"
   },

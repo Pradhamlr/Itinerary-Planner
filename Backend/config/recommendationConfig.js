@@ -35,7 +35,7 @@ const interestTypeMap = {
   culture: ['museum', 'art_gallery', 'hindu_temple', 'temple', 'church', 'monument'],
   nature: ['park', 'zoo', 'garden', 'natural_feature'],
   food: ['restaurant', 'cafe'],
-  shopping: ['shopping_mall', 'store'],
+  shopping: ['shopping_mall', 'market', 'clothing_store', 'jewelry_store'],
   nightlife: ['bar', 'night_club'],
   history: ['museum', 'historical_landmark', 'monument', 'church', 'synagogue', 'temple'],
   art: ['art_gallery', 'museum'],
@@ -61,6 +61,7 @@ const allowedAttractionTypes = new Set([
   'historical_landmark',
   'monument',
   'landmark',
+  'market',
 ])
 
 const blockedAttractionTypes = new Set([
@@ -69,7 +70,6 @@ const blockedAttractionTypes = new Set([
   'tour_agency',
   'tourist_information_center',
   'florist',
-  'store',
 ])
 
 const genericPlaceTypes = new Set([
