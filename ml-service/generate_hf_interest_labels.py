@@ -299,6 +299,18 @@ def tokenize_types(value) -> set[str]:
     }
 
 
+def build_row_key(row) -> str:
+    place_id = normalize_text(row.get("place_id"))
+    if place_id:
+        return f"place_id::{place_id}"
+    return "fallback::{name}::{city}::{lat}::{lng}".format(
+        name=normalize_text(row.get("name")),
+        city=normalize_text(row.get("city")),
+        lat=normalize_text(row.get("lat")),
+        lng=normalize_text(row.get("lng")),
+    )
+
+
 def build_place_text(row) -> str:
     parts = [
         f"name: {normalize_text(row.get('name'))}",
@@ -521,13 +533,10 @@ def process_dataset(df: pd.DataFrame, batch_size: int, token: str) -> tuple[pd.D
             try:
                 text = place_texts[index - 1]
                 types = tokenize_types(row.get("types"))
+                # Keep root interest scores as the raw semantic confidence so
+                # recommendation ranking can distinguish places cleanly.
                 root_scores = {
-                    label: min(
-                        1.0,
-                        float(score)
-                        + get_type_bonus(types, label, TYPE_ROOT_BONUSES)
-                        + get_keyword_bonus(text, label, ROOT_KEYWORD_BONUSES),
-                    )
+                    label: float(score)
                     for label, score in raw_root_scores[index - 1].items()
                 }
                 root_tags = choose_root_interests(root_scores)
@@ -618,6 +627,7 @@ def main():
     parser = ArgumentParser()
     parser.add_argument("--limit", type=int, default=0)
     parser.add_argument("--batch-size", type=int, default=24)
+    parser.add_argument("--only-shopping-malls", action="store_true")
     args = parser.parse_args()
 
     if not INPUT_PATH.exists():
@@ -630,6 +640,14 @@ def main():
     if args.limit and args.limit > 0:
         df = df.head(args.limit).copy()
 
+    rerun_mode = "full"
+    original_row_count = len(df)
+    if args.only_shopping_malls:
+        rerun_mode = "shopping_malls_only"
+        df = df[df["types"].fillna("").str.contains(r"\bshopping_mall\b", case=False, regex=True)].copy()
+        if df.empty:
+            raise SystemExit("No shopping_mall rows found in input file")
+
     output_df, summary, failures = process_dataset(df, batch_size=max(4, args.batch_size), token=token)
 
     if output_df["interest_tags"].fillna("").str.strip().eq("").any():
@@ -638,6 +656,30 @@ def main():
         raise RuntimeError("Validation failed: empty intent_tags found")
 
     OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
+
+    if args.only_shopping_malls and OUTPUT_PATH.exists():
+        existing_df = pd.read_csv(OUTPUT_PATH)
+        if "_merge_key" in existing_df.columns:
+            existing_df = existing_df.drop(columns=["_merge_key"])
+        existing_df["_merge_key"] = existing_df.apply(build_row_key, axis=1)
+        output_df["_merge_key"] = output_df.apply(build_row_key, axis=1)
+
+        updated_keys = set(output_df["_merge_key"].tolist())
+        merged_df = pd.concat(
+            [
+                existing_df[~existing_df["_merge_key"].isin(updated_keys)],
+                output_df,
+            ],
+            ignore_index=True,
+        )
+        output_df = merged_df.drop(columns=["_merge_key"], errors="ignore")
+    else:
+        output_df = output_df.drop(columns=["_merge_key"], errors="ignore")
+
+    summary["rerun_mode"] = rerun_mode
+    summary["processed_rows"] = len(df)
+    summary["input_rows_before_filter"] = original_row_count
+
     output_df.to_csv(OUTPUT_PATH, index=False)
     SUMMARY_PATH.write_text(json.dumps(summary, indent=2), encoding="utf-8")
     FAILURES_PATH.write_text(json.dumps(failures, indent=2), encoding="utf-8")

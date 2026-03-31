@@ -4,11 +4,8 @@ export const INTEREST_OPTIONS = [
   { value: 'culture', label: 'Culture', accent: 'bg-[#e7ebf1] text-[#405f91]' },
   { value: 'food', label: 'Food', accent: 'bg-[#def7f7] text-[#00696b]' },
   { value: 'shopping', label: 'Shopping', accent: 'bg-[#edf0f2] text-[#43474e]' },
-  { value: 'adventure', label: 'Adventure', accent: 'bg-[#d6f4f5] text-[#005f61]' },
   { value: 'art', label: 'Art', accent: 'bg-[#e9eefb] text-[#264778]' },
   { value: 'beaches', label: 'Beaches', accent: 'bg-[#dcf7f7] text-[#00696b]' },
-  { value: 'nightlife', label: 'Nightlife', accent: 'bg-[#e7e8e9] text-[#43474e]' },
-  { value: 'sports', label: 'Sports', accent: 'bg-[#dff1ef] text-[#00504c]' },
 ];
 
 export const getInterestMeta = (interest) =>

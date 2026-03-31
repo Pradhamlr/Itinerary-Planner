@@ -9,6 +9,8 @@
     "train": "..\\.venv\\Scripts\\python.exe train_pipeline.py",
     "health": "..\\.venv\\Scripts\\python.exe -c \"import app; app.load_models(); print(app.health())\"",
     "interest:sample": "..\\.venv\\Scripts\\python.exe create_interest_validation_candidates.py",
-    "interest:clean-hf": "..\\.venv\\Scripts\\python.exe clean_hf_interest_labels.py"
+    "interest:clean-hf": "..\\.venv\\Scripts\\python.exe clean_hf_interest_labels.py",
+    "interest:hf-shopping": "..\\.venv\\Scripts\\python.exe generate_hf_interest_labels.py --only-shopping-malls",
+    "interest:debug-shopping": "..\\.venv\\Scripts\\python.exe export_interest_debug_scores.py --interest shopping"
   }
 }

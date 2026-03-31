@@ -156,6 +156,14 @@ const getPhotoUrl = (place, maxWidth = 800) => buildPlacePhotoUrl(getPrimaryPhot
 const attractionDrivenInterests = new Set(['beaches', 'culture', 'nature', 'history', 'art', 'adventure', 'sports', 'shopping']);
 const restaurantDrivenInterests = new Set(['food', 'nightlife']);
 const interestOnlyAttractionTypes = new Set(['shopping_mall', 'store']);
+const directShoppingTypes = new Set([
+  'shopping_mall',
+  'store',
+  'market',
+  'clothing_store',
+  'electronics_store',
+  'jewelry_store',
+]);
 const LANDMARK_TYPES = new Set([
   'tourist_attraction',
   'historical_landmark',
@@ -322,6 +330,15 @@ function getInferredInterestScores(place) {
     : {};
 }
 
+function getInterestThresholdForLabel(interest) {
+  const normalizedInterest = normalizeInterest(interest);
+  if (normalizedInterest === 'shopping') {
+    return recommendationConfig.shoppingInterestScoreThreshold;
+  }
+
+  return recommendationConfig.strictInterestScoreThreshold;
+}
+
 function getActiveInterestThreshold(place) {
   const threshold = Number(place?._activeInterestThreshold);
   return Number.isFinite(threshold) ? threshold : recommendationConfig.strictInterestScoreThreshold;
@@ -334,11 +351,11 @@ function getActiveWeightedRatingCutoff(place) {
 
 function getSelectedInterestScoreBreakdown(place, normalizedInterests) {
   const inferredScores = getInferredInterestScores(place);
-  const activeThreshold = getActiveInterestThreshold(place);
   const selectedScores = normalizedInterests
     .map((interest) => ({
       interest,
       score: Number(inferredScores[interest] || 0),
+      threshold: getInterestThresholdForLabel(interest),
     }))
     .filter(({ score }) => Number.isFinite(score) && score > 0)
     .sort((first, second) => second.score - first.score);
@@ -348,7 +365,7 @@ function getSelectedInterestScoreBreakdown(place, normalizedInterests) {
     ? selectedScores.reduce((sum, entry) => sum + entry.score, 0) / selectedScores.length
     : 0;
   const strongMatchedInterests = selectedScores
-    .filter(({ score }) => score >= activeThreshold)
+    .filter(({ score, threshold }) => score >= threshold)
     .map(({ interest }) => interest);
   const mediumConfidenceInterests = selectedScores
     .filter(({ score }) => score >= recommendationConfig.strictInterestMediumThreshold)
@@ -356,6 +373,15 @@ function getSelectedInterestScoreBreakdown(place, normalizedInterests) {
   const highConfidenceInterests = selectedScores
     .filter(({ score }) => score >= recommendationConfig.strictInterestHighThreshold)
     .map(({ interest }) => interest);
+
+  const matchedThresholds = selectedScores
+    .filter(({ score, threshold }) => score >= threshold)
+    .map(({ threshold }) => threshold);
+  const activeThreshold = matchedThresholds.length > 0
+    ? Math.min(...matchedThresholds)
+    : selectedScores.length > 0
+      ? selectedScores[0].threshold
+      : getActiveInterestThreshold(place);
 
   return {
     selectedScores,
@@ -390,6 +416,37 @@ function getKeywordMatchScore(place, normalizedInterests) {
   return matchedKeywordInterests.length / normalizedInterests.length;
 }
 
+function isDirectShoppingPlace(place) {
+  return getNormalizedTypes(place).some((type) => directShoppingTypes.has(type));
+}
+
+function hasShoppingKeywordMatch(place) {
+  const keywordText = getPlaceKeywordText(place);
+  return (INTEREST_KEYWORD_MAP.shopping || []).some((keyword) => keywordText.includes(keyword));
+}
+
+function getEligibleInterests(place, normalizedInterests) {
+  const inferredScores = getInferredInterestScores(place);
+
+  return normalizedInterests.filter((interest) => {
+    const score = Number(inferredScores[interest] || 0);
+    if (!Number.isFinite(score) || score <= 0) {
+      return false;
+    }
+
+    if (interest === 'shopping') {
+      if (isDirectShoppingPlace(place)) {
+        return score >= recommendationConfig.shoppingInterestScoreThreshold;
+      }
+
+      return score >= recommendationConfig.shoppingSemanticInterestScoreThreshold
+        && hasShoppingKeywordMatch(place);
+    }
+
+    return score >= getInterestThresholdForLabel(interest);
+  });
+}
+
 function getInterestSignals(place, tripInterests) {
   const normalizedInterests = getAttractionRelevantInterests(tripInterests);
   if (normalizedInterests.length === 0) {
@@ -411,6 +468,7 @@ function getInterestSignals(place, tripInterests) {
 
   const manualTypeMatch = getManualTypeMatchScore(place, normalizedInterests);
   const keywordMatch = getKeywordMatchScore(place, normalizedInterests);
+  const eligibleInterests = getEligibleInterests(place, normalizedInterests);
   const {
     maxSelectedScore,
     averageSelectedScore,
@@ -425,8 +483,8 @@ function getInterestSignals(place, tripInterests) {
       ? recommendationConfig.strictInterestMediumBoost
       : 0;
   const mlInterestMatch = roundTo(Math.min(1, maxSelectedScore + confidenceBoost), 4);
-  const matchedInterests = strongMatchedInterests;
-  const isEligibleStrictMatch = maxSelectedScore >= activeThreshold;
+  const matchedInterests = eligibleInterests;
+  const isEligibleStrictMatch = eligibleInterests.length > 0;
 
   return {
     manualTypeMatch,
@@ -438,15 +496,14 @@ function getInterestSignals(place, tripInterests) {
     averageSelectedScore: roundTo(averageSelectedScore, 4),
     confidenceBoost: roundTo(confidenceBoost, 4),
     isEligibleStrictMatch,
-    strongMatchedInterests,
+    strongMatchedInterests: eligibleInterests,
     mediumConfidenceInterests,
     highConfidenceInterests,
     activeThreshold,
   };
 }
 
-const filterByInterests = (places, tripInterests, requiredAttractionCount) => {
-  const normalizedInterests = getAttractionRelevantInterests(tripInterests);
+const filterByNormalizedInterests = (places, normalizedInterests, requiredAttractionCount) => {
   if (normalizedInterests.length === 0) {
     return {
       places: [],
@@ -468,7 +525,10 @@ const filterByInterests = (places, tripInterests, requiredAttractionCount) => {
     const reviewCount = Number(place.user_ratings_total || 0);
     const weightedRating = ((reviewCount / (reviewCount + recommendationConfig.weightedRatingThreshold)) * rating)
       + ((recommendationConfig.weightedRatingThreshold / (reviewCount + recommendationConfig.weightedRatingThreshold)) * averageRating);
-    const interestSignals = getInterestSignals({ ...place, _activeInterestThreshold: threshold }, tripInterests);
+    const interestSignals = getInterestSignals(
+      { ...place, _activeInterestThreshold: threshold },
+      normalizedInterests,
+    );
 
     return weightedRating >= weightedRatingCutoff
       && interestSignals.isEligibleStrictMatch
@@ -498,10 +558,10 @@ const filterByInterests = (places, tripInterests, requiredAttractionCount) => {
   );
   const strongMatchCount = filteredPlaces.length;
   const mediumConfidenceCount = filteredPlaces.filter((place) =>
-    getInterestSignals(place, tripInterests).maxSelectedScore >= recommendationConfig.strictInterestMediumThreshold,
+    getInterestSignals(place, normalizedInterests).maxSelectedScore >= recommendationConfig.strictInterestMediumThreshold,
   ).length;
   const highConfidenceCount = filteredPlaces.filter((place) =>
-    getInterestSignals(place, tripInterests).maxSelectedScore >= recommendationConfig.strictInterestHighThreshold,
+    getInterestSignals(place, normalizedInterests).maxSelectedScore >= recommendationConfig.strictInterestHighThreshold,
   ).length;
 
   return {
@@ -516,6 +576,13 @@ const filterByInterests = (places, tripInterests, requiredAttractionCount) => {
     weightedRatingCutoffUsed: activeWeightedRatingCutoff,
   };
 };
+
+const filterByInterests = (places, tripInterests, requiredAttractionCount) =>
+  filterByNormalizedInterests(
+    places,
+    getAttractionRelevantInterests(tripInterests),
+    requiredAttractionCount,
+  );
 
 const getInterestMatchScore = (place, tripInterests) => {
   return getInterestSignals(place, tripInterests).interestScore;
@@ -1152,8 +1219,44 @@ class RecommendationService {
       tripInterests,
       requiredAttractionCount,
     );
+    const hasShoppingCombo = attractionInterests.includes('shopping') && attractionInterests.length > 1;
+    let interestPool = dedupePlaces(interestFilteredPlaces);
+    let shoppingComboDetails = null;
 
-    const interestPool = dedupePlaces(interestFilteredPlaces);
+    if (hasShoppingCombo) {
+      const shoppingLaneResult = filterByNormalizedInterests(
+        broaderInterestSource,
+        ['shopping'],
+        Math.max(1, Math.ceil(requiredAttractionCount * 0.5)),
+      );
+      const companionInterests = attractionInterests.filter((interest) => interest !== 'shopping');
+      const companionLaneResult = filterByNormalizedInterests(
+        broaderInterestSource,
+        companionInterests,
+        Math.max(1, requiredAttractionCount - Math.ceil(requiredAttractionCount * 0.5)),
+      );
+
+      const shoppingTarget = Math.max(1, Math.ceil(requiredAttractionCount * 0.5));
+      const companionTarget = Math.max(1, requiredAttractionCount - shoppingTarget);
+      const mergedInterestPool = dedupePlaces([
+        ...takeTopByScore(shoppingLaneResult.places, shoppingTarget),
+        ...takeTopByScore(companionLaneResult.places, companionTarget),
+        ...shoppingLaneResult.places,
+        ...companionLaneResult.places,
+      ]);
+
+      if (mergedInterestPool.length > 0) {
+        interestPool = mergedInterestPool;
+      }
+
+      shoppingComboDetails = {
+        shopping_lane_size: shoppingLaneResult.places.length,
+        companion_lane_size: companionLaneResult.places.length,
+        shopping_lane_target: shoppingTarget,
+        companion_lane_target: companionTarget,
+        companion_interests: companionInterests,
+      };
+    }
     const baseMinimumCandidateFloor = hasAttractionInterests
       ? Math.max(requiredAttractionCount * 3, 36)
       : Math.max(requiredAttractionCount * 2, 30);
@@ -1206,6 +1309,7 @@ class RecommendationService {
       strict_interest_threshold_used: thresholdUsed,
       strict_interest_fallback_applied: fallbackApplied,
       strict_interest_score_threshold: recommendationConfig.strictInterestScoreThreshold,
+      shopping_interest_score_threshold: recommendationConfig.shoppingInterestScoreThreshold,
       track_b_weighted_rating_cutoff: recommendationConfig.trackBWeightedRatingCutoff,
       track_b_fallback_weighted_rating_cutoff: recommendationConfig.trackBFallbackWeightedRatingCutoff,
       track_b_weighted_rating_cutoff_used: weightedRatingCutoffUsed,
@@ -1214,6 +1318,7 @@ class RecommendationService {
       strict_interest_strong_matches: strongMatchCount,
       strict_interest_medium_confidence_matches: mediumConfidenceCount,
       strict_interest_high_confidence_matches: highConfidenceCount,
+      shopping_combo_details: shoppingComboDetails,
       candidate_pool_size: candidatePool.length,
       interest_pool_contribution_count: interestPoolContribution,
       interest_pool_contribution_ratio: roundTo(
@@ -1257,6 +1362,8 @@ class RecommendationService {
 
   static rankAttractions(attractions, mlScoreMap, tripInterests) {
     const hasAttractionInterests = getAttractionRelevantInterests(tripInterests).length > 0;
+    const normalizedAttractionInterests = getAttractionRelevantInterests(tripInterests);
+    const isShoppingTrack = normalizedAttractionInterests.length === 1 && normalizedAttractionInterests[0] === 'shopping';
     const ratingValues = attractions
       .map((place) => Number(place.rating || 0))
       .filter((rating) => Number.isFinite(rating) && rating > 0);
@@ -1279,11 +1386,11 @@ class RecommendationService {
         const interestMatchScore = interestSignals.interestScore;
         const mustSeeBoost = getMustSeeBoost(place);
         const mlScore = Number(mlScoreMap.get(place.place_id) || 0);
-        const mlWeight = hasAttractionInterests ? 0.08 : 0.35;
-        const ratingWeight = hasAttractionInterests ? 0.20 : 0.30;
-        const popularityWeight = hasAttractionInterests ? 0.07 : 0.25;
-        const sentimentWeight = 0.10;
-        const interestWeight = hasAttractionInterests ? 0.55 : 0.18;
+        const mlWeight = isShoppingTrack ? 0.04 : hasAttractionInterests ? 0.08 : 0.35;
+        const ratingWeight = isShoppingTrack ? 0.27 : hasAttractionInterests ? 0.20 : 0.30;
+        const popularityWeight = isShoppingTrack ? 0.18 : hasAttractionInterests ? 0.07 : 0.25;
+        const sentimentWeight = isShoppingTrack ? 0.06 : 0.10;
+        const interestWeight = isShoppingTrack ? 0.65 : hasAttractionInterests ? 0.55 : 0.18;
         const finalScore = (mlScore * mlWeight)
           + (weightedRating * ratingWeight)
           + (normalizedPopularitySignal * popularityWeight)
