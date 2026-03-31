@@ -5,7 +5,7 @@ const TripService = require('../services/tripService');
 // @access  Private
 exports.createTrip = async (req, res) => {
   try {
-    const { city, days, budget, interests, hotelLocation, startDate } = req.body;
+    const { city, days, budget, interests, hotelLocation, startDate, stayPlanningMode } = req.body;
     const userId = req.user.userId;
 
     // Validation
@@ -22,6 +22,7 @@ exports.createTrip = async (req, res) => {
       budget,
       startDate,
       interests: interests || [],
+      stayPlanningMode: stayPlanningMode === 'dynamic' ? 'dynamic' : 'static',
       hotelLocation,
     };
 

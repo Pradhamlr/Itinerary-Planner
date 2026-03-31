@@ -639,6 +639,17 @@ export function ItineraryPanel({
                       </p>
                     </div>
 
+                    <div className="mt-4 grid gap-3 rounded-[24px] bg-white p-4 shadow-[0_14px_30px_-26px_rgba(15,23,42,0.2)] md:grid-cols-2">
+                      <div>
+                        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-secondary">Start anchor</p>
+                        <p className="mt-2 text-sm font-semibold text-brand-palm">{dayPlan.start_location?.name || 'Trip start'}</p>
+                      </div>
+                      <div>
+                        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-secondary">End anchor</p>
+                        <p className="mt-2 text-sm font-semibold text-brand-palm">{dayPlan.end_location?.name || route[route.length - 1]?.name || 'Day end'}</p>
+                      </div>
+                    </div>
+
                     {dayPlan.customized_order ? (
                       <div className="mt-4 rounded-2xl border border-sky-200 bg-sky-50 px-4 py-3 text-sm text-sky-700">
                         Stop order was customized manually. Travel timings and day totals were recalculated for this arrangement.
