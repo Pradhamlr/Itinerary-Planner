@@ -3,9 +3,11 @@ import StarRating from './StarRating'
 import {
   formatCategory,
   formatCityName,
+  getPlaceInsightBadges,
   getPlaceTypeTheme,
   getPlaceVisual,
   getPrimaryPlaceType,
+  getWhyThisPlaceText,
 } from '../utils/travel'
 
 function PlaceCard({ place }) {
@@ -24,6 +26,8 @@ function PlaceCard({ place }) {
   const explanationTags = Array.isArray(place.why_recommended) && place.why_recommended.length > 0
     ? place.why_recommended.slice(0, 3)
     : Array.isArray(place.explanation_tags) ? place.explanation_tags.slice(0, 3) : []
+  const insightBadges = getPlaceInsightBadges(place)
+  const whyThisPlace = getWhyThisPlaceText(place)
 
   return (
     <article className="group overflow-hidden rounded-[26px] bg-white shadow-[0_18px_42px_-30px_rgba(15,23,42,0.35)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_54px_-30px_rgba(15,23,42,0.42)]">
@@ -59,6 +63,11 @@ function PlaceCard({ place }) {
           <span className={`rounded-full px-3 py-1 text-xs font-semibold ${getPlaceTypeTheme(primaryType)}`}>
             {formatCategory(primaryType)}
           </span>
+          {insightBadges.map((badge) => (
+            <span key={`${place.place_id || place.name}-${badge}`} className="rounded-full bg-[#f5ecd2] px-3 py-1 text-xs font-semibold text-[#7a5a10]">
+              {badge}
+            </span>
+          ))}
           {place.user_ratings_total > 0 ? (
             <span className="rounded-full bg-brand-surfaceLow px-3 py-1 text-xs font-semibold text-brand-onSurfaceVariant">
               {place.user_ratings_total} ratings
@@ -80,6 +89,11 @@ function PlaceCard({ place }) {
         </div>
 
         <p className="line-clamp-3 text-sm leading-6 text-brand-onSurfaceVariant">{reviewSnippet}</p>
+
+        <div className="rounded-[20px] bg-brand-surfaceLow px-4 py-3">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-secondary">Why This Place?</p>
+          <p className="mt-2 text-sm leading-6 text-brand-onSurfaceVariant">{whyThisPlace}</p>
+        </div>
 
         {explanationTags.length > 0 ? (
           <div className="flex flex-wrap gap-2">

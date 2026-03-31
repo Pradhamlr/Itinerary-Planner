@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Autocomplete, useJsApiLoader } from '@react-google-maps/api'
 import { GOOGLE_MAPS_LIBRARIES, GOOGLE_MAPS_LOADER_ID } from '../utils/googleMaps'
 import { formatCityName } from '../utils/travel'
@@ -6,6 +6,7 @@ import { formatCityName } from '../utils/travel'
 function GooglePlacePicker({ city, onSelect, placeholder }) {
   const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY
   const autocompleteRef = useRef(null)
+  const [inputValue, setInputValue] = useState('')
   const { isLoaded, loadError } = useJsApiLoader({
     googleMapsApiKey: apiKey || '',
     libraries: GOOGLE_MAPS_LIBRARIES,
@@ -18,10 +19,12 @@ function GooglePlacePicker({ city, onSelect, placeholder }) {
 
   const handlePlaceChanged = () => {
     const place = autocompleteRef.current?.getPlace()
+    console.info('GooglePlacePicker place result:', place)
     const lat = place?.geometry?.location?.lat?.()
     const lng = place?.geometry?.location?.lng?.()
 
     if (!place || !Number.isFinite(lat) || !Number.isFinite(lng)) {
+      console.warn('GooglePlacePicker received an empty or invalid place result.')
       return
     }
 
@@ -35,7 +38,12 @@ function GooglePlacePicker({ city, onSelect, placeholder }) {
       rating: Number(place.rating || 0),
       user_ratings_total: Number(place.user_ratings_total || 0),
     })
+    setInputValue('')
   }
+
+  useEffect(() => {
+    setInputValue('')
+  }, [city])
 
   if (!apiKey) {
     return (
@@ -66,12 +74,14 @@ function GooglePlacePicker({ city, onSelect, placeholder }) {
       onLoad={handleLoad}
       onPlaceChanged={handlePlaceChanged}
       options={{
-        fields: ['formatted_address', 'geometry', 'name', 'place_id', 'types'],
+        fields: ['formatted_address', 'geometry', 'name', 'place_id', 'types', 'rating', 'user_ratings_total'],
         componentRestrictions: { country: 'in' },
       }}
     >
       <input
         type="text"
+        value={inputValue}
+        onChange={(event) => setInputValue(event.target.value)}
         placeholder={placeholder || (city ? `Search places in ${formatCityName(city)}` : 'Search places')}
         className="input-minimal"
       />

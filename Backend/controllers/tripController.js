@@ -5,21 +5,20 @@ const TripService = require('../services/tripService');
 // @access  Private
 exports.createTrip = async (req, res) => {
   try {
-    const { city, days, budget, interests, hotelLocation, startDate, stayPlanningMode } = req.body;
+    const { city, days, interests, hotelLocation, startDate, stayPlanningMode } = req.body;
     const userId = req.user.userId;
 
     // Validation
-    if (!city || !days || budget === undefined) {
+    if (!city || !days) {
       return res.status(400).json({
         success: false,
-        message: 'Please provide city, days, and budget',
+        message: 'Please provide city and days',
       });
     }
 
     const tripData = {
       city,
       days,
-      budget,
       startDate,
       interests: interests || [],
       stayPlanningMode: stayPlanningMode === 'dynamic' ? 'dynamic' : 'static',

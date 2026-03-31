@@ -40,6 +40,7 @@ const normalizeFilters = (filters = {}) => ({
   min_price: filters.min_price !== undefined && filters.min_price !== '' ? Number(filters.min_price) : null,
   max_price: filters.max_price !== undefined && filters.max_price !== '' ? Number(filters.max_price) : null,
   star: filters.star !== undefined && filters.star !== '' ? Number(filters.star) : null,
+  refresh_seed: filters.refresh_seed !== undefined && filters.refresh_seed !== '' ? Number(filters.refresh_seed) : 0,
 });
 
 const buildDayAnchor = (day) => {
@@ -108,7 +109,20 @@ class DynamicHotelPlanningService {
     return radiusBounded;
   }
 
-  static rankHotels(hotels, filters) {
+  static rotateRankedHotels(hotels, refreshSeed) {
+    if (!Array.isArray(hotels) || hotels.length <= 1) {
+      return hotels;
+    }
+
+    const offset = Math.abs(Number(refreshSeed) || 0) % hotels.length;
+    if (offset === 0) {
+      return hotels;
+    }
+
+    return [...hotels.slice(offset), ...hotels.slice(0, offset)];
+  }
+
+  static rankHotels(hotels, filters, nextDayStartLocation = null) {
     const targetPrice = filters.min_price !== null && filters.max_price !== null
       ? (filters.min_price + filters.max_price) / 2
       : filters.max_price !== null
@@ -117,20 +131,33 @@ class DynamicHotelPlanningService {
           ? filters.min_price
           : null;
 
-    return [...hotels]
+    const rankedHotels = [...hotels]
       .map((hotel) => {
         const priceSuitability = targetPrice && Number.isFinite(hotel.price_per_night)
           ? 1 / (1 + Math.abs(hotel.price_per_night - targetPrice))
           : Number.isFinite(hotel.price_per_night) ? 0.0002 * (10000 - Math.min(hotel.price_per_night, 10000)) : 0;
 
+        const next_day_start_distance_km = nextDayStartLocation
+          ? haversineDistanceKm(nextDayStartLocation, {
+            lat: hotel.location?.lat,
+            lng: hotel.location?.lng,
+          })
+          : Infinity;
+
+        const continuity_distance_score = Number.isFinite(next_day_start_distance_km)
+          ? (hotel.distance_km * 0.6) + (next_day_start_distance_km * 0.4)
+          : hotel.distance_km;
+
         const rankingScore = (
-          (1 / (1 + hotel.distance_km)) * 0.7
+          (1 / (1 + continuity_distance_score)) * 0.7
           + ((Number(hotel.user_rating) || 0) / 5) * 0.2
           + priceSuitability * 0.1
         );
 
         return {
           ...hotel,
+          continuity_distance_score,
+          next_day_start_distance_km,
           ranking_score: rankingScore,
         };
       })
@@ -138,11 +165,13 @@ class DynamicHotelPlanningService {
         if (right.ranking_score !== left.ranking_score) {
           return right.ranking_score - left.ranking_score;
         }
-        if (left.distance_km !== right.distance_km) {
-          return left.distance_km - right.distance_km;
+        if (left.continuity_distance_score !== right.continuity_distance_score) {
+          return left.continuity_distance_score - right.continuity_distance_score;
         }
         return (right.user_rating || 0) - (left.user_rating || 0);
-      })
+      });
+
+    return this.rotateRankedHotels(rankedHotels, filters.refresh_seed)
       .slice(0, MAX_SUGGESTIONS_PER_DAY)
       .map((hotel) => ({
         _id: hotel._id,
@@ -156,23 +185,27 @@ class DynamicHotelPlanningService {
         user_rating: hotel.user_rating,
         total_ratings: hotel.total_ratings,
         distance_km: roundTo(hotel.distance_km),
+        next_day_start_distance_km: Number.isFinite(hotel.next_day_start_distance_km)
+          ? roundTo(hotel.next_day_start_distance_km)
+          : null,
+        continuity_distance_score: roundTo(hotel.continuity_distance_score),
         source: hotel.source,
       }));
   }
 
-  static async getSuggestionsForAnchor(city, anchor, filters) {
+  static async getSuggestionsForAnchor(city, anchor, filters, nextDayStartLocation = null) {
     const primaryHotels = await this.queryNearbyHotels(city, anchor, filters, DEFAULT_RADIUS_KM);
     if (primaryHotels.length > 0) {
       return {
         search_radius_km: DEFAULT_RADIUS_KM,
-        suggested_hotels: this.rankHotels(primaryHotels, filters),
+        suggested_hotels: this.rankHotels(primaryHotels, filters, nextDayStartLocation),
       };
     }
 
     const expandedHotels = await this.queryNearbyHotels(city, anchor, filters, RADIUS_EXPANSION_KM);
     return {
       search_radius_km: RADIUS_EXPANSION_KM,
-      suggested_hotels: this.rankHotels(expandedHotels, filters),
+      suggested_hotels: this.rankHotels(expandedHotels, filters, nextDayStartLocation),
     };
   }
 
@@ -188,13 +221,16 @@ class DynamicHotelPlanningService {
     const relevantDays = skipLastDay ? itineraryDays.slice(0, -1) : itineraryDays;
 
     const dynamic_hotels = [];
-    for (const day of relevantDays) {
+    for (let index = 0; index < relevantDays.length; index += 1) {
+      const day = relevantDays[index];
       const context = buildDayAnchor(day);
+      const nextDayContext = relevantDays[index + 1] ? buildDayAnchor(relevantDays[index + 1]) : null;
       if (!context.end_location || !isFiniteCoordinate(context.end_location.lat) || !isFiniteCoordinate(context.end_location.lng)) {
         dynamic_hotels.push({
           day: context.day,
           start_location: context.start_location,
           end_location: context.end_location,
+          next_day_start_location: nextDayContext?.start_location || null,
           continue_previous_available: context.day > 1,
           search_radius_km: 0,
           suggested_hotels: [],
@@ -202,11 +238,17 @@ class DynamicHotelPlanningService {
         continue;
       }
 
-      const suggestions = await this.getSuggestionsForAnchor(trip.city, context.end_location, normalizedFilters);
+      const suggestions = await this.getSuggestionsForAnchor(
+        trip.city,
+        context.end_location,
+        normalizedFilters,
+        nextDayContext?.start_location || null,
+      );
       dynamic_hotels.push({
         day: context.day,
         start_location: context.start_location,
         end_location: context.end_location,
+        next_day_start_location: nextDayContext?.start_location || null,
         continue_previous_available: context.day > 1,
         search_radius_km: suggestions.search_radius_km,
         suggested_hotels: suggestions.suggested_hotels,

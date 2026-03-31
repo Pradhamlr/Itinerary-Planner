@@ -191,3 +191,93 @@ export const getStarFillLevels = (rating) => {
     return Number((fill * 100).toFixed(1));
   });
 };
+
+export const getWhyThisPlaceText = (place) => {
+  const whyRecommended = Array.isArray(place?.why_recommended) ? place.why_recommended.filter(Boolean) : [];
+  if (whyRecommended.length > 0) {
+    return whyRecommended[0];
+  }
+
+  const explanationTags = Array.isArray(place?.explanation_tags) ? place.explanation_tags.filter(Boolean) : [];
+  if (explanationTags.length > 0) {
+    return `Chosen because it matches ${explanationTags[0].toLowerCase()}.`;
+  }
+
+  const inferredTags = Array.isArray(place?.inferred_interest_tags) ? place.inferred_interest_tags.filter(Boolean) : [];
+  if (inferredTags.length > 0) {
+    return `Good fit for ${formatCategory(inferredTags[0]).toLowerCase()} interests.`;
+  }
+
+  const category = formatCategory(place?.category || place?.types?.[0] || 'your trip style');
+  return `Included as a strong ${category.toLowerCase()} option for this itinerary.`;
+};
+
+export const getPlaceInsightBadges = (place) => {
+  const badges = [];
+  const rating = Number(place?.rating || place?.user_rating || 0);
+  const pricePerNight = Number(place?.price_per_night);
+  const distanceKm = Number(place?.distance_km);
+
+  if (rating >= 4.5) {
+    badges.push('Top Rated');
+  }
+
+  if (Number.isFinite(pricePerNight) && pricePerNight > 0 && pricePerNight <= 3500) {
+    badges.push('Budget Friendly');
+  }
+
+  if (Number.isFinite(distanceKm) && distanceKm <= 5) {
+    badges.push('Nearby');
+  }
+
+  return badges;
+};
+
+export const getTripTypeLabel = (itineraryDays = []) => {
+  const validDays = itineraryDays.filter((day) => day && (day.route_stats || day.route));
+  if (validDays.length === 0) {
+    return 'Moderate';
+  }
+
+  const averageStops = validDays.reduce((sum, day) => sum + (day.route_stats?.stop_count || day.route?.length || 0), 0) / validDays.length;
+  const averageMinutes = validDays.reduce((sum, day) => sum + (day.route_stats?.total_day_minutes || 0), 0) / validDays.length;
+
+  if (averageStops <= 3 && averageMinutes <= 360) {
+    return 'Relaxed';
+  }
+
+  if (averageStops >= 6 || averageMinutes >= 540) {
+    return 'Fast-paced';
+  }
+
+  return 'Moderate';
+};
+
+export const getDayDifficulty = (dayPlan) => {
+  const stopCount = dayPlan?.route_stats?.stop_count || dayPlan?.route?.length || 0;
+  const totalMinutes = dayPlan?.route_stats?.total_day_minutes || 0;
+  const travelMinutes = dayPlan?.route_stats?.total_travel_minutes || 0;
+
+  if (stopCount <= 3 && totalMinutes <= 360 && travelMinutes <= 120) {
+    return 'Low';
+  }
+
+  if (stopCount >= 6 || totalMinutes >= 540 || travelMinutes >= 210) {
+    return 'High';
+  }
+
+  return 'Medium';
+};
+
+export const formatHotelMetric = (value, formatter) => {
+  if (value === undefined || value === null || value === '') {
+    return 'Estimated value';
+  }
+
+  const numericValue = Number(value);
+  if (!Number.isFinite(numericValue) || numericValue <= 0) {
+    return 'Estimated value';
+  }
+
+  return formatter ? formatter(numericValue) : String(numericValue);
+};

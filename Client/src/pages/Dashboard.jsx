@@ -27,6 +27,14 @@ function Dashboard() {
   const [error, setError] = useState('')
   const [search, setSearch] = useState('')
   const [heroImageFailed, setHeroImageFailed] = useState(false)
+  const [completionModalTrip, setCompletionModalTrip] = useState(null)
+  const [completionForm, setCompletionForm] = useState({
+    follow_score: 0,
+    satisfaction_score: 0,
+    hotel_score: 0,
+    feedback_text: '',
+  })
+  const [savingCompletion, setSavingCompletion] = useState(false)
 
   const fetchTrips = async () => {
     try {
@@ -47,6 +55,66 @@ function Dashboard() {
       setTrips((prev) => prev.filter((trip) => trip._id !== tripId))
     } catch (apiError) {
       setError(apiError.response?.data?.message || 'Failed to delete trip.')
+    }
+  }
+
+  const openCompletionModal = (trip) => {
+    setCompletionModalTrip(trip)
+    setCompletionForm({
+      follow_score: trip?.completionFeedback?.follow_score || 0,
+      satisfaction_score: trip?.completionFeedback?.satisfaction_score || 0,
+      hotel_score: trip?.completionFeedback?.hotel_score || 0,
+      feedback_text: trip?.completionFeedback?.feedback_text || '',
+    })
+  }
+
+  const closeCompletionModal = () => {
+    setCompletionModalTrip(null)
+    setCompletionForm({
+      follow_score: 0,
+      satisfaction_score: 0,
+      hotel_score: 0,
+      feedback_text: '',
+    })
+  }
+
+  const updateCompletionScore = (field, value) => {
+    setCompletionForm((prev) => ({
+      ...prev,
+      [field]: value,
+    }))
+  }
+
+  const submitCompletionFeedback = async () => {
+    if (!completionModalTrip) {
+      return
+    }
+
+    if (!completionForm.follow_score || !completionForm.satisfaction_score || !completionForm.hotel_score) {
+      setError('Please rate all three feedback questions before marking the trip as completed.')
+      return
+    }
+
+    try {
+      setSavingCompletion(true)
+      setError('')
+      const completionFeedback = {
+        ...completionForm,
+        feedback_text: completionForm.feedback_text.trim(),
+        created_at: new Date().toISOString(),
+      }
+
+      const response = await api.put(`/trips/${completionModalTrip._id}`, {
+        completed: true,
+        completionFeedback,
+      })
+      const updatedTrip = response.data?.data
+      setTrips((prev) => prev.map((trip) => (trip._id === updatedTrip._id ? updatedTrip : trip)))
+      closeCompletionModal()
+    } catch (apiError) {
+      setError(apiError.response?.data?.message || 'Failed to save trip feedback.')
+    } finally {
+      setSavingCompletion(false)
     }
   }
 
@@ -119,7 +187,7 @@ function Dashboard() {
         <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <h2 className="editorial-title text-3xl font-semibold text-brand-palm">My Saved Trips</h2>
-            <p className="mt-2 max-w-xl text-brand-onSurfaceVariant">Track budgets, interests, and recommendation-ready journeys in one refined workspace.</p>
+            <p className="mt-2 max-w-xl text-brand-onSurfaceVariant">Track interests, completion status, and recommendation-ready journeys in one refined workspace.</p>
           </div>
           <div className="flex w-full flex-col gap-3 sm:flex-row lg:w-auto">
             <div className="flex min-w-[290px] items-center gap-3 rounded-2xl bg-white px-4 py-3 shadow-[0_10px_26px_-22px_rgba(15,23,42,0.4)] ring-1 ring-brand-surfaceHigh">
@@ -170,7 +238,7 @@ function Dashboard() {
         ) : (
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
             {filteredTrips.map((trip) => (
-              <TripCard key={trip._id} trip={trip} onDelete={handleDeleteTrip} />
+              <TripCard key={trip._id} trip={trip} onDelete={handleDeleteTrip} onComplete={openCompletionModal} />
             ))}
             <Link
               to="/create-trip"
@@ -183,6 +251,74 @@ function Dashboard() {
           </div>
         )}
       </section>
+
+      {completionModalTrip ? (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
+          <div className="w-full max-w-2xl rounded-[30px] bg-white p-6 shadow-[0_34px_80px_-34px_rgba(15,23,42,0.5)]">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <p className="field-label">Trip Completion</p>
+                <h3 className="mt-2 text-[1.7rem] font-semibold text-brand-palm">How did this trip go?</h3>
+                <p className="mt-2 text-sm text-brand-onSurfaceVariant">
+                  Share quick feedback for {completionModalTrip.city}. This marks the trip as completed.
+                </p>
+              </div>
+              <button type="button" onClick={closeCompletionModal} className="btn-ghost px-4 py-2" disabled={savingCompletion}>
+                Close
+              </button>
+            </div>
+
+            <div className="mt-6 space-y-5">
+              {[
+                ['follow_score', 'How closely did you follow the itinerary?'],
+                ['satisfaction_score', 'How satisfied are you with recommendations?'],
+                ['hotel_score', 'Was hotel selection helpful?'],
+              ].map(([field, label]) => (
+                <div key={field} className="rounded-[22px] bg-brand-surfaceLow p-4">
+                  <p className="text-sm font-semibold text-brand-palm">{label}</p>
+                  <div className="mt-3 flex gap-2">
+                    {[1, 2, 3, 4, 5].map((value) => (
+                      <button
+                        key={`${field}-${value}`}
+                        type="button"
+                        onClick={() => updateCompletionScore(field, value)}
+                        className={`inline-flex h-11 w-11 items-center justify-center rounded-full text-sm font-semibold transition ${
+                          completionForm[field] === value
+                            ? 'bg-brand-secondary text-white'
+                            : 'bg-white text-brand-palm ring-1 ring-brand-surfaceHigh'
+                        }`}
+                      >
+                        {value}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ))}
+
+              <div>
+                <label htmlFor="feedback_text" className="field-label mb-2 block">Optional feedback</label>
+                <textarea
+                  id="feedback_text"
+                  value={completionForm.feedback_text}
+                  onChange={(event) => updateCompletionScore('feedback_text', event.target.value)}
+                  rows="4"
+                  className="input-minimal min-h-[120px]"
+                  placeholder="Anything that worked especially well or needs improvement?"
+                />
+              </div>
+            </div>
+
+            <div className="mt-6 flex justify-end gap-3">
+              <button type="button" onClick={closeCompletionModal} className="btn-ghost px-4 py-2" disabled={savingCompletion}>
+                Cancel
+              </button>
+              <button type="button" onClick={submitCompletionFeedback} className="btn-primary px-5 py-3" disabled={savingCompletion}>
+                {savingCompletion ? 'Saving...' : 'Mark Completed'}
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </section>
   )
 }

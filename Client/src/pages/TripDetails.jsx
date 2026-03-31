@@ -2,7 +2,14 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { ItineraryPanel, RecommendationsPanel } from '../components/TripDetailsPanels'
 import api from '../services/api'
-import { formatCityName, formatCurrency, getInterestMeta } from '../utils/travel'
+import {
+  formatCityName,
+  formatCurrency,
+  formatHotelMetric,
+  getInterestMeta,
+  getPlaceInsightBadges,
+  getTripTypeLabel,
+} from '../utils/travel'
 import {
   buildDefaultHotelSelections,
   deriveDynamicAnchoredItinerary,
@@ -120,6 +127,8 @@ function TripDetails() {
   const [hotelSelections, setHotelSelections] = useState({})
   const [continuedStayDays, setContinuedStayDays] = useState({})
   const [derivedItineraryDays, setDerivedItineraryDays] = useState([])
+  const [hotelSelectionMessage, setHotelSelectionMessage] = useState('')
+  const [dynamicHotelsRefreshSeed, setDynamicHotelsRefreshSeed] = useState(0)
 
   const hydrateSavedPlans = (tripData) => {
     const recommendationSnapshot = tripData?.recommendationSnapshot
@@ -628,12 +637,16 @@ function TripDetails() {
       if (dynamicHotelFilters.star) {
         params.star = Number(dynamicHotelFilters.star)
       }
+      params.refresh_seed = dynamicHotelsRefreshSeed
 
       const response = await api.get(`/hotels/dynamic/${id}`, { params })
       const dynamicHotelDays = response.data?.dynamic_hotels || []
       setDynamicHotels(dynamicHotelDays)
       setDynamicHotelsMetadata(response.data?.metadata || null)
       setHotelSelections((prev) => buildDefaultHotelSelections(dynamicHotelDays, prev))
+      if (dynamicHotelDays.some((day) => (day.suggested_hotels || []).length > 0)) {
+        setHotelSelectionMessage('Default hotel selected for each day. You can change it any time.')
+      }
     } catch (err) {
       setDynamicHotels([])
       setDynamicHotelsMetadata(null)
@@ -663,6 +676,7 @@ function TripDetails() {
 
     setHotelSelections(nextHotelSelections)
     setContinuedStayDays(nextContinuedStayDays)
+    setHotelSelectionMessage('Hotel selected. Route updated.')
 
     try {
       await persistItinerarySnapshot(nextDerivedDays, { mode: 'dynamic', persistMode: true })
@@ -686,6 +700,7 @@ function TripDetails() {
     })
 
     setContinuedStayDays(nextContinuedStayDays)
+    setHotelSelectionMessage('Hotel selected. Route updated.')
 
     try {
       await persistItinerarySnapshot(nextDerivedDays, { mode: 'dynamic', persistMode: true })
@@ -721,7 +736,7 @@ function TripDetails() {
     }
 
     fetchDynamicHotels()
-  }, [stayPlanningMode, itineraryGenerated, id, dynamicHotelFilters.max_price, dynamicHotelFilters.min_price, dynamicHotelFilters.star])
+  }, [stayPlanningMode, itineraryGenerated, id, dynamicHotelFilters.max_price, dynamicHotelFilters.min_price, dynamicHotelFilters.star, dynamicHotelsRefreshSeed])
 
   useEffect(() => {
     if (trip?.stayPlanningMode) {
@@ -740,7 +755,20 @@ function TripDetails() {
     }))
   }, [continuedStayDays, dynamicHotels, hotelSelections, itineraryDays, stayPlanningMode, trip?.hotelLocation])
 
+  useEffect(() => {
+    if (!hotelSelectionMessage) {
+      return undefined
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      setHotelSelectionMessage('')
+    }, 2800)
+
+    return () => window.clearTimeout(timeoutId)
+  }, [hotelSelectionMessage])
+
   const plannedDayLookup = Object.fromEntries(derivedItineraryDays.map((day) => [day.day, day]))
+  const tripType = getTripTypeLabel(derivedItineraryDays)
 
   if (loadingTrip) {
     return (
@@ -828,6 +856,11 @@ function TripDetails() {
                 {loadingItinerary ? 'Building...' : itineraryGenerated ? 'Refresh Itinerary' : 'Generate Itinerary'}
               </button>
             </div>
+            {loadingItinerary ? (
+              <p className="mt-4 rounded-[18px] bg-brand-surfaceLow px-4 py-3 text-sm text-brand-onSurfaceVariant">
+                Building itinerary and day-wise travel summary...
+              </p>
+            ) : null}
           </div>
 
           <div className="rounded-[30px] bg-white p-6 shadow-[0_18px_46px_-30px_rgba(15,23,42,0.35)]">
@@ -858,8 +891,12 @@ function TripDetails() {
               )}
             </div>
             <div className="mt-4 rounded-[24px] bg-brand-surfaceLow p-4">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-brand-onSurfaceVariant">Budget</p>
-              <p className="mt-2 text-xl font-semibold text-brand-palm">{formatCurrency(trip.budget)}</p>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-brand-onSurfaceVariant">Start Point</p>
+              <p className="mt-2 text-xl font-semibold text-brand-palm">{trip.hotelLocation?.name || 'Flexible start'}</p>
+            </div>
+            <div className="mt-4 rounded-[24px] bg-brand-surfaceLow p-4">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-brand-onSurfaceVariant">Trip Type</p>
+              <p className="mt-2 text-xl font-semibold text-brand-palm">{tripType}</p>
             </div>
           </div>
         </div>
@@ -868,7 +905,15 @@ function TripDetails() {
           <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
             <div className="max-w-2xl">
               <p className="field-label">Stay planning</p>
-              <h2 className="editorial-title mt-3 text-[1.9rem] font-semibold text-brand-palm">Static or dynamic stay?</h2>
+              <div className="mt-3 flex items-center gap-2">
+                <h2 className="editorial-title text-[1.9rem] font-semibold text-brand-palm">Static or dynamic stay?</h2>
+                <span
+                  className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-brand-surfaceLow text-xs font-bold text-brand-secondary"
+                  title="Dynamic Stay suggests a different hotel per day and only updates start and end anchors. It does not regenerate the itinerary."
+                >
+                  i
+                </span>
+              </div>
               <p className="mt-3 text-brand-onSurfaceVariant">
                 Static stay keeps one hotel for the full trip. Dynamic stay adds a separate daily hotel-planning layer near each day&apos;s end point without touching itinerary generation or route order.
               </p>
@@ -907,6 +952,23 @@ function TripDetails() {
             </div>
           ) : (
             <div className="mt-6 space-y-5">
+              {hotelSelectionMessage ? (
+                <div className="rounded-[24px] border border-[#cdeee8] bg-[#eefcf8] px-4 py-3 text-sm font-medium text-[#0b5b56]">
+                  {hotelSelectionMessage}
+                </div>
+              ) : null}
+
+              <div className="flex justify-start">
+                <button
+                  type="button"
+                  onClick={() => setDynamicHotelsRefreshSeed((current) => current + 1)}
+                  disabled={dynamicHotelsLoading}
+                  className="btn-secondary disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  {dynamicHotelsLoading ? 'Refreshing...' : 'Refresh Hotels'}
+                </button>
+              </div>
+
               <div className="grid gap-4 md:grid-cols-4">
                 <div>
                   <label htmlFor="dynamic_min_price" className="field-label mb-2 block">Min Price</label>
@@ -956,7 +1018,7 @@ function TripDetails() {
                     disabled={dynamicHotelsLoading}
                     className="btn-secondary w-full disabled:cursor-not-allowed disabled:opacity-60"
                   >
-                    {dynamicHotelsLoading ? 'Refreshing...' : 'Refresh Suggestions'}
+                    {dynamicHotelsLoading ? 'Refreshing...' : 'Apply Filters'}
                   </button>
                 </div>
               </div>
@@ -975,12 +1037,16 @@ function TripDetails() {
                   const previousPlannedDay = plannedDayLookup[dayEntry.day - 1]
                   const plannedHotel = plannedDay?.selected_hotel || null
                   const canContinuePrevious = dayEntry.continue_previous_available && Boolean(previousPlannedDay?.selected_hotel)
+                  const defaultHotelKey = getHotelSelectionKey(dayEntry.suggested_hotels?.[0])
+                  const selectedHotelKey = plannedHotel ? getHotelSelectionKey(plannedHotel) : ''
+                  const isDefaultSelection = !continuedStayDays[dayEntry.day] && selectedHotelKey && selectedHotelKey === defaultHotelKey
+                  const hotelBadges = plannedHotel ? getPlaceInsightBadges(plannedHotel) : []
 
                   return (
                     <article key={dayEntry.day} className="rounded-[26px] bg-brand-surfaceLow p-5">
                       <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
                         <div>
-                          <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-brand-onSurfaceVariant">Day {dayEntry.day}</p>
+                          <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-brand-onSurfaceVariant">Day {dayEntry.day} Plan</p>
                           <h3 className="mt-2 text-xl font-semibold text-brand-palm">{plannedDay?.end_location?.name || 'End point unavailable'}</h3>
                           <p className="mt-1 text-sm text-brand-onSurfaceVariant">
                             Start: {plannedDay?.start_location?.name || 'Trip start'} - End anchor radius: {dayEntry.search_radius_km} km
@@ -995,6 +1061,7 @@ function TripDetails() {
                             type="button"
                             disabled={!canContinuePrevious}
                             onClick={() => toggleContinueStay(dayEntry.day)}
+                            title="Reuse the previous day's hotel for this day. Only the start and end anchors update."
                             className={`rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] transition ${
                               continuedStayDays[dayEntry.day]
                                 ? 'bg-brand-secondary text-white'
@@ -1008,22 +1075,42 @@ function TripDetails() {
 
                       {plannedHotel ? (
                         <div className="mt-4 rounded-[22px] bg-white p-4 shadow-sm">
-                          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-brand-onSurfaceVariant">
-                            {continuedStayDays[dayEntry.day] ? 'Reused stay' : 'Selected stay'}
-                          </p>
+                          <div className="flex flex-wrap items-center gap-2">
+                            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-brand-onSurfaceVariant">
+                              {continuedStayDays[dayEntry.day] ? 'Reused stay' : 'Selected stay'}
+                            </p>
+                            {isDefaultSelection ? (
+                              <span className="rounded-full bg-[#edf7ed] px-3 py-1 text-[11px] font-semibold text-[#2c6a3d]">Default hotel selected</span>
+                            ) : null}
+                            <span className="rounded-full bg-[#def7f7] px-3 py-1 text-[11px] font-semibold text-brand-secondary">Recommended for this day</span>
+                            {hotelBadges.map((badge) => (
+                              <span key={`${dayEntry.day}-${badge}`} className="rounded-full bg-[#f5ecd2] px-3 py-1 text-[11px] font-semibold text-[#7a5a10]">{badge}</span>
+                            ))}
+                          </div>
                           <div className="mt-2 flex flex-wrap items-center justify-between gap-3">
                             <div>
                               <p className="text-lg font-semibold text-brand-palm">{plannedHotel.name}</p>
-                              <p className="mt-1 text-sm text-brand-onSurfaceVariant">{plannedHotel.address}</p>
+                              <p className="mt-1 text-sm text-brand-onSurfaceVariant">{plannedHotel.address || 'Estimated value'}</p>
+                              <p className="mt-2 text-sm text-brand-onSurfaceVariant">
+                                Price: {formatHotelMetric(plannedHotel.price_per_night, (value) => `${formatCurrency(value)} / night`)}
+                              </p>
                             </div>
                             <div className="flex flex-wrap gap-2 text-xs font-semibold">
-                              <span className="rounded-full bg-[#e7ebf1] px-3 py-2 text-[#264778]">{plannedHotel.star_category} star</span>
-                              <span className="rounded-full bg-[#d9f4f2] px-3 py-2 text-[#00504c]">{formatCurrency(plannedHotel.price_per_night)}</span>
+                              <span className="rounded-full bg-[#e7ebf1] px-3 py-2 text-[#264778]">
+                                {formatHotelMetric(plannedHotel.star_category, (value) => `${value}-star stay`)}
+                              </span>
+                              <span className="rounded-full bg-[#d9f4f2] px-3 py-2 text-[#00504c]">
+                                {formatHotelMetric(plannedHotel.price_per_night, (value) => `${formatCurrency(value)} / night`)}
+                              </span>
                               <span className="rounded-full bg-[#edf0f2] px-3 py-2 text-[#43474e]">Rating {Number(plannedHotel.user_rating || 0).toFixed(1)}</span>
                             </div>
                           </div>
                         </div>
-                      ) : null}
+                      ) : (
+                        <div className="mt-4 rounded-[22px] border border-dashed border-brand-outlineVariant bg-white p-4 text-sm text-brand-onSurfaceVariant">
+                          No hotel selected yet. The itinerary falls back to the original trip anchor until a hotel is chosen.
+                        </div>
+                      )}
 
                       {!continuedStayDays[dayEntry.day] ? (
                         <div className="mt-4 grid gap-3">
@@ -1035,14 +1122,17 @@ function TripDetails() {
                                   key={hotel._id || hotel.place_id || `${dayEntry.day}-${hotel.name}`}
                                   className={`rounded-[22px] border p-4 transition ${
                                     selected
-                                      ? 'border-brand-secondary bg-white shadow-sm'
+                                      ? 'border-brand-secondary bg-white shadow-sm ring-2 ring-brand-secondary/20'
                                       : 'border-transparent bg-white/80'
                                   }`}
                                 >
                                   <div className="flex flex-wrap items-start justify-between gap-3">
                                     <div className="max-w-[72%]">
                                       <p className="text-base font-semibold text-brand-palm">{hotel.name}</p>
-                                      <p className="mt-1 text-sm text-brand-onSurfaceVariant">{hotel.address}</p>
+                                      <p className="mt-1 text-sm text-brand-onSurfaceVariant">{hotel.address || 'Estimated value'}</p>
+                                      <p className="mt-2 text-sm text-brand-onSurfaceVariant">
+                                        Price: {formatHotelMetric(hotel.price_per_night, (value) => `${formatCurrency(value)} / night`)}
+                                      </p>
                                     </div>
                                     <button
                                       type="button"
@@ -1053,14 +1143,21 @@ function TripDetails() {
                                           : 'bg-brand-surfaceLow text-brand-secondary hover:bg-brand-secondary hover:text-white'
                                       }`}
                                     >
-                                      {selected ? 'Selected' : 'Choose Stay'}
+                                      {selected ? 'Selected' : 'Use This Stay'}
                                     </button>
                                   </div>
                                   <div className="mt-3 flex flex-wrap gap-2 text-xs font-semibold">
-                                    <span className="rounded-full bg-[#e7ebf1] px-3 py-2 text-[#264778]">{hotel.star_category} star</span>
-                                    <span className="rounded-full bg-[#d9f4f2] px-3 py-2 text-[#00504c]">{formatCurrency(hotel.price_per_night)}</span>
+                                    <span className="rounded-full bg-[#def7f7] px-3 py-2 text-brand-secondary">Recommended for this day</span>
+                                    {getPlaceInsightBadges(hotel).map((badge) => (
+                                      <span key={`${hotel._id || hotel.place_id}-${badge}`} className="rounded-full bg-[#f5ecd2] px-3 py-2 text-[#7a5a10]">{badge}</span>
+                                    ))}
+                                    <span className="rounded-full bg-[#e7ebf1] px-3 py-2 text-[#264778]">{formatHotelMetric(hotel.star_category, (value) => `${value}-star stay`)}</span>
+                                    <span className="rounded-full bg-[#d9f4f2] px-3 py-2 text-[#00504c]">{formatHotelMetric(hotel.price_per_night, (value) => `${formatCurrency(value)} / night`)}</span>
                                     <span className="rounded-full bg-[#edf0f2] px-3 py-2 text-[#43474e]">Rating {Number(hotel.user_rating || 0).toFixed(1)}</span>
                                     <span className="rounded-full bg-[#edf0f2] px-3 py-2 text-[#43474e]">{hotel.distance_km} km from end</span>
+                                    {getHotelSelectionKey(hotel) === defaultHotelKey ? (
+                                      <span className="rounded-full bg-[#edf7ed] px-3 py-2 text-[#2c6a3d]">Default hotel selected</span>
+                                    ) : null}
                                   </div>
                                 </div>
                               )

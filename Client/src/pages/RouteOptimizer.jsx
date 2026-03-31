@@ -37,6 +37,7 @@ export default function RouteOptimizer() {
   const [optimizationMode, setOptimizationMode] = useState('time')
   const [startLocation, setStartLocation] = useState(null)
   const [optimizedRoute, setOptimizedRoute] = useState(null)
+  const [optimizedSummary, setOptimizedSummary] = useState(null)
 
   useEffect(() => {
     const fetchCities = async () => {
@@ -69,6 +70,7 @@ export default function RouteOptimizer() {
         setPlaces(sorted)
         setSelectedPlaces([])
         setOptimizedRoute(null)
+        setOptimizedSummary(null)
         setError('')
       } catch (apiError) {
         setError(apiError.response?.data?.message || 'Failed to load destinations.')
@@ -79,6 +81,13 @@ export default function RouteOptimizer() {
 
     fetchPlaces()
   }, [selectedCity])
+
+  useEffect(() => {
+    setOptimizedRoute(null)
+    setOptimizedSummary(null)
+  }, [optimizationMode, selectedPlaces, startLocation])
+
+  const routeSummary = optimizedSummary || optimizedRoute?.summary || null
 
   const selectedCityLabel = selectedCity === RANDOM_CITY_KEY
     ? 'Random Places'
@@ -94,11 +103,15 @@ export default function RouteOptimizer() {
   }, [placeSearch, places])
 
   const togglePlace = (place) => {
-    setSelectedPlaces((prev) => (
-      prev.some((item) => item.place_id === place.place_id)
-        ? prev.filter((item) => item.place_id !== place.place_id)
-        : [...prev, place]
-    ))
+    setSelectedPlaces((prev) => {
+      const exists = prev.some((item) => item.place_id === place.place_id)
+      if (exists) {
+        return prev.filter((item) => item.place_id !== place.place_id)
+      }
+
+      setPlaceSearch('')
+      return [...prev, place]
+    })
   }
 
   const handleGooglePlaceSelect = (place) => {
@@ -111,7 +124,28 @@ export default function RouteOptimizer() {
         ? prev
         : [...prev, place]
     ))
+    setPlaceSearch('')
   }
+
+  const displayedRoute = useMemo(() => {
+    const route = optimizedRoute?.route || selectedPlaces
+    if (!startLocation) {
+      return route
+    }
+
+    return [
+      {
+        place_id: startLocation.place_id || '__start__',
+        name: startLocation.name || 'Start Location',
+        lat: Number(startLocation.lat),
+        lng: Number(startLocation.lng),
+        category: 'start_location',
+        sequence: 0,
+        is_start_location: true,
+      },
+      ...route,
+    ]
+  }, [optimizedRoute?.route, selectedPlaces, startLocation])
 
   const handleOptimize = async () => {
     if (selectedPlaces.length < 2) {
@@ -135,6 +169,7 @@ export default function RouteOptimizer() {
         optimizationMode,
       })
       setOptimizedRoute(response.data.data)
+      setOptimizedSummary(response.data?.data?.summary || null)
     } catch (apiError) {
       setError(apiError.response?.data?.message || 'Failed to optimize route.')
     } finally {
@@ -277,14 +312,14 @@ export default function RouteOptimizer() {
                 </div>
 
                 <div className="grid gap-3 sm:grid-cols-3">
-                  <StatCard label="Total stops" value={optimizedRoute?.summary?.total_stops ?? selectedPlaces.length} helper="selected destinations" />
-                  <StatCard label="Travel time" value={formatMinutes(optimizedRoute?.summary?.total_travel_minutes || 0)} helper="estimated total drive" />
-                  <StatCard label="Distance" value={`${optimizedRoute?.summary?.total_distance_km || 0} km`} helper="route span" />
+                  <StatCard label="Total stops" value={routeSummary?.total_stops ?? selectedPlaces.length} helper="selected destinations" />
+                  <StatCard label="Travel time" value={formatMinutes(routeSummary?.total_travel_minutes ?? 0)} helper="estimated total drive" />
+                  <StatCard label="Distance" value={`${routeSummary?.total_distance_km ?? 0} km`} helper="route span" />
                 </div>
               </div>
 
               <div className="mt-6 overflow-hidden rounded-[26px] bg-white p-3">
-                <ItineraryMap itinerary={[{ day: 1, route: optimizedRoute?.route || selectedPlaces }]} />
+                <ItineraryMap itinerary={[{ day: 1, start_location: startLocation, route: optimizedRoute?.route || selectedPlaces }]} />
               </div>
             </div>
           </section>
@@ -352,36 +387,40 @@ export default function RouteOptimizer() {
                 <p className="field-label">Step-by-step</p>
                 <h2 className="mt-2 text-2xl font-semibold text-brand-palm">Optimized order</h2>
               </div>
-              {optimizedRoute?.summary ? (
+              {routeSummary ? (
                 <span className="rounded-full bg-brand-surfaceLow px-4 py-2 text-sm font-semibold text-brand-onSurfaceVariant">
-                  {optimizedRoute.summary.optimization_mode}
+                  {routeSummary.optimization_mode}
                 </span>
               ) : null}
             </div>
 
             <div className="mt-6 space-y-4">
-              {optimizedRoute?.route?.length ? (
-                optimizedRoute.route.map((place) => (
+              {displayedRoute.length ? (
+                displayedRoute.map((place, index) => (
                   <div key={place.place_id} className="rounded-[24px] border border-brand-surfaceHigh bg-brand-surfaceLowest p-4">
                     <div className="flex items-start justify-between gap-4">
                       <div>
-                        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-secondary">Stop {place.sequence}</p>
+                        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-secondary">
+                          {place.is_start_location ? 'Start Location' : `Stop ${place.sequence || index}`}
+                        </p>
                         <h3 className="mt-2 text-xl font-semibold text-brand-palm">{place.name}</h3>
-                        <p className="mt-2 text-sm text-brand-onSurfaceVariant">{formatCategory(place.category || place.types?.[0] || 'place')}</p>
+                        <p className="mt-2 text-sm text-brand-onSurfaceVariant">
+                          {place.is_start_location ? 'Route begins here' : formatCategory(place.category || place.types?.[0] || 'place')}
+                        </p>
                       </div>
                       <div className="text-right text-sm text-brand-onSurfaceVariant">
-                        {place.travel_time_from_previous ? <p>{place.travel_time_from_previous}</p> : null}
-                        {place.travel_distance_from_previous_text ? <p className="mt-1">{place.travel_distance_from_previous_text}</p> : null}
+                        {!place.is_start_location && place.travel_time_from_previous ? <p>{place.travel_time_from_previous}</p> : null}
+                        {!place.is_start_location && place.travel_distance_from_previous_text ? <p className="mt-1">{place.travel_distance_from_previous_text}</p> : null}
                       </div>
                     </div>
 
                     <div className="mt-4 flex flex-wrap gap-2 text-xs font-semibold">
-                      {place.travel_time_to_next ? (
+                      {!place.is_start_location && place.travel_time_to_next ? (
                         <span className="rounded-full bg-brand-surfaceHigh px-3 py-1 text-brand-onSurfaceVariant">
                           Next leg: {place.travel_time_to_next}
                         </span>
                       ) : null}
-                      {place.travel_distance_to_next_text ? (
+                      {!place.is_start_location && place.travel_distance_to_next_text ? (
                         <span className="rounded-full bg-[#def7f7] px-3 py-1 text-brand-secondary">
                           {place.travel_distance_to_next_text}
                         </span>

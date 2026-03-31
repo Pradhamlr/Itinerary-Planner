@@ -63,7 +63,6 @@ class TripService {
       const allowedUpdates = [
         'city',
         'days',
-        'budget',
         'startDate',
         'interests',
         'stayPlanningMode',
@@ -73,6 +72,8 @@ class TripService {
         'recommendationSnapshot',
         'itinerarySnapshot',
         'finalizedItinerarySnapshot',
+        'completed',
+        'completionFeedback',
       ];
       Object.keys(updateData).forEach((key) => {
         if (allowedUpdates.includes(key)) {

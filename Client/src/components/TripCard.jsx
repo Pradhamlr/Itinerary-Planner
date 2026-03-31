@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { formatCityName, formatCurrency, getCityGradient, getCityHeroImage, getInterestMeta } from '../utils/travel'
+import { formatCityName, getCityGradient, getCityHeroImage, getInterestMeta } from '../utils/travel'
 
-function TripCard({ trip, onDelete }) {
+function TripCard({ trip, onDelete, onComplete }) {
   const interests = trip.interests || []
   const gradient = getCityGradient(trip.city)
   const cityHero = getCityHeroImage(trip.city)
@@ -37,7 +37,7 @@ function TripCard({ trip, onDelete }) {
           <h3 className="editorial-title text-2xl font-bold">{formatCityName(trip.city)}</h3>
           <div className="mt-2 flex items-center justify-between text-sm font-semibold">
             <span>{trip.days} day{trip.days > 1 ? 's' : ''}</span>
-            <span>{formatCurrency(trip.budget)}</span>
+            <span>{trip.completed ? 'Completed' : 'Active trip'}</span>
           </div>
         </div>
       </div>
@@ -85,13 +85,28 @@ function TripCard({ trip, onDelete }) {
           <span className="text-sm text-gray-600">
             {trip.days >= 6 ? 'Slow travel' : trip.days >= 3 ? 'Balanced pace' : 'Quick escape'}
           </span>
-          <button
-            type="button"
-            onClick={() => onDelete(trip._id)}
-            className="rounded-full bg-red-100 px-4 py-2 text-sm font-semibold text-red-700 transition hover:bg-red-200"
-          >
-            Delete
-          </button>
+          <div className="flex items-center gap-2">
+            {!trip.completed ? (
+              <button
+                type="button"
+                onClick={() => onComplete?.(trip)}
+                className="rounded-full bg-[#edf7ed] px-4 py-2 text-sm font-semibold text-[#2c6a3d] transition hover:bg-[#dff0e2]"
+              >
+                Mark as Completed
+              </button>
+            ) : (
+              <span className="rounded-full bg-[#edf7ed] px-4 py-2 text-sm font-semibold text-[#2c6a3d]">
+                Completed
+              </span>
+            )}
+            <button
+              type="button"
+              onClick={() => onDelete(trip._id)}
+              className="rounded-full bg-red-100 px-4 py-2 text-sm font-semibold text-red-700 transition hover:bg-red-200"
+            >
+              Delete
+            </button>
+          </div>
         </div>
       </div>
     </article>

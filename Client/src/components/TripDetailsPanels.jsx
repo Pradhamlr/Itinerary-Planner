@@ -2,7 +2,13 @@ import { useState } from 'react'
 import ItineraryMap from './ItineraryMap'
 import PlaceCard from './PlaceCard'
 import StarRating from './StarRating'
-import { formatCategory } from '../utils/travel'
+import {
+  formatCategory,
+  getDayDifficulty,
+  getPlaceInsightBadges,
+  getTripTypeLabel,
+  getWhyThisPlaceText,
+} from '../utils/travel'
 
 function ActionIcon({ type }) {
   const commonProps = {
@@ -132,6 +138,28 @@ function formatMinutes(value) {
   return minutes ? `${hours} hr ${minutes} mins` : `${hours} hr`
 }
 
+function InfoHint({ label, hint }) {
+  return (
+    <span
+      className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-brand-surfaceLow text-[11px] font-bold text-brand-secondary"
+      title={hint}
+      aria-label={`${label}: ${hint}`}
+    >
+      i
+    </span>
+  )
+}
+
+function getDifficultyTone(difficulty) {
+  const tones = {
+    Low: 'bg-[#edf7ed] text-[#2c6a3d]',
+    Medium: 'bg-[#fff3e2] text-[#8a5418]',
+    High: 'bg-[#fbe3e3] text-[#9c2f2f]',
+  }
+
+  return tones[difficulty] || 'bg-brand-surfaceLow text-brand-onSurfaceVariant'
+}
+
 function parseMealStopIndex(label) {
   if (!label) {
     return null
@@ -231,6 +259,8 @@ function DayPlaceRow({
     : null
   const photoUrl = place.photo_url || fallbackPhotoUrl
   const showPhoto = Boolean(photoUrl) && imageVisible
+  const whyThisPlace = getWhyThisPlaceText(place)
+  const insightBadges = getPlaceInsightBadges(place)
 
   return (
     <div className="relative pl-10">
@@ -328,9 +358,19 @@ function DayPlaceRow({
               <StarRating rating={place.rating} />
               {Number(place.rating || 0) > 0 ? Number(place.rating || 0).toFixed(1) : 'Unrated'}
             </span>
+            {insightBadges.map((badge) => (
+              <span key={`${place.place_id || place.name}-${badge}`} className="rounded-full bg-[#f5ecd2] px-3 py-1 text-xs font-semibold text-[#7a5a10]">
+                {badge}
+              </span>
+            ))}
             {place.locked ? (
               <span className="rounded-full bg-[#edf7ed] px-3 py-1 text-xs font-semibold text-[#2c6a3d]">Locked</span>
             ) : null}
+          </div>
+
+          <div className="mt-4 rounded-[18px] bg-brand-surfaceLow px-4 py-3">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-secondary">Why this place?</p>
+            <p className="mt-2 text-sm leading-6 text-brand-onSurfaceVariant">{whyThisPlace}</p>
           </div>
         </div>
       </div>
@@ -624,6 +664,7 @@ export function ItineraryPanel({
   const [selectedStopKey, setSelectedStopKey] = useState(null)
   const [draggedStop, setDraggedStop] = useState(null)
   const [dragTarget, setDragTarget] = useState(null)
+  const tripType = getTripTypeLabel(itineraryDays)
 
   const getStopKey = (dayPlan, place, index) => `${dayPlan.day}-${place.place_id || place.name}-${index}`
 
@@ -677,6 +718,9 @@ export function ItineraryPanel({
             <span className="rounded-full bg-brand-surfaceLow px-3 py-1 font-semibold text-brand-palm">
               {hydratedFromSnapshot ? 'Loaded saved itinerary' : 'Freshly generated itinerary'}
             </span>
+            <span className="rounded-full bg-[#def7f7] px-3 py-1 font-semibold text-brand-secondary">
+              Trip Type: {tripType}
+            </span>
             {formattedGeneratedAt ? <span>Last generated: {formattedGeneratedAt}</span> : null}
             {formattedFinalizedAt ? (
               <span className="rounded-full bg-[#edf7ed] px-3 py-1 font-semibold text-[#2c6a3d]">
@@ -720,6 +764,7 @@ export function ItineraryPanel({
                 const travelAvg = dayPlan.route_stats?.total_travel_minutes
                   ? Math.round(dayPlan.route_stats.total_travel_minutes / Math.max(route.length, 1))
                   : 0
+                const dayDifficulty = getDayDifficulty(dayPlan)
 
                 return (
                   <article key={dayPlan.day} className="rounded-[26px] bg-[#fbfcfd] p-4 ring-1 ring-brand-surfaceHigh">
@@ -732,6 +777,7 @@ export function ItineraryPanel({
                           {dayPlan.day}
                         </div>
                         <div>
+                          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-brand-secondary">Day {dayPlan.day} Plan</p>
                           <h3 className="editorial-title text-[1.55rem] font-semibold text-brand-palm">
                             {dayPlan.day_title || `Day ${dayPlan.day}`}
                           </h3>
@@ -742,6 +788,9 @@ export function ItineraryPanel({
                       </div>
 
                       <div className="flex items-center gap-3">
+                        <span className={`rounded-full px-3 py-2 text-sm font-semibold ${getDifficultyTone(dayDifficulty)}`}>
+                          Difficulty: {dayDifficulty}
+                        </span>
                         {formattedDayDate ? (
                           <span className="rounded-full bg-brand-surfaceLow px-3 py-2 text-sm font-medium text-brand-onSurfaceVariant">
                             {formattedDayDate}
@@ -768,13 +817,13 @@ export function ItineraryPanel({
                     </div>
 
                     <div className="mt-4 grid gap-3 rounded-[24px] bg-white p-4 shadow-[0_14px_30px_-26px_rgba(15,23,42,0.2)] md:grid-cols-2">
-                      <div>
-                        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-secondary">Start anchor</p>
-                        <p className="mt-2 text-sm font-semibold text-brand-palm">{dayPlan.start_location?.name || 'Trip start'}</p>
+                      <div className="rounded-[18px] bg-[#edf7ed] px-4 py-3">
+                        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#2c6a3d]">Start from</p>
+                        <p className="mt-2 text-sm font-semibold text-[#20502d]">{dayPlan.start_location?.name || 'Trip start'}</p>
                       </div>
-                      <div>
-                        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-secondary">End anchor</p>
-                        <p className="mt-2 text-sm font-semibold text-brand-palm">{dayPlan.end_location?.name || route[route.length - 1]?.name || 'Day end'}</p>
+                      <div className="rounded-[18px] bg-[#fbe3e3] px-4 py-3">
+                        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#9c2f2f]">End at</p>
+                        <p className="mt-2 text-sm font-semibold text-[#7f2323]">{dayPlan.end_location?.name || route[route.length - 1]?.name || 'Day end'}</p>
                       </div>
                     </div>
 
@@ -784,7 +833,14 @@ export function ItineraryPanel({
                       </div>
                     ) : null}
 
-                    <div className="mt-5 space-y-6">
+                    <div className="mt-5">
+                      <div className="mb-4 flex items-center gap-2">
+                        <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-brand-secondary">Places</p>
+                        <InfoHint label="Places" hint="These places stay in the same order unless you explicitly recalculate or reorder them." />
+                      </div>
+                    </div>
+
+                    <div className="space-y-6">
                       {route.map((place, index) => (
                         <div key={place.place_id || `${dayPlan.day}-${index}`} className="space-y-4">
                           <DayPlaceRow

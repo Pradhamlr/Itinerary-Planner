@@ -148,7 +148,6 @@ function CreateTrip() {
   const [formData, setFormData] = useState({
     city: '',
     days: '',
-    budget: '',
     startDate: '',
     interests: [],
     stayPlanningMode: 'static',
@@ -166,6 +165,8 @@ function CreateTrip() {
   const [hotelSuggestions, setHotelSuggestions] = useState([])
   const [hotelsLoading, setHotelsLoading] = useState(false)
   const [hotelsError, setHotelsError] = useState('')
+  const [selectedSuggestedHotelId, setSelectedSuggestedHotelId] = useState('')
+  const [hotelRefreshSeed, setHotelRefreshSeed] = useState(0)
 
   const navigate = useNavigate()
 
@@ -206,12 +207,18 @@ function CreateTrip() {
   }
 
   const applyHotelToStartPoint = (hotel) => {
+    const hotelId = String(hotel._id || hotel.place_id || hotel.name || '')
+    setSelectedSuggestedHotelId(hotelId)
     handleLocationSelect({
       name: hotel.name,
       place_id: hotel.place_id,
       lat: hotel.location?.lat,
       lng: hotel.location?.lng,
     })
+  }
+
+  const refreshHotelSuggestions = () => {
+    setHotelRefreshSeed((current) => current + 1)
   }
 
   useEffect(() => {
@@ -245,6 +252,7 @@ function CreateTrip() {
         if (hotelFilters.star) {
           params.star = Number(hotelFilters.star)
         }
+        params.refresh_seed = hotelRefreshSeed
 
         const response = await api.get('/hotels', { params })
         if (!cancelled) {
@@ -267,15 +275,13 @@ function CreateTrip() {
     return () => {
       cancelled = true
     }
-  }, [includeHotelSuggestions, formData.city, hotelFilters.max_price, hotelFilters.min_price, hotelFilters.star])
+  }, [includeHotelSuggestions, formData.city, hotelFilters.max_price, hotelFilters.min_price, hotelFilters.star, hotelRefreshSeed])
 
   const handleSubmit = async (event) => {
     event.preventDefault()
     setError('')
 
     const parsedDays = Number(formData.days)
-    const parsedBudget = Number(formData.budget)
-
     if (!formData.city.trim()) {
       setError('Please choose a destination city.')
       return
@@ -283,11 +289,6 @@ function CreateTrip() {
 
     if (!Number.isInteger(parsedDays) || parsedDays <= 0) {
       setError('Trip duration must be at least 1 day.')
-      return
-    }
-
-    if (Number.isNaN(parsedBudget) || parsedBudget < 0) {
-      setError('Budget must be a valid non-negative number.')
       return
     }
 
@@ -304,7 +305,6 @@ function CreateTrip() {
     const payload = {
       city: formData.city.trim(),
       days: parsedDays,
-      budget: parsedBudget,
       startDate: formData.startDate || undefined,
       interests: formData.interests,
       stayPlanningMode: formData.stayPlanningMode,
@@ -328,14 +328,6 @@ function CreateTrip() {
       setLoading(false)
     }
   }
-
-  const selectedBudgetLabel = Number(formData.budget) >= 150000
-    ? 'Luxury'
-    : Number(formData.budget) >= 60000
-    ? 'Mid-Range'
-    : formData.budget
-    ? 'Value'
-    : 'Select budget'
 
   return (
     <section className="space-y-8">
@@ -414,7 +406,7 @@ function CreateTrip() {
             })}
           </section>
 
-          <section className="grid gap-4 md:grid-cols-2">
+          <section className="grid gap-4">
             <div className="rounded-[28px] bg-brand-surfaceLow p-6 shadow-[0_12px_34px_-28px_rgba(15,23,42,0.35)]">
               <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-brand-onSurfaceVariant">Destination and Dates</p>
               <div className="mt-5 space-y-3">
@@ -470,34 +462,6 @@ function CreateTrip() {
               </div>
             </div>
 
-            <div className="rounded-[28px] bg-brand-surfaceLow p-6 shadow-[0_12px_34px_-28px_rgba(15,23,42,0.35)]">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-brand-onSurfaceVariant">Selected Budget</p>
-              <div className="mt-5 space-y-4">
-                <div>
-                  <label htmlFor="budget" className="field-label mb-2 block">Budget</label>
-                  <input
-                    id="budget"
-                    name="budget"
-                    type="number"
-                    min="0"
-                    step="1"
-                    value={formData.budget}
-                    onChange={handleChange}
-                    required
-                    className="input-minimal"
-                  />
-                </div>
-                <div className="rounded-2xl bg-white px-4 py-4 shadow-sm">
-                  <div className="flex items-center gap-2 text-brand-secondary">
-                    <span>INR</span>
-                  </div>
-                  <p className="mt-3 text-xl font-semibold text-brand-palm">{selectedBudgetLabel}</p>
-                  <p className="mt-1 text-sm text-brand-onSurfaceVariant">
-                    {formData.budget ? `${formatCurrency(formData.budget)} total budget` : 'Balanced comfort and value'}
-                  </p>
-                </div>
-              </div>
-            </div>
           </section>
 
           <section className="rounded-[28px] bg-white p-6 shadow-[0_12px_32px_-8px_rgba(15,23,42,0.25)]">
@@ -627,6 +591,17 @@ function CreateTrip() {
 
             {includeHotelSuggestions ? (
               <div className="mt-6 space-y-5">
+                <div className="flex justify-start">
+                  <button
+                    type="button"
+                    onClick={refreshHotelSuggestions}
+                    disabled={hotelsLoading}
+                    className="btn-secondary disabled:cursor-not-allowed disabled:opacity-60"
+                  >
+                    {hotelsLoading ? 'Refreshing...' : 'Refresh Hotels'}
+                  </button>
+                </div>
+
                 <div className="grid gap-4 md:grid-cols-3">
                   <div>
                     <label htmlFor="min_price" className="field-label mb-2 block">Min Price</label>
@@ -686,36 +661,49 @@ function CreateTrip() {
                   ) : null}
 
                   <div className="mt-4 grid gap-3">
-                    {hotelSuggestions.slice(0, 8).map((hotel) => (
-                      <article
-                        key={hotel._id || hotel.place_id || `${hotel.name}-${hotel.city}`}
-                        className="rounded-[22px] bg-white p-4 shadow-sm"
-                      >
-                        <div className="flex flex-wrap items-start justify-between gap-3">
-                          <div className="max-w-[70%]">
-                            <h3 className="text-base font-semibold text-brand-palm">{hotel.name}</h3>
-                            <p className="mt-1 text-sm leading-6 text-brand-onSurfaceVariant">{hotel.address || formatCityName(hotel.city)}</p>
-                          </div>
-                          <button
-                            type="button"
-                            onClick={() => applyHotelToStartPoint(hotel)}
-                            className="rounded-full bg-brand-surfaceLow px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-brand-secondary transition hover:bg-brand-secondary hover:text-white"
-                          >
-                            Use This Stay
-                          </button>
-                        </div>
+                    {hotelSuggestions.slice(0, 8).map((hotel) => {
+                      const hotelId = String(hotel._id || hotel.place_id || hotel.name || '')
+                      const selected = selectedSuggestedHotelId === hotelId
 
-                        <div className="mt-4 flex flex-wrap gap-2 text-xs font-semibold">
-                          <span className="rounded-full bg-[#e7ebf1] px-3 py-2 text-[#264778]">{hotel.star_category || '-'} star</span>
-                          <span className="rounded-full bg-[#d9f4f2] px-3 py-2 text-[#00504c]">
-                            {hotel.price_per_night ? formatCurrency(hotel.price_per_night) : 'Price unavailable'}
-                          </span>
-                          <span className="rounded-full bg-[#edf0f2] px-3 py-2 text-[#43474e]">
-                            Rating {Number(hotel.user_rating || 0).toFixed(1)}
-                          </span>
-                        </div>
-                      </article>
-                    ))}
+                      return (
+                        <article
+                          key={hotel._id || hotel.place_id || `${hotel.name}-${hotel.city}`}
+                          className={`rounded-[22px] p-4 shadow-sm transition ${
+                            selected
+                              ? 'bg-white ring-2 ring-brand-secondary/30'
+                              : 'bg-white'
+                          }`}
+                        >
+                          <div className="flex flex-wrap items-start justify-between gap-3">
+                            <div className="max-w-[70%]">
+                              <h3 className="text-base font-semibold text-brand-palm">{hotel.name}</h3>
+                              <p className="mt-1 text-sm leading-6 text-brand-onSurfaceVariant">{hotel.address || formatCityName(hotel.city)}</p>
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => applyHotelToStartPoint(hotel)}
+                              className={`rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] transition ${
+                                selected
+                                  ? 'bg-brand-secondary text-white'
+                                  : 'bg-brand-surfaceLow text-brand-secondary hover:bg-brand-secondary hover:text-white'
+                              }`}
+                            >
+                              {selected ? 'Selected' : 'Use This Stay'}
+                            </button>
+                          </div>
+
+                          <div className="mt-4 flex flex-wrap gap-2 text-xs font-semibold">
+                            <span className="rounded-full bg-[#e7ebf1] px-3 py-2 text-[#264778]">{hotel.star_category || '-'} star</span>
+                            <span className="rounded-full bg-[#d9f4f2] px-3 py-2 text-[#00504c]">
+                              {hotel.price_per_night ? formatCurrency(hotel.price_per_night) : 'Price unavailable'}
+                            </span>
+                            <span className="rounded-full bg-[#edf0f2] px-3 py-2 text-[#43474e]">
+                              Rating {Number(hotel.user_rating || 0).toFixed(1)}
+                            </span>
+                          </div>
+                        </article>
+                      )
+                    })}
                   </div>
                 </div>
               </div>

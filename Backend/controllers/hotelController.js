@@ -4,7 +4,7 @@ const DynamicHotelPlanningService = require('../services/dynamicHotelPlanningSer
 
 exports.getHotels = async (req, res) => {
   try {
-    const { city, min_price, max_price, star } = req.query;
+    const { city, min_price, max_price, star, refresh_seed } = req.query;
 
     if (!city || String(city).trim().length === 0) {
       return res.status(400).json({
@@ -17,6 +17,7 @@ exports.getHotels = async (req, res) => {
       min_price,
       max_price,
       star,
+      refresh_seed,
     });
 
     return res.status(200).json({
@@ -44,6 +45,7 @@ exports.getDynamicHotels = async (req, res) => {
       min_price: req.query.min_price,
       max_price: req.query.max_price,
       star: req.query.star,
+      refresh_seed: req.query.refresh_seed,
     }, {
       skip_last_day: req.query.skip_last_day,
     });

@@ -110,6 +110,23 @@ const NEGATIVE_REVIEW_KEYWORDS = [
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const normalizeCity = (city) => String(city || '').trim().toLowerCase();
+const parseRefreshSeed = (value) => {
+  const numeric = Number(value);
+  return Number.isFinite(numeric) ? Math.abs(Math.trunc(numeric)) : 0;
+};
+
+const rotateCollection = (items, seed) => {
+  if (!Array.isArray(items) || items.length <= 1) {
+    return items;
+  }
+
+  const offset = parseRefreshSeed(seed) % items.length;
+  if (offset === 0) {
+    return items;
+  }
+
+  return [...items.slice(offset), ...items.slice(0, offset)];
+};
 
 const normalizeHotelName = (value) => String(value || '')
   .toLowerCase()
@@ -836,6 +853,8 @@ class HotelService {
         return (right.user_rating || 0) - (left.user_rating || 0);
       });
     }
+
+    hotels = rotateCollection(hotels, filters.refresh_seed);
 
     return {
       city: normalizedCity,

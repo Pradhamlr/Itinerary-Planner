@@ -62,6 +62,15 @@ function formatDistanceKm(distanceKm) {
     : `${Math.round(distanceKm)} km`;
 }
 
+function metersToKm(distanceMeters) {
+  const numeric = Number(distanceMeters);
+  if (!Number.isFinite(numeric) || numeric <= 0) {
+    return 0;
+  }
+
+  return numeric / 1000;
+}
+
 function parseDurationToMinutes(durationText) {
   if (!durationText || typeof durationText !== 'string') {
     return 0;
@@ -546,7 +555,9 @@ async function buildOptimizedCustomRoute(places, startPoint, optimizationMode = 
       ? matrix?.[previousIndex]?.[currentIndex]?.durationSeconds
       : 0;
     const legFromPreviousMinutes = Math.round((legFromPreviousSeconds || 0) / 60);
-    const legFromPreviousDistanceKm = previousPoint ? haversineDistance(previousPoint, place) : 0;
+    const legFromPreviousDistanceKm = Number.isFinite(matrix?.[previousIndex]?.[currentIndex]?.distanceMeters)
+      ? metersToKm(matrix?.[previousIndex]?.[currentIndex]?.distanceMeters)
+      : (previousPoint ? haversineDistance(previousPoint, place) : 0);
 
     totalTravelMinutes += legFromPreviousMinutes;
     totalDistanceKm += legFromPreviousDistanceKm;
@@ -561,12 +572,25 @@ async function buildOptimizedCustomRoute(places, startPoint, optimizationMode = 
         ? (matrix?.[previousIndex]?.[currentIndex]?.durationText || formatDuration(legFromPreviousSeconds))
         : null,
       travel_distance_from_previous_km: roundTo(legFromPreviousDistanceKm),
-      travel_distance_from_previous_text: formatDistanceKm(legFromPreviousDistanceKm),
+      travel_distance_from_previous_text: matrix?.[previousIndex]?.[currentIndex]?.distanceText || formatDistanceKm(legFromPreviousDistanceKm),
       travel_time_to_next: nextPlace
         ? (matrix?.[currentIndex]?.[nextIndex]?.durationText || formatDuration(matrix?.[currentIndex]?.[nextIndex]?.durationSeconds))
         : null,
-      travel_distance_to_next_km: nextPlace ? roundTo(haversineDistance(place, nextPlace)) : 0,
-      travel_distance_to_next_text: nextPlace ? formatDistanceKm(haversineDistance(place, nextPlace)) : null,
+      travel_distance_to_next_km: nextPlace
+        ? roundTo(
+          Number.isFinite(matrix?.[currentIndex]?.[nextIndex]?.distanceMeters)
+            ? metersToKm(matrix?.[currentIndex]?.[nextIndex]?.distanceMeters)
+            : haversineDistance(place, nextPlace),
+        )
+        : 0,
+      travel_distance_to_next_text: nextPlace
+        ? (matrix?.[currentIndex]?.[nextIndex]?.distanceText
+          || formatDistanceKm(
+            Number.isFinite(matrix?.[currentIndex]?.[nextIndex]?.distanceMeters)
+              ? metersToKm(matrix?.[currentIndex]?.[nextIndex]?.distanceMeters)
+              : haversineDistance(place, nextPlace),
+          ))
+        : null,
       visit_duration_minutes: Number(place.visit_duration_minutes || estimateVisitDurationMinutes(place)),
     };
   });
