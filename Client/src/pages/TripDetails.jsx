@@ -100,7 +100,9 @@ function TripDetails() {
   const [itineraryGenerated, setItineraryGenerated] = useState(false)
   const [recommendationsError, setRecommendationsError] = useState('')
   const [recommendationPairingSuggestions, setRecommendationPairingSuggestions] = useState([])
+  const [recommendationSoftMatchAvailable, setRecommendationSoftMatchAvailable] = useState(false)
   const [pairingInterestLoading, setPairingInterestLoading] = useState('')
+  const [softMatchLoading, setSoftMatchLoading] = useState(false)
   const [itineraryError, setItineraryError] = useState('')
   const [tripError, setTripError] = useState('')
   const [recommendationsFromSnapshot, setRecommendationsFromSnapshot] = useState(false)
@@ -142,6 +144,7 @@ function TripDetails() {
       setRestaurants(recommendationSnapshot.restaurants || [])
       setMetadata(recommendationSnapshot.metadata || null)
       setRecommendationPairingSuggestions(recommendationSnapshot.metadata?.pairing_suggestions || [])
+      setRecommendationSoftMatchAvailable(Boolean(recommendationSnapshot.metadata?.soft_match_available))
       setRecommendationsGenerated(Boolean((recommendationSnapshot.attractions || []).length || (recommendationSnapshot.restaurants || []).length))
       setRecommendationsGeneratedAt(recommendationSnapshot.generatedAt || '')
       setRecommendationsFromSnapshot(true)
@@ -152,6 +155,7 @@ function TripDetails() {
       setRestaurants([])
       setMetadata(null)
       setRecommendationPairingSuggestions([])
+      setRecommendationSoftMatchAvailable(false)
       setRecommendationsGenerated(false)
       setRecommendationsGeneratedAt('')
       setRecommendationsFromSnapshot(false)
@@ -207,12 +211,18 @@ function TripDetails() {
     }
   }
 
-  const fetchRecommendations = async () => {
-    try {
-      setLoadingRecommendations(true)
-      setRecommendationsError('')
-      const response = await api.get(`/recommendations/${id}`)
-      const recommendationData = response.data || {}
+  const fetchRecommendations = async ({ softenMatches = false } = {}) => {
+      try {
+        if (softenMatches) {
+          setSoftMatchLoading(true)
+        } else {
+          setLoadingRecommendations(true)
+        }
+        setRecommendationsError('')
+        const response = await api.get(`/recommendations/${id}`, {
+          params: softenMatches ? { softenMatches: 1 } : {},
+        })
+        const recommendationData = response.data || {}
 
       setAttractions(recommendationData.attractions || [])
       setMasterAttractionPool(recommendationData.masterAttractionPool || [])
@@ -220,17 +230,27 @@ function TripDetails() {
       setRestaurants(recommendationData.restaurants || [])
       setMetadata(recommendationData.metadata || null)
       setRecommendationPairingSuggestions(recommendationData.metadata?.pairing_suggestions || [])
+      setRecommendationSoftMatchAvailable(Boolean(recommendationData.metadata?.soft_match_available))
       setRecommendationsGenerated(true)
       setRecommendationsGeneratedAt(new Date().toISOString())
       setRecommendationsFromSnapshot(false)
-    } catch (err) {
-      setMasterAttractionPool([])
-      setReplacementAttractionPool([])
-      setRecommendationPairingSuggestions(err.response?.data?.pairingSuggestions || [])
-      setRecommendationsError(err.response?.data?.message || 'Failed to generate recommendations.')
-    } finally {
-      setLoadingRecommendations(false)
+      } catch (err) {
+        setMasterAttractionPool([])
+        setReplacementAttractionPool([])
+        setRecommendationPairingSuggestions(err.response?.data?.pairingSuggestions || [])
+        setRecommendationSoftMatchAvailable(Boolean(err.response?.data?.softMatchAvailable))
+        setRecommendationsError(err.response?.data?.message || 'Failed to generate recommendations.')
+      } finally {
+        if (softenMatches) {
+          setSoftMatchLoading(false)
+        } else {
+          setLoadingRecommendations(false)
+        }
+      }
     }
+
+  const applySofterMatches = async () => {
+    await fetchRecommendations({ softenMatches: true })
   }
 
   const fetchItinerary = async () => {
@@ -315,6 +335,7 @@ function TripDetails() {
         setRestaurants(recommendationData.restaurants || [])
         setMetadata(recommendationData.metadata || null)
         setRecommendationPairingSuggestions(recommendationData.metadata?.pairing_suggestions || [])
+        setRecommendationSoftMatchAvailable(Boolean(recommendationData.metadata?.soft_match_available))
         setRecommendationsGenerated(true)
         setRecommendationsGeneratedAt(new Date().toISOString())
         setRecommendationsFromSnapshot(false)
@@ -1182,6 +1203,7 @@ function TripDetails() {
           restaurants={restaurants}
           metadata={metadata}
           pairingSuggestions={recommendationPairingSuggestions}
+          softMatchAvailable={recommendationSoftMatchAvailable}
           pairingInterestLoading={pairingInterestLoading}
           tripDays={trip.days}
           loading={loadingRecommendations}
@@ -1189,6 +1211,8 @@ function TripDetails() {
           error={recommendationsError}
           onRefresh={fetchRecommendations}
           onApplyPairing={applyInterestPairing}
+          onUseSoftMatches={applySofterMatches}
+          softMatchLoading={softMatchLoading}
           generatedAt={recommendationsGeneratedAt}
           hydratedFromSnapshot={recommendationsFromSnapshot}
           onGenerateItinerary={fetchItinerary}

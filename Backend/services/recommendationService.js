@@ -365,6 +365,56 @@ const SECONDARY_SHOPPING_INTENTS = new Set([
   'electronics shopping',
   'jewelry shopping',
 ]);
+const BLOCKED_SHOPPING_TYPES = new Set([
+  'grocery_or_supermarket',
+  'supermarket',
+  'real_estate_agency',
+  'electronics_store',
+]);
+
+const INTEREST_INTENT_SIGNAL_MAP = {
+  art: new Set([
+    'art experience',
+    'museum visit',
+    'cultural landmark',
+    'craft shopping',
+    'live music',
+  ]),
+  history: new Set([
+    'heritage site',
+    'museum visit',
+    'cultural landmark',
+    'tourist hotspot',
+  ]),
+  culture: new Set([
+    'cultural landmark',
+    'spiritual stop',
+    'heritage site',
+    'local favorite',
+    'live music',
+  ]),
+  beaches: new Set([
+    'beach walk',
+    'waterfront',
+    'sunset spot',
+    'scenic views',
+  ]),
+  nature: new Set([
+    'nature escape',
+    'scenic views',
+    'sunset spot',
+    'waterfront',
+    'relaxing',
+  ]),
+  food: new Set([
+    'street food',
+    'casual dining',
+    'fine dining',
+    'cafe stop',
+    'budget eats',
+    'seafood',
+  ]),
+};
 
 const getInterestTrackRatio = (tripInterests) => {
   const hasAttractionInterests = getAttractionRelevantInterests(tripInterests).length > 0;
@@ -420,18 +470,39 @@ function getInferredInterestScores(place) {
     : {};
 }
 
-function getInterestThresholdForLabel(interest) {
+function getInferredInterestTags(place) {
+  return Array.isArray(place?.inferred_interest_tags)
+    ? place.inferred_interest_tags.map((tag) => normalizeInterest(tag)).filter(Boolean)
+    : [];
+}
+
+function getInterestThresholdForLabel(interest, options = {}) {
   const normalizedInterest = normalizeInterest(interest);
+  const allowSoftMatches = Boolean(options.allowSoftMatches);
+  if (normalizedInterest === 'beaches') {
+    return allowSoftMatches
+      ? recommendationConfig.softBeachesInterestScoreThreshold
+      : recommendationConfig.beachesInterestScoreThreshold;
+  }
   if (normalizedInterest === 'shopping') {
     return recommendationConfig.shoppingInterestScoreThreshold;
   }
 
-  return recommendationConfig.strictInterestScoreThreshold;
+  return allowSoftMatches
+    ? recommendationConfig.softInterestScoreThreshold
+    : recommendationConfig.strictInterestScoreThreshold;
 }
 
 function getActiveInterestThreshold(place) {
   const threshold = Number(place?._activeInterestThreshold);
-  return Number.isFinite(threshold) ? threshold : recommendationConfig.strictInterestScoreThreshold;
+  if (Number.isFinite(threshold)) {
+    return threshold;
+  }
+
+  const activeInterest = normalizeInterest(place?._activeInterestLabel);
+  return getInterestThresholdForLabel(activeInterest || '', {
+    allowSoftMatches: Boolean(place?._allowSoftMatches),
+  });
 }
 
 function getActiveWeightedRatingCutoff(place) {
@@ -440,12 +511,13 @@ function getActiveWeightedRatingCutoff(place) {
 }
 
 function getSelectedInterestScoreBreakdown(place, normalizedInterests) {
+  const allowSoftMatches = Boolean(place?._allowSoftMatches);
   const inferredScores = getInferredInterestScores(place);
   const selectedScores = normalizedInterests
     .map((interest) => ({
       interest,
       score: Number(inferredScores[interest] || 0),
-      threshold: getInterestThresholdForLabel(interest),
+      threshold: getInterestThresholdForLabel(interest, { allowSoftMatches }),
     }))
     .filter(({ score }) => Number.isFinite(score) && score > 0)
     .sort((first, second) => second.score - first.score);
@@ -507,7 +579,12 @@ function getKeywordMatchScore(place, normalizedInterests) {
 }
 
 function isDirectShoppingPlace(place) {
-  return getNormalizedTypes(place).some((type) => directShoppingTypes.has(type));
+  const normalizedTypes = getNormalizedTypes(place);
+  if (normalizedTypes.some((type) => BLOCKED_SHOPPING_TYPES.has(type))) {
+    return false;
+  }
+
+  return normalizedTypes.some((type) => directShoppingTypes.has(type));
 }
 
 function hasShoppingKeywordMatch(place) {
@@ -535,6 +612,49 @@ function getShoppingIntentBoost(place) {
   return roundTo(Math.min(boost, 0.16), 4);
 }
 
+function getIntentBoostForInterest(place, interest) {
+  const normalizedInterest = normalizeInterest(interest);
+  if (!normalizedInterest || normalizedInterest === 'shopping') {
+    return 0;
+  }
+
+  const supportedIntentTags = INTEREST_INTENT_SIGNAL_MAP[normalizedInterest];
+  if (!supportedIntentTags) {
+    return 0;
+  }
+
+  const intentTags = Array.isArray(place?.intent_tags)
+    ? place.intent_tags.map((tag) => normalizeText(tag).trim()).filter(Boolean)
+    : [];
+  if (intentTags.length === 0) {
+    return 0;
+  }
+
+  let boost = 0;
+  if (intentTags.some((tag) => supportedIntentTags.has(tag))) {
+    boost += 0.08;
+  }
+
+  const types = getNormalizedTypes(place);
+  if ((interestTypeMap[normalizedInterest] || []).some((type) => types.includes(type))) {
+    boost += 0.04;
+  }
+
+  return roundTo(Math.min(boost, 0.12), 4);
+}
+
+function getGeneralInterestIntentBoost(place, normalizedInterests) {
+  return roundTo(
+    Math.min(
+      normalizedInterests
+        .filter((interest) => interest !== 'shopping')
+        .reduce((maxBoost, interest) => Math.max(maxBoost, getIntentBoostForInterest(place, interest)), 0),
+      0.12,
+    ),
+    4,
+  );
+}
+
 function isHighConfidenceShoppingMatch(place) {
   const shoppingScore = Number(getInferredInterestScores(place).shopping || 0);
   return Number.isFinite(shoppingScore) && shoppingScore >= recommendationConfig.shoppingSemanticInterestScoreThreshold;
@@ -542,6 +662,7 @@ function isHighConfidenceShoppingMatch(place) {
 
 function isHighConfidenceShoppingCandidate(place) {
   return isHighConfidenceShoppingMatch(place)
+    && !getNormalizedTypes(place).some((type) => BLOCKED_SHOPPING_TYPES.has(type))
     && !getNormalizedTypes(place).some((type) => blockedAttractionTypes.has(type))
     && !isBlockedRestaurant(place)
     && !isRestaurantLike(place);
@@ -549,6 +670,7 @@ function isHighConfidenceShoppingCandidate(place) {
 
 function getEligibleInterests(place, normalizedInterests) {
   const inferredScores = getInferredInterestScores(place);
+  const allowSoftMatches = Boolean(place?._allowSoftMatches);
 
   return normalizedInterests.filter((interest) => {
     const score = Number(inferredScores[interest] || 0);
@@ -556,18 +678,23 @@ function getEligibleInterests(place, normalizedInterests) {
       return false;
     }
 
-    if (interest === 'shopping') {
-      const shoppingIntentBoost = getShoppingIntentBoost(place);
-      if (isDirectShoppingPlace(place)) {
-        return score >= recommendationConfig.shoppingInterestScoreThreshold;
+      if (interest === 'shopping') {
+        const shoppingIntentBoost = getShoppingIntentBoost(place);
+        const normalizedTypes = getNormalizedTypes(place);
+        if (normalizedTypes.some((type) => BLOCKED_SHOPPING_TYPES.has(type))) {
+          return false;
+        }
+
+        if (isDirectShoppingPlace(place)) {
+          return score >= recommendationConfig.shoppingInterestScoreThreshold;
+        }
+
+        return score >= recommendationConfig.shoppingSemanticInterestScoreThreshold
+          && (hasShoppingKeywordMatch(place) || shoppingIntentBoost >= 0.1);
       }
 
-      return score >= recommendationConfig.shoppingSemanticInterestScoreThreshold
-        && (hasShoppingKeywordMatch(place) || shoppingIntentBoost >= 0.1);
-    }
-
-    return score >= getInterestThresholdForLabel(interest);
-  });
+      return score >= getInterestThresholdForLabel(interest, { allowSoftMatches });
+    });
 }
 
 function getInterestSignals(place, tripInterests) {
@@ -606,7 +733,8 @@ function getInterestSignals(place, tripInterests) {
       ? recommendationConfig.strictInterestMediumBoost
       : 0;
   const shoppingIntentBoost = normalizedInterests.includes('shopping') ? getShoppingIntentBoost(place) : 0;
-  const mlInterestMatch = roundTo(Math.min(1, maxSelectedScore + confidenceBoost + shoppingIntentBoost), 4);
+  const generalIntentBoost = getGeneralInterestIntentBoost(place, normalizedInterests);
+  const mlInterestMatch = roundTo(Math.min(1, maxSelectedScore + confidenceBoost + shoppingIntentBoost + generalIntentBoost), 4);
   const matchedInterests = eligibleInterests;
   const isEligibleStrictMatch = eligibleInterests.length > 0;
 
@@ -620,6 +748,7 @@ function getInterestSignals(place, tripInterests) {
     averageSelectedScore: roundTo(averageSelectedScore, 4),
     confidenceBoost: roundTo(confidenceBoost, 4),
     shoppingIntentBoost,
+    generalIntentBoost,
     isEligibleStrictMatch,
     strongMatchedInterests: eligibleInterests,
     mediumConfidenceInterests,
@@ -628,7 +757,8 @@ function getInterestSignals(place, tripInterests) {
   };
 }
 
-const filterByNormalizedInterests = (places, normalizedInterests, requiredAttractionCount) => {
+const filterByNormalizedInterests = (places, normalizedInterests, requiredAttractionCount, options = {}) => {
+  const allowSoftMatches = Boolean(options.allowSoftMatches);
   if (normalizedInterests.length === 0) {
     return {
       places: [],
@@ -637,6 +767,9 @@ const filterByNormalizedInterests = (places, normalizedInterests, requiredAttrac
       strongMatchCount: 0,
       mediumConfidenceCount: 0,
       highConfidenceCount: 0,
+      softMatchAvailable: false,
+      softMatchApplied: false,
+      softMatchCount: 0,
     };
   }
   const ratingValues = places
@@ -651,7 +784,12 @@ const filterByNormalizedInterests = (places, normalizedInterests, requiredAttrac
     const weightedRating = ((reviewCount / (reviewCount + recommendationConfig.weightedRatingThreshold)) * rating)
       + ((recommendationConfig.weightedRatingThreshold / (reviewCount + recommendationConfig.weightedRatingThreshold)) * averageRating);
     const interestSignals = getInterestSignals(
-      { ...place, _activeInterestThreshold: threshold },
+      {
+        ...place,
+        _activeInterestThreshold: threshold,
+        _activeInterestLabel: normalizedInterests[0] || null,
+        _allowSoftMatches: allowSoftMatches,
+      },
       normalizedInterests,
     );
 
@@ -675,6 +813,8 @@ const filterByNormalizedInterests = (places, normalizedInterests, requiredAttrac
     .map((place) => ({
       ...place,
       _activeInterestThreshold: activeThreshold,
+      _activeInterestLabel: normalizedInterests[0] || null,
+      _allowSoftMatches: allowSoftMatches,
       _activeWeightedRatingCutoff: activeWeightedRatingCutoff,
     }));
   const minimumInterestMatches = Math.min(
@@ -695,18 +835,22 @@ const filterByNormalizedInterests = (places, normalizedInterests, requiredAttrac
     minimumInterestMatches,
     strongMatchCount,
     mediumConfidenceCount,
-    highConfidenceCount,
-    thresholdUsed: activeThreshold,
-    fallbackApplied: shouldUseFallback,
-    weightedRatingCutoffUsed: activeWeightedRatingCutoff,
-  };
+      highConfidenceCount,
+      thresholdUsed: activeThreshold,
+      fallbackApplied: shouldUseFallback,
+      weightedRatingCutoffUsed: activeWeightedRatingCutoff,
+      softMatchAvailable: !allowSoftMatches && normalizedInterests.some((interest) => interest !== 'shopping'),
+      softMatchApplied: allowSoftMatches,
+      softMatchCount: allowSoftMatches ? filteredPlaces.length : 0,
+    };
 };
 
-const filterByInterests = (places, tripInterests, requiredAttractionCount) =>
+const filterByInterests = (places, tripInterests, requiredAttractionCount, options = {}) =>
   filterByNormalizedInterests(
     places,
     getAttractionRelevantInterests(tripInterests),
     requiredAttractionCount,
+    options,
   );
 
 const getInterestMatchScore = (place, tripInterests) => {
@@ -992,6 +1136,22 @@ const buildAttractionResponse = (place, scores) => {
   const reviewTexts = getReviewTexts(place);
   const reviewSnippet = reviewTexts[0] || place.description || 'No review snippet available yet.';
   const photoReference = getPrimaryPhotoReference(place);
+  const matchedInterests = scores.interestSignals?.matchedInterests || [];
+  const selectedInterestLabel = matchedInterests[0] || null;
+  const selectedInterestThreshold = Number((scores.interestSignals?.activeThreshold || recommendationConfig.strictInterestScoreThreshold).toFixed(2));
+  const selectedInterestScore = Number((scores.interestSignals?.maxSelectedScore || 0).toFixed(4));
+  const generalIntentBoost = scores.interestSignals?.generalIntentBoost || 0;
+  const shoppingIntentBoost = scores.interestSignals?.shoppingIntentBoost || 0;
+  const inferredInterestTags = Array.isArray(place.inferred_interest_tags) ? place.inferred_interest_tags : [];
+  const selectedInterestTagMatched = selectedInterestLabel
+    ? inferredInterestTags.map(normalizeInterest).includes(selectedInterestLabel)
+    : false;
+  const selectedIntentQualified = shoppingIntentBoost > 0 || generalIntentBoost > 0;
+  const eligibilitySignals = [
+    selectedInterestScore >= selectedInterestThreshold ? 'score-threshold' : null,
+    selectedInterestTagMatched ? 'clean-tag' : null,
+    selectedIntentQualified ? 'intent-assist' : null,
+  ].filter(Boolean);
 
   return {
     _id: place._id,
@@ -1016,17 +1176,25 @@ const buildAttractionResponse = (place, scores) => {
     final_score: Number(scores.finalScore.toFixed(4)),
     explanation_tags: scores.explanationTags || [],
     why_recommended: scores.whyRecommended || [],
-    selected_interest_score: Number((scores.interestSignals?.maxSelectedScore || 0).toFixed(4)),
-    selected_interest_threshold: Number((scores.interestSignals?.activeThreshold || recommendationConfig.strictInterestScoreThreshold).toFixed(2)),
+    selected_interest_score: selectedInterestScore,
+    selected_interest_threshold: selectedInterestThreshold,
     selected_weighted_rating_cutoff: Number(getActiveWeightedRatingCutoff(place).toFixed(2)),
-    selected_interest_label: scores.interestSignals?.matchedInterests?.[0] || null,
+    selected_interest_label: selectedInterestLabel,
+    selected_interest_eligibility: {
+      qualified_by: eligibilitySignals,
+      score_threshold_met: selectedInterestScore >= selectedInterestThreshold,
+      clean_tag_matched: selectedInterestTagMatched,
+      intent_assisted: selectedIntentQualified,
+    },
     interest_match_details: {
       manual_type_match: scores.interestSignals?.manualTypeMatch || 0,
       ml_interest_match: scores.interestSignals?.mlInterestMatch || 0,
       keyword_match: scores.interestSignals?.keywordMatch || 0,
-      matched_interests: scores.interestSignals?.matchedInterests || [],
+      general_intent_boost: generalIntentBoost,
+      shopping_intent_boost: shoppingIntentBoost,
+      matched_interests: matchedInterests,
     },
-    inferred_interest_tags: Array.isArray(place.inferred_interest_tags) ? place.inferred_interest_tags : [],
+    inferred_interest_tags: inferredInterestTags,
     intent_tags: Array.isArray(place.intent_tags) ? place.intent_tags : [],
   };
 };
@@ -1290,7 +1458,8 @@ class RecommendationService {
     }
   }
 
-  static buildAttractionCandidatePool(places, tripInterests, requiredAttractionCount) {
+  static buildAttractionCandidatePool(places, tripInterests, requiredAttractionCount, options = {}) {
+    const allowSoftMatches = Boolean(options.allowSoftMatches);
     const attractionInterests = getAttractionRelevantInterests(tripInterests);
     const hasAttractionInterests = attractionInterests.length > 0;
     const { popularRatio, interestRatio } = getInterestTrackRatio(tripInterests);
@@ -1416,10 +1585,14 @@ class RecommendationService {
       thresholdUsed,
       fallbackApplied,
       weightedRatingCutoffUsed,
+      softMatchAvailable,
+      softMatchApplied,
+      softMatchCount,
     } = filterByInterests(
       broaderInterestSource,
       tripInterests,
       requiredAttractionCount,
+      { allowSoftMatches },
     );
     const hasMultiInterestCombo = attractionInterests.length > 1;
     let interestPool = dedupePlaces(interestFilteredPlaces);
@@ -1433,6 +1606,7 @@ class RecommendationService {
           broaderInterestSource,
           [interest],
           laneTarget,
+          { allowSoftMatches },
         ),
       }));
       const mergedInterestPool = dedupePlaces([
@@ -1510,6 +1684,9 @@ class RecommendationService {
       strict_interest_strong_matches: strongMatchCount,
       strict_interest_medium_confidence_matches: mediumConfidenceCount,
       strict_interest_high_confidence_matches: highConfidenceCount,
+      soft_match_available: softMatchAvailable,
+      soft_match_applied: softMatchApplied,
+      soft_match_count: softMatchCount,
       shopping_combo_details: shoppingComboDetails,
       candidate_pool_size: candidatePool.length,
       interest_pool_contribution_count: interestPoolContribution,
@@ -1527,6 +1704,9 @@ class RecommendationService {
       dedupedCount: popularPool.length - dedupedPopularPool.length,
       strictInterestThresholdUsed: thresholdUsed,
       weightedRatingCutoffUsed,
+      softMatchAvailable,
+      softMatchApplied,
+      softMatchCount,
     };
   }
 
@@ -1608,15 +1788,16 @@ class RecommendationService {
           interestSignals,
           mustSeeBoost,
         });
-        const whyRecommended = [
-          Number(place.rating || 0) > 4.5 ? 'Highly rated' : null,
-          Number(place.user_ratings_total || 0) >= 1500 ? 'Popular with travelers' : null,
-          interestSignals.matchedInterests[0] ? `Strong ${interestSignals.matchedInterests[0]} match` : null,
-          isShoppingTrack && shoppingIntentBoost >= 0.1 ? 'Strong street-shopping vibe' : null,
-          interestSignals.maxSelectedScore >= recommendationConfig.strictInterestHighThreshold ? 'Exceptional interest confidence' : null,
-          isShoppingTrack && interestSignals.maxSelectedScore >= recommendationConfig.shoppingSemanticInterestScoreThreshold ? 'Strong shopping confidence' : null,
-          mustSeeBoost > 0 ? 'Strong landmark signal' : null,
-        ].filter(Boolean).slice(0, 2);
+          const whyRecommended = [
+            Number(place.rating || 0) > 4.5 ? 'Highly rated' : null,
+            Number(place.user_ratings_total || 0) >= 1500 ? 'Popular with travelers' : null,
+            interestSignals.matchedInterests[0] ? `Strong ${interestSignals.matchedInterests[0]} match` : null,
+            isShoppingTrack && shoppingIntentBoost >= 0.1 ? 'Strong street-shopping vibe' : null,
+            !isShoppingTrack && (interestSignals.generalIntentBoost || 0) >= 0.08 ? 'Strong curated intent match' : null,
+            interestSignals.maxSelectedScore >= recommendationConfig.strictInterestHighThreshold ? 'Exceptional interest confidence' : null,
+            isShoppingTrack && interestSignals.maxSelectedScore >= recommendationConfig.shoppingSemanticInterestScoreThreshold ? 'Strong shopping confidence' : null,
+            mustSeeBoost > 0 ? 'Strong landmark signal' : null,
+          ].filter(Boolean).slice(0, 2);
 
         return buildAttractionResponse(place, {
           mlScore,
@@ -1672,7 +1853,8 @@ class RecommendationService {
     return dedupePlaces(selectedRestaurants).slice(0, recommendationConfig.restaurantReturnCount).map(buildRestaurantResponse);
   }
 
-  static async getRecommendationsForTrip(trip) {
+  static async getRecommendationsForTrip(trip, options = {}) {
+    const allowSoftMatches = Boolean(options.allowSoftMatches);
     const photoCache = new Map();
     const totalAttractions = Math.max(
       recommendationConfig.placesPerDay,
@@ -1686,14 +1868,18 @@ class RecommendationService {
     const {
       candidatePool,
       interestFilterApplied,
-      dedupedCount,
-      strictInterestThresholdUsed,
-      weightedRatingCutoffUsed,
-    } = this.buildAttractionCandidatePool(
-      candidatePlaces,
-      trip.interests,
-      requiredAttractionCount,
-    );
+        dedupedCount,
+        strictInterestThresholdUsed,
+        weightedRatingCutoffUsed,
+        softMatchAvailable,
+        softMatchApplied,
+        softMatchCount,
+      } = this.buildAttractionCandidatePool(
+        candidatePlaces,
+        trip.interests,
+        requiredAttractionCount,
+        { allowSoftMatches },
+      );
 
     const dynamicSampleSize = Math.max(recommendationConfig.candidateSampleSize, requiredAttractionCount * 4);
     const normalizedInterests = getAttractionRelevantInterests(trip.interests);
@@ -1825,12 +2011,16 @@ class RecommendationService {
         interest_filter_applied: interestFilterApplied,
         attraction_interest_count: getAttractionRelevantInterests(trip.interests).length,
         side_channel_interest_count: getRestaurantRelevantInterests(trip.interests).length,
-        deduplicated_candidates: dedupedCount,
-        strict_interest_threshold_used: strictInterestThresholdUsed,
-        track_b_weighted_rating_cutoff_used: weightedRatingCutoffUsed,
-        master_pool_count: masterAttractionPool.length,
-        ranking_strategy: 'dynamic multi-stage tourism ranking',
-        pairing_suggestions: hydratedSelectedAttractions.length < totalAttractions ? pairingSuggestions : [],
+          deduplicated_candidates: dedupedCount,
+          strict_interest_threshold_used: strictInterestThresholdUsed,
+          track_b_weighted_rating_cutoff_used: weightedRatingCutoffUsed,
+          soft_match_available: softMatchAvailable,
+          soft_match_applied: softMatchApplied,
+          soft_match_count: softMatchCount,
+          target_attraction_count: totalAttractions,
+          master_pool_count: masterAttractionPool.length,
+          ranking_strategy: 'dynamic multi-stage tourism ranking',
+          pairing_suggestions: hydratedSelectedAttractions.length < totalAttractions ? pairingSuggestions : [],
         ml_service_fallback: sampledCandidates.length > 0 && sampledCandidates.every((place) =>
           Number(mlScoreMap.get(place.place_id)) === recommendationConfig.mlFallbackScore),
       },

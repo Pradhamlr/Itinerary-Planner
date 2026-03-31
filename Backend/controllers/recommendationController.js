@@ -1,14 +1,18 @@
 const TripService = require('../services/tripService');
 const RecommendationService = require('../services/recommendationService');
 
+const normalizeInterest = (interest) => String(interest || '').trim().toLowerCase();
+const attractionDrivenInterests = new Set(['beaches', 'culture', 'nature', 'history', 'art', 'shopping']);
+
 exports.getRecommendationsByTrip = async (req, res) => {
   let trip;
   try {
     const { tripId } = req.params;
     const userId = req.user.userId;
+    const allowSoftMatches = String(req.query.softenMatches || '').trim() === '1';
 
     trip = await TripService.getTripById(tripId, userId);
-    const recommendations = await RecommendationService.getRecommendationsForTrip(trip);
+    const recommendations = await RecommendationService.getRecommendationsForTrip(trip, { allowSoftMatches });
     const responseMetadata = {
       ...recommendations.metadata,
       tripId: trip._id,
@@ -57,10 +61,16 @@ exports.getRecommendationsByTrip = async (req, res) => {
     }
 
     if (error.message.startsWith('INSUFFICIENT_STRICT_INTEREST_MATCHES:')) {
+      const attractionInterests = (trip?.interests || [])
+        .map(normalizeInterest)
+        .filter((interest) => attractionDrivenInterests.has(interest));
+      const softMatchAvailable = attractionInterests.some((interest) => interest !== 'shopping');
+
       return res.status(422).json({
         success: false,
         message: error.message.replace('INSUFFICIENT_STRICT_INTEREST_MATCHES:', '').trim(),
         pairingSuggestions: RecommendationService.getInterestPairingSuggestions(trip?.interests || []),
+        softMatchAvailable,
       });
     }
 

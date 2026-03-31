@@ -17,6 +17,12 @@ function PlaceCard({ place }) {
   const reviewSnippet = place.reviewSnippet || place.description || 'A promising stop for your itinerary.'
   const rating = Number(place.rating || 0)
   const selectedInterestScore = Number(place.selected_interest_score || 0)
+  const selectedInterestThreshold = Number(place.selected_interest_threshold || 0)
+  const interestMatchDetails = place.interest_match_details || {}
+  const selectedInterestEligibility = place.selected_interest_eligibility || {}
+  const eligibilitySignals = Array.isArray(selectedInterestEligibility.qualified_by)
+    ? selectedInterestEligibility.qualified_by
+    : []
   const clientMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY
   const fallbackPhotoUrl = place.photo_reference && clientMapsApiKey
     ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=1000&photo_reference=${encodeURIComponent(place.photo_reference)}&key=${encodeURIComponent(clientMapsApiKey)}`
@@ -94,6 +100,42 @@ function PlaceCard({ place }) {
           <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-secondary">Why This Place?</p>
           <p className="mt-2 text-sm leading-6 text-brand-onSurfaceVariant">{whyThisPlace}</p>
         </div>
+
+        {selectedInterestScore > 0 ? (
+          <div className="rounded-[20px] border border-[#d9efe9] bg-[#f7fcfb] px-4 py-3">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-secondary">Interest Match</p>
+            <div className="mt-2 flex flex-wrap gap-2 text-xs font-semibold">
+              <span className="rounded-full bg-white px-3 py-1 text-brand-palm">
+                Score {selectedInterestScore.toFixed(2)}
+              </span>
+              <span className="rounded-full bg-white px-3 py-1 text-brand-onSurfaceVariant">
+                Threshold {selectedInterestThreshold.toFixed(2)}
+              </span>
+              {interestMatchDetails.general_intent_boost > 0 ? (
+                <span className="rounded-full bg-white px-3 py-1 text-brand-secondary">
+                  Intent +{Number(interestMatchDetails.general_intent_boost).toFixed(2)}
+                </span>
+              ) : null}
+              {interestMatchDetails.shopping_intent_boost > 0 ? (
+                <span className="rounded-full bg-white px-3 py-1 text-brand-secondary">
+                  Shopping intent +{Number(interestMatchDetails.shopping_intent_boost).toFixed(2)}
+                </span>
+              ) : null}
+            </div>
+            {eligibilitySignals.length > 0 ? (
+              <div className="mt-3 flex flex-wrap gap-2">
+                {eligibilitySignals.map((signal) => (
+                  <span
+                    key={`${place.place_id || place.name}-${signal}`}
+                    className="rounded-full bg-[#e8f4f1] px-3 py-1 text-[11px] font-semibold text-[#256b61]"
+                  >
+                    {signal === 'score-threshold' ? 'Passed score threshold' : signal === 'clean-tag' ? 'Matched clean tag' : 'Intent assisted'}
+                  </span>
+                ))}
+              </div>
+            ) : null}
+          </div>
+        ) : null}
 
         {explanationTags.length > 0 ? (
           <div className="flex flex-wrap gap-2">

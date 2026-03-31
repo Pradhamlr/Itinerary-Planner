@@ -396,13 +396,16 @@ export function RecommendationsPanel({
   restaurants,
   metadata,
   pairingSuggestions = [],
+  softMatchAvailable = false,
   pairingInterestLoading = '',
+  softMatchLoading = false,
   tripDays,
   loading,
   generated,
   error,
   onRefresh,
   onApplyPairing,
+  onUseSoftMatches,
   generatedAt,
   hydratedFromSnapshot,
   onGenerateItinerary,
@@ -421,6 +424,8 @@ export function RecommendationsPanel({
     return [...accumulator, place]
   }, [])
   const extendedPool = universePlaces.filter((place) => !attractions.some((selected) => (selected.place_id || selected._id || selected.name) === (place.place_id || place._id || place.name)))
+  const softMatchApplied = Boolean(metadata?.soft_match_applied)
+  const showSoftMatchAction = Boolean(softMatchAvailable || metadata?.soft_match_available) && !softMatchApplied
 
   return (
     <section className="space-y-8 rounded-[30px] bg-white p-6 shadow-[0_18px_46px_-30px_rgba(15,23,42,0.35)]">
@@ -443,9 +448,9 @@ export function RecommendationsPanel({
         <div className="rounded-[24px] bg-[#f5ddd8] p-5 text-[#8a3022]">
           <p className="font-semibold">Unable to generate recommendations</p>
           <p className="mt-2 text-sm">{error}</p>
-          {pairingSuggestions.length > 0 ? (
+            {pairingSuggestions.length > 0 || showSoftMatchAction ? (
             <div className="mt-4 rounded-[18px] bg-white/55 p-4 text-sm text-[#713127]">
-              <p className="font-semibold">Pair this vibe with a close match:</p>
+              <p className="font-semibold">Choose how to widen this vibe:</p>
               <div className="mt-3 flex flex-wrap gap-3">
                 {pairingSuggestions.map((suggestion) => {
                   const isLoading = pairingInterestLoading === suggestion.interest
@@ -462,8 +467,21 @@ export function RecommendationsPanel({
                       </span>
                       {isLoading ? `Pairing ${suggestion.suggested_interest_label}...` : `Pair with ${suggestion.suggested_interest_label}`}
                     </button>
-                  )
-                })}
+                    )
+                  })}
+                {showSoftMatchAction ? (
+                  <button
+                    type="button"
+                    onClick={() => onUseSoftMatches?.()}
+                    disabled={Boolean(pairingInterestLoading) || softMatchLoading}
+                    className="inline-flex items-center gap-2 rounded-full bg-[#875d10] px-4 py-2.5 text-sm font-semibold text-white shadow-[0_14px_30px_-18px_rgba(135,93,16,0.9)] transition hover:bg-[#9f7115] disabled:cursor-not-allowed disabled:opacity-70"
+                  >
+                    <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-white/16 text-xs">
+                      ~
+                    </span>
+                    {softMatchLoading ? 'Loading softer matches...' : 'See softer matches'}
+                  </button>
+                ) : null}
               </div>
               <div className="mt-4 space-y-2">
                 {pairingSuggestions.map((suggestion) => (
@@ -474,6 +492,11 @@ export function RecommendationsPanel({
                     <span className="font-semibold">{suggestion.suggested_interest_label}:</span> {suggestion.reason}
                   </p>
                 ))}
+                {showSoftMatchAction ? (
+                  <p className="text-xs leading-6 text-[#8a3022]">
+                    <span className="font-semibold">Softer matches:</span> Keeps the same interest, but expands into the backup pool of near-matches instead of pairing with another vibe.
+                  </p>
+                ) : null}
               </div>
             </div>
           ) : null}
@@ -496,22 +519,29 @@ export function RecommendationsPanel({
             <span className="rounded-full bg-brand-surfaceLow px-3 py-1 font-semibold text-brand-palm">
               {hydratedFromSnapshot ? 'Loaded saved recommendations' : 'Fresh recommendations'}
             </span>
-            {formattedGeneratedAt ? <span>Last generated: {formattedGeneratedAt}</span> : null}
-            <span className="rounded-full bg-[#def7f7] px-3 py-1 font-semibold text-brand-secondary">
-              {metadata?.ranking_mode || 'hybrid'} ranking
-            </span>
-          </div>
+              {formattedGeneratedAt ? <span>Last generated: {formattedGeneratedAt}</span> : null}
+              <span className="rounded-full bg-[#def7f7] px-3 py-1 font-semibold text-brand-secondary">
+                {metadata?.ranking_mode || 'hybrid'} ranking
+              </span>
+              {softMatchApplied ? (
+                <span className="rounded-full bg-[#fff1d6] px-3 py-1 font-semibold text-[#9a5b03]">
+                  Expanded with softer matches
+                </span>
+              ) : null}
+            </div>
 
-          {pairingSuggestions.length > 0 ? (
-            <div className="rounded-[24px] border border-[#f1dfbf] bg-[#fff9ef] p-5">
-              <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-                <div className="max-w-2xl">
-                  <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#9a5b03]">Smart Pairing</p>
-                  <p className="mt-2 text-sm leading-7 text-[#6f5313]">
-                    Pair {pairingSuggestions[0]?.primary_interest_label} with {pairingSuggestions.map((suggestion) => suggestion.suggested_interest_label).join(' or ')} to widen the pool and regenerate both recommendations and itinerary with one click.
-                  </p>
-                </div>
-                <div className="flex flex-wrap gap-3">
+          {pairingSuggestions.length > 0 || showSoftMatchAction ? (
+              <div className="rounded-[24px] border border-[#f1dfbf] bg-[#fff9ef] p-5">
+                <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+                  <div className="max-w-2xl">
+                    <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#9a5b03]">Smart Pairing</p>
+                    <p className="mt-2 text-sm leading-7 text-[#6f5313]">
+                      {pairingSuggestions.length > 0
+                        ? `Pair ${pairingSuggestions[0]?.primary_interest_label} with ${pairingSuggestions.map((suggestion) => suggestion.suggested_interest_label).join(' or ')} to widen the pool and regenerate both recommendations and itinerary with one click.`
+                        : 'If strict matches are too sparse, you can widen the same vibe with softer matches.'}
+                    </p>
+                  </div>
+                  <div className="flex flex-wrap gap-3">
                   {pairingSuggestions.map((suggestion) => {
                     const isLoading = pairingInterestLoading === suggestion.interest
                     return (
@@ -527,12 +557,25 @@ export function RecommendationsPanel({
                         </span>
                         {isLoading ? `Pairing ${suggestion.suggested_interest_label}...` : `Pair with ${suggestion.suggested_interest_label}`}
                       </button>
-                    )
-                  })}
+                      )
+                    })}
+                    {showSoftMatchAction ? (
+                      <button
+                        type="button"
+                        onClick={() => onUseSoftMatches?.()}
+                        disabled={Boolean(pairingInterestLoading) || softMatchLoading}
+                        className="inline-flex items-center gap-2 rounded-full bg-[#875d10] px-5 py-3 text-sm font-semibold text-white shadow-[0_14px_30px_-18px_rgba(135,93,16,0.9)] transition hover:bg-[#9f7115] disabled:cursor-not-allowed disabled:opacity-70"
+                      >
+                        <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-white/16 text-xs">
+                          ~
+                        </span>
+                        {softMatchLoading ? 'Loading softer matches...' : 'See softer matches'}
+                      </button>
+                    ) : null}
+                  </div>
                 </div>
               </div>
-            </div>
-          ) : null}
+            ) : null}
 
           <section className="space-y-5">
             <div className="flex items-center gap-3">
@@ -544,12 +587,14 @@ export function RecommendationsPanel({
             {attractions.length === 0 ? (
               <div className="rounded-[28px] bg-brand-surfaceLow p-10 text-center">
                 <p className="text-lg font-semibold text-brand-palm">No attractions matched this trip yet.</p>
-                {pairingSuggestions.length > 0 ? (
-                  <div className="mx-auto mt-4 max-w-xl space-y-4">
-                    <p className="text-sm leading-7 text-brand-onSurfaceVariant">
-                      Pair {pairingSuggestions[0]?.primary_interest_label} with {pairingSuggestions.map((suggestion) => suggestion.suggested_interest_label).join(' or ')} to widen the pool without drifting too far from the same vibe.
-                    </p>
-                    <div className="flex flex-wrap items-center justify-center gap-3">
+                {pairingSuggestions.length > 0 || showSoftMatchAction ? (
+                    <div className="mx-auto mt-4 max-w-xl space-y-4">
+                      <p className="text-sm leading-7 text-brand-onSurfaceVariant">
+                        {pairingSuggestions.length > 0
+                          ? `Pair ${pairingSuggestions[0]?.primary_interest_label} with ${pairingSuggestions.map((suggestion) => suggestion.suggested_interest_label).join(' or ')} to widen the pool without drifting too far from the same vibe.`
+                          : 'Try softer matches to expand into near-matches while keeping the same core interest.'}
+                      </p>
+                      <div className="flex flex-wrap items-center justify-center gap-3">
                       {pairingSuggestions.map((suggestion) => {
                         const isLoading = pairingInterestLoading === suggestion.interest
                         return (
@@ -565,11 +610,24 @@ export function RecommendationsPanel({
                             </span>
                             {isLoading ? `Pairing ${suggestion.suggested_interest_label}...` : `Pair with ${suggestion.suggested_interest_label}`}
                           </button>
-                        )
-                      })}
+                          )
+                        })}
+                        {showSoftMatchAction ? (
+                          <button
+                            type="button"
+                            onClick={() => onUseSoftMatches?.()}
+                            disabled={Boolean(pairingInterestLoading) || softMatchLoading}
+                            className="inline-flex items-center gap-2 rounded-full bg-[#875d10] px-5 py-3 text-sm font-semibold text-white shadow-[0_14px_30px_-18px_rgba(135,93,16,0.9)] transition hover:bg-[#9f7115] disabled:cursor-not-allowed disabled:opacity-70"
+                          >
+                            <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-white/20 text-xs">
+                              ~
+                            </span>
+                            {softMatchLoading ? 'Loading softer matches...' : 'See softer matches'}
+                          </button>
+                        ) : null}
+                      </div>
                     </div>
-                  </div>
-                ) : null}
+                  ) : null}
               </div>
             ) : (
               <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
