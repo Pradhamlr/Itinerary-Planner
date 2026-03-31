@@ -30,15 +30,22 @@ def has_any(text: str, keywords: set[str] | list[str]) -> bool:
     return any(keyword in text for keyword in keywords)
 
 
+def get_place_value(place, key, default=None):
+    if isinstance(place, dict):
+        return place.get(key, default)
+
+    return getattr(place, key, default)
+
+
 def build_place_tags(place) -> list[str]:
-    name = normalize_text(getattr(place, "name", None) or place.get("name"))
-    category = normalize_text(getattr(place, "category", None) or place.get("category"))
-    description = normalize_text(getattr(place, "description", None) or place.get("description"))
-    city = normalize_text(getattr(place, "city", None) or place.get("city"))
-    review = normalize_text(getattr(place, "review", None) or place.get("review"))
-    types = parse_types(getattr(place, "types", None) or place.get("types"))
-    rating = float(getattr(place, "rating", None) or place.get("rating") or 0)
-    user_ratings_total = int(getattr(place, "user_ratings_total", None) or place.get("user_ratings_total") or 0)
+    name = normalize_text(get_place_value(place, "name"))
+    category = normalize_text(get_place_value(place, "category"))
+    description = normalize_text(get_place_value(place, "description"))
+    city = normalize_text(get_place_value(place, "city"))
+    review = normalize_text(get_place_value(place, "review"))
+    types = parse_types(get_place_value(place, "types"))
+    rating = float(get_place_value(place, "rating") or 0)
+    user_ratings_total = int(get_place_value(place, "user_ratings_total") or 0)
 
     text = " ".join(part for part in [name, category, description, review, city, " ".join(sorted(types))] if part)
 
