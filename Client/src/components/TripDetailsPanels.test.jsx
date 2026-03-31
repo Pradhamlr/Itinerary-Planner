@@ -44,6 +44,8 @@ describe('ItineraryPanel', () => {
           {
             day: 1,
             center: { lat: 9.9, lng: 76.2 },
+            start_location: { name: 'Initial Hotel', lat: 9.8, lng: 76.1 },
+            end_location: { name: 'Harbor Hotel', lat: 9.85, lng: 76.25 },
             route: [
               { place_id: 'a1', name: 'Fort Kochi Beach', category: 'beach', rating: 4.6, lat: 9.9, lng: 76.2 },
             ],
@@ -62,6 +64,8 @@ describe('ItineraryPanel', () => {
     expect(screen.getByText('Loaded saved itinerary')).toBeInTheDocument()
     expect(screen.getByText('Day 1')).toBeInTheDocument()
     expect(screen.getByText('Fort Kochi Beach')).toBeInTheDocument()
+    expect(screen.getByText('Initial Hotel')).toBeInTheDocument()
+    expect(screen.getByText('Harbor Hotel')).toBeInTheDocument()
     expect(screen.getByTestId('itinerary-map')).toBeInTheDocument()
   })
 })

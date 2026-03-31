@@ -8,7 +8,9 @@
     "dev": "nodemon server.js",
     "test": "node --test",
     "export-dataset": "node scripts/exportPlacesDataset.js",
-    "enrich-reviews": "node scripts/enrichPlaceReviews.js"
+    "enrich-reviews": "node scripts/enrichPlaceReviews.js",
+    "sync-hotels": "node scripts/syncHotels.js",
+    "enrich-hotels": "node scripts/enrichHotelsHeuristically.js"
   },
   "keywords": [
     "travel",

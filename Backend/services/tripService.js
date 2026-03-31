@@ -66,6 +66,7 @@ class TripService {
         'budget',
         'startDate',
         'interests',
+        'stayPlanningMode',
         'hotelLocation',
         'places',
         'optimizedRoute',

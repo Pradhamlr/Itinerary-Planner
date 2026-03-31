@@ -29,34 +29,33 @@ function getStopKey(day, place, index) {
 
 function buildDirectionsRequest(day) {
   const route = day.route || []
-  if (route.length < 2) {
-    return null
-  }
-
   const startLocation = day.start_location && Number.isFinite(day.start_location.lat) && Number.isFinite(day.start_location.lng)
     ? { lat: day.start_location.lat, lng: day.start_location.lng }
     : null
+  const endLocation = day.end_location && Number.isFinite(day.end_location.lat) && Number.isFinite(day.end_location.lng)
+    ? { lat: day.end_location.lat, lng: day.end_location.lng }
+    : null
 
-  if (startLocation) {
-    return {
-      origin: startLocation,
-      destination: { lat: route[route.length - 1].lat, lng: route[route.length - 1].lng },
-      waypoints: route.slice(0, -1).map((place) => ({
-        location: { lat: place.lat, lng: place.lng },
-        stopover: true,
-      })),
-      travelMode: 'DRIVING',
-      optimizeWaypoints: false,
-    }
+  if (route.length === 0 || (route.length === 1 && !startLocation && !endLocation)) {
+    return null
   }
 
-  return {
-    origin: { lat: route[0].lat, lng: route[0].lng },
-    destination: { lat: route[route.length - 1].lat, lng: route[route.length - 1].lng },
-    waypoints: route.slice(1, -1).map((place) => ({
+  const origin = startLocation || { lat: route[0].lat, lng: route[0].lng }
+  const destination = endLocation || { lat: route[route.length - 1].lat, lng: route[route.length - 1].lng }
+  const waypoints = startLocation
+    ? route.slice(0, endLocation ? route.length : -1).map((place) => ({
       location: { lat: place.lat, lng: place.lng },
       stopover: true,
-    })),
+    }))
+    : route.slice(1, endLocation ? route.length : -1).map((place) => ({
+      location: { lat: place.lat, lng: place.lng },
+      stopover: true,
+    }))
+
+  return {
+    origin,
+    destination,
+    waypoints,
     travelMode: 'DRIVING',
     optimizeWaypoints: false,
   }
@@ -165,6 +164,11 @@ function ItineraryMap({ itinerary, selectedStopKey, onSelectStop }) {
     visibleItinerary.forEach((day) => {
       if (day.start_location && Number.isFinite(day.start_location.lat) && Number.isFinite(day.start_location.lng)) {
         bounds.extend(day.start_location)
+        hasPoints = true
+      }
+
+      if (day.end_location && Number.isFinite(day.end_location.lat) && Number.isFinite(day.end_location.lng)) {
+        bounds.extend(day.end_location)
         hasPoints = true
       }
 
@@ -333,6 +337,17 @@ function ItineraryMap({ itinerary, selectedStopKey, onSelectStop }) {
                     onClick={() => onSelectStop?.(`start-${day.day}`)}
                     icon={createStopMarkerIcon(color, 'S', selectedStopKey === `start-${day.day}`)}
                     animation={selectedStopKey === `start-${day.day}` ? window.google.maps.Animation.BOUNCE : undefined}
+                  />
+                ) : null}
+
+                {day.end_location ? (
+                  <Marker
+                    key={`end-${day.day}`}
+                    position={{ lat: day.end_location.lat, lng: day.end_location.lng }}
+                    title={`${day.end_location.name || 'End'} - Day ${day.day}`}
+                    onClick={() => onSelectStop?.(`end-${day.day}`)}
+                    icon={createStopMarkerIcon(color, 'E', selectedStopKey === `end-${day.day}`)}
+                    animation={selectedStopKey === `end-${day.day}` ? window.google.maps.Animation.BOUNCE : undefined}
                   />
                 ) : null}
 
