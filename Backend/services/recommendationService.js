@@ -153,6 +153,18 @@ const hasAnyType = (place, typeSet) => getNormalizedTypes(place).some((type) => 
 const getPlacePhotos = (place) => Array.isArray(place.photos) ? place.photos : [];
 const getPrimaryPhotoReference = (place) => getPlacePhotos(place).find((photo) => photo?.photo_reference)?.photo_reference || null;
 const getPhotoUrl = (place, maxWidth = 800) => buildPlacePhotoUrl(getPrimaryPhotoReference(place), maxWidth);
+const normalizePhotos = (photos) => (
+  Array.isArray(photos)
+    ? photos
+      .map((photo) => ({
+        photo_reference: photo.photo_reference,
+        height: photo.height,
+        width: photo.width,
+        html_attributions: Array.isArray(photo.html_attributions) ? photo.html_attributions : [],
+      }))
+      .filter((photo) => photo.photo_reference)
+    : []
+);
 const attractionDrivenInterests = new Set(['beaches', 'culture', 'nature', 'history', 'art', 'adventure', 'sports', 'shopping']);
 const restaurantDrivenInterests = new Set(['food', 'nightlife']);
 const interestOnlyAttractionTypes = new Set(['shopping_mall', 'store']);
@@ -921,25 +933,27 @@ const buildMasterPoolSize = (tripDays, rankedCount, visibleCount) => {
 };
 
 class RecommendationService {
-  static async hydratePlacePhoto(place) {
-    if (!place?.place_id || getPrimaryPhotoReference(place)) {
+  static async hydratePlacePhoto(place, photoCache = new Map()) {
+    if (!place?.place_id) {
       return place;
+    }
+
+    if (getPrimaryPhotoReference(place)) {
+      photoCache.set(place.place_id, getPlacePhotos(place));
+      return place;
+    }
+
+    if (photoCache.has(place.place_id)) {
+      const cachedPhotos = photoCache.get(place.place_id);
+      return cachedPhotos?.length ? { ...place, photos: cachedPhotos } : place;
     }
 
     try {
       const placeDetails = await getPlaceDetails(place.place_id);
-      const photos = Array.isArray(placeDetails?.photos)
-        ? placeDetails.photos
-          .map((photo) => ({
-            photo_reference: photo.photo_reference,
-            height: photo.height,
-            width: photo.width,
-            html_attributions: Array.isArray(photo.html_attributions) ? photo.html_attributions : [],
-          }))
-          .filter((photo) => photo.photo_reference)
-        : [];
+      const photos = normalizePhotos(placeDetails?.photos);
 
       if (photos.length === 0) {
+        photoCache.set(place.place_id, []);
         return place;
       }
 
@@ -947,6 +961,8 @@ class RecommendationService {
         { place_id: place.place_id },
         { $set: { photos } },
       );
+
+      photoCache.set(place.place_id, photos);
 
       return {
         ...place,
@@ -957,26 +973,39 @@ class RecommendationService {
         place_id: place.place_id,
         details: error.response?.data?.error_message || error.message,
       });
+      photoCache.set(place.place_id, []);
       return place;
     }
   }
 
-  static async hydratePlacePhotos(places, limit = places.length) {
+  static async hydratePlacePhotos(places, limit = places.length, photoCache = new Map()) {
     if (!process.env.GOOGLE_MAPS_API_KEY || !Array.isArray(places) || places.length === 0) {
       return places;
     }
 
     const cappedLimit = Math.max(0, Math.min(Number(limit) || places.length, places.length));
     const hydrated = [...places];
+    const concurrency = 4;
 
-    for (let index = 0; index < cappedLimit; index += 1) {
-      hydrated[index] = await this.hydratePlacePhoto(hydrated[index]);
+    for (let index = 0; index < cappedLimit; index += concurrency) {
+      const batchIndexes = Array.from(
+        { length: Math.min(concurrency, cappedLimit - index) },
+        (_, offset) => index + offset,
+      );
+
+      const batchResults = await Promise.all(
+        batchIndexes.map((batchIndex) => this.hydratePlacePhoto(hydrated[batchIndex], photoCache)),
+      );
+
+      batchIndexes.forEach((batchIndex, resultIndex) => {
+        hydrated[batchIndex] = batchResults[resultIndex];
+      });
     }
 
     return hydrated;
   }
 
-  static async attachPhotoMetadataToResponses(places, limit = places.length) {
+  static async attachPhotoMetadataToResponses(places, limit = places.length, photoCache = new Map()) {
     if (!Array.isArray(places) || places.length === 0) {
       return places;
     }
@@ -997,14 +1026,32 @@ class RecommendationService {
       .lean()
       .select({ place_id: 1, photos: 1 });
 
-    dbPlaces = await this.hydratePlacePhotos(dbPlaces, dbPlaces.length);
+    dbPlaces.forEach((place) => {
+      photoCache.set(place.place_id, getPlacePhotos(place));
+    });
+
+    const missingPlaceIds = targetIds.filter((placeId) => {
+      const cachedPhotos = photoCache.get(placeId);
+      return !Array.isArray(cachedPhotos) || cachedPhotos.length === 0;
+    });
+
+    if (missingPlaceIds.length > 0) {
+      const missingPlaces = places
+        .filter((place) => missingPlaceIds.includes(place.place_id))
+        .map((place) => ({
+          place_id: place.place_id,
+          photos: Array.isArray(photoCache.get(place.place_id)) ? photoCache.get(place.place_id) : [],
+        }));
+
+      await this.hydratePlacePhotos(missingPlaces, missingPlaces.length, photoCache);
+    }
 
     const photoMap = new Map(
-      dbPlaces.map((place) => [
-        place.place_id,
+      targetIds.map((placeId) => [
+        placeId,
         {
-          photo_reference: getPrimaryPhotoReference(place),
-          photo_url: getPhotoUrl(place, 1000),
+          photo_reference: getPrimaryPhotoReference({ photos: photoCache.get(placeId) || [] }),
+          photo_url: getPhotoUrl({ photos: photoCache.get(placeId) || [] }, 1000),
         },
       ]),
     );
@@ -1025,6 +1072,16 @@ class RecommendationService {
         photo_url: photoData.photo_url || place.photo_url || null,
       };
     });
+  }
+
+  static seedPhotoCache(places, photoCache = new Map()) {
+    (places || []).forEach((place) => {
+      if (place?.place_id && Array.isArray(place.photos)) {
+        photoCache.set(place.place_id, place.photos);
+      }
+    });
+
+    return photoCache;
   }
 
   static async fetchCandidatePlaces(city) {
@@ -1468,12 +1525,14 @@ class RecommendationService {
   }
 
   static async getRecommendationsForTrip(trip) {
+    const photoCache = new Map();
     const totalAttractions = Math.max(
       recommendationConfig.placesPerDay,
       Number(trip.days || 1) * recommendationConfig.placesPerDay,
     );
     const requiredAttractionCount = totalAttractions;
     const rawCandidatePlaces = await this.fetchCandidatePlaces(trip.city);
+    this.seedPhotoCache(rawCandidatePlaces, photoCache);
     const candidatePlaces = await this.attachInterestPredictions(rawCandidatePlaces, trip.interests);
     const {
       candidatePool,
@@ -1558,7 +1617,11 @@ class RecommendationService {
       }
     }
 
-    const sampledCandidatesWithPhotos = await this.hydratePlacePhotos(sampledCandidates, Math.min(sampledCandidates.length, 24));
+    const sampledCandidatesWithPhotos = await this.hydratePlacePhotos(
+      sampledCandidates,
+      Math.min(sampledCandidates.length, 24),
+      photoCache,
+    );
     const rankedAttractions = this.rankAttractions(sampledCandidatesWithPhotos, mlScoreMap, trip.interests);
     const replacementPoolTargetSize = Math.min(
       rankedAttractions.length,
@@ -1580,23 +1643,28 @@ class RecommendationService {
     const restaurantPool = await this.hydratePlacePhotos(
       this.buildRestaurantPool(candidatePlaces, trip.interests),
       Math.min(recommendationConfig.restaurantReturnCount * 3, 18),
+      photoCache,
     );
     const restaurants = await this.attachPhotoMetadataToResponses(
       this.buildRestaurants(restaurantPool, trip.interests),
       recommendationConfig.restaurantReturnCount,
+      photoCache,
     );
 
     const hydratedReplacementAttractionPool = await this.attachPhotoMetadataToResponses(
       replacementAttractionPool,
       Math.min(replacementAttractionPool.length, 36),
+      photoCache,
     );
     const hydratedMasterAttractionPool = await this.attachPhotoMetadataToResponses(
       masterAttractionPool,
       Math.min(masterAttractionPool.length, 24),
+      photoCache,
     );
     const hydratedSelectedAttractions = await this.attachPhotoMetadataToResponses(
       selectedAttractions,
       selectedAttractions.length,
+      photoCache,
     );
 
     return {

@@ -5,6 +5,7 @@ const connectDB = require('./config/db');
 const authRoutes = require('./routes/authRoutes');
 const tripRoutes = require('./routes/tripRoutes');
 const placesRoutes = require('./routes/placesRoutes');
+const hotelRoutes = require('./routes/hotelRoutes');
 const recommendationRoutes = require('./routes/recommendationRoutes');
 const itineraryRoutes = require('./routes/itineraryRoutes');
 const documentRoutes = require('./routes/documentRoutes');
@@ -64,6 +65,9 @@ const startServer = async () => {
             getByType: 'GET /api/places/type/:city/:type',
             getByCity: 'GET /api/places/:city',
           },
+          hotels: {
+            getByCity: 'GET /api/hotels?city=kochi',
+          },
           recommendations: {
             getByTrip: 'GET /api/recommendations/:tripId',
           },
@@ -78,6 +82,7 @@ const startServer = async () => {
     app.use('/api/auth', authRoutes);
     app.use('/api/trips', tripRoutes);
     app.use('/api/places', placesRoutes);
+    app.use('/api/hotels', hotelRoutes);
     app.use('/api/recommendations', recommendationRoutes);
     app.use('/api/itinerary', itineraryRoutes);
     app.use('/api/documents', documentRoutes);

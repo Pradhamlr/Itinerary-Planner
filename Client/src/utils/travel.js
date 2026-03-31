@@ -183,8 +183,11 @@ export const getPlaceVisual = (place) => {
   return visuals[type] || { icon: 'Explore', gradient: 'from-[#001e43] to-[#191c1d]' };
 };
 
-export const renderStars = (rating) => {
-  const numericRating = Number(rating || 0);
-  const filled = Math.round(numericRating);
-  return Array.from({ length: 5 }, (_, index) => (index < filled ? '*' : '-')).join('');
+export const getStarFillLevels = (rating) => {
+  const numericRating = Math.max(0, Math.min(5, Number(rating || 0)));
+
+  return Array.from({ length: 5 }, (_, index) => {
+    const fill = Math.max(0, Math.min(1, numericRating - index));
+    return Number((fill * 100).toFixed(1));
+  });
 };

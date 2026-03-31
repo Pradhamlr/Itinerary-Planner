@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import ItineraryMap from './ItineraryMap'
 import PlaceCard from './PlaceCard'
-import { formatCategory, renderStars } from '../utils/travel'
+import StarRating from './StarRating'
+import { formatCategory } from '../utils/travel'
 
 function ActionIcon({ type }) {
   const commonProps = {
@@ -323,7 +324,10 @@ function DayPlaceRow({
             <span className="rounded-full bg-[#dcf7f7] px-3 py-1 text-xs font-semibold text-brand-secondary">
               {formatCategory(place.category || place.types?.[0] || 'place')}
             </span>
-            <span className="text-sm font-semibold text-brand-palm">{renderStars(place.rating)} {Number(place.rating || 0).toFixed(1)}</span>
+            <span className="inline-flex items-center gap-2 text-sm font-semibold text-brand-palm">
+              <StarRating rating={place.rating} />
+              {Number(place.rating || 0) > 0 ? Number(place.rating || 0).toFixed(1) : 'Unrated'}
+            </span>
             {place.locked ? (
               <span className="rounded-full bg-[#edf7ed] px-3 py-1 text-xs font-semibold text-[#2c6a3d]">Locked</span>
             ) : null}
@@ -635,6 +639,17 @@ export function ItineraryPanel({
                       </p>
                     </div>
 
+                    <div className="mt-4 grid gap-3 rounded-[24px] bg-white p-4 shadow-[0_14px_30px_-26px_rgba(15,23,42,0.2)] md:grid-cols-2">
+                      <div>
+                        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-secondary">Start anchor</p>
+                        <p className="mt-2 text-sm font-semibold text-brand-palm">{dayPlan.start_location?.name || 'Trip start'}</p>
+                      </div>
+                      <div>
+                        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-secondary">End anchor</p>
+                        <p className="mt-2 text-sm font-semibold text-brand-palm">{dayPlan.end_location?.name || route[route.length - 1]?.name || 'Day end'}</p>
+                      </div>
+                    </div>
+
                     {dayPlan.customized_order ? (
                       <div className="mt-4 rounded-2xl border border-sky-200 bg-sky-50 px-4 py-3 text-sm text-sky-700">
                         Stop order was customized manually. Travel timings and day totals were recalculated for this arrangement.
@@ -729,7 +744,10 @@ export function ItineraryPanel({
                           {suggestion.swap_match_reason ? (
                             <p className="mt-2 text-xs font-semibold text-brand-secondary">{suggestion.swap_match_reason}</p>
                           ) : null}
-                          <p className="mt-2 text-sm font-medium text-brand-palm">{renderStars(suggestion.rating)} {Number(suggestion.rating || 0).toFixed(1)}</p>
+                          <p className="mt-2 inline-flex items-center gap-2 text-sm font-medium text-brand-palm">
+                            <StarRating rating={suggestion.rating} />
+                            {Number(suggestion.rating || 0) > 0 ? Number(suggestion.rating || 0).toFixed(1) : 'Unrated'}
+                          </p>
                         </div>
                         <button
                           type="button"
