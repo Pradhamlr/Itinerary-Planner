@@ -326,7 +326,7 @@ function DayPlaceRow({
             </span>
             <span className="inline-flex items-center gap-2 text-sm font-semibold text-brand-palm">
               <StarRating rating={place.rating} />
-              {Number(place.rating || 0).toFixed(1)}
+              {Number(place.rating || 0) > 0 ? Number(place.rating || 0).toFixed(1) : 'Unrated'}
             </span>
             {place.locked ? (
               <span className="rounded-full bg-[#edf7ed] px-3 py-1 text-xs font-semibold text-[#2c6a3d]">Locked</span>
@@ -746,7 +746,7 @@ export function ItineraryPanel({
                           ) : null}
                           <p className="mt-2 inline-flex items-center gap-2 text-sm font-medium text-brand-palm">
                             <StarRating rating={suggestion.rating} />
-                            {Number(suggestion.rating || 0).toFixed(1)}
+                            {Number(suggestion.rating || 0) > 0 ? Number(suggestion.rating || 0).toFixed(1) : 'Unrated'}
                           </p>
                         </div>
                         <button
