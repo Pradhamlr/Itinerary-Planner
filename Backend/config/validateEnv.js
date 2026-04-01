@@ -1,5 +1,5 @@
 const requiredVars = ['MONGO_URI', 'JWT_SECRET']
-const optionalVars = ['ML_SERVICE_URL', 'GOOGLE_MAPS_API_KEY', 'EMAIL_USER', 'EMAIL_PASS']
+const optionalVars = ['ML_SERVICE_URL', 'GOOGLE_MAPS_API_KEY', 'EMAIL_USER', 'EMAIL_PASS', 'CORS_ORIGIN']
 
 function validateEnv() {
   const missingRequired = requiredVars.filter((name) => !process.env[name])

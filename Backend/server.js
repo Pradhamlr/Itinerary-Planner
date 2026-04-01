@@ -17,6 +17,29 @@ const logger = require('./utils/logger');
 // Initialize Express app
 const app = express();
 
+const buildCorsOptions = () => {
+  const rawOrigins = String(process.env.CORS_ORIGIN || '')
+    .split(',')
+    .map((origin) => origin.trim())
+    .filter(Boolean);
+
+  if (rawOrigins.length === 0) {
+    return {};
+  }
+
+  return {
+    origin(origin, callback) {
+      if (!origin || rawOrigins.includes(origin)) {
+        callback(null, true);
+        return;
+      }
+
+      callback(new Error('Origin not allowed by CORS'));
+    },
+    credentials: true,
+  };
+};
+
 // Async startup function
 const startServer = async () => {
   try {
@@ -29,7 +52,8 @@ const startServer = async () => {
     await initializePlacesDataset();
 
     // Middleware
-    app.use(cors());
+    app.set('trust proxy', 1);
+    app.use(cors(buildCorsOptions()));
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
 
