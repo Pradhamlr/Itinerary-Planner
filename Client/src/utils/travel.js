@@ -8,14 +8,28 @@ export const INTEREST_OPTIONS = [
   { value: 'beaches', label: 'Beaches', accent: 'bg-[#dcf7f7] text-[#00696b]' },
 ];
 
+export const CURATED_CITY_NAMES = new Set([
+  'kochi',
+  'cochin',
+  'thiruvananthapuram',
+  'trivandrum',
+  'thrissur',
+  'kozhikode',
+  'calicut',
+  'alappuzha',
+  'alleppey',
+  'kannur',
+  'cannanore',
+  'wayanad',
+  'munnar',
+]);
+
 export const EXPANSION_CITY_NAMES = new Set([
   'bengaluru',
   'bangalore',
   'chennai',
   'mysuru',
   'mysore',
-  'puducherry',
-  'pondicherry',
   'hyderabad',
   'jaipur',
   'udaipur',
@@ -30,6 +44,7 @@ export const EXPANSION_CITY_NAMES = new Set([
 const EXPANSION_SAFE_INTEREST_VALUES = new Set(['culture', 'history', 'nature']);
 
 export const isExpansionCityName = (city) => EXPANSION_CITY_NAMES.has(String(city || '').trim().toLowerCase());
+export const isCuratedCityName = (city) => CURATED_CITY_NAMES.has(String(city || '').trim().toLowerCase());
 
 export const getAllowedInterestOptionsForCity = (city) => {
   const normalized = String(city || '').trim().toLowerCase();
@@ -58,7 +73,7 @@ export const filterCitiesByTripMode = (cities, tripMode) => {
   }
 
   if (tripMode === 'curated') {
-    return cities.filter((city) => !isExpansionCityName(city));
+    return cities.filter((city) => isCuratedCityName(city));
   }
 
   return cities;
@@ -73,6 +88,15 @@ export const getInterestMeta = (interest) =>
 
 const buildCommonsImageUrl = (fileName, width = 1400) =>
   `https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(fileName)}?width=${width}`;
+
+const buildStreetViewImageUrl = (location, fallbackFileName, width = 1400, height = 900) => {
+  const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY
+  if (!apiKey) {
+    return buildCommonsImageUrl(fallbackFileName, width)
+  }
+
+  return `https://maps.googleapis.com/maps/api/streetview?size=${width}x${height}&location=${encodeURIComponent(location)}&source=outdoor&key=${encodeURIComponent(apiKey)}`
+}
 
 export const HERO_EDITORIAL_IMAGES = {
   dashboard: {
@@ -115,11 +139,11 @@ const CITY_HERO_IMAGES = {
     position: 'center',
   },
   alappuzha: {
-    url: buildCommonsImageUrl('Alappuzha beach in Kerala (1).jpg'),
+    url: buildCommonsImageUrl('Alleppey Boat houses.jpg'),
     position: 'center',
   },
   alleppey: {
-    url: buildCommonsImageUrl('Alappuzha beach in Kerala (1).jpg'),
+    url: buildCommonsImageUrl('Alleppey Boat houses.jpg'),
     position: 'center',
   },
   kannur: {
@@ -139,11 +163,11 @@ const CITY_HERO_IMAGES = {
     position: 'center',
   },
   bengaluru: {
-    url: buildCommonsImageUrl('Vidhana Soudha Bangalore.jpg'),
+    url: buildCommonsImageUrl('Vidhana Soudha, front (01).jpg'),
     position: 'center',
   },
   bangalore: {
-    url: buildCommonsImageUrl('Vidhana Soudha Bangalore.jpg'),
+    url: buildCommonsImageUrl('Vidhana Soudha, front (01).jpg'),
     position: 'center',
   },
   chennai: {
@@ -171,11 +195,11 @@ const CITY_HERO_IMAGES = {
     position: 'center',
   },
   goa: {
-    url: buildCommonsImageUrl('Palolem Beach Goa.jpg'),
+    url: 'https://images.unsplash.com/photo-1496566084516-c5b96fcbd5c8?fm=jpg&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&ixlib=rb-4.0.3&q=60&w=3000',
     position: 'center',
   },
   manali: {
-    url: buildCommonsImageUrl('Manali valley.jpg'),
+    url: buildCommonsImageUrl('Manali in winters.png'),
     position: 'center',
   },
   delhi: {
@@ -183,7 +207,7 @@ const CITY_HERO_IMAGES = {
     position: 'center',
   },
   mumbai: {
-    url: buildCommonsImageUrl('Gateway of India Mumbai 2013.jpg'),
+    url: buildCommonsImageUrl('Mumbai Skyline Sunrise.jpg'),
     position: 'center',
   },
   pune: {

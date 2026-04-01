@@ -31,7 +31,11 @@ const parseArgs = () => {
 const resolveCities = ({ city, keep }) => {
   if (city) {
     const match = CITY_LOOKUP.get(String(city).trim().toLowerCase());
-    return match ? [match.city.toLowerCase()] : [];
+    if (match) {
+      return [match.city.toLowerCase()];
+    }
+
+    return [String(city).trim().toLowerCase()].filter(Boolean);
   }
 
   const keepSet = new Set(keep);

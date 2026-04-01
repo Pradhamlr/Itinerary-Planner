@@ -12,14 +12,11 @@ const NEXT_BATCH_CITIES = [
   'Jaipur',
 ];
 
-const passthroughArgs = process.argv.slice(2);
-const dryRunArgs = passthroughArgs.includes('--dry-run') ? ['--dry-run'] : [];
-
 for (const city of NEXT_BATCH_CITIES) {
-  console.log(`\n=== Fetching ${city} ===`);
+  console.log(`\n=== Syncing hotels for ${city} ===`);
   const result = spawnSync(
     process.execPath,
-    [path.join(__dirname, 'fetchPlannedCities.js'), '--city', city, ...dryRunArgs],
+    [path.join(__dirname, 'syncHotels.js'), '--city', city],
     { stdio: 'inherit' },
   );
 
@@ -28,4 +25,4 @@ for (const city of NEXT_BATCH_CITIES) {
   }
 }
 
-console.log('\nNext expansion batch fetch complete.');
+console.log('\nNext expansion batch hotel sync complete.');

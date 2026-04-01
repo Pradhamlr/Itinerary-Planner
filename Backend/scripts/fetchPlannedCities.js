@@ -44,6 +44,25 @@ const GENERIC_BLOCKLIST = [
   'traders',
 ];
 
+const BLOCKED_FETCH_TYPES = new Set([
+  'travel_agency',
+  'tour_agency',
+  'tour_operator',
+  'local_government_office',
+  'insurance_agency',
+  'car_rental',
+  'car_repair',
+  'gas_station',
+  'lodging',
+  'pharmacy',
+  'hospital',
+  'health',
+  'school',
+  'university',
+  'hardware_store',
+  'drugstore',
+]);
+
 const KEEP_KEYWORDS = [
   'bazar',
   'bazaar',
@@ -64,7 +83,6 @@ const KEEP_KEYWORDS = [
 ];
 
 const KEEP_TYPES = new Set([
-  'tourist_attraction',
   'museum',
   'art_gallery',
   'beach',
@@ -75,6 +93,34 @@ const KEEP_TYPES = new Set([
   'synagogue',
   'shopping_mall',
 ]);
+
+const HIGH_SIGNAL_TOURIST_ATTRACTION_REVIEWS = 150;
+const HIGH_SIGNAL_TOURIST_ATTRACTION_RATING = 4.2;
+
+const isMeaningfulTouristAttraction = (place) => {
+  const types = Array.isArray(place.types) ? place.types.map(normalize) : [];
+  const rating = Number(place.rating || 0);
+  const reviews = Number(place.user_ratings_total || 0);
+  const normalizedName = normalize(place.name);
+
+  if (!types.includes('tourist_attraction')) {
+    return false;
+  }
+
+  if (KEEP_TYPES.size > 0 && types.some((type) => KEEP_TYPES.has(type))) {
+    return true;
+  }
+
+  if (KEEP_KEYWORDS.some((keyword) => normalizedName.includes(keyword))) {
+    return true;
+  }
+
+  if (reviews >= 500) {
+    return true;
+  }
+
+  return reviews >= HIGH_SIGNAL_TOURIST_ATTRACTION_REVIEWS && rating >= HIGH_SIGNAL_TOURIST_ATTRACTION_RATING;
+};
 
 const parseArgs = () => {
   const args = process.argv.slice(2);
@@ -137,8 +183,16 @@ const isLikelyLowSignalPlace = (place) => {
   const reviews = Number(place.user_ratings_total || 0);
   const types = Array.isArray(place.types) ? place.types.map(normalize) : [];
 
+  if (types.some((type) => BLOCKED_FETCH_TYPES.has(type))) {
+    return true;
+  }
+
   if (types.some((type) => KEEP_TYPES.has(type))) {
     return false;
+  }
+
+  if (types.includes('tourist_attraction')) {
+    return !isMeaningfulTouristAttraction(place);
   }
 
   if (reviews === 0 && rating === 0) {
@@ -225,7 +279,7 @@ const savePlaces = async (places, dryRun) => {
 
 const fetchCityProfile = async (entry) => {
   const { city, profile } = entry;
-  const cityCoords = await getCityCoordinates(city);
+  const cityCoords = await getCityCoordinates(city, entry.geocodeQuery);
   if (!cityCoords) {
     throw new Error(`Failed to geocode ${city}`);
   }

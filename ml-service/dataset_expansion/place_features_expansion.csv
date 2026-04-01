@@ -613,6 +613,576 @@ Imen ConneXions,book store,4.1,0.5,chennai,13.0862942,80.2155573,0,4.1,2588,0,0,
 Max,shopping mall,4.0,0.5,chennai,13.1127322,80.23031189999999,0,4.0,2541,0,0,7.840706
 VASANTH & CO,shopping mall,3.6,0.5,chennai,13.0477673,80.2333146,0,3.6,2202,0,0,7.697575
 FOUNTAIN PLAZA,shopping mall,4.0,0.5,chennai,13.0682397,80.25594380000001,0,4.0,1860,0,0,7.528869
+India Gate,tourist attraction,4.6,0.5,delhi,28.612912,77.2295097,0,4.6,282355,0,0,12.550924
+Red Fort,tourist attraction,4.5,0.5,delhi,28.6561592,77.2410203,0,4.5,177739,0,0,12.088077
+Gurudwara Sisganj Sahib,tourist attraction,4.8,0.5,delhi,28.6559878,77.2325614,0,4.8,76525,0,0,11.245386
+Janpath Market,tourist attraction,4.2,0.5,delhi,28.6290786,77.21876379999999,0,4.2,72624,0,0,11.193064
+Jama Masjid,mosque,4.5,0.5,delhi,28.6506792,77.23344209999999,0,4.5,67956,0,0,11.12663
+Khan Market,tourist attraction,4.4,0.5,delhi,28.6003791,77.2273465,0,4.4,66475,0,0,11.104596
+Lodhi Garden,tourist attraction,4.5,0.5,delhi,28.5930959,77.21967939999999,0,4.5,56471,0,0,10.9415
+Swaminarayan Akshardham,hindu temple,4.6,0.5,delhi,28.6126735,77.2772619,0,4.6,54154,0,0,10.899606
+India Habitat Centre,tourist attraction,4.6,0.5,delhi,28.5896808,77.22556019999999,0,4.6,53285,0,0,10.883429
+Humayun’s Tomb,tourist attraction,4.5,0.5,delhi,28.5932848,77.2507492,0,4.5,49744,0,0,10.814665
+"National Zoological Park, Delhi",zoo,4.1,0.5,delhi,28.6062122,77.2452445,0,4.1,49038,0,0,10.800371
+Jantar Mantar,tourist attraction,4.2,0.5,delhi,28.6270547,77.21662669999999,0,4.2,35279,0,0,10.471072
+Raj Ghat Memorial New Delhi,tourist attraction,4.5,0.5,delhi,28.6406214,77.24950020000001,0,4.5,33454,0,0,10.417957
+Purana Quila,tourist attraction,4.2,0.5,delhi,28.6095744,77.24373709999999,0,4.2,33136,0,0,10.408406
+National Science Centre,tourist attraction,4.4,0.5,delhi,28.6131368,77.24538369999999,0,4.4,27705,0,0,10.229404
+National Rail Museum,tourist attraction,4.4,0.5,delhi,28.5849873,77.1814107,0,4.4,27234,0,0,10.212258
+Dargah Hazrat Nizamuddin Aulia,mosque,4.6,0.5,delhi,28.591358,77.2419427,0,4.6,26297,0,0,10.177248
+Hauz Khas District Park,park,4.4,0.5,delhi,28.5562492,77.19021219999999,0,4.4,17797,0,0,9.786841
+Shri Laxmi Narayan Temple (Birla Mandir),hindu temple,4.6,0.5,delhi,28.6326666,77.19899629999999,0,4.6,17579,0,0,9.774517
+Shri Sai Baba Mandir,hindu temple,4.8,0.5,delhi,28.5893714,77.22891640000002,0,4.8,16047,0,0,9.68334
+Indira Gandhi Memorial Museum,museum,4.5,0.5,delhi,28.59989269999999,77.2060499,0,4.5,15996,0,0,9.680156
+"Safdarjung Tomb, Delhi",tourist attraction,4.4,0.5,delhi,28.5894156,77.2106219,0,4.4,15948,0,0,9.677151
+National War Memorial,tourist attraction,4.8,0.5,delhi,28.6127174,77.23303949999999,0,4.8,15503,0,0,9.648853
+Rashtrapati Bhavan,tourist attraction,4.7,0.5,delhi,28.6143478,77.19942999999999,0,4.7,10825,0,0,9.289706
+Indraprastha Park,park,4.2,0.5,delhi,28.5966628,77.2546715,0,4.2,9568,0,0,9.166284
+Pusa Hill Forest,tourist attraction,4.3,0.5,delhi,28.6295382,77.1707387,0,4.3,9484,0,0,9.157467
+Feroz Shah Kotla,tourist attraction,4.2,0.5,delhi,28.6349159,77.2433053,0,4.2,8907,0,0,9.094705
+Lal quila,tourist attraction,4.5,0.5,delhi,28.6560237,77.2386518,0,4.5,8737,0,0,9.075437
+Ajmal Khan Park,park,4.0,0.5,delhi,28.653372,77.1957209,0,4.0,8645,0,0,9.064852
+Millennium Park,park,4.3,0.5,delhi,28.5965198,77.2547522,0,4.3,8627,0,0,9.062768
+National Crafts Museum & Hastkala Academy,tourist attraction,4.6,0.5,delhi,28.6136111,77.24249999999999,0,4.6,8353,0,0,9.030496
+Shankar Market,tourist attraction,4.1,0.5,delhi,28.634062,77.223564,0,4.1,8303,0,0,9.024493
+Kinari Bazar,tourist attraction,4.3,0.5,delhi,28.6547186,77.2332199,0,4.3,6663,0,0,8.804475
+Uttara Swamimalai Temple Sree Swaminath ji,hindu temple,4.7,0.5,delhi,28.567633,77.1657925,0,4.7,6577,0,0,8.791486
+Shankar's International Dolls Museum,museum,4.2,0.5,delhi,28.6304668,77.2414695,0,4.2,6362,0,0,8.758255
+Gandhi Smriti,museum,4.5,0.5,delhi,28.6018839,77.2144057,0,4.5,5857,0,0,8.675564
+Children's Park,park,4.3,0.5,delhi,28.6115018,77.23112309999999,0,4.3,5515,0,0,8.615408
+Buddha Jayanti Park,park,4.2,0.5,delhi,28.6155686,77.1785544,0,4.2,5388,0,0,8.592115
+Talkatora Garden,tourist attraction,4.5,0.5,delhi,28.6233606,77.19501269999999,0,4.5,4517,0,0,8.415825
+Kali Bari Temple,hindu temple,4.6,0.5,delhi,28.6303014,77.19727019999999,0,4.6,3986,0,0,8.290794
+Rashtrapati Bhavan Museum,tourist attraction,4.7,0.5,delhi,28.6188603,77.1966736,0,4.7,3904,0,0,8.270013
+Dandi March Statue,tourist attraction,4.5,0.5,delhi,28.6100791,77.1916153,0,4.5,3841,0,0,8.253748
+"Nehru Planetarium, New Delhi",tourist attraction,4.1,0.5,delhi,28.6039504,77.1980973,0,4.1,3550,0,0,8.174985
+Fatehpuri Masjid,mosque,4.3,0.5,delhi,28.6566489,77.22277059999999,0,4.3,3448,0,0,8.14584
+Dr. Zombie - Restaurant and Beyond,restaurant,4.5,0.5,delhi,28.6341223,77.21991320000001,0,4.5,3229,0,0,8.080237
+Sunehri Masjid,mosque,4.3,0.5,delhi,28.6504924,77.23958139999999,0,4.3,3204,0,0,8.072467
+"Isa Khan's Tomb, Delhi",tourist attraction,4.4,0.5,delhi,28.59228899999999,77.246214,0,4.4,3158,0,0,8.058011
+Sikandar Lodhi Tomb,tourist attraction,4.5,0.5,delhi,28.59628399999999,77.221555,0,4.5,3094,0,0,8.037543
+Inderlok Makki Jama Masjid,mosque,4.4,0.5,delhi,28.67132,77.1664852,0,4.4,3005,0,0,8.008366
+"Ayyappa Temple, New Delhi",hindu temple,4.8,0.5,delhi,28.5617611,77.18500399999999,0,4.8,2974,0,0,7.997999
+Aastha Kunj Park,park,4.3,0.5,delhi,28.5530161,77.2541653,0,4.3,2926,0,0,7.981733
+Deer Park Lake,park,4.3,0.5,delhi,28.5566499,77.1911315,0,4.3,2711,0,0,7.905442
+Shantivan,tourist attraction,4.4,0.5,delhi,28.64934419999999,77.2484399,0,4.4,2533,0,0,7.837554
+Priya Park,park,4.4,0.5,delhi,28.5590007,77.16576549999999,0,4.4,2275,0,0,7.730175
+South Part of Central Ridge Forest,tourist attraction,4.3,0.5,delhi,28.6174916,77.18589949999999,0,4.3,2255,0,0,7.721349
+India Africa Friendship Rose Garden,tourist attraction,4.4,0.5,delhi,28.5881629,77.18500379999999,0,4.4,2221,0,0,7.706163
+Bhuli Bhatiyari Ka Mahal,tourist attraction,3.9,0.5,delhi,28.6418274,77.1982489,0,3.9,2163,0,0,7.679714
+Matri Mandir,hindu temple,4.6,0.5,delhi,28.5623932,77.1909637,0,4.6,2001,0,0,7.601902
+Lal Bahadur Shastri Memorial (LBS Museum),museum,4.6,0.5,delhi,28.6082286,77.219111,0,4.6,1914,0,0,7.557473
+Shanti Stupa New Delhi,tourist attraction,4.4,0.5,delhi,28.6023829,77.2534199,0,4.4,1762,0,0,7.474772
+Charkha Museum,museum,4.2,0.5,delhi,28.6314073,77.2172054,0,4.2,1719,0,0,7.45008
+National Police Memorial,tourist attraction,4.7,0.5,delhi,28.6032819,77.1938055,0,4.7,1694,0,0,7.435438
+St Thomas’ Church,tourist attraction,4.5,0.5,delhi,28.56235689999999,77.18770599999999,0,4.5,1488,0,0,7.30586
+Jheel Park,park,4.1,0.5,delhi,28.5885616,77.1607391,0,4.1,1372,0,0,7.224753
+Amar Jawan Jyoti,tourist attraction,4.7,0.5,delhi,28.6127336,77.2330415,0,4.7,1357,0,0,7.213768
+Qudsia Bagh,park,4.3,0.5,delhi,28.6709944,77.2283008,0,4.3,1199,0,0,7.090077
+Amrit Udyan Entry Gate 35,tourist attraction,4.5,0.5,delhi,28.6176956,77.1990814,0,4.5,1080,0,0,6.985642
+National Agricultural Science Museum,museum,4.5,0.5,delhi,28.6263901,77.1619638,0,4.5,1066,0,0,6.972606
+Satya Niketan Park,park,4.1,0.5,delhi,28.5869974,77.1676932,0,4.1,1054,0,0,6.961296
+Masjid Moth,mosque,4.1,0.5,delhi,28.56245800000001,77.2176906,0,4.1,1039,0,0,6.946976
+Centenary Methodist Church,tourist attraction,4.7,0.5,delhi,28.5921232,77.2393283,0,4.7,1004,0,0,6.912743
+Darya Khan's Tomb,tourist attraction,4.3,0.5,delhi,28.5722418,77.21669349999999,0,4.3,987,0,0,6.895683
+Dr. A.P.J. Abdul Kalam Memorial,tourist attraction,4.6,0.5,delhi,28.57347519999999,77.20607919999999,0,4.6,861,0,0,6.759255
+National Gandhi Museum,museum,4.4,0.5,delhi,28.6389073,77.2459101,0,4.4,849,0,0,6.745236
+Hauz Khas Village Park,tourist attraction,4.5,0.5,delhi,28.5537889,77.1921596,0,4.5,821,0,0,6.71174
+Chabad Of Delhi,tourist attraction,4.7,0.5,delhi,28.6406324,77.2112855,0,4.7,777,0,0,6.656727
+Shri Sanwali Murti Mandir,hindu temple,4.9,0.5,delhi,28.6568332,77.19833600000001,0,4.9,718,0,0,6.577861
+Razia Sultan Tomb,tourist attraction,4.2,0.5,delhi,28.64641409999999,77.2318161,0,4.2,715,0,0,6.57368
+Prime Minister's Museum & Library,museum,4.5,0.5,delhi,28.6026399,77.1987706,0,4.5,685,0,0,6.530878
+"Diwan-i-Aam, Delhi",tourist attraction,4.5,0.5,delhi,28.6557639,77.242283,0,4.5,666,0,0,6.50279
+Lake Park,park,4.4,0.5,delhi,28.5797133,77.2071733,0,4.4,643,0,0,6.467699
+Keshav Park,park,4.0,0.5,delhi,28.5769211,77.19551299999999,0,4.0,641,0,0,6.464588
+Gandhi Darshan,tourist attraction,4.5,0.5,delhi,28.6382535,77.2494957,0,4.5,623,0,0,6.43615
+Auliya Masjid مسجد,mosque,4.5,0.5,delhi,28.635165,77.22125319999999,0,4.5,606,0,0,6.408529
+Sabz Burj,tourist attraction,4.3,0.5,delhi,28.5931794,77.24362579999999,0,4.3,597,0,0,6.393591
+Parliament Museum,museum,4.4,0.5,delhi,28.61875029999999,77.2072444,0,4.4,592,0,0,6.385194
+Kale Khan Ka Makbara,tourist attraction,3.9,0.5,delhi,28.570097,77.218924,0,3.9,546,0,0,6.304449
+Archaeological Museum Red Fort,museum,4.4,0.5,delhi,28.6557445,77.2409885,0,4.4,535,0,0,6.284134
+Moti Masjid,mosque,4.4,0.5,delhi,28.6568443,77.2431421,0,4.4,521,0,0,6.257668
+Diwan-i-Khas,tourist attraction,4.5,0.5,delhi,28.6564053,77.2435538,0,4.5,516,0,0,6.248043
+Shri Ram Hanuman Vatika,hindu temple,4.5,0.5,delhi,28.6429485,77.2296697,0,4.5,509,0,0,6.234411
+Bharat Mandapam Gate No. 4,tourist attraction,4.6,0.5,delhi,28.6130129,77.2444154,0,4.6,506,0,0,6.228511
+Indian War Memorial Museum,museum,4.4,0.5,delhi,28.6558561,77.2409955,0,4.4,494,0,0,6.204558
+1857 Mutiny Memorial,tourist attraction,4.3,0.5,delhi,28.6713219,77.210762,0,4.3,462,0,0,6.137727
+Mumtaz Mahal,tourist attraction,4.2,0.5,delhi,28.6545162,77.24343540000001,0,4.2,462,0,0,6.137727
+Bara Gumbad,tourist attraction,4.5,0.5,delhi,28.5929147,77.2204086,0,4.5,438,0,0,6.084499
+Ghalib Academy,tourist attraction,4.1,0.5,delhi,28.5914656,77.2432445,0,4.1,431,0,0,6.068426
+National Philatelic Museum,museum,4.4,0.5,delhi,28.6226256,77.21341480000001,0,4.4,427,0,0,6.059123
+Hanuman Mandir Chanakyapuri,hindu temple,4.8,0.5,delhi,28.5936707,77.19626099999999,0,4.8,391,0,0,5.971262
+Nag Mandir,hindu temple,4.4,0.5,delhi,28.6743059,77.17568589999999,0,4.4,393,0,0,5.976351
+Shish Gumbad,tourist attraction,4.4,0.5,delhi,28.5938185,77.2202047,0,4.4,374,0,0,5.926926
+Sunehri Masjid Chandni Chowk,mosque,4.5,0.5,delhi,28.656057,77.2318982,0,4.5,341,0,0,5.834811
+Mahatma Gandhi Museum,museum,4.4,0.5,delhi,28.6382602,77.2501309,0,4.4,317,0,0,5.762051
+Dhaula kua bus stop,tourist attraction,4.2,0.5,delhi,28.593013,77.163619,0,4.2,316,0,0,5.758902
+Munda Gumbad,tourist attraction,4.3,0.5,delhi,28.5566641,77.19170620000001,0,4.3,295,0,0,5.690359
+Khas Mahal,tourist attraction,4.4,0.5,delhi,28.65609339999999,77.2436017,0,4.4,285,0,0,5.655992
+Shah Burj,tourist attraction,4.2,0.5,delhi,28.65859769999999,77.2437455,0,4.2,253,0,0,5.537334
+Bhagwan Valmiki Mandir,hindu temple,4.5,0.5,delhi,28.6405971,77.2029293,0,4.5,249,0,0,5.521461
+"Rang Mahal, New Delhi",tourist attraction,4.4,0.5,delhi,28.6555279,77.24347279999999,0,4.4,246,0,0,5.509388
+Neela Gumbad,tourist attraction,4.2,0.5,delhi,28.5919441,77.2531303,0,4.2,243,0,0,5.497168
+Supreme Court Museum,museum,4.3,0.5,delhi,28.62417599999999,77.24015709999999,0,4.3,239,0,0,5.480639
+Hathi Matha Park,park,4.0,0.5,delhi,28.6695568,77.1907488,0,4.0,242,0,0,5.493061
+Jaipur Column,tourist attraction,4.6,0.5,delhi,28.6142505,77.2018255,0,4.6,226,0,0,5.42495
+Color Leaf sign & fabrication,mosque,4.6,0.5,delhi,28.645055,77.2307879,0,4.6,218,0,0,5.389072
+Main Lake Raj Ghat,tourist attraction,4.5,0.5,delhi,28.6444147,77.2503756,0,4.5,186,0,0,5.231109
+Pir Ghaib,tourist attraction,4.2,0.5,delhi,28.6764426,77.2132809,0,4.2,180,0,0,5.198497
+Masjid Ahle Hadees,mosque,4.4,0.5,delhi,28.647606,77.2253305,0,4.4,173,0,0,5.159055
+Bhogal Buddha Vihar,tourist attraction,4.6,0.5,delhi,28.5838248,77.2457582,0,4.6,169,0,0,5.135798
+Jantar Mantar Protest Site,tourist attraction,4.4,0.5,delhi,28.6257081,77.2158381,0,4.4,166,0,0,5.117994
+Zafar Mahal,tourist attraction,4.4,0.5,delhi,28.6577339,77.24261659999999,0,4.4,160,0,0,5.081404
+Vasant Vihar park,park,4.4,0.5,delhi,28.564367,77.158484,0,4.4,154,0,0,5.043425
+"Talāqi Darwaza, Purana Qila",tourist attraction,4.3,0.5,delhi,28.611749,77.24163399999999,0,4.3,154,0,0,5.043425
+Mansa Devi Temple,hindu temple,4.7,0.5,delhi,28.5667228,77.17078160000001,0,4.7,136,0,0,4.919981
+Ghaziuddin Masjid,mosque,4.6,0.5,delhi,28.6459242,77.22240649999999,0,4.6,127,0,0,4.85203
+Zoology Park,tourist attraction,4.2,0.5,delhi,28.6075983,77.2415367,0,4.2,116,0,0,4.762174
+Tibet House,tourist attraction,4.3,0.5,delhi,28.5905219,77.2277361,0,4.3,85,0,0,4.454347
+Wall Of Truth,tourist attraction,4.6,0.5,delhi,28.61958229999999,77.2049107,0,4.6,74,0,0,4.317488
+"National Bonsai Park, Lodhi Garden",park,4.6,0.5,delhi,28.5911625,77.22082809999999,0,4.6,73,0,0,4.304065
+Public Park,park,4.2,0.5,delhi,28.6311704,77.2114594,0,4.2,73,0,0,4.304065
+Delhi gate red fort,tourist attraction,4.4,0.5,delhi,28.6519886,77.23985929999999,0,4.4,70,0,0,4.26268
+Amar Nath Sehgal Private Collection,museum,4.3,0.5,delhi,28.5824351,77.2407005,0,4.3,66,0,0,4.204693
+Fort Rouge,tourist attraction,4.3,0.5,delhi,28.6558708,77.2367557,0,4.3,61,0,0,4.127134
+Charti Lal Goel Heritage Park,tourist attraction,3.9,0.5,delhi,28.65270019999999,77.2364059,0,3.9,62,0,0,4.143135
+Bhagwan Valmiki Mandir,hindu temple,4.1,0.5,delhi,28.642369,77.2410743,0,4.1,54,0,0,4.007333
+Vishnu Mandir,hindu temple,4.5,0.5,delhi,28.6515366,77.1883655,0,4.5,49,0,0,3.912023
+Eco Adventure Park,park,3.8,0.5,delhi,28.5917136,77.25840749999999,0,3.8,51,0,0,3.951244
+Jor Bagh Park,park,4.2,0.5,delhi,28.58794889999999,77.217827,0,4.2,34,0,0,3.555348
+Luv Indiya Concepts,tourist attraction,3.8,0.5,delhi,28.6562646,77.2401192,0,3.8,37,0,0,3.637586
+Plaster Trove Fort,tourist attraction,4.5,0.5,delhi,28.5974539,77.24643809999999,0,4.5,11,0,0,2.484907
+"Excavation Branch- II , Archaeological Survey Of India",museum,4.1,0.5,delhi,28.65305219999999,77.2399123,0,4.1,14,0,0,2.70805
+Karumariamman Temple,hindu temple,4.4,0.5,delhi,28.6458121,77.1921891,0,4.4,9,0,0,2.302585
+Luv Indiya Concepts,tourist attraction,5.0,0.5,delhi,28.6018839,77.2144057,0,5.0,1,0,0,0.693147
+Old Delhi Heritage & Food walking tours,tourist attraction,5.0,0.5,delhi,28.6560651,77.2359462,0,5.0,1,0,0,0.693147
+Delhi national zoo Lake,tourist attraction,4.1,0.5,delhi,28.6046857,77.2467948,0,4.1,7,0,0,2.079442
+Bhawan,hindu temple,4.0,0.5,delhi,28.6462037,77.186527,0,4.0,4,0,0,1.609438
+"Arawali hill park, Motilal college",tourist attraction,3.1,0.5,delhi,28.57780339999999,77.1594212,0,3.1,7,0,0,2.079442
+"The G20 Park - Chanakyapuri, New Delhi, Delhi, India",tourist attraction,0.0,0.5,delhi,28.59723829999999,77.1904041,0,0.0,0,0,0,0.0
+DDA's Sadbhavna Park,tourist attraction,0.0,0.5,delhi,28.6437792,77.24607069999999,0,0.0,0,0,0,0.0
+Museum of Illusions,museum,4.6,0.5,delhi,28.6334486,77.2181884,0,4.6,43640,0,0,10.683752
+"National Museum, New Delhi",museum,4.6,0.5,delhi,28.6119078,77.21929089999999,0,4.6,20514,0,0,9.928912
+National Gallery of Modern Art,art gallery,4.5,0.5,delhi,28.61019259999999,77.2344179,0,4.5,9354,0,0,9.143666
+Pradhanmantri Sangrahalaya,museum,4.7,0.5,delhi,28.6016294,77.1987213,0,4.7,8035,0,0,8.991687
+Metro Museum,museum,4.2,0.5,delhi,28.6224917,77.2139834,0,4.2,526,0,0,6.267201
+RAIL MUSEUM TOURIST TAXI SERVICE,museum,4.4,0.5,delhi,28.5849319,77.1809907,0,4.4,482,0,0,6.180017
+Archaeological Museum,museum,4.2,0.5,delhi,28.6083469,77.2428377,0,4.2,482,0,0,6.180017
+Humayun's Tomb Museum,museum,4.6,0.5,delhi,28.5938922,77.2442346,0,4.6,414,0,0,6.028279
+DAG,art gallery,4.4,0.5,delhi,28.6181151,77.21913669999999,0,4.4,378,0,0,5.937536
+How To Crack SSB by Ujjwal Chugh | SSB Recommendation Journey,museum,4.8,0.5,delhi,28.6436862,77.24409639999999,0,4.8,222,0,0,5.407172
+GATE No 37 Rastrapati Bhawan.,museum,4.7,0.5,delhi,28.61108,77.2016295,0,4.7,221,0,0,5.402677
+Partition Museum & Dara Shukoh Library Cultural Hub,museum,4.6,0.5,delhi,28.6633866,77.2331572,0,4.6,218,0,0,5.389072
+"Archaeological Survey of India, Dharohar Bhawan",museum,4.6,0.5,delhi,28.6247108,77.2392621,0,4.6,212,0,0,5.361292
+"Shri Guru Ravidas Vishram Dham Mandir, Karol Bagh",place of worship,4.5,0.5,delhi,28.6558731,77.1885879,0,4.5,176,0,0,5.17615
+Bhai Mati Das Museum,museum,4.2,0.5,delhi,28.6564862,77.2324008,0,4.2,161,0,0,5.087596
+"Swatantrata Sangram Museum, New Delhi",museum,4.4,0.5,delhi,28.6574262,77.2420671,0,4.4,152,0,0,5.030438
+UPSC MUSEUM BUILDING,museum,4.7,0.5,delhi,28.608962,77.2277391,0,4.7,136,0,0,4.919981
+Satyagraha Mandap,museum,4.4,0.5,delhi,28.6365125,77.2512344,0,4.4,120,0,0,4.795791
+Bahujan Prerna Kendra,museum,4.3,0.5,delhi,28.6202873,77.2023537,0,4.3,106,0,0,4.672829
+ASI Children's Museum,museum,3.9,0.5,delhi,28.5525514,77.2151188,0,3.9,107,0,0,4.682131
+"Kranti Mandir Netaji Subhas Chandra Bose Museum Red Fort, New Delhi",museum,4.7,0.5,delhi,28.65822619999999,77.2420487,0,4.7,84,0,0,4.442651
+"Museum On 1857- India's First War Of Independence, New Delhi",museum,4.5,0.5,delhi,28.6565568,77.24204259999999,0,4.5,85,0,0,4.454347
+The Arthouse Eats,art gallery,4.0,0.5,delhi,28.6304526,77.2214618,0,4.0,2486,0,0,7.818832
+"Santushti Shopping Complex, Chanakyapuri",shopping mall,4.4,0.5,delhi,28.5951306,77.19831289999999,0,4.4,1771,0,0,7.479864
+Lalit Kala Akademi,art gallery,4.5,0.5,delhi,28.6247248,77.23105369999999,0,4.5,1752,0,0,7.469084
+Portraits Maker & Sketch Artist Studio,art gallery,4.9,0.5,delhi,28.5797978,77.2012946,0,4.9,767,0,0,6.64379
+AIFACS Gallery ( All India Fine Arts & Crafts Society ),art gallery,4.5,0.5,delhi,28.6177587,77.211891,0,4.5,689,0,0,6.536692
+Triveni Kala Sangam,art gallery,4.6,0.5,delhi,28.6273175,77.2324302,0,4.6,635,0,0,6.455199
+Sketch Artist With Portrait Painting,art gallery,4.9,0.5,delhi,28.5923156,77.1525159,0,4.9,521,0,0,6.257668
+Dhoomimal Art Centre,art gallery,4.0,0.5,delhi,28.6327459,77.2178464,0,4.0,439,0,0,6.086775
+The Attic,art gallery,4.1,0.5,delhi,28.6295158,77.2168682,0,4.1,373,0,0,5.924256
+Visual Arts Gallery,art gallery,4.6,0.5,delhi,28.589505,77.224758,0,4.6,279,0,0,5.63479
+Dhoomimal Gallery,art gallery,4.3,0.5,delhi,28.6324022,77.2167607,0,4.3,255,0,0,5.545177
+Art Heritage,art gallery,4.6,0.5,delhi,28.62745649999999,77.2324003,0,4.6,217,0,0,5.384495
+Vadehra Art Gallery,art gallery,4.2,0.5,delhi,28.570767,77.235817,0,4.2,215,0,0,5.375278
+Rang art Gallery,art gallery,4.8,0.5,delhi,28.5549282,77.19429559999999,0,4.8,201,0,0,5.308268
+ART INDIA,art gallery,4.1,0.5,delhi,28.5794667,77.2383487,0,4.1,196,0,0,5.283204
+Cauvery Karnataka state arts and Craft Emporium,art gallery,4.2,0.5,delhi,28.6298918,77.2123222,0,4.2,181,0,0,5.204007
+Lokayata Art Gallery,art gallery,4.4,0.5,delhi,28.554917,77.1955462,0,4.4,155,0,0,5.049856
+ARPANA CAUR,art gallery,4.5,0.5,delhi,28.5542108,77.2143837,0,4.5,145,0,0,4.983607
+Nature Morte,art gallery,4.3,0.5,delhi,28.561103,77.1660947,0,4.3,138,0,0,4.934474
+SHIFTED TO KIRTI NAGAR - Archit Art Gallery,art gallery,4.8,0.5,delhi,28.6314416,77.2069185,0,4.8,113,0,0,4.736198
+The Lexicon Art,art gallery,4.4,0.5,delhi,28.6317155,77.2224021,0,4.4,98,0,0,4.59512
+ArchitArtGallery,art gallery,4.7,0.5,delhi,28.6453296,77.1424909,0,4.7,89,0,0,4.49981
+Moti Art House,art gallery,4.6,0.5,delhi,28.6350465,77.2220696,0,4.6,86,0,0,4.465908
+Central Park,park,4.3,0.5,delhi,28.6329963,77.2194782,0,4.3,27346,0,0,10.216362
+Nehru Park New Delhi,park,4.5,0.5,delhi,28.5909688,77.19320030000002,0,4.5,20101,0,0,9.908575
+Ramlila Maidan,park,4.0,0.5,delhi,28.64207619999999,77.2295204,0,4.0,5904,0,0,8.683555
+Jheel Park,park,4.1,0.5,delhi,28.647462,77.178162,0,4.1,1866,0,0,7.532088
+Karol Bagh Tricona Park,park,3.8,0.5,delhi,28.6477146,77.182221,0,3.8,1796,0,0,7.493874
+Sanjay Jheel & Park,park,4.4,0.5,delhi,28.579803,77.2088089,0,4.4,1548,0,0,7.345365
+Durga Puja Park Aram Bagh,park,4.3,0.5,delhi,28.6412263,77.2073499,0,4.3,1348,0,0,7.207119
+Satya Park,park,4.3,0.5,delhi,28.64722699999999,77.148904,0,4.3,1080,0,0,6.985642
+Netaji Subhash Chandra Bose Canopy Delhi,park,4.7,0.5,delhi,28.6128714,77.23107379999999,0,4.7,995,0,0,6.903747
+Rajendra Park,park,4.2,0.5,delhi,28.6402541,77.1775432,0,4.2,947,0,0,6.854355
+Birbal Park,park,4.0,0.5,delhi,28.5825147,77.2445109,0,4.0,824,0,0,6.715383
+Thyagaraj Park,park,4.1,0.5,delhi,28.5783447,77.21505599999999,0,4.1,796,0,0,6.680855
+Charbagh Gardens,park,4.3,0.5,delhi,28.5812016,77.2140474,0,4.3,764,0,0,6.639876
+Park/Mini Cricket Stadium,park,4.1,0.5,delhi,28.6419387,77.2716123,0,4.1,751,0,0,6.622736
+Vijay Ghat,park,4.4,0.5,delhi,28.6541415,77.2469813,0,4.4,724,0,0,6.586172
+"Community Centre, Tikona Parkmotiakhan",park,4.0,0.5,delhi,28.6545742,77.207351,0,4.0,700,0,0,6.552508
+Pandara Park,park,4.3,0.5,delhi,28.6058013,77.2330147,0,4.3,628,0,0,6.444131
+SHAHEED CAPTAIN AMIT VERMA PARK,park,4.2,0.5,delhi,28.6255868,77.1478872,0,4.2,479,0,0,6.173786
+W Block Park,park,4.2,0.5,delhi,28.5541463,77.2345392,0,4.2,473,0,0,6.161207
+"Joggers Park, East Patel Nagar",park,4.2,0.5,delhi,28.6460189,77.1726747,0,4.2,438,0,0,6.084499
+Bharat Mandapam,point of interest,4.3,0.5,delhi,28.6195928,77.2425191,0,4.3,61337,0,0,11.024155
+"Jawaharlal Nehru Stadium, Delhi",stadium,4.5,0.5,delhi,28.5829248,77.2343521,0,4.5,27747,0,0,10.230919
+Delite Cinema,movie theater,4.1,0.5,delhi,28.6412339,77.2358612,0,4.1,18682,0,0,9.835369
+Starbucks,cafe,4.3,0.5,delhi,28.6321801,77.2177729,0,4.3,18576,0,0,9.82968
+Talkatora Stadium,stadium,4.4,0.5,delhi,28.6227215,77.1932523,0,4.4,14208,0,0,9.561631
+Parikrama The Revolving Restaurant,bar,4.0,0.5,delhi,28.628619,77.22301399999999,0,4.0,10999,0,0,9.305651
+McDonald's,restaurant,4.3,0.5,delhi,28.6265809,77.2196086,0,4.3,8218,0,0,9.014204
+Sacred Heart Cathedral,church,4.7,0.5,delhi,28.628577,77.2067235,0,4.7,6131,0,0,8.721276
+Amour Bistro,cafe,4.3,0.5,delhi,28.60154339999999,77.18640789999999,0,4.3,5551,0,0,8.621914
+Indian Coffee House,cafe,3.7,0.5,delhi,28.630829,77.2158515,0,3.7,5431,0,0,8.600063
+Cafe Lota,cafe,4.4,0.5,delhi,28.6136111,77.24249999999999,0,4.4,4527,0,0,8.418036
+"J U G G E R N A U T, Barakhamba Road",restaurant,4.0,0.5,delhi,28.6294013,77.2260981,0,4.0,4316,0,0,8.370316
+Central Cottage Industries Emporium,point of interest,4.4,0.5,delhi,28.62592919999999,77.21953119999999,0,4.4,3967,0,0,8.286017
+Cathedral Church of The Redemption (C.N.I.),church,4.6,0.5,delhi,28.6179849,77.2020945,0,4.6,2644,0,0,7.880426
+St. James' Church ( C.N.I ),church,4.3,0.5,delhi,28.66571739999999,77.2309379,0,4.3,942,0,0,6.849066
+Our mother of health vailankanni shrine,church,4.8,0.5,delhi,28.6025402,77.2258844,0,4.8,631,0,0,6.448889
+St. Stephen's Church ( C.N.I ),church,4.3,0.5,delhi,28.6591493,77.2231587,0,4.3,559,0,0,6.327937
+"St. Dominic’s Church, Delhi",church,4.6,0.5,delhi,28.5613223,77.1676493,0,4.6,487,0,0,6.190315
+Free Church ( C.N.I ) Connaught Place,church,4.6,0.5,delhi,28.6259836,77.2152986,0,4.6,345,0,0,5.846439
+Apostles Methodist Church,church,4.7,0.5,delhi,28.55692719999999,77.1763101,0,4.7,313,0,0,5.749393
+Delhi Bible Fellowship,church,4.7,0.5,delhi,28.6314958,77.2049705,0,4.7,284,0,0,5.652489
+Mother Mary Church,church,4.8,0.5,delhi,28.6024061,77.22590919999999,0,4.8,280,0,0,5.638355
+St. Martin's Church ( C.N.I ),church,4.7,0.5,delhi,28.5963059,77.1461795,0,4.7,208,0,0,5.342334
+The Bible Society Of India,book store,4.7,0.5,delhi,28.625625,77.21492099999999,0,4.7,192,0,0,5.26269
+St. Mary's Catholic Church,church,4.2,0.5,delhi,28.6598069,77.2345187,0,4.2,169,0,0,5.135798
+Northern India Union of Seventh Day Adventist Church,church,4.6,0.5,delhi,28.626647,77.227631,0,4.6,160,0,0,5.081404
+St. Michael's Church,church,4.7,0.5,delhi,28.6468296,77.1808125,0,4.7,159,0,0,5.075174
+Full Life Assembly of God Church (FLAG) | Church in Delhi,church,4.6,0.5,delhi,28.6443218,77.1810934,0,4.6,148,0,0,5.003946
+ISKCON Temple - Glory of India,hindu temple,4.7,0.5,delhi,28.5560608,77.2538685,0,4.7,32570,0,0,10.391178
+"Pracheen Hanuman Mandir, Connaught Place",hindu temple,4.8,0.5,delhi,28.62989469999999,77.2150078,0,4.8,23059,0,0,10.045855
+Sri Kilkari Baba Bhaironath Ji Pandav Kalin Mandir,hindu temple,4.7,0.5,delhi,28.6110836,77.244766,0,4.7,3977,0,0,8.288534
+Sri Venkateswara Swamy Temple (Tirupati Balaji Mandir),hindu temple,4.8,0.5,delhi,28.6286136,77.1979286,0,4.8,3828,0,0,8.250359
+ISKCON EAST DELHI,hindu temple,4.9,0.5,delhi,28.64962779999999,77.274264,0,4.9,3640,0,0,8.200014
+Sree Vinayaka Mandir,hindu temple,4.8,0.5,delhi,28.5718482,77.199975,0,4.8,1052,0,0,6.959399
+Kali Temple,hindu temple,4.7,0.5,delhi,28.63005489999999,77.2082247,0,4.7,709,0,0,6.565265
+"ISKCON Temple, Chhipiwara",hindu temple,4.7,0.5,delhi,28.6518546,77.23195280000002,0,4.7,554,0,0,6.318968
+Chhath Ghat,hindu temple,3.9,0.5,delhi,28.62662389999999,77.25327539999999,0,3.9,561,0,0,6.331502
+Baba Balak Nath Temple,hindu temple,4.8,0.5,delhi,28.580987,77.16671079999999,0,4.8,474,0,0,6.163315
+Shri Durga mandir,hindu temple,4.6,0.5,delhi,28.6291992,77.1752968,0,4.6,351,0,0,5.863631
+Shree Ram Sharnam,hindu temple,4.8,0.5,delhi,28.564948,77.235478,0,4.8,339,0,0,5.828946
+Shree Hanuman Ji Temple,hindu temple,4.5,0.5,delhi,28.6456751,77.2180478,0,4.5,339,0,0,5.828946
+Shri Laxmi Narayan Sanatan Dharam Mandir,hindu temple,4.5,0.5,delhi,28.5667776,77.2429631,0,4.5,333,0,0,5.811141
+Shri Raghunath Mandir,hindu temple,4.5,0.5,delhi,28.5618474,77.2442185,0,4.5,331,0,0,5.805135
+Shankar Vidya Kendra - Sringeri Sharada Math,hindu temple,4.6,0.5,delhi,28.5660034,77.157517,0,4.6,299,0,0,5.703782
+Ahobila Sri Lakshmi Narasimha Temple,hindu temple,4.9,0.5,delhi,28.6454808,77.1809879,0,4.9,290,0,0,5.673323
+Shri Sanatan Dharm Mandir,hindu temple,4.5,0.5,delhi,28.580808,77.2178689,0,4.5,287,0,0,5.66296
+"Arya Samaj Temple, Connaught Place",hindu temple,4.4,0.5,delhi,28.6280578,77.21304959999999,0,4.4,265,0,0,5.583496
+"Saraswath Sanskriti Bhawan (G S Samaj, Delhi)",hindu temple,4.7,0.5,delhi,28.6350882,77.1771808,0,4.7,261,0,0,5.568345
+Maa Vaishno Devi Mandir,hindu temple,4.8,0.5,delhi,28.6733509,77.1873081,0,4.8,241,0,0,5.488938
+Sanatan Dharam Mandir,hindu temple,4.6,0.5,delhi,28.580238,77.24542459999999,0,4.6,222,0,0,5.407172
+Banglewali Masjid Markaz Nizamuddin Delhi,mosque,4.8,0.5,delhi,28.5918991,77.2433834,0,4.8,1108,0,0,7.011214
+Nili Masjid,mosque,4.5,0.5,delhi,28.55358289999999,77.2069198,0,4.5,827,0,0,6.719013
+Defence Colony Masjid,mosque,4.8,0.5,delhi,28.5782602,77.2339192,0,4.8,729,0,0,6.593045
+Moti Masjid موتی مسجد,mosque,4.5,0.5,delhi,28.6338043,77.2183479,0,4.5,599,0,0,6.39693
+Karol Bagh Jama masjid,mosque,4.5,0.5,delhi,28.65028619999999,77.1943191,0,4.5,432,0,0,6.070738
+Dargah Matka Peer,mosque,4.5,0.5,delhi,28.6140592,77.24042899999999,0,4.5,390,0,0,5.968708
+हरी मस्जिद,mosque,4.3,0.5,delhi,28.6451083,77.2107922,0,4.3,342,0,0,5.83773
+Karbala Jor Bagh,place of worship,4.5,0.5,delhi,28.5848541,77.2157257,0,4.5,333,0,0,5.811141
+Shahi Masjid شاہی مسجد,mosque,4.9,0.5,delhi,28.5636477,77.1494618,0,4.9,262,0,0,5.572154
+Sultani Masjid,mosque,4.6,0.5,delhi,28.5548902,77.1777444,0,4.6,233,0,0,5.455321
+Sunehari Bagh Masjid,mosque,4.7,0.5,delhi,28.610384,77.21202400000001,0,4.7,226,0,0,5.42495
+Chabad - South Delhi,synagogue,4.9,0.5,delhi,28.56091439999999,77.1562197,0,4.9,151,0,0,5.023881
+Synagogue Judah Hyam,synagogue,4.4,0.5,delhi,28.6035878,77.2258626,0,4.4,72,0,0,4.290459
+Varghese,synagogue,0.0,0.5,delhi,28.6440379,77.2095003,0,0.0,0,0,0,0.0
+Spa centre,synagogue,0.0,0.5,delhi,28.5691402,77.2254897,0,0.0,0,0,0,0.0
+Heaven,synagogue,0.0,0.5,delhi,28.5533372,77.2425636,0,0.0,0,0,0,0.0
+Aruw,synagogue,0.0,0.5,delhi,28.6441031,77.23069989999999,0,0.0,0,0,0,0.0
+Ali's house,synagogue,0.0,0.5,delhi,28.6619252,77.1665676,0,0.0,0,0,0,0.0
+Palika Bazar Underground Shopping Complex,shopping mall,4.0,0.5,delhi,28.6306697,77.2189361,0,4.0,22669,0,0,10.028798
+Moments Mall,shopping mall,4.1,0.5,delhi,28.6570374,77.1467422,0,4.1,20112,0,0,9.909122
+DLF South Square,shopping mall,4.2,0.5,delhi,28.5761814,77.19479369999999,0,4.2,13924,0,0,9.541441
+Sangam Courtyard,shopping mall,4.4,0.5,delhi,28.5726138,77.1735288,0,4.4,11839,0,0,9.379239
+The Chanakya,shopping mall,4.6,0.5,delhi,28.5843214,77.1907135,0,4.6,8506,0,0,9.048645
+TAJ Global leader,shopping mall,4.0,0.5,delhi,28.5846166,77.1917181,0,4.0,6380,0,0,8.76108
+Max,shopping mall,4.0,0.5,delhi,28.5669514,77.24635669999999,0,4.0,3345,0,0,8.115521
+Graffiti lane,shopping mall,4.2,0.5,delhi,28.5769421,77.1961749,0,4.2,2876,0,0,7.964503
+"Westside - South Ex., Delhi",clothing store,4.1,0.5,delhi,28.5678629,77.223995,0,4.1,2821,0,0,7.945201
+"Westside - Karol Bagh, Delhi",clothing store,4.1,0.5,delhi,28.645937,77.18894999999999,0,4.1,2731,0,0,7.912789
+Csd,shopping mall,4.5,0.5,delhi,28.5940572,77.206901,0,4.5,2140,0,0,7.669028
+Square one mall sarojini nagar,shopping mall,4.1,0.5,delhi,28.5764652,77.1951114,0,4.1,1916,0,0,7.558517
+CTC Mall,shopping mall,4.0,0.5,delhi,28.66288669999999,77.1529728,0,4.0,1672,0,0,7.422374
+Mohan Singh Place Office cum Shopping Complex,clothing store,4.0,0.5,delhi,28.6308274,77.2159425,0,4.0,1380,0,0,7.230563
+Garhwal Bhawan,clothing store,3.9,0.5,delhi,28.64270399999999,77.2021827,0,3.9,1319,0,0,7.185387
+"SNITCH - LAJPAT NAGAR, DELHI",shopping mall,4.6,0.5,delhi,28.568302,77.2450927,0,4.6,1288,0,0,7.161622
+"3C's Mall, Lajpat Nagar",shopping mall,4.1,0.5,delhi,28.5677944,77.2410657,0,4.1,1259,0,0,7.138867
+Sai care salutions,shopping mall,3.8,0.5,delhi,28.6501048,77.1915211,0,3.8,995,0,0,6.903747
+Chandrani Pearls (New Delhi - Lajpat Nagar),jewelry store,4.8,0.5,delhi,28.5695877,77.2397762,0,4.8,829,0,0,6.721426
+Dariba Kalan,shopping mall,4.2,0.5,delhi,28.6560788,77.233524,0,4.2,684,0,0,6.529419
+Sahil Fashion Bazar,shopping mall,4.7,0.5,delhi,28.6479041,77.191296,0,4.7,674,0,0,6.514713
+Fort Aguada,tourist attraction,4.2,0.5,goa,15.4922519,73.77374619999999,0,4.2,109403,0,0,11.602803
+"Calangute Beach, Goa",tourist attraction,4.3,0.5,goa,15.5447206,73.75466899999999,0,4.3,102489,0,0,11.537521
+Basilica of Bom Jesus,tourist attraction,4.5,0.5,goa,15.5008238,73.9114061,0,4.5,68374,0,0,11.132763
+Dona Paula View Point,tourist attraction,4.1,0.5,goa,15.4506125,73.8029961,0,4.1,49045,0,0,10.800514
+Candolim Beach,tourist attraction,4.5,0.5,goa,15.5179749,73.76261219999999,0,4.5,46165,0,0,10.739999
+Deltin Royale,casino,4.3,0.5,goa,15.5016184,73.8274399,0,4.3,31684,0,0,10.363599
+Our Lady of the Immaculate Conception Church,tourist attraction,4.4,0.5,goa,15.4986025,73.82969779999999,0,4.4,27819,0,0,10.23351
+Shree Mangesh Temple Goa,hindu temple,4.6,0.5,goa,15.4449051,73.9663825,0,4.6,24142,0,0,10.09175
+"Snow Park, Goa",tourist attraction,4.2,0.5,goa,15.5574607,73.7552656,0,4.2,19731,0,0,9.889997
+Sinquerim Fort,tourist attraction,4.5,0.5,goa,15.4984466,73.7663559,0,4.5,19480,0,0,9.877195
+Casino Pride,casino,4.1,0.5,goa,15.5014739,73.8278952,0,4.1,18573,0,0,9.829518
+Japanese Garden,park,4.1,0.5,goa,15.4069725,73.7871306,0,4.1,8421,0,0,9.038603
+Abyss,aquarium,4.0,0.5,goa,15.3741075,73.92605920000001,0,4.0,8319,0,0,9.026418
+Naval Aviation Museum,museum,4.6,0.5,goa,15.3746494,73.83877629999999,0,4.6,7361,0,0,8.904087
+Se Cathedral,tourist attraction,4.5,0.5,goa,15.5038077,73.9121499,0,4.5,6908,0,0,8.84058
+Strike Casino By Big Daddy,casino,4.5,0.5,goa,15.4517167,73.8520118,0,4.5,6359,0,0,8.757784
+Vagator Beach Sunset Point,tourist attraction,4.5,0.5,goa,15.601075,73.733682,0,4.5,6111,0,0,8.718009
+Church of St. Francis of Assisi,tourist attraction,4.5,0.5,goa,15.5031218,73.9112098,0,4.5,4930,0,0,8.503297
+St. Augustine Tower,tourist attraction,4.5,0.5,goa,15.5005094,73.9064616,0,4.5,4074,0,0,8.312626
+Mae De Deus Church,tourist attraction,4.5,0.5,goa,15.5470308,73.7853113,0,4.5,4029,0,0,8.301522
+Dr. Salim Ali Bird Sanctuary,tourist attraction,3.8,0.5,goa,15.5130468,73.8704154,0,3.8,3972,0,0,8.287277
+Houses of Goa Museum,museum,4.2,0.5,goa,15.5303209,73.8406749,0,4.2,3919,0,0,8.273847
+Majestic Paradise,casino,4.2,0.5,goa,15.5163442,73.8325016,0,4.2,3842,0,0,8.254009
+Shri Dev Bodgeshwar Sansthan,hindu temple,4.8,0.5,goa,15.5846637,73.80597399999999,0,4.8,3798,0,0,8.242493
+Bogmalo Beach,tourist attraction,4.3,0.5,goa,15.3697125,73.8335469,0,4.3,3190,0,0,8.06809
+Fontainhas,tourist attraction,4.1,0.5,goa,15.4954147,73.83134729999999,0,4.1,3159,0,0,8.058327
+Fort Aguada Lighthouse,tourist attraction,4.3,0.5,goa,15.492082,73.7726227,0,4.3,2549,0,0,7.843849
+Thunder world Goa Amusement Parks,amusement park,4.4,0.5,goa,15.5613477,73.77035289999999,0,4.4,2448,0,0,7.803435
+Campal Gardens,tourist attraction,4.3,0.5,goa,15.49806,73.818748,0,4.3,2402,0,0,7.784473
+Kesarval Spring Verna Waterfall,tourist attraction,3.7,0.5,goa,15.3823119,73.92880099999999,0,3.7,2235,0,0,7.712444
+Goosebumps Virtual Escape,tourist attraction,4.9,0.5,goa,15.5692012,73.75786819999999,0,4.9,2133,0,0,7.665753
+Wax World Museum,tourist attraction,3.4,0.5,goa,15.5002844,73.9137606,0,3.4,2025,0,0,7.613819
+Splashdown Waterpark,tourist attraction,3.6,0.5,goa,15.579003,73.758791,0,3.6,1970,0,0,7.586296
+Vagator Beach View,tourist attraction,4.5,0.5,goa,15.5994407,73.7334125,0,4.5,1937,0,0,7.569412
+St Anthony Church,tourist attraction,4.6,0.5,goa,15.614462,73.7705089,0,4.6,1899,0,0,7.549609
+Shree Devi Lairaee Devasthan Temple,hindu temple,4.8,0.5,goa,15.6044026,73.89964890000002,0,4.8,1883,0,0,7.541152
+Azad Maidan,tourist attraction,4.2,0.5,goa,15.500124,73.8261919,0,4.2,1849,0,0,7.522941
+St. Andrew's Church,tourist attraction,4.5,0.5,goa,15.399596,73.81734229999999,0,4.5,1682,0,0,7.428333
+Shiva's Face,tourist attraction,4.3,0.5,goa,15.5924547,73.7337776,0,4.3,1477,0,0,7.298445
+St. Jerome Church,tourist attraction,4.6,0.5,goa,15.589499,73.818388,0,4.6,1244,0,0,7.126891
+"Viceroys Arch, Goa",tourist attraction,4.4,0.5,goa,15.5057585,73.9137064,0,4.4,1190,0,0,7.082549
+Fountainhas bridge art,tourist attraction,4.2,0.5,goa,15.497275,73.8321352,0,4.2,1184,0,0,7.077498
+Corjuem Fort,tourist attraction,3.9,0.5,goa,15.5968001,73.8927884,0,3.9,1114,0,0,7.01661
+Shri Shantadurga Devasthan,hindu temple,4.6,0.5,goa,15.513068,73.769769,0,4.6,1047,0,0,6.954639
+Goa Science Centre & Planetarium,tourist attraction,4.3,0.5,goa,15.4774432,73.8089382,0,4.3,979,0,0,6.887553
+Our Lady of Piety Church,tourist attraction,4.5,0.5,goa,15.5254113,73.9003875,0,4.5,975,0,0,6.883463
+Archaeological Museum of Goa,tourist attraction,4.3,0.5,goa,15.503157,73.91093420000001,0,4.3,965,0,0,6.873164
+St. Inez Church,tourist attraction,4.4,0.5,goa,15.4913321,73.82049390000002,0,4.4,929,0,0,6.835185
+"St. Cajetan Church, Goa",tourist attraction,4.6,0.5,goa,15.5055969,73.9150423,0,4.6,903,0,0,6.806829
+"Cabo View Point, Panjim",tourist attraction,4.5,0.5,goa,15.4596433,73.7975451,0,4.5,890,0,0,6.792344
+Baga Creek,tourist attraction,4.4,0.5,goa,15.5632781,73.7482106,0,4.4,890,0,0,6.792344
+Seashells beach,tourist attraction,4.2,0.5,goa,15.4357505,73.8605905,0,4.2,883,0,0,6.784457
+Uddo Beach,tourist attraction,4.2,0.5,goa,15.6208175,73.74989939999999,0,4.2,764,0,0,6.639876
+Phoenix Casino Goa,casino,4.8,0.5,goa,15.5198106,73.794018,0,4.8,724,0,0,6.586172
+St. Anne's Church,tourist attraction,4.6,0.5,goa,15.5789947,73.7796123,0,4.6,726,0,0,6.588926
+Bom Jesus Church Nachinola,tourist attraction,4.4,0.5,goa,15.585854,73.8548969,0,4.4,715,0,0,6.57368
+Shree Hanuman Maharudra Sansthan,hindu temple,4.6,0.5,goa,15.5910889,73.8101578,0,4.6,689,0,0,6.536692
+"Our Lady of Good Hope Church, Candolim",tourist attraction,4.6,0.5,goa,15.5179909,73.777324,0,4.6,682,0,0,6.526495
+St. Michael's Church,tourist attraction,4.5,0.5,goa,15.5899919,73.76421619999999,0,4.5,643,0,0,6.467699
+Baina Beach Sunset Point,tourist attraction,4.3,0.5,goa,15.3946396,73.8046205,0,4.3,608,0,0,6.411818
+Garcia de Orta garden,tourist attraction,4.1,0.5,goa,15.4996768,73.828288,0,4.1,605,0,0,6.40688
+Kala Academy Goa,tourist attraction,4.4,0.5,goa,15.4942228,73.8176309,0,4.4,580,0,0,6.364751
+Aguad Port & Jail Complex,tourist attraction,4.1,0.5,goa,15.4926341,73.7771255,0,4.1,569,0,0,6.345636
+Sinquerim Beach,tourist attraction,4.6,0.5,goa,15.4991764,73.76743259999999,0,4.6,556,0,0,6.322565
+Sunaparanta Goa Centre for the Arts,tourist attraction,4.4,0.5,goa,15.4937653,73.8275322,0,4.4,557,0,0,6.324359
+Church of the Cross of Miracles,tourist attraction,4.7,0.5,goa,15.492147,73.913386,0,4.7,528,0,0,6.270988
+"St. Lawrence's Church, Sinquerim",tourist attraction,4.5,0.5,goa,15.4937913,73.7816662,0,4.5,515,0,0,6.246107
+Aguada rocky Beach,tourist attraction,4.3,0.5,goa,15.4928118,73.7777471,0,4.3,510,0,0,6.23637
+पाटो,tourist attraction,3.8,0.5,goa,15.4908862,73.9552704,0,3.8,514,0,0,6.244167
+Siridao Rock Beach,tourist attraction,4.5,0.5,goa,15.435788,73.8606813,0,4.5,505,0,0,6.226537
+Ricky’s Pool Club by Titos,tourist attraction,4.6,0.5,goa,15.5560015,73.7527073,0,4.6,498,0,0,6.212606
+Museum Of Christian Art,museum,4.4,0.5,goa,15.5011002,73.9069769,0,4.4,469,0,0,6.152733
+St. Thomas’ Church,tourist attraction,4.7,0.5,goa,15.5885736,73.8743009,0,4.7,462,0,0,6.137727
+"St. Sebastian's Chapel, Goa",tourist attraction,4.4,0.5,goa,15.4962001,73.8307844,0,4.4,458,0,0,6.12905
+St. Lawrence Martyr Church,tourist attraction,4.5,0.5,goa,15.4254953,73.8978095,0,4.5,431,0,0,6.068426
+St. Estevam Fort,tourist attraction,4.4,0.5,goa,15.5360191,73.95435309999999,0,4.4,425,0,0,6.054439
+Jama Masjid,mosque,4.7,0.5,goa,15.4979283,73.8283386,0,4.7,415,0,0,6.030685
+Shantadurga Temple Gaonkarwada,hindu temple,4.7,0.5,goa,15.5848891,73.9488046,0,4.7,386,0,0,5.958425
+Carambolim Lake Migratory Bird Sanctuary,tourist attraction,4.1,0.5,goa,15.4862398,73.928046,0,4.1,377,0,0,5.934894
+Sinquerim Fort view Point,tourist attraction,4.6,0.5,goa,15.4975629,73.7649449,0,4.6,370,0,0,5.916202
+Sai Baba Temple,hindu temple,4.7,0.5,goa,15.5892625,73.7982344,0,4.7,361,0,0,5.891644
+Francoise beach,tourist attraction,4.6,0.5,goa,15.5114419,73.76463009999999,0,4.6,361,0,0,5.891644
+Candolim Lotus Pond (naag tale),tourist attraction,4.2,0.5,goa,15.5184437,73.7730369,0,4.2,365,0,0,5.902633
+Coco Heritage Resort Water Park & Swimming Pool,tourist attraction,3.4,0.5,goa,15.5690863,73.75346739999999,0,3.4,367,0,0,5.908083
+Shri Shantadurga Kalangutkarin Temple (Mandir),hindu temple,4.7,0.5,goa,15.6345832,73.92522029999999,0,4.7,354,0,0,5.872118
+Chapel of St. Francis Xavier,tourist attraction,4.5,0.5,goa,15.5007507,73.9192269,0,4.5,354,0,0,5.872118
+Hill Top View,tourist attraction,4.5,0.5,goa,15.5882184,73.73804129999999,0,4.5,338,0,0,5.826
+"Saint Francis Xavier Church, Chicalim",tourist attraction,4.5,0.5,goa,15.3982841,73.84076089999999,0,4.5,329,0,0,5.799093
+"St. Christopher's Church, Tivim",tourist attraction,4.7,0.5,goa,15.6238293,73.8569898,0,4.7,310,0,0,5.739793
+Relics Of St. Francis Xavier,tourist attraction,4.6,0.5,goa,15.5007814,73.9117,0,4.6,302,0,0,5.713733
+Fontainhas old quarter,tourist attraction,4.2,0.5,goa,15.4955933,73.8314762,0,4.2,305,0,0,5.723585
+Siridao Beach View,tourist attraction,4.3,0.5,goa,15.4421588,73.85936769999999,0,4.3,298,0,0,5.700444
+Badem Sunset Point,tourist attraction,4.5,0.5,goa,15.6076719,73.7513173,0,4.5,296,0,0,5.693732
+Lamgao Buddhist Caves,hindu temple,3.9,0.5,goa,15.5959317,73.9365402,0,3.9,302,0,0,5.713733
+Miramar View Point,tourist attraction,4.5,0.5,goa,15.4748028,73.8063495,0,4.5,292,0,0,5.680173
+Shree Chauranginath Bhumika Panchayatan Mandir,hindu temple,4.5,0.5,goa,15.5776995,73.76113749999999,0,4.5,288,0,0,5.666427
+Shri Devaki Krishna Temple,hindu temple,4.6,0.5,goa,15.5213625,73.8707344,0,4.6,284,0,0,5.652489
+Public Astronomical Observatory Goa - Association of Friends of Astronomy(AFA),tourist attraction,4.7,0.5,goa,15.4970165,73.8249271,0,4.7,277,0,0,5.627621
+St. Ann's Church,tourist attraction,4.6,0.5,goa,15.4781079,73.891706,0,4.6,268,0,0,5.594711
+Dream Beach,tourist attraction,4.7,0.5,goa,15.6062288,73.7326467,0,4.7,261,0,0,5.568345
+Shri Ravalnath Mahalaxmi Temple,hindu temple,4.7,0.5,goa,15.614854,73.9269091,0,4.7,253,0,0,5.537334
+CasinoInGoa,tourist attraction,4.8,0.5,goa,15.5003815,73.82988089999999,0,4.8,251,0,0,5.529429
+The Colosseum,tourist attraction,4.4,0.5,goa,15.5242083,73.8315063,0,4.4,248,0,0,5.517453
+Turtle Beach Morjim,tourist attraction,4.6,0.5,goa,15.6148324,73.7371049,0,4.6,245,0,0,5.505332
+BHAGWAN MAHAVIR BAL VIHAR PARK,park,4.3,0.5,goa,15.4975409,73.8187902,0,4.3,247,0,0,5.513429
+Statue of Lord Parashuram,tourist attraction,4.7,0.5,goa,15.4994965,73.8182686,0,4.7,242,0,0,5.493061
+Tito Henry de Souza Statue,museum,4.1,0.5,goa,15.5561734,73.7519627,0,4.1,245,0,0,5.505332
+"Mangrove Boating & Wildlife Tour: Crocodiles, Birdwatching & Fishing by GoaSay",tourist attraction,5.0,0.5,goa,15.5418446,73.9067666,0,5.0,214,0,0,5.370638
+São Matias Church,tourist attraction,4.5,0.5,goa,15.5277475,73.9165342,0,4.5,213,0,0,5.365976
+St. Clara's Church,tourist attraction,4.5,0.5,goa,15.6185641,73.8945492,0,4.5,195,0,0,5.278115
+BENZ WAX MUSEUM & FISH AQUARIUM,museum,4.6,0.5,goa,15.5608793,73.76363529999999,0,4.6,32719,0,0,10.395742
+Archaeological Survey of India,museum,4.4,0.5,goa,15.5031845,73.9109878,0,4.4,11120,0,0,9.31659
+"Museum of Goa, MOG",art gallery,4.1,0.5,goa,15.525516,73.79526299999999,0,4.1,9052,0,0,9.110851
+AAA All About Alcohol Museum,museum,4.6,0.5,goa,15.5095841,73.7693015,0,4.6,2181,0,0,7.687997
+Goa State Museum,museum,3.8,0.5,goa,15.5007546,73.82986799999999,0,3.8,845,0,0,6.740519
+Dharohar : National Museum of Customs and GST,museum,4.7,0.5,goa,15.501018,73.8282409,0,4.7,164,0,0,5.105945
+Vasco Clock Tower,tourist attraction,4.1,0.5,goa,15.3965513,73.8106686,0,4.1,122,0,0,4.812184
+Konkani Shanti Publication,museum,4.4,0.5,goa,15.597926,73.8241251,0,4.4,67,0,0,4.219508
+Pilar Seminary Museum,museum,4.8,0.5,goa,15.442618,73.8950709,0,4.8,52,0,0,3.970292
+Campus of Church of St. Francis of Assisi,museum,4.5,0.5,goa,15.5023199,73.91173409999999,0,4.5,42,0,0,3.7612
+Krish Tattoo Goa Studio - Best Tattoo Artist in Goa - Best Tattoo Studio in Goa,art gallery,5.0,0.5,goa,15.5469194,73.7603364,0,5.0,5349,0,0,8.584852
+Angel Tattoo - International Award Winning Artist - Best Tattoo Artist in Goa - Best Tattoo Studio in Goa,art gallery,5.0,0.5,goa,15.5565519,73.7547587,0,5.0,2287,0,0,7.735433
+Mario Gallery,art gallery,4.4,0.5,goa,15.5301979,73.764738,0,4.4,541,0,0,6.295266
+Rangeela Goa,art gallery,4.4,0.5,goa,15.5990427,73.7789366,0,4.4,507,0,0,6.230481
+Galeria Azulejos de Goa,art gallery,4.9,0.5,goa,15.5009343,73.8288824,0,4.9,488,0,0,6.192362
+Sopo Goa,art gallery,4.5,0.5,goa,15.5920678,73.7737369,0,4.5,459,0,0,6.131226
+Kukus Tattoo Studio- The Best Tattoo studio In Goa India,art gallery,4.9,0.5,goa,15.5469876,73.76027270000002,0,4.9,332,0,0,5.808142
+"Rare Republic French bakery ,Cafe & Concept Store",art gallery,4.3,0.5,goa,15.615374,73.758695,0,4.3,333,0,0,5.811141
+Bom Jesus Basilica Art Gallery,art gallery,4.5,0.5,goa,15.5007394,73.9113192,0,4.5,329,0,0,5.799093
+Mario Gallery,art gallery,4.6,0.5,goa,15.530351,73.840661,0,4.6,234,0,0,5.459586
+Goa Decor,art gallery,4.9,0.5,goa,15.4890663,73.8189565,0,4.9,173,0,0,5.159055
+Quadro Art Gallery & Frames Lorenz Imaging,art gallery,4.5,0.5,goa,15.5349118,73.8211833,0,4.5,170,0,0,5.141664
+Gitanjali Gallery,art gallery,4.2,0.5,goa,15.4953866,73.83136499999999,0,4.2,160,0,0,5.081404
+The Cube Gallery,art gallery,4.3,0.5,goa,15.6010067,73.8435365,0,4.3,157,0,0,5.062595
+CIPA - Centre for Indo-Portuguese Arts,art gallery,4.8,0.5,goa,15.5010008,73.82886049999999,0,4.8,151,0,0,5.023881
+VOLA ART ESCAPE,art gallery,5.0,0.5,goa,15.514101,73.7685675,0,5.0,96,0,0,4.574711
+Mario Gallery,art gallery,4.4,0.5,goa,15.4995913,73.8261551,0,4.4,88,0,0,4.488636
+Fundação Oriente,art gallery,4.7,0.5,goa,15.4946677,73.8310808,0,4.7,83,0,0,4.430817
+VOLÁ ART ESCAPE,art gallery,4.5,0.5,goa,15.5393834,73.81786079999999,0,4.5,80,0,0,4.394449
+nada,art gallery,4.7,0.5,goa,15.4900394,73.8299256,0,4.7,71,0,0,4.276666
+Circa by Mayank Anand,art gallery,4.6,0.5,goa,15.5816986,73.7529918,0,4.6,46,0,0,3.850148
+Vitesh Printing Service,art gallery,4.9,0.5,goa,15.5951894,73.7446348,0,4.9,43,0,0,3.78419
+Art Chamber,art gallery,4.4,0.5,goa,15.5338605,73.7676633,0,4.4,46,0,0,3.850148
+Joggers Park,park,4.4,0.5,goa,15.3933909,73.8381374,0,4.4,1851,0,0,7.524021
+Coach Park,park,4.2,0.5,goa,15.5997133,73.7348785,0,4.2,1521,0,0,7.327781
+Joggers Park,park,4.4,0.5,goa,15.486659,73.8267654,0,4.4,989,0,0,6.897705
+Art Park,park,4.4,0.5,goa,15.5283694,73.8343678,0,4.4,929,0,0,6.835185
+Caranzalem Children's park,park,3.9,0.5,goa,15.4624055,73.80405619999999,0,3.9,720,0,0,6.580639
+Anjuna Hill Sightseeing point of Dr. Jawaharlal Henriques,park,4.6,0.5,goa,15.5888429,73.73672169999999,0,4.6,677,0,0,6.519147
+Mandovi Riverfront Promenade,park,4.6,0.5,goa,15.4900268,73.8121598,0,4.6,355,0,0,5.874931
+Stone Paved Paths,park,4.3,0.5,goa,15.5840875,73.73715419999999,0,4.3,261,0,0,5.568345
+Aguada Childrens Park,park,3.9,0.5,goa,15.4948158,73.7813685,0,3.9,190,0,0,5.252273
+MPT Grounds,park,3.7,0.5,goa,15.3940124,73.8108441,0,3.7,183,0,0,5.214936
+"Children Park, Mapusa-2",park,4.1,0.5,goa,15.5968056,73.81094340000001,0,4.1,173,0,0,5.159055
+PORVORIM PARK,park,3.7,0.5,goa,15.5182151,73.8291064,0,3.7,165,0,0,5.111988
+BICHOLIM WALKING PARK,park,3.9,0.5,goa,15.5872037,73.9507301,0,3.9,155,0,0,5.049856
+Bicholim Municipal Park 2,park,3.6,0.5,goa,15.597054,73.946528,0,3.6,152,0,0,5.030438
+Chimbel Waterfall,park,3.7,0.5,goa,15.478956,73.87342,0,3.7,150,0,0,5.01728
+Nagalli Hills Ground (THE ARENA),park,4.5,0.5,goa,15.4611873,73.81682219999999,0,4.5,134,0,0,4.905275
+MUNICIPAL PARK,park,3.8,0.5,goa,15.3992481,73.81932069999999,0,3.8,134,0,0,4.905275
+Senior Citizen's Park,park,4.2,0.5,goa,15.4895998,73.8115924,0,4.2,126,0,0,4.844187
+Panjim Promenade,park,4.5,0.5,goa,15.5004277,73.8214165,0,4.5,114,0,0,4.744932
+Sunset Park,park,4.3,0.5,goa,15.3805756,73.8107895,0,4.3,114,0,0,4.744932
+Green Park,park,4.2,0.5,goa,15.3870066,73.8731378,0,4.2,109,0,0,4.70048
+Bicholim Municipal Garden,park,3.5,0.5,goa,15.5876232,73.9463755,0,3.5,108,0,0,4.691348
+Verna Waterfalls,park,3.7,0.5,goa,15.3650513,73.9304433,0,3.7,97,0,0,4.584967
+Bhagwan Mahavir Bal Vihar,park,4.4,0.5,goa,15.4966918,73.81886469999999,0,4.4,85,0,0,4.454347
+Children's Park,park,3.6,0.5,goa,15.3979421,73.8295721,0,3.6,87,0,0,4.477337
+Vaddem Lake and Park,park,3.9,0.5,goa,15.3997582,73.8280506,0,3.9,78,0,0,4.369448
+Marcel Park,park,3.7,0.5,goa,15.5174136,73.9592223,0,3.7,79,0,0,4.382027
+Campal Forest Department Park,park,4.4,0.5,goa,15.4960864,73.8184548,0,4.4,68,0,0,4.234107
+"Karris K9 Kamp | Boarding, Pet Grooming, Training",pet store,4.8,0.5,goa,15.4009009,73.8320056,0,4.8,64,0,0,4.174387
+Goa Dabolim International Airport,airport,4.1,0.5,goa,15.3804965,73.8331652,0,4.1,42855,0,0,10.665601
+Palms n Sands Beach Restobar Candolim,bar,4.7,0.5,goa,15.504891,73.7671325,0,4.7,14272,0,0,9.566125
+Calamari Bathe & Binge,restaurant,4.4,0.5,goa,15.5062018,73.7667871,0,4.4,9524,0,0,9.161675
+IFB Industries Limited - Washing Machine,home goods store,4.7,0.5,goa,15.3697537,73.9332682,0,4.7,7534,0,0,8.927314
+Sinq Beach Resort,restaurant,4.1,0.5,goa,15.5367189,73.76279190000001,0,4.1,7384,0,0,8.907206
+Infantaria Restaurant & Bar,bar,4.0,0.5,goa,15.5466567,73.76035929999999,0,4.0,6865,0,0,8.834337
+Coco Beach,point of interest,4.0,0.5,goa,15.4998804,73.7886544,0,4.0,6361,0,0,8.758098
+Hotel Anantashram,restaurant,4.1,0.5,goa,15.3982569,73.8128117,0,4.1,5493,0,0,8.611412
+Peep Kitchen,meal takeaway,4.4,0.5,goa,15.4701468,73.8260554,0,4.4,4960,0,0,8.509363
+Gunpowder,bar,4.5,0.5,goa,15.5969557,73.78832299999999,0,4.5,4900,0,0,8.497195
+Ratnasagar Family Restaurant & Bar,restaurant,4.2,0.5,goa,15.501841,73.9097185,0,4.2,3937,0,0,8.278428
+The Goan Room,restaurant,4.2,0.5,goa,15.4566527,73.8033493,0,4.2,3459,0,0,8.149024
+Aquasail 360° Sailing - Bambolim GOA,point of interest,4.9,0.5,goa,15.4520044,73.8496461,0,4.9,3162,0,0,8.059276
+O Coqueiro,restaurant,4.2,0.5,goa,15.531895,73.82484,0,4.2,2867,0,0,7.96137
+Alcon Hyundai,car dealer,4.6,0.5,goa,15.5447768,73.82036819999999,0,4.6,2611,0,0,7.867871
+"Domino's Pizza | Dona Paula, Goa",meal delivery,3.8,0.5,goa,15.459473,73.803781,0,3.8,2523,0,0,7.8336
+Max,shopping mall,3.8,0.5,goa,15.3975093,73.8091395,0,3.8,1703,0,0,7.440734
+Royal Treat,restaurant,4.3,0.5,goa,15.5245027,73.95118769999999,0,4.3,1323,0,0,7.188413
+Goan Hut Beach Shack,restaurant,4.3,0.5,goa,15.5099778,73.765253,0,4.3,1132,0,0,7.032624
+Ravindra Bhavan,point of interest,4.1,0.5,goa,15.3913605,73.80787629999999,0,4.1,1086,0,0,6.991177
+Magsons,grocery or supermarket,4.0,0.5,goa,15.3877949,73.8631652,0,4.0,1001,0,0,6.909753
+Old Heritage Open Air Venue,point of interest,4.3,0.5,goa,15.4395644,73.9012903,0,4.3,808,0,0,6.695799
+Diwa Wellness Spa,spa,4.8,0.5,goa,15.5500952,73.772419,0,4.8,769,0,0,6.646391
+"Shree Saptakoteshwar Temple, Narva",hindu temple,4.7,0.5,goa,15.5542163,73.93715139999999,0,4.7,738,0,0,6.605298
+Sharayu Toyota,car dealer,4.0,0.5,goa,15.3825223,73.92449069999999,0,4.0,744,0,0,6.613384
+GOA Hyundai Tivim Goa,car dealer,4.4,0.5,goa,15.6204815,73.8494934,0,4.4,739,0,0,6.60665
+Fish Market,point of interest,3.7,0.5,goa,15.3990793,73.8112321,0,3.7,664,0,0,6.499787
+Baskin Robbins,store,4.2,0.5,goa,15.4640267,73.8058039,0,4.2,658,0,0,6.490724
+Picnic Restaurant,bar,3.6,0.5,goa,15.5351197,73.8213073,0,3.6,642,0,0,6.466145
+Saj Chicken Shawarma & Burger Bites Food Court,car dealer,4.1,0.5,goa,15.464207,73.8568176,0,4.1,613,0,0,6.419995
+Goa Bagayatdar - Bicholim,grocery or supermarket,4.2,0.5,goa,15.5901047,73.9463837,0,4.2,598,0,0,6.395262
+"Fabindia, Campal, Panjim",clothing store,4.2,0.5,goa,15.4887045,73.8118476,0,4.2,575,0,0,6.356108
+Royal Courtyard Goa,point of interest,4.2,0.5,goa,15.4939097,73.9376745,0,4.2,555,0,0,6.320768
+Ryan Shack,restaurant,3.8,0.5,goa,15.5103105,73.76504369999999,0,3.8,554,0,0,6.318968
+Wtf!?! Foodicted Restaurant and Bar,restaurant,4.1,0.5,goa,15.5599242,73.75361,0,4.1,521,0,0,6.257668
+National Institute of Watersports,point of interest,4.9,0.5,goa,15.4598534,73.8021089,0,4.9,493,0,0,6.202536
+Goa Hyundai Caranzalem,car dealer,4.5,0.5,goa,15.4659992,73.8067056,0,4.5,491,0,0,6.198479
+Burger Factory Morjim,restaurant,4.3,0.5,goa,15.622693,73.73219929999999,0,4.3,491,0,0,6.198479
+Black Vanilla Assagao,cafe,4.1,0.5,goa,15.5964846,73.78006429999999,0,4.1,488,0,0,6.192362
+Atlas Fisheries Pvt Ltd,point of interest,4.5,0.5,goa,15.5188367,73.9257118,0,4.5,437,0,0,6.082219
+Andron Restaurant,restaurant,4.4,0.5,goa,15.5931532,73.8537254,0,4.4,418,0,0,6.037871
+Church of Our Lady of Grace,church,4.4,0.5,goa,15.5002453,73.90610579999999,0,4.4,1139,0,0,7.038784
+Our Lady of Fatima Church - Don Bosco Panjim,church,4.7,0.5,goa,15.4967787,73.82144459999999,0,4.7,810,0,0,6.698268
+Our Lady Of Pilar Church,church,4.8,0.5,goa,15.4419017,73.8936203,0,4.8,699,0,0,6.55108
+Holy Cross Chapel,church,4.5,0.5,goa,15.5771854,73.785434,0,4.5,631,0,0,6.448889
+Holy Cross Shrine,church,4.8,0.5,goa,15.4521705,73.8643258,0,4.8,622,0,0,6.434547
+Santa Cruz Church,church,4.5,0.5,goa,15.4761125,73.84479689999999,0,4.5,604,0,0,6.405228
+Holy Family Church,church,4.6,0.5,goa,15.5341916,73.8235653,0,4.6,597,0,0,6.393591
+Birla Mandir | Radha Krishna Mandir,hindu temple,4.8,0.5,goa,15.3878775,73.875351,0,4.8,3078,0,0,8.03236
+Shree Mahalaxmi Temple,hindu temple,4.7,0.5,goa,15.4957791,73.8265365,0,4.7,1150,0,0,7.048386
+Shree Navadurga Temple,hindu temple,4.8,0.5,goa,15.4187934,73.9435096,0,4.8,644,0,0,6.46925
+Shri Shantadurga Lakshminarasimha Temple,hindu temple,4.6,0.5,goa,15.4008396,73.90038419999999,0,4.6,567,0,0,6.342121
+Morjai Temple,hindu temple,4.7,0.5,goa,15.63606,73.7399396,0,4.7,535,0,0,6.284134
+Shree Damodar Mandir,hindu temple,4.8,0.5,goa,15.398232,73.8153248,0,4.8,407,0,0,6.011267
+Shree Shantadurga Samsthaana,hindu temple,4.6,0.5,goa,15.5458769,73.76451449999999,0,4.6,409,0,0,6.016157
+Ayyappa Temple,hindu temple,4.7,0.5,goa,15.3857373,73.8164767,0,4.7,257,0,0,5.55296
+Shree Devi Kelbai Mandir,hindu temple,4.7,0.5,goa,15.5831,73.93060419999999,0,4.7,244,0,0,5.501258
+Maruti temple panjim,hindu temple,4.8,0.5,goa,15.4904371,73.8283335,0,4.8,218,0,0,5.389072
+Shri Shantadurga Temple Kunkolim-Ponda,hindu temple,4.7,0.5,goa,15.4449561,73.9665985,0,4.7,212,0,0,5.361292
+Shree Maharudra Amrekarnath Devsthan,hindu temple,4.6,0.5,goa,15.5388314,73.816964,0,4.6,203,0,0,5.31812
+ISKCON Sancoale Center,hindu temple,4.7,0.5,goa,15.3820358,73.8703812,0,4.7,166,0,0,5.117994
+Shri Hanuman Temple,hindu temple,4.9,0.5,goa,15.4904342,73.8283369,0,4.9,159,0,0,5.075174
+Shree kshetra Pimpleshwar Dutta Mandir trust Panaji,hindu temple,4.7,0.5,goa,15.4811704,73.82588989999999,0,4.7,160,0,0,5.081404
+Shree Shankar Temple,hindu temple,4.6,0.5,goa,15.4820375,73.8222031,0,4.6,160,0,0,5.081404
+Shantadurga Temple,hindu temple,4.7,0.5,goa,15.5133599,73.82969539999999,0,4.7,155,0,0,5.049856
+Shree Shantadurga Temple,hindu temple,4.5,0.5,goa,15.5250172,73.8012905,0,4.5,152,0,0,5.030438
+Shri Ganapati Temple,hindu temple,4.4,0.5,goa,15.3958824,73.8267664,0,4.4,139,0,0,4.941642
+Masjid E Hamza,mosque,4.8,0.5,goa,15.5147222,73.82666669999999,0,4.8,497,0,0,6.2106
+Idgah Masjid مسجد,mosque,4.7,0.5,goa,15.596675,73.811787,0,4.7,353,0,0,5.869297
+Namazgah,mosque,4.4,0.5,goa,15.5824605,73.9461171,0,4.4,177,0,0,5.181784
+MASJID-E-NOOR - GOA,mosque,4.7,0.5,goa,15.3911941,73.8602451,0,4.7,160,0,0,5.081404
+Jama Masjid,mosque,4.7,0.5,goa,15.5898152,73.8137701,0,4.7,94,0,0,4.553877
+Masjid Mehboob-E-Subhanni,mosque,4.7,0.5,goa,15.37271399999999,73.92587999999999,0,4.7,91,0,0,4.521789
+Masjid-E-Inaam مسجد,mosque,4.7,0.5,goa,15.4968201,73.82246719999999,0,4.7,84,0,0,4.442651
+Masjid e Aqsa,mosque,4.5,0.5,goa,15.4790424,73.8489336,0,4.5,84,0,0,4.442651
+Shafi Masjid,mosque,4.5,0.5,goa,15.3887608,73.8092145,0,4.5,80,0,0,4.394449
+SUNNI NOORANI MASJID,mosque,4.8,0.5,goa,15.4870274,73.87488359999999,0,4.8,76,0,0,4.343805
+Minara Masjid Birla مسجد,mosque,4.3,0.5,goa,15.3793291,73.878519,0,4.3,80,0,0,4.394449
+Birla Masjid Bus Stop,mosque,4.1,0.5,goa,15.3794458,73.87860789999999,0,4.1,79,0,0,4.382027
+Sunni Muhammadiya Madrasa/Masjid,mosque,4.7,0.5,goa,15.4773787,73.8209447,0,4.7,66,0,0,4.204693
+Azad Jama Masjid,mosque,4.7,0.5,goa,15.5866262,73.9540081,0,4.7,60,0,0,4.110874
+Sunni Madani Masjid,mosque,4.8,0.5,goa,15.4824946,73.8290061,0,4.8,57,0,0,4.060443
+Madina Masjid,mosque,4.8,0.5,goa,15.5997925,73.805577,0,4.8,53,0,0,3.988984
+Al Jamatul Ahle Sunnat Noorani Masjid,mosque,4.6,0.5,goa,15.391188,73.824768,0,4.6,51,0,0,3.951244
+Md Gufran,synagogue,0.0,0.5,goa,15.497388,73.8334157,0,0.0,0,0,0,0.0
+Mall De Goa,shopping mall,4.2,0.5,goa,15.5258252,73.8271347,0,4.2,30453,0,0,10.323973
+Caculo Mall,shopping mall,3.9,0.5,goa,15.4864378,73.8178846,0,3.9,10621,0,0,9.270683
+Calangute Beach Road Mall,shopping mall,4.2,0.5,goa,15.5455427,73.7603073,0,4.2,5687,0,0,8.646114
+V2 Retail - Panaji | Value & Variety Store,clothing store,3.5,0.5,goa,15.498831,73.8761535,0,3.5,2318,0,0,7.748891
+Valanka Shopping Mall,shopping mall,4.2,0.5,goa,15.5379389,73.76447019999999,0,4.2,1751,0,0,7.468513
+Goa Bagayatdar Bazar - Porvorim,supermarket,4.3,0.5,goa,15.5186131,73.8322854,0,4.3,1624,0,0,7.393263
+1930 Vasco,movie theater,4.0,0.5,goa,15.3970725,73.8129321,0,4.0,1491,0,0,7.307873
+Max,shopping mall,4.0,0.5,goa,15.6039382,73.82047500000002,0,4.0,1085,0,0,6.990257
+Apna Bazaar,shopping mall,3.8,0.5,goa,15.3975483,73.8119299,0,3.8,657,0,0,6.489205
+Arpora Saturday Nite Bazaar Saturday Market,shopping mall,3.8,0.5,goa,15.5678619,73.76607950000002,0,3.8,412,0,0,6.023448
+Max,shopping mall,4.0,0.5,goa,15.5260714,73.8271731,0,4.0,389,0,0,5.966147
 Charminar,mosque,4.5,0.5,hyderabad,17.3615636,78.4746645,0,4.5,263497,0,0,12.481801
 Salar Jung Museum,tourist attraction,4.4,0.5,hyderabad,17.3716084,78.48024389999999,0,4.4,76522,0,0,11.245347
 Birla Temple,hindu temple,4.7,0.5,hyderabad,17.4062367,78.46906010000001,0,4.7,54709,0,0,10.909802
@@ -932,3 +1502,1411 @@ Pvt market kothapet dilsukhnagar Hyderabad 500035,shopping mall,4.1,0.5,hyderaba
 The Chennai Shopping Mall - Patny Center,shopping mall,4.1,0.5,hyderabad,17.440306,78.4946757,0,4.1,6611,0,0,8.796641
 RS Brothers-Mehdipatnam,shopping mall,3.9,0.5,hyderabad,17.3947753,78.4364281,0,3.9,5878,0,0,8.679142
 Nagari Market,shopping mall,4.0,0.5,hyderabad,17.3746652,78.4729846,0,4.0,5858,0,0,8.675734
+Hawa Mahal,tourist attraction,4.5,0.5,jaipur,26.9240458,75.8267144,0,4.5,163902,0,0,12.00703
+The City Palace,tourist attraction,4.4,0.5,jaipur,26.9257943,75.8236714,0,4.4,58602,0,0,10.978541
+Raj Mandir Cinema,movie theater,4.6,0.5,jaipur,26.9154928,75.81006239999999,0,4.6,44075,0,0,10.693671
+Jantar Mantar,tourist attraction,4.5,0.5,jaipur,26.924762,75.82455999999999,0,4.5,42561,0,0,10.658717
+Moti Dungri Ganesh Ji Temple,hindu temple,4.8,0.5,jaipur,26.8946582,75.81671539999999,0,4.8,42192,0,0,10.65001
+Jal Mahal,tourist attraction,4.2,0.5,jaipur,26.9534584,75.84612349999999,0,4.2,39351,0,0,10.580302
+Jai Niwas Garden,tourist attraction,4.4,0.5,jaipur,26.93,75.8247222,0,4.4,26415,0,0,10.181725
+Nehru Bal Udyan,park,4.5,0.5,jaipur,26.883344,75.8023328,0,4.5,21648,0,0,9.982715
+"BAPS Shri Swaminarayan Akshardham Mandir, Jaipur",hindu temple,4.7,0.5,jaipur,26.9022189,75.7406225,0,4.7,18330,0,0,9.816349
+JAWAHAR KALA KENDRA,tourist attraction,4.6,0.5,jaipur,26.8763415,75.8091635,0,4.6,15745,0,0,9.664342
+Ajmeri Gate,tourist attraction,4.4,0.5,jaipur,26.917647,75.81665679999999,0,4.4,14970,0,0,9.61387
+Sanganeri Gate,tourist attraction,4.4,0.5,jaipur,26.9158487,75.8248989,0,4.4,12095,0,0,9.40063
+Amar Jawan Jyoti,tourist attraction,4.7,0.5,jaipur,26.8956032,75.7999567,0,4.7,11642,0,0,9.36246
+Jaipur Zoo,zoo,3.6,0.5,jaipur,26.9123097,75.8211759,0,3.6,11033,0,0,9.308737
+Jaldhara,park,4.1,0.5,jaipur,26.8699171,75.80805529999999,0,4.1,7324,0,0,8.899048
+Isarlat Sargasooli,tourist attraction,4.5,0.5,jaipur,26.924445,75.82083659999999,0,4.5,7068,0,0,8.863474
+Tripolia Gate,tourist attraction,4.4,0.5,jaipur,26.9240497,75.82275159999999,0,4.4,6769,0,0,8.820256
+Ramniwas Bagh,park,4.4,0.5,jaipur,26.9150353,75.8179325,0,4.4,6292,0,0,8.747193
+Gaitor Ki Chhatriyan,tourist attraction,4.6,0.5,jaipur,26.9430691,75.8246528,0,4.6,6026,0,0,8.704005
+Shri Chandpole Hanuman Ji Temple,hindu temple,4.7,0.5,jaipur,26.9267165,75.8096458,0,4.7,4994,0,0,8.516193
+SHRI GARH GANESH Ji TEMPLE,hindu temple,4.8,0.5,jaipur,26.9450787,75.8280498,0,4.8,3728,0,0,8.223895
+Tadkeshwar Mahadev Temple,hindu temple,4.8,0.5,jaipur,26.9229269,75.8226481,0,4.8,3668,0,0,8.207674
+"Shri Radha Gopinath Ji Temple, Jaipur",hindu temple,4.9,0.5,jaipur,26.9294523,75.8141362,0,4.9,3427,0,0,8.139732
+Regional Science Centre And Science Park,tourist attraction,4.4,0.5,jaipur,26.9411721,75.79733689999999,0,4.4,3393,0,0,8.129764
+Pondrik Park,park,4.2,0.5,jaipur,26.9347598,75.8255282,0,4.2,3217,0,0,8.076515
+Jaipur Wax Museum Nahargarh Fort,museum,4.3,0.5,jaipur,26.9391796,75.81627449999999,0,4.3,3081,0,0,8.033334
+Shree Khatu Shyam Mandir Jhotwara,hindu temple,4.7,0.5,jaipur,26.935952,75.7497566,0,4.7,2892,0,0,7.970049
+Radhe Tour and Travels in india | Top Best Rajasthan tour company in Jaipur India| Golden Triangle,tourist attraction,4.9,0.5,jaipur,26.9081667,75.8328162,0,4.9,2299,0,0,7.740664
+Shaheed Smarak(Trimurti Circle),tourist attraction,4.5,0.5,jaipur,26.8989039,75.8161901,0,4.5,1981,0,0,7.591862
+Elefunenjoy| Elephant Sanctuary In Jaipur,tourist attraction,4.9,0.5,jaipur,26.9165642,75.8139164,0,4.9,1433,0,0,7.268223
+Nehru Garden,tourist attraction,4.4,0.5,jaipur,26.9105441,75.8189944,0,4.4,1407,0,0,7.249926
+Shree Ayyappa Temple,hindu temple,4.6,0.5,jaipur,26.86096999999999,75.79068199999999,0,4.6,1346,0,0,7.205635
+Tal Katora Lake,tourist attraction,4.1,0.5,jaipur,26.9338978,75.8253257,0,4.1,1305,0,0,7.174724
+Deer Park,park,4.4,0.5,jaipur,26.9047818,75.7979577,0,4.4,1214,0,0,7.102499
+Tilak Park,park,4.4,0.5,jaipur,26.892835,75.8219819,0,4.4,1213,0,0,7.101676
+Hotel Vaishnavi,tourist attraction,3.8,0.5,jaipur,26.9241628,75.7899229,0,3.8,1105,0,0,7.008505
+Peacock Garden,park,4.3,0.5,jaipur,26.8603993,75.8060508,0,4.3,979,0,0,6.887553
+Dhanraj Jaipur Tour Guide,tourist attraction,5.0,0.5,jaipur,26.9151033,75.80998009999999,0,5.0,826,0,0,6.717805
+Dolls Museum,museum,4.3,0.5,jaipur,26.9003345,75.817227,0,4.3,717,0,0,6.57647
+Le Tour De India,tourist attraction,5.0,0.5,jaipur,26.917842,75.811987,0,5.0,665,0,0,6.50129
+Vaishno Devi Mandir,hindu temple,4.6,0.5,jaipur,26.9410377,75.7550313,0,4.6,635,0,0,6.455199
+Sai Baba Temple,hindu temple,4.7,0.5,jaipur,26.8748194,75.7561776,0,4.7,620,0,0,6.431331
+Jaipur Mar Thoma Syrian Church,church,4.5,0.5,jaipur,26.8671673,75.7646752,0,4.5,613,0,0,6.419995
+Mahi Tour And Travels,car rental,4.9,0.5,jaipur,26.9590795,75.7334113,0,4.9,578,0,0,6.361302
+The Hotel Hill View - Jhalana,tourist attraction,3.3,0.5,jaipur,26.8552145,75.8322026,0,3.3,577,0,0,6.359574
+Rajasthan Cab,tourist attraction,4.7,0.5,jaipur,26.92729679999999,75.7906359,0,4.7,396,0,0,5.983936
+Shri Krishna Parnami Mandir,hindu temple,4.6,0.5,jaipur,26.8957825,75.8234535,0,4.6,360,0,0,5.888878
+Elephant Fun Park | Elephant Sanctuary Office,tourist attraction,4.7,0.5,jaipur,26.9232207,75.8211115,0,4.7,337,0,0,5.823046
+Maharaja Sawai Man Singh II Museum,museum,4.5,0.5,jaipur,26.9264111,75.8233599,0,4.5,327,0,0,5.793014
+Amrapali Museum,tourist attraction,4.3,0.5,jaipur,26.9151715,75.8017919,0,4.3,317,0,0,5.762051
+Shaheed Bhagat Singh Park,park,4.3,0.5,jaipur,26.9109515,75.7707554,0,4.3,314,0,0,5.752573
+Famous Tours India,car rental,4.9,0.5,jaipur,26.9293855,75.743702,0,4.9,304,0,0,5.720312
+Fountain Square Park,tourist attraction,4.4,0.5,jaipur,26.8622559,75.7655845,0,4.4,306,0,0,5.726848
+Museum of Legacies,museum,4.3,0.5,jaipur,26.9209656,75.8178607,0,4.3,284,0,0,5.652489
+Eleday Elephant activities in jaipur,tourist attraction,4.5,0.5,jaipur,26.9180184,75.8116253,0,4.5,276,0,0,5.624018
+Amar lal Sweet Caters Jaipur Famous for Akhrot ki Mithai and Sev Barfi,tourist attraction,4.6,0.5,jaipur,26.9338015,75.790251,0,4.6,274,0,0,5.616771
+Travel Corp India,tourist attraction,4.7,0.5,jaipur,26.9283411,75.7912381,0,4.7,268,0,0,5.594711
+St. Andrew's (CNI) Church,tourist attraction,4.4,0.5,jaipur,26.9265676,75.8073192,0,4.4,262,0,0,5.572154
+Geeta Mandir,hindu temple,4.6,0.5,jaipur,26.8942874,75.8419098,0,4.6,231,0,0,5.446737
+EleFanJoy,tourist attraction,4.8,0.5,jaipur,26.92314069999999,75.818142,0,4.8,226,0,0,5.42495
+Hostel Ivory,tourist attraction,4.6,0.5,jaipur,26.939874,75.82616089999999,0,4.6,212,0,0,5.361292
+Narsingh Ji Mandir,hindu temple,4.5,0.5,jaipur,26.9155853,75.8098631,0,4.5,207,0,0,5.337538
+Incredible tour guides,tourist attraction,5.0,0.5,jaipur,26.9291476,75.792395,0,5.0,199,0,0,5.298317
+Jaipur City Tour by Tuk Tuk - Best Tuk Tuk Service In Jaipur | Tuk Tuk Travel | Tuk Tuk Driver | Tour By Auto | E-Rickshaw,tourist attraction,5.0,0.5,jaipur,26.9379078,75.8196768,0,5.0,191,0,0,5.257495
+Ashok India Travels Agency Luxury Trips Best Tour Packages Agencia Viajes Agenzia Viaggi Agence Voyage Inde Reisebüro Indien,travel agency,4.9,0.5,jaipur,26.9154022,75.7234205,0,4.9,186,0,0,5.231109
+Arjun Statue,tourist attraction,4.7,0.5,jaipur,26.8926148,75.8064218,0,4.7,183,0,0,5.214936
+The legendary tours,car rental,5.0,0.5,jaipur,26.9493613,75.7384296,0,5.0,180,0,0,5.198497
+ICA Gallery Jaipur,art gallery,4.7,0.5,jaipur,26.9451865,75.8347761,0,4.7,175,0,0,5.170484
+Shree Santoshi Mata Mandir,hindu temple,4.7,0.5,jaipur,26.8869674,75.7645391,0,4.7,172,0,0,5.153292
+Chandra Mahal,tourist attraction,4.4,0.5,jaipur,26.9270086,75.8235041,0,4.4,169,0,0,5.135798
+Jaipur tourism guide,tourist attraction,4.5,0.5,jaipur,26.9379661,75.8218747,0,4.5,156,0,0,5.056246
+Sawai Man Singh Statue,tourist attraction,4.6,0.5,jaipur,26.91384429999999,75.82004239999999,0,4.6,153,0,0,5.036953
+Jaipur tour point,car rental,5.0,0.5,jaipur,26.9243814,75.7903338,0,5.0,147,0,0,4.997212
+Olio Dugout with Rajasthan Royals,tourist attraction,4.7,0.5,jaipur,26.8882796,75.79513519999999,0,4.7,145,0,0,4.983607
+Shree Kali Mata Temple,hindu temple,4.5,0.5,jaipur,26.9428156,75.8341921,0,4.5,143,0,0,4.969813
+The Holiday Trips,tourist attraction,4.9,0.5,jaipur,26.96667889999999,75.7832669,0,4.9,132,0,0,4.890349
+Shree Mahaveer Digambar Jain Temple,tourist attraction,4.9,0.5,jaipur,26.9105537,75.7391451,0,4.9,131,0,0,4.882802
+Kishan bagh Jaipur | किशन बाग पार्क | Kishan Bagh Park Vidhyadhar Nagar,tourist attraction,4.5,0.5,jaipur,26.9590741,75.79467509999999,0,4.5,132,0,0,4.890349
+Heritage Tour India,tourist attraction,5.0,0.5,jaipur,26.9089992,75.8321847,0,5.0,119,0,0,4.787492
+Kadamb Kund,tourist attraction,4.4,0.5,jaipur,26.9458588,75.82356209999999,0,4.4,117,0,0,4.770685
+Troopindia,tourist attraction,5.0,0.5,jaipur,26.8678454,75.81830839999999,0,5.0,108,0,0,4.691348
+Rajasthan Travel Helpline,tourist attraction,4.9,0.5,jaipur,26.9355399,75.79184699999999,0,4.9,109,0,0,4.70048
+Rajputana Cab,tourist attraction,4.1,0.5,jaipur,26.923541,75.7994947,0,4.1,114,0,0,4.744932
+"FabHotel Prime Rudra - Hotel in Vaishali Nagar, Jaipur",tourist attraction,4.0,0.5,jaipur,26.9155725,75.75043579999999,0,4.0,110,0,0,4.70953
+Jaipur Private Tour/Jaipur Taxi Service/Jaipur sightseeing Tour,tourist attraction,5.0,0.5,jaipur,26.9285961,75.79078849999999,0,5.0,92,0,0,4.532599
+Sofia Tour & Travels – Best Travel Agency | Taxi Service | Tour Operator | Car Rental in Jaipur,car rental,4.9,0.5,jaipur,26.917247,75.7823463,0,4.9,90,0,0,4.51086
+Rajasthan cab tours(Taxi service ),tourist attraction,4.9,0.5,jaipur,26.92289999999999,75.79618789999999,0,4.9,86,0,0,4.465908
+Snow Hills Jaipur,tourist attraction,4.1,0.5,jaipur,26.9413037,75.7711245,0,4.1,94,0,0,4.553877
+Rajasthan India Tour Driver,tourist attraction,4.5,0.5,jaipur,26.8661431,75.7468585,0,4.5,86,0,0,4.465908
+"Jaipur Pink City Tours – Tuk Tuk, Taxi & Tour Guide",tourist attraction,5.0,0.5,jaipur,26.9346358,75.8072741,0,5.0,80,0,0,4.394449
+Namdev Tour & Travels,tourist attraction,4.9,0.5,jaipur,26.9366044,75.7569048,0,4.9,79,0,0,4.382027
+Pink City Ride Local Sightseeing Tour,tourist attraction,5.0,0.5,jaipur,26.8883905,75.80061049999999,0,5.0,76,0,0,4.343805
+"Times India Travels, India Tours, Luxury Group Tours, Travel Company in India, Wildlife Tours in India",travel agency,4.9,0.5,jaipur,26.9049604,75.73312179999999,0,4.9,69,0,0,4.248495
+"Friend's Tour & Travels - Family & Friends Tour services in Jhotwara, Group Tour, Tempo Traveler Rental in Vaishali Nagar",travel agency,4.4,0.5,jaipur,26.9233127,75.74863909999999,0,4.4,74,0,0,4.317488
+S R C Museum Of Indology,museum,4.1,0.5,jaipur,26.9021043,75.8194834,0,4.1,73,0,0,4.304065
+Iswari Minar Swarga Sal,tourist attraction,4.4,0.5,jaipur,26.9242603,75.8212121,0,4.4,70,0,0,4.26268
+Arizona tour and travels,tourist attraction,4.0,0.5,jaipur,26.9245983,75.7883096,0,4.0,73,0,0,4.304065
+Statue Of Earth,tourist attraction,4.4,0.5,jaipur,26.8567865,75.7610432,0,4.4,68,0,0,4.234107
+Shree Digamber Jain Mandir Chhota Diwan Ji (Diwan Amarchand Ji),tourist attraction,4.6,0.5,jaipur,26.9221757,75.820043,0,4.6,66,0,0,4.204693
+Sawan Bhado Park,park,4.3,0.5,jaipur,26.9146811,75.8174919,0,4.3,66,0,0,4.204693
+Ashoka Holidays- A Complete Travel House,travel agency,4.7,0.5,jaipur,26.8980812,75.7645804,0,4.7,61,0,0,4.127134
+Khama Ghani Tours,tourist attraction,4.8,0.5,jaipur,26.9200374,75.7964647,0,4.8,59,0,0,4.094345
+Win Tours India,travel agency,4.7,0.5,jaipur,26.908706,75.799866,0,4.7,60,0,0,4.110874
+Sunrise Point,tourist attraction,4.4,0.5,jaipur,26.9399738,75.8170363,0,4.4,62,0,0,4.143135
+Gemstone Ganesh Museum,museum,4.8,0.5,jaipur,26.9287526,75.8286564,0,4.8,56,0,0,4.043051
+Heritage Walk Jaipur,travel agency,4.8,0.5,jaipur,26.9204385,75.8243402,0,4.8,55,0,0,4.025352
+GHUMO PHIRO INDIA TOUR AND TRAVELS,tourist attraction,5.0,0.5,jaipur,26.9508932,75.7238776,0,5.0,49,0,0,3.912023
+Day Night Tours And Travels,tourist attraction,5.0,0.5,jaipur,26.8981159,75.7568021,0,5.0,48,0,0,3.89182
+KULISH SMRITI VAN,tourist attraction,4.7,0.5,jaipur,26.8705759,75.8091365,0,4.7,51,0,0,3.951244
+My HomeStay Jaipur (SONI 2700),tourist attraction,4.9,0.5,jaipur,26.9300107,75.8137715,0,4.9,48,0,0,3.89182
+Nilkanth Mahadev Temple,hindu temple,4.7,0.5,jaipur,26.9108817,75.79288869999999,0,4.7,49,0,0,3.912023
+Aapki Hansi Tour&Travels,tourist attraction,4.9,0.5,jaipur,26.8570443,75.7491375,0,4.9,45,0,0,3.828641
+BAIRASADAN,hindu temple,4.7,0.5,jaipur,26.9348297,75.75521309999999,0,4.7,46,0,0,3.850148
+Step well of Nahargarh Fort Jaipur,tourist attraction,4.5,0.5,jaipur,26.9383033,75.81522749999999,0,4.5,47,0,0,3.871201
+CITY PARK GROUNDS,park,4.6,0.5,jaipur,26.8561272,75.7617312,0,4.6,45,0,0,3.828641
+SWAGATAM INDIA TOURS,tourist attraction,5.0,0.5,jaipur,26.9124122,75.7280916,0,5.0,39,0,0,3.688879
+real indian tours,tourist attraction,5.0,0.5,jaipur,26.9018443,75.744299,0,5.0,35,0,0,3.583519
+Sankat Mochan Hanuman Ji Mandir,hindu temple,4.5,0.5,jaipur,26.9396846,75.8254685,0,4.5,39,0,0,3.688879
+Jaldhara Ticket Booth,tourist attraction,4.2,0.5,jaipur,26.8712686,75.8087278,0,4.2,40,0,0,3.713572
+Dev Narayan Temple,hindu temple,4.4,0.5,jaipur,26.893807,75.8187832,0,4.4,38,0,0,3.663562
+Rajasthan Bhumi Tours,tourist attraction,4.8,0.5,jaipur,26.935498,75.791803,0,4.8,34,0,0,3.555348
+Rajasthan University Main Gate,tourist attraction,4.4,0.5,jaipur,26.8886052,75.81384249999999,0,4.4,37,0,0,3.637586
+India Rajasthan Tours,travel agency,4.9,0.5,jaipur,26.9299371,75.74488319999999,0,4.9,32,0,0,3.496508
+Divine India Journey,tourist attraction,5.0,0.5,jaipur,26.9280172,75.7480083,0,5.0,29,0,0,3.401197
+Nahargarh fort Jaipur,tourist attraction,4.4,0.5,jaipur,26.9379907,75.8155026,0,4.4,35,0,0,3.583519
+Jaipur Tour With Cooking Classes,tourist attraction,4.9,0.5,jaipur,26.94305659999999,75.7839614,0,4.9,29,0,0,3.401197
+Mehta Services (India) Pvt. Ltd.,travel agency,5.0,0.5,jaipur,26.909828,75.798351,0,5.0,27,0,0,3.332205
+Mandawa Enclave,tourist attraction,4.7,0.5,jaipur,26.9193241,75.7398245,0,4.7,30,0,0,3.433987
+Angdata Smarak,tourist attraction,4.5,0.5,jaipur,26.9038322,75.81416229999999,0,4.5,31,0,0,3.465736
+Tejofy India Pvt. Ltd.,tourist attraction,5.0,0.5,jaipur,26.93506249999999,75.75531250000002,0,5.0,25,0,0,3.258097
+MNIT Temple,hindu temple,4.4,0.5,jaipur,26.86675,75.81228430000002,0,4.4,30,0,0,3.433987
+Pritam Chowk,tourist attraction,4.3,0.5,jaipur,26.926552,75.82335619999999,0,4.3,30,0,0,3.433987
+Santoshi Mata Temple,hindu temple,4.6,0.5,jaipur,26.9233888,75.8287236,0,4.6,25,0,0,3.258097
+GoTravelPro,tourist attraction,4.9,0.5,jaipur,26.8612338,75.8122769,0,4.9,21,0,0,3.091042
+Rajasthan housing board Fountain Square,tourist attraction,4.5,0.5,jaipur,26.8623573,75.7655231,0,4.5,24,0,0,3.218876
+Jaipur Pink City,tourist attraction,4.3,0.5,jaipur,26.9247923,75.8185061,0,4.3,26,0,0,3.295837
+Jaipur Sightseeing Trip,tourist attraction,5.0,0.5,jaipur,26.9090454,75.7980528,0,5.0,18,0,0,2.944439
+Divisha tours and travels,travel agency,5.0,0.5,jaipur,26.8879154,75.76003190000002,0,5.0,18,0,0,2.944439
+Rotary Circle Transport Nagar (New Bus Stop),tourist attraction,3.9,0.5,jaipur,26.9010241,75.8439824,0,3.9,29,0,0,3.401197
+Jaipur Taxi Service | Jaipur Taxi Online | Best Tour and Travels Jaipur| Taxi Services in jaipur,tourist attraction,5.0,0.5,jaipur,26.9206611,75.797754,0,5.0,17,0,0,2.890372
+Albert Hall Museum,museum,4.5,0.5,jaipur,26.9115849,75.81941200000001,0,4.5,72173,0,0,11.186835
+Pratap Celebrity Wax Museum,museum,4.7,0.5,jaipur,26.941028,75.83763130000001,0,4.7,67870,0,0,11.125364
+Mouj Mahal The Paradise Of Fun,museum,4.4,0.5,jaipur,26.9401498,75.8380304,0,4.4,6533,0,0,8.784775
+Bubber Handicrafts INC,museum,4.9,0.5,jaipur,26.90714,75.83548780000001,0,4.9,853,0,0,6.749931
+Bubber Handicrafts House,museum,4.8,0.5,jaipur,26.9162901,75.8218763,0,4.8,441,0,0,6.09131
+Rajasthan Tour Taxi - Jaipur,car rental,5.0,0.5,jaipur,26.9255799,75.8080104,0,5.0,368,0,0,5.910797
+"Marble Moortis | Premier Marble Murti Manufacturers in Jaipur | Top Moorti, Idols & God Statue Exporter in India",museum,5.0,0.5,jaipur,26.923891,75.8111034,0,5.0,274,0,0,5.616771
+GANESH MOORTI ART - Leading Marble statue manufacturer and exporter from India,museum,4.9,0.5,jaipur,26.9219222,75.8127337,0,4.9,221,0,0,5.402677
+Sheesh Mahal,museum,3.3,0.5,jaipur,26.9389393,75.81631170000001,0,3.3,220,0,0,5.398163
+Central Museum Of Jaipur,museum,4.5,0.5,jaipur,26.912027,75.81995810000001,0,4.5,174,0,0,5.164786
+Science Park,museum,4.3,0.5,jaipur,26.9423274,75.79773039999999,0,4.3,176,0,0,5.17615
+Jaipur Virasat Foundation RRAP Music Museum & Hub,museum,4.7,0.5,jaipur,26.9129782,75.8043649,0,4.7,166,0,0,5.117994
+Technology park,museum,4.1,0.5,jaipur,26.941011,75.79794489999999,0,4.1,94,0,0,4.553877
+GANDHI VATIKA,museum,4.5,0.5,jaipur,26.9021226,75.8132768,0,4.5,86,0,0,4.465908
+Moorti Bhandar,museum,4.4,0.5,jaipur,26.9232588,75.81275649999999,0,4.4,82,0,0,4.418841
+Mubarak Mahal City Palace,museum,4.5,0.5,jaipur,26.9257401,75.8236617,0,4.5,80,0,0,4.394449
+Indian Art House,tourist attraction,4.1,0.5,jaipur,26.9270342,75.82988979999999,0,4.1,80,0,0,4.394449
+"JAIPUR METRO ART GALLERY,(MUSEUM OF SCULPTURAL ART RAJASTHAN)",museum,4.4,0.5,jaipur,26.9247003,75.8184924,0,4.4,68,0,0,4.234107
+The Sculpture Park at Jaigarh,museum,4.4,0.5,jaipur,26.9373502,75.8155836,0,4.4,58,0,0,4.077537
+Handiwoodz,art gallery,4.7,0.5,jaipur,26.8831643,75.7870764,0,4.7,46,0,0,3.850148
+Triveni Moorti Museum,museum,5.0,0.5,jaipur,26.92048,75.8141175,0,5.0,42,0,0,3.7612
+Neerja International Inc,museum,4.2,0.5,jaipur,26.9098619,75.7896153,0,4.2,49,0,0,3.912023
+Tiwari Moorti Udyog,museum,4.9,0.5,jaipur,26.923594,75.8125416,0,4.9,41,0,0,3.73767
+Om Arts,museum,4.8,0.5,jaipur,26.922615,75.813858,0,4.8,42,0,0,3.7612
+Department of Archaeology and Museums,museum,4.5,0.5,jaipur,26.9118281,75.8195549,0,4.5,45,0,0,3.828641
+PIPE WORLD,museum,5.0,0.5,jaipur,26.9376623,75.73937839999999,0,5.0,38,0,0,3.663562
+Thewa Jewellery,jewelry store,4.9,0.5,jaipur,26.915005,75.7450374,0,4.9,485,0,0,6.186209
+Kalaneri Art Gallery,art gallery,4.6,0.5,jaipur,26.8693477,75.80833129999999,0,4.6,346,0,0,5.849325
+Khazana Art Gallery And Spices,art gallery,4.2,0.5,jaipur,26.9462825,75.8371999,0,4.2,304,0,0,5.720312
+Skull Tattoo Studio,art gallery,4.9,0.5,jaipur,26.8529411,75.805126,0,4.9,247,0,0,5.513429
+CRAFTS CORNER ART,art gallery,5.0,0.5,jaipur,26.93770289999999,75.73658979999999,0,5.0,182,0,0,5.209486
+Kamal Talai (Cafe’ & Gallery),cafe,4.8,0.5,jaipur,26.913826,75.81022800000001,0,4.8,174,0,0,5.164786
+Jaipur Center of Culture and Arts (JCCA),art gallery,4.9,0.5,jaipur,26.8840247,75.7421397,0,4.9,151,0,0,5.023881
+Nirmala Handicrafts,art gallery,4.7,0.5,jaipur,26.9358413,75.84201949999999,0,4.7,147,0,0,4.997212
+Kassa,art gallery,4.3,0.5,jaipur,26.8987662,75.81458330000001,0,4.3,137,0,0,4.927254
+Arjun Arts,art gallery,4.6,0.5,jaipur,26.9232352,75.7365416,0,4.6,134,0,0,4.905275
+Juneja Art Gallery ( Artchill ),art gallery,4.5,0.5,jaipur,26.8977842,75.78770089999999,0,4.5,126,0,0,4.844187
+Anil Mehandi Artist-Best Bridal Mehandi Artist in Jaipur/Mehandi Artist in Jaipur/Home Services Free,art gallery,4.8,0.5,jaipur,26.8562897,75.80681469999999,0,4.8,121,0,0,4.804021
+Jitesh Arts,art gallery,4.9,0.5,jaipur,26.9225833,75.82133429999999,0,4.9,106,0,0,4.672829
+Five Finger Art Studio,art gallery,5.0,0.5,jaipur,26.8555176,75.80879019999999,0,5.0,100,0,0,4.615121
+Art Point,art gallery,4.6,0.5,jaipur,26.9112855,75.744826,0,4.6,101,0,0,4.624973
+Siddeshwar Moorti Art- Leading Manufacturer & Exporter of Marble God Statues,art gallery,4.7,0.5,jaipur,26.9228386,75.8120933,0,4.7,95,0,0,4.564348
+Vaibhav Art Gallery,art gallery,4.3,0.5,jaipur,26.9387008,75.8390727,0,4.3,77,0,0,4.356709
+Home Decoration,furniture store,5.0,0.5,jaipur,26.90168989999999,75.73880419999999,0,5.0,69,0,0,4.248495
+Kalinga Arts,art gallery,4.9,0.5,jaipur,26.9042644,75.7239062,0,4.9,65,0,0,4.189655
+Kapil Moorti Bhandar,art gallery,5.0,0.5,jaipur,26.9247454,75.81254229999999,0,5.0,59,0,0,4.094345
+Armonia Jaipur | Best home decore gift shop,art gallery,4.5,0.5,jaipur,26.90863299999999,75.7435625,0,4.5,63,0,0,4.158883
+Rangreet - Indian Miniature Painting Studio,art gallery,4.9,0.5,jaipur,26.9142145,75.750058,0,4.9,59,0,0,4.094345
+Vijay Marketing Agency,art gallery,4.9,0.5,jaipur,26.9592294,75.77823670000001,0,4.9,58,0,0,4.077537
+Central Park,park,4.6,0.5,jaipur,26.9049037,75.8087219,0,4.6,24924,0,0,10.123627
+Dr. B. R. Ambedkar Park,park,4.2,0.5,jaipur,26.8807199,75.78096719999999,0,4.2,6072,0,0,8.711608
+Jhalana Leopard Safari Park,zoo,4.5,0.5,jaipur,26.8550448,75.83282009999999,0,4.5,4343,0,0,8.376551
+Mahima Garden,park,4.3,0.5,jaipur,26.8893458,75.77360829999999,0,4.3,2433,0,0,7.797291
+Parshuram Park,park,4.3,0.5,jaipur,26.8739404,75.7780277,0,4.3,2078,0,0,7.639642
+Dravyavati Bird Park,park,4.6,0.5,jaipur,26.9380324,75.7854811,0,4.6,1575,0,0,7.362645
+Civil Lines Park,park,4.3,0.5,jaipur,26.9085827,75.7830044,0,4.3,1530,0,0,7.333676
+Krishna Nagar Park,park,4.2,0.5,jaipur,26.8725773,75.7835491,0,4.2,1496,0,0,7.311218
+Ahinsa Park,park,4.2,0.5,jaipur,26.8748945,75.7895658,0,4.2,1380,0,0,7.230563
+Statue Circle,park,4.6,0.5,jaipur,26.9075261,75.8054937,0,4.6,1182,0,0,7.075809
+Madho Singh Circle,park,4.2,0.5,jaipur,26.93055589999999,75.7936354,0,4.2,1050,0,0,6.957497
+Ashok Vatika Park,park,4.4,0.5,jaipur,26.9059022,75.8000065,0,4.4,769,0,0,6.646391
+Pushpanjali Colony Park,park,4.1,0.5,jaipur,26.8743229,75.78410339999999,0,4.1,665,0,0,6.50129
+Mahesh Park,park,4.0,0.5,jaipur,26.8822676,75.7951932,0,4.0,637,0,0,6.458338
+"Guru Gobind Singh Park, Gurunanakpura,Jaipur",park,4.3,0.5,jaipur,26.8952555,75.8245243,0,4.3,622,0,0,6.434547
+Madhav Garden,park,3.9,0.5,jaipur,26.8734395,75.79190899999999,0,3.9,604,0,0,6.405228
+Krishna Park,park,4.1,0.5,jaipur,26.9243753,75.8039568,0,4.1,526,0,0,6.267201
+Shyam Vatika Park-Public Park,park,4.3,0.5,jaipur,26.89072819999999,75.7639473,0,4.3,511,0,0,6.238325
+Shiva Park,park,4.2,0.5,jaipur,26.9429394,75.7980137,0,4.2,443,0,0,6.095825
+Swarn Jayanti Park and Kishan bag,park,4.2,0.5,jaipur,26.9586749,75.79293559999999,0,4.2,344,0,0,5.843544
+NBC Flexible Solutions Ground,park,4.2,0.5,jaipur,26.9168721,75.7735252,0,4.2,324,0,0,5.783825
+Om Shiv Jyoti Park,park,4.2,0.5,jaipur,26.8937028,75.79465069999999,0,4.2,324,0,0,5.783825
+Kalpana Chawla Park,park,4.4,0.5,jaipur,26.8858747,75.82985289999999,0,4.4,321,0,0,5.774552
+Shivaji Park,park,4.3,0.5,jaipur,26.8908119,75.8206711,0,4.3,317,0,0,5.762051
+Varundev Park,park,4.3,0.5,jaipur,26.8856014,75.7469321,0,4.3,314,0,0,5.752573
+Public Park- Kartarpur,park,3.9,0.5,jaipur,26.8835296,75.7794236,0,3.9,307,0,0,5.7301
+Guru Jambeshwar Park,park,4.3,0.5,jaipur,26.9070579,75.747331,0,4.3,269,0,0,5.598422
+Nahargarh Fort,point of interest,4.5,0.5,jaipur,26.9401659,75.8170373,0,4.5,77525,0,0,11.258369
+"ITC Rajputana, a Luxury Collection Hotel, Jaipur",lodging,4.7,0.5,jaipur,26.9188189,75.7916285,0,4.7,18852,0,0,9.844427
+"Holiday Inn Jaipur City Centre, an IHG Hotel",lodging,4.6,0.5,jaipur,26.90294,75.792486,0,4.6,16925,0,0,9.736606
+Radisson Hotel Jaipur City Center,lodging,4.6,0.5,jaipur,26.9196281,75.79472,0,4.6,16368,0,0,9.703145
+Hilton Jaipur,lodging,4.4,0.5,jaipur,26.9012725,75.78374939999999,0,4.4,11293,0,0,9.332027
+ibis Jaipur City Centre,lodging,4.5,0.5,jaipur,26.908047,75.7799467,0,4.5,10513,0,0,9.260463
+Golden Tulip Essential,lodging,4.3,0.5,jaipur,26.91701949999999,75.8061386,0,4.3,8371,0,0,9.032648
+Sarovar Portico Jaipur,lodging,4.2,0.5,jaipur,26.9025498,75.7524467,0,4.2,7863,0,0,8.970051
+"Jai Mahal Palace, Jaipur",lodging,4.7,0.5,jaipur,26.912172,75.785178,0,4.7,7715,0,0,8.951051
+Naturals Ice Cream,food,4.5,0.5,jaipur,26.9110124,75.7954312,0,4.5,5879,0,0,8.679312
+"Lemon Tree Premier, Jaipur",gym,4.3,0.5,jaipur,26.9351975,75.7915031,0,4.3,5816,0,0,8.66854
+Leisure Inn Grand Chanakya,lodging,4.1,0.5,jaipur,26.9167375,75.8079118,0,4.1,5457,0,0,8.604838
+Sanjay Omelette - Egg Dee,meal takeaway,4.2,0.5,jaipur,26.8903126,75.81045259999999,0,4.2,5374,0,0,8.589514
+Decked Up By Garden Café,cafe,4.4,0.5,jaipur,26.91364839999999,75.752804,0,4.4,5345,0,0,8.584104
+Vesta International,lodging,4.0,0.5,jaipur,26.9146353,75.79127319999999,0,4.0,4876,0,0,8.492286
+Hotel Sarang Palace - Boutique Stays & Candlelight Dining,lodging,4.4,0.5,jaipur,26.9374249,75.79620349999999,0,4.4,4505,0,0,8.413165
+Hotel Kalyan,lodging,4.2,0.5,jaipur,26.9161599,75.7958726,0,4.2,4265,0,0,8.358432
+Hotel Arya Niwas,lodging,4.4,0.5,jaipur,26.92072229999999,75.8041044,0,4.4,3938,0,0,8.278682
+Lords Plaza Jaipur,lodging,4.2,0.5,jaipur,26.9089956,75.8150872,0,4.2,3595,0,0,8.187577
+Chinkara Canteen,grocery or supermarket,4.4,0.5,jaipur,26.91694,75.7655966,0,4.4,3393,0,0,8.129764
+Ginger Jaipur,travel agency,4.1,0.5,jaipur,26.9013404,75.7847884,0,4.1,3375,0,0,8.124447
+St. Xavier's Church,church,4.7,0.5,jaipur,26.9130744,75.81083029999999,0,4.7,248,0,0,5.517453
+"All Saints’ Church, Jaipur",church,4.5,0.5,jaipur,26.9177962,75.79929419999999,0,4.5,145,0,0,4.983607
+Cathedral of Our Lady of Annunciaton Church,church,4.6,0.5,jaipur,26.8584145,75.814438,0,4.6,117,0,0,4.770685
+St.Thomas Orthodox Church,church,4.5,0.5,jaipur,26.8963922,75.7468677,0,4.5,109,0,0,4.70048
+Cornerstone Assemblies of God Church,church,4.8,0.5,jaipur,26.8911136,75.7267318,0,4.8,97,0,0,4.584967
+The Pentecostal Mission Church,church,4.6,0.5,jaipur,26.9604795,75.7916896,0,4.6,83,0,0,4.430817
+Eternal Light Fellowship,church,4.8,0.5,jaipur,26.8679795,75.7478148,0,4.8,73,0,0,4.304065
+St. Mary's Orthodox Church,church,4.6,0.5,jaipur,26.9739598,75.7552615,0,4.6,61,0,0,4.127134
+Rajasthan Section of Seventh Day Adventist,church,4.7,0.5,jaipur,26.922602,75.7368722,0,4.7,48,0,0,3.89182
+Mor Gregorios Jacobite Syrian Church,church,4.5,0.5,jaipur,26.8789102,75.7675581,0,4.5,48,0,0,3.89182
+St. Mary's Syro Malankara Catholic Church,church,4.8,0.5,jaipur,26.8968635,75.75996219999999,0,4.8,34,0,0,3.555348
+St. Thomas Syro Malabar Church,church,4.8,0.5,jaipur,26.95067719999999,75.7464486,0,4.8,34,0,0,3.555348
+Bible Chapel,church,4.7,0.5,jaipur,26.9121689,75.7938872,0,4.7,30,0,0,3.433987
+AGAPE FELLOWSHIP CHURCH,church,4.9,0.5,jaipur,26.8971148,75.7433334,0,4.9,26,0,0,3.295837
+Rajasthan Bible Institute,church,4.2,0.5,jaipur,26.9099212,75.7817523,0,4.2,29,0,0,3.401197
+Hope Infinity Shelter,church,4.9,0.5,jaipur,26.91324749999999,75.7940186,0,4.9,22,0,0,3.135494
+Jaipur Brethren Church,church,4.7,0.5,jaipur,26.878686,75.76876399999999,0,4.7,23,0,0,3.178054
+Living Christian Movement Fellowship,church,4.7,0.5,jaipur,26.905306,75.7708131,0,4.7,22,0,0,3.135494
+Bethel Fellowship Church,church,4.8,0.5,jaipur,26.8596308,75.7512574,0,4.8,20,0,0,3.044522
+Real Connect Church,church,4.9,0.5,jaipur,26.9155081,75.7986215,0,4.9,18,0,0,2.944439
+Sacred Heart Catholic Church,church,4.9,0.5,jaipur,26.9113154,75.8321654,0,4.9,16,0,0,2.833213
+Pink City Methodist Church,church,4.9,0.5,jaipur,26.92363899999999,75.7471331,0,4.9,12,0,0,2.564949
+"Birla Mandir, Jaipur",hindu temple,4.7,0.5,jaipur,26.8921693,75.8153093,0,4.7,31719,0,0,10.364703
+"THIKANA MANDIR SRI GOVINDDEVJI , JAIPUR",hindu temple,4.9,0.5,jaipur,26.9288341,75.8240701,0,4.9,18168,0,0,9.807472
+Jharkhand Mahadev Temple,hindu temple,4.8,0.5,jaipur,26.9134633,75.7556912,0,4.8,2268,0,0,7.727094
+Papad wale Hanumanji,hindu temple,4.7,0.5,jaipur,26.9678319,75.7949641,0,4.7,2244,0,0,7.716461
+Shri Amrapur Darbar jaipur,hindu temple,4.6,0.5,jaipur,26.9185306,75.7999426,0,4.6,1680,0,0,7.427144
+"Chamatkareshwar Mahadev, Banipark",hindu temple,4.8,0.5,jaipur,26.9367537,75.7911798,0,4.8,557,0,0,6.324359
+Pandey Moorti Bhandar,hindu temple,4.9,0.5,jaipur,26.9220477,75.8140961,0,4.9,426,0,0,6.056784
+Jhatpat Balaji Temple,hindu temple,4.7,0.5,jaipur,26.8842193,75.770094,0,4.7,417,0,0,6.035481
+Gayatri Shaktipeeth,hindu temple,4.7,0.5,jaipur,26.9353731,75.8270735,0,4.7,223,0,0,5.411646
+"Shri Radha Damodar Temple, Jaipur",hindu temple,4.7,0.5,jaipur,26.93178,75.7962156,0,4.7,183,0,0,5.214936
+Laxmi Narayan Temple,hindu temple,4.7,0.5,jaipur,26.9218803,75.8436595,0,4.7,133,0,0,4.89784
+"Ayyappa Temple, Devi Nagar, Shyam Nagar",hindu temple,4.7,0.5,jaipur,26.8869916,75.75719649999999,0,4.7,112,0,0,4.727388
+Maa Vaishno Devi Mandir,hindu temple,4.8,0.5,jaipur,26.9361578,75.7928968,0,4.8,95,0,0,4.564348
+Maleshwar Mahadev Temple,hindu temple,4.4,0.5,jaipur,26.9147946,75.7706379,0,4.4,89,0,0,4.49981
+Birla Mandir Main Gate,hindu temple,4.6,0.5,jaipur,26.8943783,75.8153105,0,4.6,85,0,0,4.454347
+Ekalingeshwar Mahadev Temple,hindu temple,4.7,0.5,jaipur,26.8936637,75.81686499999999,0,4.7,79,0,0,4.382027
+Shri Chitragupt Gyan Temple,hindu temple,4.5,0.5,jaipur,26.8867007,75.8067899,0,4.5,79,0,0,4.382027
+Santoshi Mata Temple,hindu temple,4.5,0.5,jaipur,26.932632,75.8155929,0,4.5,78,0,0,4.369448
+Radha Govind Temple,hindu temple,4.6,0.5,jaipur,26.8575396,75.78553409999999,0,4.6,70,0,0,4.26268
+Ladli Ji Ka Mandir,hindu temple,4.8,0.5,jaipur,26.9225242,75.82963029999999,0,4.8,66,0,0,4.204693
+Shree Radha Govind Temple,hindu temple,4.7,0.5,jaipur,26.8762002,75.7928654,0,4.7,64,0,0,4.174387
+"Maa Saraswati Temple, University Campus",hindu temple,4.8,0.5,jaipur,26.888015,75.8165748,0,4.8,62,0,0,4.143135
+Temple Of Shiv Ji,hindu temple,4.5,0.5,jaipur,26.88539,75.7913686,0,4.5,64,0,0,4.174387
+Arya Samaj Mandir,hindu temple,4.5,0.5,jaipur,26.8963743,75.8265984,0,4.5,60,0,0,4.110874
+Veer Tejaji Temple,hindu temple,4.5,0.5,jaipur,26.9397762,75.7576648,0,4.5,58,0,0,4.077537
+Jama Masjid - جامع مسجد,mosque,4.3,0.5,jaipur,26.9216973,75.8261814,0,4.3,616,0,0,6.424869
+Mansarover Mosque,mosque,4.6,0.5,jaipur,26.868867,75.75813839999999,0,4.6,354,0,0,5.872118
+Noorani Masjid,mosque,4.8,0.5,jaipur,26.9476434,75.7429547,0,4.8,271,0,0,5.605802
+Qidwai Nagar Mosque,mosque,4.7,0.5,jaipur,26.8861982,75.7932163,0,4.7,251,0,0,5.529429
+Spoton logistics Pvt Ltd,mosque,4.4,0.5,jaipur,26.9229037,75.807309,0,4.4,187,0,0,5.236442
+Raiyan residency masjid,mosque,4.6,0.5,jaipur,26.9059526,75.794383,0,4.6,176,0,0,5.17615
+Sushilpura Mosque,mosque,4.4,0.5,jaipur,26.89893520000001,75.7643948,0,4.4,175,0,0,5.170484
+"Masjid-E-Hamza Ahle Hadees , मस्जिद-ए-हम्ज़ा अहले हदीस",mosque,4.8,0.5,jaipur,26.948948,75.739846,0,4.8,145,0,0,4.983607
+Noorani Masjid Jalupura - نورانی مسجد Ahle Sunnat Wal Jama'at,mosque,4.5,0.5,jaipur,26.9211521,75.80754879999999,0,4.5,142,0,0,4.962845
+Makka Masjid _Ahle Sunnat Wal Jammat_,mosque,4.4,0.5,jaipur,26.9489606,75.7528917,0,4.4,143,0,0,4.969813
+Hazrat Gatte Wale Baba Rehmatullah Aleh,mosque,4.3,0.5,jaipur,26.8748501,75.79787940000001,0,4.3,143,0,0,4.969813
+Muhammade Masjid - مسجدِ محمدی,mosque,4.3,0.5,jaipur,26.9598227,75.7911245,0,4.3,138,0,0,4.934474
+Masjid Khwaja Garib Nawaz Sunni Barelvi,mosque,4.2,0.5,jaipur,26.8829732,75.7681157,0,4.2,135,0,0,4.912655
+Dargah Hazrat Darbar Ali Shah,mosque,4.4,0.5,jaipur,26.9380422,75.84843359999999,0,4.4,128,0,0,4.859812
+Gulzaar Mosque,mosque,4.8,0.5,jaipur,26.9519074,75.7356641,0,4.8,121,0,0,4.804021
+Khwaja Garib Nawaj Masjid _Ahle Sunnat_,mosque,4.6,0.5,jaipur,26.9337997,75.75079509999999,0,4.6,120,0,0,4.795791
+Choti Masjid Kharbuuza Mandi,mosque,4.1,0.5,jaipur,26.9077175,75.8231672,0,4.1,124,0,0,4.828314
+Firdous Masjid,mosque,4.5,0.5,jaipur,26.948315,75.804943,0,4.5,120,0,0,4.795791
+Chabad Jaipur חב''ד ג'ייפור,synagogue,4.6,0.5,jaipur,26.92574279999999,75.7921248,0,4.6,14,0,0,2.70805
+pp ka ghar,synagogue,5.0,0.5,jaipur,26.8947282,75.7724535,0,5.0,1,0,0,0.693147
+Vijay mehra,synagogue,0.0,0.5,jaipur,26.9103243,75.7898378,0,0.0,0,0,0,0.0
+Jaipur,synagogue,0.0,0.5,jaipur,26.9153106,75.7936793,0,0.0,0,0,0,0.0
+Bajranj Bali Asscoits,synagogue,0.0,0.5,jaipur,26.917892,75.801538,0,0.0,0,0,0,0.0
+सदाशिव महादेव मंदिर जगन्नाथ पुरी दीतीय,synagogue,0.0,0.5,jaipur,26.8584403,75.77693230000001,0,0.0,0,0,0,0.0
+Dj barrvo,synagogue,0.0,0.5,jaipur,26.8604397,75.78613109999999,0,0.0,0,0,0,0.0
+World Trade Park,shopping mall,4.6,0.5,jaipur,26.853021,75.8046688,0,4.6,87449,0,0,11.378822
+Gaurav Tower,shopping mall,4.4,0.5,jaipur,26.85562209999999,75.80697909999999,0,4.4,54925,0,0,10.913742
+Pink Square Mall,shopping mall,4.3,0.5,jaipur,26.9031809,75.8367426,0,4.3,28997,0,0,10.274982
+Cosmo Creation,shopping mall,4.3,0.5,jaipur,26.9412028,75.7710024,0,4.3,21732,0,0,9.986587
+Sunny Trade Center,shopping mall,4.1,0.5,jaipur,26.87691149999999,75.7607003,0,4.1,12886,0,0,9.463974
+Saraogi Mansion,shopping mall,4.0,0.5,jaipur,26.9158658,75.8223271,0,4.0,9329,0,0,9.14099
+Ganpati Plaza B.116-j M N communication,shopping mall,4.2,0.5,jaipur,26.9191184,75.7988968,0,4.2,6742,0,0,8.81626
+Mahima Trinity Mall,shopping mall,4.2,0.5,jaipur,26.8904921,75.7720241,0,4.2,6538,0,0,8.78554
+"Apex Mall, Lal Kothi",shopping mall,4.0,0.5,jaipur,26.889031,75.8034529,0,4.0,6097,0,0,8.715716
+Lifestyle Stores,shopping mall,4.3,0.5,jaipur,26.9021632,75.7938088,0,4.3,5983,0,0,8.696845
+City Plaza,shopping mall,4.0,0.5,jaipur,26.9355858,75.7920494,0,4.0,4924,0,0,8.50208
+Triton Mall,shopping mall,4.4,0.5,jaipur,26.9412205,75.77118329999999,0,4.4,4911,0,0,8.499436
+Elements Mall,shopping mall,4.1,0.5,jaipur,26.8953654,75.7485213,0,4.1,4699,0,0,8.455318
+Man Upasana Plaza,shopping mall,4.2,0.5,jaipur,26.9118375,75.7972683,0,4.2,2999,0,0,8.006368
+City Pulse Mall,shopping mall,3.9,0.5,jaipur,26.89969619999999,75.8133265,0,3.9,2801,0,0,7.938089
+Gaurav alteration shop,shopping mall,4.2,0.5,jaipur,26.88817749999999,75.80272699999999,0,4.2,2625,0,0,7.873217
+Sapta Shakti Canteen,shopping mall,4.4,0.5,jaipur,26.93183459999999,75.784669,0,4.4,2427,0,0,7.794823
+"Orbit Mall, Jaipur",shopping mall,4.1,0.5,jaipur,26.9099287,75.7807424,0,4.1,2361,0,0,7.767264
+Hadimba Devi Temple,hindu temple,4.6,0.5,manali,32.2483526,77.18157269999999,0,4.6,47375,0,0,10.765871
+"Shri Vasishtha Temple, Manali",hindu temple,4.5,0.5,manali,32.2656705,77.18786,0,4.5,26486,0,0,10.184409
+Mall Road Market Manali,tourist attraction,4.4,0.5,manali,32.2447572,77.1896343,0,4.4,16862,0,0,9.732877
+Jogini Falls,tourist attraction,4.6,0.5,manali,32.2750756,77.1881463,0,4.6,10610,0,0,9.269646
+Collection O 84894 Hotel River Bank,tourist attraction,3.9,0.5,manali,32.25379410000001,77.1805967,0,3.9,10521,0,0,9.261224
+Van Vihar National Park,park,4.2,0.5,manali,32.2391128,77.1890887,0,4.2,8886,0,0,9.092345
+Nehru Kund,tourist attraction,4.4,0.5,manali,32.28598219999999,77.1798238,0,4.4,7597,0,0,8.93564
+Manali Bazaar,tourist attraction,4.3,0.5,manali,32.24399129999999,77.1894415,0,4.3,3977,0,0,8.288534
+Manali Snow Point,tourist attraction,4.6,0.5,manali,32.275795,77.18075689999999,0,4.6,3868,0,0,8.260751
+Global Trip Holidays Private Limited,travel agency,4.8,0.5,manali,32.2371614,77.1897339,0,4.8,2494,0,0,7.822044
+Himalayan Nyinmapa Buddhist Monastery,tourist attraction,4.4,0.5,manali,32.24226549999999,77.188209,0,4.4,2166,0,0,7.681099
+Museum of Himachal Culture & Folk Art,museum,4.1,0.5,manali,32.2462111,77.1805751,0,4.1,1127,0,0,7.028201
+"Him Valley Amusement & Cultural Park, Manali",amusement park,4.0,0.5,manali,32.2766335,77.1806335,0,4.0,1106,0,0,7.009409
+Hotel Hadimba Palace Manali,tourist attraction,3.6,0.5,manali,32.2473678,77.184128,0,3.6,526,0,0,6.267201
+Baror Parsha Waterfall,tourist attraction,4.7,0.5,manali,32.2067855,77.18490039999999,0,4.7,439,0,0,6.086775
+Old Manali snow point,tourist attraction,4.6,0.5,manali,32.249112,77.180076,0,4.6,416,0,0,6.033086
+Ghatotkach Tree Temple,hindu temple,4.4,0.5,manali,32.2463472,77.18048859999999,0,4.4,359,0,0,5.886104
+Lama Dugh Trek Start Point,tourist attraction,4.6,0.5,manali,32.2489026,77.1750129,0,4.6,283,0,0,5.648974
+Shiv Mahadev Temple,hindu temple,4.6,0.5,manali,32.2446835,77.1837257,0,4.6,262,0,0,5.572154
+Jogini Fall Full View Point,tourist attraction,4.6,0.5,manali,32.2761545,77.1902207,0,4.6,254,0,0,5.541264
+Himalayan Igloo,tourist attraction,4.5,0.5,manali,32.2392117,77.2251751,0,4.5,199,0,0,5.298317
+Manali Car Rental Taxi service Mahinder,tourist attraction,4.9,0.5,manali,32.24253479999999,77.1882937,0,4.9,169,0,0,5.135798
+Aesthetic Himalayas,travel agency,4.8,0.5,manali,32.2323889,77.1915664,0,4.8,170,0,0,5.141664
+Keylinga's Manali Igloo Stay,tourist attraction,4.6,0.5,manali,32.239315,77.22297999999999,0,4.6,171,0,0,5.147494
+hampta route pin,tourist attraction,4.8,0.5,manali,32.2563691,77.2382944,0,4.8,132,0,0,4.890349
+ZipGo Travels Volvo Bus Stand,travel agency,3.8,0.5,manali,32.23281819999999,77.1879529,0,3.8,140,0,0,4.94876
+Manali Car Rental | Self Drive & 4x4 Cab Service | Wanderlust Car Rentals,tourist attraction,5.0,0.5,manali,32.2461304,77.1898784,0,5.0,126,0,0,4.844187
+Kharma valley,tourist attraction,4.8,0.5,manali,32.2548016,77.1680161,0,4.8,126,0,0,4.844187
+In Wild Himalaya Camp- Manali,campground,4.5,0.5,manali,32.196134,77.190496,0,4.5,108,0,0,4.691348
+The Cozi Camps,campground,5.0,0.5,manali,32.2248053,77.21271159999999,0,5.0,103,0,0,4.644391
+Himachal Tour Package,tourist attraction,4.6,0.5,manali,32.21693559999999,77.1971429,0,4.6,104,0,0,4.65396
+Parsha waterfall,tourist attraction,4.7,0.5,manali,32.2066399,77.1816601,0,4.7,95,0,0,4.564348
+Mata Sharvari Temple Shuru,hindu temple,4.8,0.5,manali,32.2134852,77.2033521,0,4.8,90,0,0,4.51086
+The Inner Himalayas,tourist attraction,4.8,0.5,manali,32.21902179999999,77.1859063,0,4.8,85,0,0,4.454347
+Shop no. 216- vanshmahadev,tourist attraction,3.9,0.5,manali,32.2778944,77.1803724,0,3.9,92,0,0,4.532599
+Shimla Kullu Manali Tour,tourist attraction,4.9,0.5,manali,32.2377586,77.1961602,0,4.9,78,0,0,4.369448
+Manali View Point,tourist attraction,4.6,0.5,manali,32.2338352,77.1873592,0,4.6,79,0,0,4.382027
+Rani Sui lake,tourist attraction,4.7,0.5,manali,32.2115172,77.1349843,0,4.7,78,0,0,4.369448
+Mini Switzerland Manali,tourist attraction,4.6,0.5,manali,32.2468758,77.1891947,0,4.6,73,0,0,4.304065
+Kullu Manali River rafting,tourist attraction,4.4,0.5,manali,32.2431872,77.1891761,0,4.4,72,0,0,4.290459
+Hadimba Himachal,tourist attraction,4.6,0.5,manali,32.24783929999999,77.1795187,0,4.6,70,0,0,4.26268
+Igloo Hamta (igloo stay),tourist attraction,4.8,0.5,manali,32.2342592,77.2216885,0,4.8,68,0,0,4.234107
+Elavali Valley,travel agency,4.7,0.5,manali,32.237215,77.1952417,0,4.7,65,0,0,4.189655
+Atal Bihari statue,tourist attraction,4.5,0.5,manali,32.2456714,77.18975669999999,0,4.5,60,0,0,4.110874
+Small Waterfall Vashisht,tourist attraction,4.3,0.5,manali,32.2623524,77.19225209999999,0,4.3,62,0,0,4.143135
+Aarzu: Luxury Resort & Cafe | Manali,tourist attraction,4.8,0.5,manali,32.2501875,77.1709803,0,4.8,55,0,0,4.025352
+Sethan valley view,tourist attraction,4.7,0.5,manali,32.2365566,77.2218493,0,4.7,51,0,0,3.951244
+Heavenly Daze,tourist attraction,5.0,0.5,manali,32.2210801,77.1896093,0,5.0,47,0,0,3.871201
+RED DIAMOND TRAVELS,travel agency,4.5,0.5,manali,32.2239514,77.1961129,0,4.5,52,0,0,3.970292
+Indian Para Association - Paragliding In Manali Counter 11,tourist attraction,5.0,0.5,manali,32.1963547,77.1883936,0,5.0,43,0,0,3.78419
+Manali View Point,tourist attraction,4.7,0.5,manali,32.2603573,77.194069,0,4.7,45,0,0,3.828641
+Manu Temple View Point,tourist attraction,4.4,0.5,manali,32.258985,77.1770628,0,4.4,48,0,0,3.89182
+Explore the Himachal,tourist attraction,5.0,0.5,manali,32.2423555,77.18799469999999,0,5.0,41,0,0,3.73767
+Beas river view point,tourist attraction,4.3,0.5,manali,32.231382,77.1879857,0,4.3,47,0,0,3.871201
+"Shandilya Rishi, Shaleen",hindu temple,4.6,0.5,manali,32.1976428,77.1794489,0,4.6,44,0,0,3.806662
+The HD Tours & Travel,tourist attraction,4.9,0.5,manali,32.2500374,77.179183,0,4.9,36,0,0,3.610918
+Old Manali View point,tourist attraction,4.6,0.5,manali,32.26177629999999,77.17753920000001,0,4.6,39,0,0,3.688879
+Jagatsukh Village,tourist attraction,4.9,0.5,manali,32.2013075,77.2033793,0,4.9,31,0,0,3.465736
+वशिष्ठ,tourist attraction,4.6,0.5,manali,32.2614736,77.1899232,0,4.6,32,0,0,3.496508
+Hot Air Balloon Manali,tourist attraction,4.1,0.5,manali,32.2688222,77.1818231,0,4.1,37,0,0,3.637586
+Gadherni Waterfall,tourist attraction,4.5,0.5,manali,32.21266379999999,77.1849337,0,4.5,32,0,0,3.496508
+Sethan Mountain Viewpoint,tourist attraction,4.8,0.5,manali,32.2238723,77.21298589999999,0,4.8,25,0,0,3.258097
+LOVE HEART MANALI,tourist attraction,4.4,0.5,manali,32.25886800000001,77.1806568,0,4.4,27,0,0,3.332205
+Hadimba Forest Block,tourist attraction,4.4,0.5,manali,32.23740459999999,77.1885534,0,4.4,25,0,0,3.258097
+Stair to reach Hidimba Devi Temple,tourist attraction,4.6,0.5,manali,32.2480259,77.1821952,0,4.6,19,0,0,2.995732
+Muse Meadow Huts & Homestay|Best Homestay in Manali|Perfect Homestay in Manali|Manali Homestay with stunning Mountain View,tourist attraction,5.0,0.5,manali,32.2253253,77.1983793,0,5.0,12,0,0,2.564949
+Parashar lake,tourist attraction,4.8,0.5,manali,32.2431872,77.1891761,0,4.8,13,0,0,2.639057
+Manali ZipCrossing,tourist attraction,4.6,0.5,manali,32.252629,77.1795388,0,4.6,15,0,0,2.772589
+Water fall,tourist attraction,4.4,0.5,manali,32.2600922,77.24262,0,4.4,16,0,0,2.833213
+Himalayan Backpackers,tourist attraction,5.0,0.5,manali,32.2431872,77.1891761,0,5.0,8,0,0,2.197225
+Aalu Ground,tourist attraction,4.6,0.5,manali,32.2018752,77.1884159,0,4.6,12,0,0,2.564949
+Manali hp,tourist attraction,4.9,0.5,manali,32.24219910000001,77.1880484,0,4.9,8,0,0,2.197225
+Majhach village,tourist attraction,5.0,0.5,manali,32.288564,77.163127,0,5.0,7,0,0,2.079442
+"Sangam, Old Manali",tourist attraction,4.9,0.5,manali,32.2552875,77.1874211,0,4.9,7,0,0,2.079442
+Zipline,tourist attraction,4.9,0.5,manali,32.2526106,77.1798275,0,4.9,7,0,0,2.079442
+Rangri Zero Point,tourist attraction,4.1,0.5,manali,32.2244764,77.1900763,0,4.1,15,0,0,2.772589
+Garshadi Waterfall Gadherni,tourist attraction,4.2,0.5,manali,32.2122108,77.1828778,0,4.2,14,0,0,2.70805
+Parsha Village,tourist attraction,4.9,0.5,manali,32.2058053,77.1867697,0,4.9,7,0,0,2.079442
+Jushan Waterfall,tourist attraction,5.0,0.5,manali,32.28416079999999,77.1688904,0,5.0,5,0,0,1.791759
+Bike Rental Manali [Silk Route Biker ],tourist attraction,4.8,0.5,manali,32.2481985,77.1866302,0,4.8,6,0,0,1.94591
+Paradise Meadow,tourist attraction,4.7,0.5,manali,32.2436065,77.16963539999999,0,4.7,7,0,0,2.079442
+"INDUS villa, Manali",tourist attraction,4.8,0.5,manali,32.209423,77.185712,0,4.8,6,0,0,1.94591
+Jola shikari,tourist attraction,5.0,0.5,manali,32.2060104,77.1395477,0,5.0,4,0,0,1.609438
+Caves (Brighu lake trek),tourist attraction,4.7,0.5,manali,32.269854,77.212064,0,4.7,7,0,0,2.079442
+River Point Manali bus stand,tourist attraction,4.5,0.5,manali,32.2338562,77.18906,0,4.5,8,0,0,2.197225
+View Point,tourist attraction,4.8,0.5,manali,32.2420086,77.16065569999999,0,4.8,5,0,0,1.791759
+Indian Adventure Foundation base camp and Institute Manali,tourist attraction,4.5,0.5,manali,32.2096809,77.189844,0,4.5,8,0,0,2.197225
+Hamta Winter Snow Tourist Attractions and Games,tourist attraction,4.8,0.5,manali,32.241407,77.225719,0,4.8,5,0,0,1.791759
+Jogini Zipline,tourist attraction,4.3,0.5,manali,32.27194,77.18558449999999,0,4.3,10,0,0,2.397895
+Vashisht Village,tourist attraction,4.6,0.5,manali,32.265615,77.18776179999999,0,4.6,7,0,0,2.079442
+Standing rock mountain photo shoot point meadow,tourist attraction,4.8,0.5,manali,32.2608753,77.2435692,0,4.8,5,0,0,1.791759
+Bharat Trading Company,tourist attraction,5.0,0.5,manali,32.2435421,77.18918029999999,0,5.0,2,0,0,1.098612
+Baroad Parsu waterfall,tourist attraction,5.0,0.5,manali,32.2052852,77.18151689999999,0,5.0,2,0,0,1.098612
+Iatur,tourist attraction,5.0,0.5,manali,32.2431872,77.1891761,0,5.0,1,0,0,0.693147
+Kullu manali,tourist attraction,5.0,0.5,manali,32.2431872,77.1891761,0,5.0,1,0,0,0.693147
+Mall road view,tourist attraction,5.0,0.5,manali,32.246481,77.18309409999999,0,5.0,1,0,0,0.693147
+Ghorli (mountain view valley),tourist attraction,5.0,0.5,manali,32.23427469999999,77.1961275,0,5.0,1,0,0,0.693147
+Parsha Waterfall Viewpoint,tourist attraction,5.0,0.5,manali,32.20644410000001,77.1833958,0,5.0,1,0,0,0.693147
+Chhlaet Village,tourist attraction,5.0,0.5,manali,32.2225241,77.2164138,0,5.0,1,0,0,0.693147
+Himalayan Ibex Trekker,tourist attraction,5.0,0.5,manali,32.1990467,77.2010676,0,5.0,1,0,0,0.693147
+Igloo snowfie sethan,tourist attraction,5.0,0.5,manali,32.2341917,77.2229819,0,5.0,1,0,0,0.693147
+Secret magic waterfalls,tourist attraction,5.0,0.5,manali,32.27628489999999,77.1693082,0,5.0,1,0,0,0.693147
+Bipasha River View Point,tourist attraction,5.0,0.5,manali,32.2903788,77.1798325,0,5.0,1,0,0,0.693147
+Nature bath point,tourist attraction,5.0,0.5,manali,32.26023990000001,77.24263239999999,0,5.0,1,0,0,0.693147
+Thunder waterfall shanag,tourist attraction,4.3,0.5,manali,32.2761565,77.16880859999999,0,4.3,7,0,0,2.079442
+Himachal PARDESH,tourist attraction,4.3,0.5,manali,32.2431872,77.1891761,0,4.3,6,0,0,1.94591
+Bubu Dudu Waterfall point,tourist attraction,4.5,0.5,manali,32.2545789,77.1846691,0,4.5,4,0,0,1.609438
+Manali Town,tourist attraction,4.5,0.5,manali,32.2453504,77.1909301,0,4.5,2,0,0,1.098612
+Big Rock (Dungri van vihar),tourist attraction,4.5,0.5,manali,32.2483378,77.1785196,0,4.5,2,0,0,1.098612
+Ride Himalaya Adventure,tourist attraction,4.2,0.5,manali,32.2521478,77.17871140000001,0,4.2,5,0,0,1.791759
+Utopia Resorts & Spa,lodging,4.1,0.5,manali,32.2462054,77.1806193,0,4.1,829,0,0,6.721426
+Sehar Boutique Stay,art gallery,5.0,0.5,manali,32.2423709,77.1964198,0,5.0,23,0,0,3.178054
+Studio Manali,art gallery,5.0,0.5,manali,32.28964299999999,77.1712848,0,5.0,15,0,0,2.772589
+Desi Swaad,meal delivery,4.4,0.5,manali,32.24664069999999,77.18923880000001,0,4.4,4000,0,0,8.2943
+Manali Nature Park,park,4.6,0.5,manali,32.252246,77.1864254,0,4.6,243,0,0,5.497168
+Manali wildlife sanctuary,zoo,4.4,0.5,manali,32.2513239,77.1668617,0,4.4,189,0,0,5.247024
+Beas Bihal Nature Park,park,4.7,0.5,manali,32.2642092,77.18079159999999,0,4.7,121,0,0,4.804021
+DHUNGRI VAN VIHAR ( Forest Park ),park,4.4,0.5,manali,32.2484109,77.1805366,0,4.4,99,0,0,4.60517
+Shillong valley,park,4.6,0.5,manali,32.2431872,77.1891761,0,4.6,91,0,0,4.521789
+Hotel Oscar,park,4.8,0.5,manali,32.260724,77.182597,0,4.8,85,0,0,4.454347
+Lama Dug Natural Valley,park,4.8,0.5,manali,32.2357784,77.1498377,0,4.8,57,0,0,4.060443
+Van Vihar Park Visitor Entry,park,3.9,0.5,manali,32.2422815,77.1892678,0,3.9,49,0,0,3.912023
+Jawahar Lal Nehru,park,4.2,0.5,manali,32.24612739999999,77.1897513,0,4.2,18,0,0,2.944439
+Chous waterfall,park,4.8,0.5,manali,32.280503,77.155427,0,4.8,11,0,0,2.484907
+Van vihar,park,4.4,0.5,manali,32.2216931,77.18665419999999,0,4.4,14,0,0,2.70805
+Ghumaan Tol,park,4.8,0.5,manali,32.2275966,77.16836669999999,0,4.8,8,0,0,2.197225
+Shooting Point,park,4.6,0.5,manali,32.24748259999999,77.17643249999999,0,4.6,9,0,0,2.302585
+Gughtu Dhaug,park,5.0,0.5,manali,32.2196883,77.1749371,0,5.0,4,0,0,1.609438
+Bashisht water fall,park,4.8,0.5,manali,32.2810061,77.22901929999999,0,4.8,4,0,0,1.609438
+Ward no 3 Park,park,5.0,0.5,manali,32.2455427,77.1878899,0,5.0,1,0,0,0.693147
+Nehru park,park,5.0,0.5,manali,32.2458936,77.1899427,0,5.0,1,0,0,0.693147
+Bias Forest Vashist Manali,park,5.0,0.5,manali,32.2742175,77.1781963,0,5.0,1,0,0,0.693147
+Children Play Park,park,4.5,0.5,manali,32.24193830000001,77.1896973,0,4.5,4,0,0,1.609438
+Nature park,park,3.5,0.5,manali,32.2422161,77.18970809999999,0,3.5,2,0,0,1.098612
+אמפי תאטרון במנלי,park,0.0,0.5,manali,32.2461844,77.1897017,0,0.0,0,0,0,0.0
+Mastiff Grand Manali Resort,lodging,4.3,0.5,manali,32.206287,77.19057099999999,0,4.3,3682,0,0,8.211483
+Club Mahindra White Meadows,lodging,4.4,0.5,manali,32.2237727,77.1958195,0,4.4,3618,0,0,8.193953
+"Renest River Country Resort, Manali",lodging,4.3,0.5,manali,32.2273901,77.1888472,0,4.3,3584,0,0,8.184514
+"Taste of India, Manali | Indian Restaurant in Manali | Best Cafe in Manali | Indian Food Takeaway",restaurant,4.1,0.5,manali,32.25857019999999,77.1878115,0,4.1,3573,0,0,8.181441
+Snow Valley Resorts Manali,lodging,4.3,0.5,manali,32.2504866,77.1775201,0,4.3,3191,0,0,8.068403
+Hotel Devlok by DLS Hotels Manali,lodging,4.6,0.5,manali,32.2480817,77.1839268,0,4.6,3037,0,0,8.018955
+Honeymoon Inn,lodging,4.5,0.5,manali,32.2336803,77.19610109999999,0,4.5,2638,0,0,7.878155
+"The Holiday Resorts, Cottages & Spa",lodging,4.4,0.5,manali,32.2243312,77.1846846,0,4.4,2283,0,0,7.733684
+Snow Peak Retreat & Cottages ( Centrally Heated - Hill View),lodging,4.3,0.5,manali,32.2448213,77.1793986,0,4.3,2261,0,0,7.724005
+"Club Mahindra Resort - Snow Peaks, Manali Resort, Himachal Pradesh",lodging,4.3,0.5,manali,32.22082799999999,77.1999132,0,4.3,2221,0,0,7.706163
+Gezellig Inn - Manali,lodging,4.6,0.5,manali,32.21794070000001,77.18585519999999,0,4.6,2081,0,0,7.641084
+The Whispering Inn Old Manali ( An Exotic Vintage Beauty- Bar & Cafe),lodging,4.4,0.5,manali,32.2523321,77.1826112,0,4.4,2039,0,0,7.620705
+The Manali Inn,lodging,4.2,0.5,manali,32.2212595,77.19137169999999,0,4.2,1910,0,0,7.555382
+Sandhya Resort & Spa (Manali) Best Hotels in Manali,beauty salon,4.2,0.5,manali,32.22186069999999,77.1896149,0,4.2,1589,0,0,7.371489
+ManuAllaya Resortspa,lodging,4.3,0.5,manali,32.2540751,77.1919841,0,4.3,1573,0,0,7.361375
+IL Forno,restaurant,4.4,0.5,manali,32.2458539,77.18278959999999,0,4.4,1378,0,0,7.229114
+Vivaan the Sunrise Resort,lodging,4.5,0.5,manali,32.225383,77.17977599999999,0,4.5,1368,0,0,7.221836
+HOTEL ROCKLAND INN,lodging,4.3,0.5,manali,32.2188744,77.1855041,0,4.3,1362,0,0,7.217443
+The Manali Lodge,lodging,4.3,0.5,manali,32.243413,77.17684609999999,0,4.3,1307,0,0,7.176255
+Hotel New Ambika International(Mall Road Hotel),lodging,4.1,0.5,manali,32.2438911,77.1870306,0,4.1,1264,0,0,7.142827
+Rock Manali By Vivaan,cafe,4.4,0.5,manali,32.22620140000001,77.1890087,0,4.4,1196,0,0,7.087574
+Sagar Resort,lodging,3.6,0.5,manali,32.2499315,77.1836807,0,3.6,1181,0,0,7.074963
+Hotel Manali - A Boutique Hotel,lodging,3.9,0.5,manali,32.238838,77.1871161,0,3.9,1135,0,0,7.035269
+Woodrock Hotel Manali,restaurant,4.5,0.5,manali,32.2479415,77.1854484,0,4.5,1091,0,0,6.995766
+Manali Masih Mandli ( C.N.I ),church,4.8,0.5,manali,32.2447592,77.18857349999999,0,4.8,31,0,0,3.465736
+SAME,church,0.0,0.5,manali,32.24313919999999,77.1891125,0,0.0,0,0,0,0.0
+Navajeevan masihi satsang bhavan nagroan,church,0.0,0.5,manali,32.27493219999999,77.1831002,0,0.0,0,0,0,0.0
+"Manu Temple, Old Manali",hindu temple,4.5,0.5,manali,32.257042,77.1760523,0,4.5,4582,0,0,8.430109
+Manali Travel Point,hindu temple,4.3,0.5,manali,32.2462675,77.1897582,0,4.3,362,0,0,5.894403
+near Durga Temple,hindu temple,4.5,0.5,manali,32.24429619999999,77.189619,0,4.5,152,0,0,5.030438
+Rama Temple,hindu temple,4.7,0.5,manali,32.2654245,77.18794419999999,0,4.7,117,0,0,4.770685
+Khatu Shyam Temple Dhungri,hindu temple,4.6,0.5,manali,32.2447348,77.1766933,0,4.6,106,0,0,4.672829
+Kartik Swami Temple,hindu temple,4.5,0.5,manali,32.2221407,77.1843027,0,4.5,62,0,0,4.143135
+Shiv Mandir,hindu temple,4.9,0.5,manali,32.198255,77.2026588,0,4.9,26,0,0,3.295837
+Jagatsukh Mandir,hindu temple,4.7,0.5,manali,32.1986339,77.2022346,0,4.7,27,0,0,3.332205
+Jamlu Rishi Temple,hindu temple,4.5,0.5,manali,32.2905408,77.1646578,0,4.5,28,0,0,3.367296
+Bhutnath Temple,hindu temple,4.5,0.5,manali,32.2441291,77.19123689999999,0,4.5,27,0,0,3.332205
+Touchwood Resort,hindu temple,3.9,0.5,manali,32.2479387,77.18406619999999,0,3.9,33,0,0,3.526361
+Hanuman Temple,hindu temple,4.7,0.5,manali,32.2858532,77.17934,0,4.7,25,0,0,3.258097
+Rishi Jamdagni Temple( Jetha Hamta ),hindu temple,4.6,0.5,manali,32.2221815,77.2080752,0,4.6,23,0,0,3.178054
+Guru Vashishtha Temple,hindu temple,4.6,0.5,manali,32.2125934,77.1911678,0,4.6,22,0,0,3.135494
+Durga Temple,hindu temple,4.6,0.5,manali,32.24745639999999,77.1842064,0,4.6,21,0,0,3.091042
+Shirgan Naag Mandir Bhanara,hindu temple,4.7,0.5,manali,32.20163720000001,77.2093821,0,4.7,20,0,0,3.044522
+Sree Gautam Rishi Ashram,hindu temple,4.5,0.5,manali,32.2742228,77.17397729999999,0,4.5,22,0,0,3.135494
+Bhole Nath Temple,hindu temple,4.6,0.5,manali,32.21691249999999,77.20264399999999,0,4.6,20,0,0,3.044522
+Shuru,hindu temple,4.7,0.5,manali,32.2177264,77.20309019999999,0,4.7,19,0,0,2.995732
+Maa Vaishnoo Temple,hindu temple,4.4,0.5,manali,32.2422761,77.19462589999999,0,4.4,21,0,0,3.091042
+जय वीरनाथ,hindu temple,4.8,0.5,manali,32.206256,77.1857357,0,4.8,17,0,0,2.890372
+Hadimba temple,hindu temple,4.6,0.5,manali,32.24313919999999,77.1891125,0,4.6,17,0,0,2.890372
+Kaulantakpeeth,hindu temple,4.2,0.5,manali,32.2455387,77.17620149999999,0,4.2,20,0,0,3.044522
+Devta Than Temple Shuru,hindu temple,4.9,0.5,manali,32.2184151,77.2019919,0,4.9,12,0,0,2.564949
+Jama Masjid Manali(Jagatsukh),mosque,4.4,0.5,manali,32.19775269999999,77.2023609,0,4.4,180,0,0,5.198497
+ईदगाह जगतसुख मनाली,mosque,4.5,0.5,manali,32.2018183,77.20464390000001,0,4.5,2,0,0,1.098612
+Masjid,mosque,0.0,0.5,manali,32.2423641,77.1879969,0,0.0,0,0,0,0.0
+Masjid manali mall road,mosque,0.0,0.5,manali,32.24148339999999,77.18736109999999,0,0.0,0,0,0,0.0
+Masjid,mosque,0.0,0.5,manali,32.24140039999999,77.187298,0,0.0,0,0,0,0.0
+Masjid ur Rahman,mosque,0.0,0.5,manali,32.20181649999999,77.2046445,0,0.0,0,0,0,0.0
+"בית חב""ד מנאלי",synagogue,4.8,0.5,manali,32.2539882,77.1776758,0,4.8,76,0,0,4.343805
+Manali Mall Market,shopping mall,4.3,0.5,manali,32.2433056,77.1893352,0,4.3,17634,0,0,9.777641
+Bodh Shawl Weavers,shopping mall,4.9,0.5,manali,32.2432581,77.18802509999999,0,4.9,17,0,0,2.890372
+Tibetan Market at Mall Road,shopping mall,4.6,0.5,manali,32.2433587,77.1893268,0,4.6,16,0,0,2.833213
+Patanjali Gramin Arogya Kendra,shopping mall,5.0,0.5,manali,32.2451343,77.18925,0,5.0,11,0,0,2.484907
+The Manu Weavers,shopping mall,4.9,0.5,manali,32.2475208,77.1897553,0,4.9,11,0,0,2.484907
+Jonny Baba Leather Art Gallery,shopping mall,4.1,0.5,manali,32.2529232,77.1767546,0,4.1,19,0,0,2.995732
+Kashmir Art Mart,shopping mall,3.4,0.5,manali,32.243864,77.1892987,0,3.4,24,0,0,3.218876
+Om shivay macrame,shopping mall,5.0,0.5,manali,32.25292890000001,77.1776131,0,5.0,5,0,0,1.791759
+Gateway Of India Mumbai,tourist attraction,4.6,0.5,mumbai,18.9219841,72.8346543,0,4.6,380672,0,0,12.849696
+Shree Siddhivinayak Temple,hindu temple,4.8,0.5,mumbai,19.0169538,72.83039389999999,0,4.8,129919,0,0,11.774674
+Marine Drive,tourist attraction,4.7,0.5,mumbai,18.9302074,72.8218856,0,4.7,69905,0,0,11.154907
+Veermata Jijabai Bhosale Botanical Udyan and Zoo,zoo,4.0,0.5,mumbai,18.9789473,72.8344661,0,4.0,43075,0,0,10.670721
+Chhatrapati Shivaji Maharaj Vastu Sangrahalaya,tourist attraction,4.6,0.5,mumbai,18.9269015,72.83269159999999,0,4.6,38932,0,0,10.569597
+Hanging Gardens,tourist attraction,4.2,0.5,mumbai,18.9565598,72.80498659999999,0,4.2,37558,0,0,10.533668
+Girgaon Chowpatty,tourist attraction,4.3,0.5,mumbai,18.9537767,72.8145684,0,4.3,36656,0,0,10.50936
+Colaba Market,tourist attraction,4.3,0.5,mumbai,18.920717,72.830649,0,4.3,35589,0,0,10.47982
+"Nariman Point, Mumbai",tourist attraction,4.7,0.5,mumbai,18.9257027,72.8186357,0,4.7,28176,0,0,10.246261
+Flora Fountain,tourist attraction,4.5,0.5,mumbai,18.9324806,72.8315166,0,4.5,24134,0,0,10.091418
+Haji Ali Dargah,tourist attraction,4.4,0.5,mumbai,18.9827935,72.80900009999999,0,4.4,20664,0,0,9.936197
+"Marine Drive Beach,Mumbai",tourist attraction,4.6,0.5,mumbai,18.9539765,72.8127734,0,4.6,20144,0,0,9.910711
+Nehru Science Centre,tourist attraction,4.3,0.5,mumbai,18.9918142,72.82072459999999,0,4.3,19138,0,0,9.859483
+Priyadarshini Park,park,4.5,0.5,mumbai,18.9570666,72.7989051,0,4.5,18682,0,0,9.835369
+Marine Drive,tourist attraction,4.7,0.5,mumbai,18.9338152,72.8239127,0,4.7,18227,0,0,9.810714
+Cross Maidan Garden,park,4.3,0.5,mumbai,18.9376543,72.8296775,0,4.3,14541,0,0,9.584796
+Horniman Circle Garden,park,4.4,0.5,mumbai,18.93197,72.8350343,0,4.4,13219,0,0,9.489486
+Oval Maidan,tourist attraction,4.4,0.5,mumbai,18.9296227,72.8288877,0,4.4,12709,0,0,9.450144
+Jehangir Art Gallery,art gallery,4.5,0.5,mumbai,18.9273983,72.83168560000001,0,4.5,12109,0,0,9.401787
+"BAPS Shri Swaminarayan Mandir, Mumbai",hindu temple,4.6,0.5,mumbai,19.01772549999999,72.8443667,0,4.6,9110,0,0,9.117238
+Nehru planetarium,tourist attraction,4.4,0.5,mumbai,18.9901337,72.81482,0,4.4,8263,0,0,9.019664
+ISKCON Chowpatty (Sri Sri Radha Gopinath Mandir),hindu temple,4.8,0.5,mumbai,18.9576799,72.80978549999999,0,4.8,8063,0,0,8.995165
+Churchgate Station,tourist attraction,4.6,0.5,mumbai,18.9352499,72.8271876,0,4.6,7104,0,0,8.868554
+August Kranti Maidan,tourist attraction,4.3,0.5,mumbai,18.9627982,72.8103294,0,4.3,6654,0,0,8.803124
+Amarsons Garden,park,4.3,0.5,mumbai,18.96962019999999,72.80224849999999,0,4.3,6283,0,0,8.745762
+Dr. Bhau Daji Lad Museum,museum,4.4,0.5,mumbai,18.9789889,72.8348153,0,4.4,5707,0,0,8.649624
+Banganga Tank,tourist attraction,4.2,0.5,mumbai,18.9454102,72.7937891,0,4.2,5573,0,0,8.625868
+Gol Deval Temple,hindu temple,4.4,0.5,mumbai,18.9580749,72.8281998,0,4.4,5298,0,0,8.575273
+Zakaria Masjid,mosque,4.5,0.5,mumbai,18.9532057,72.8346478,0,4.5,4830,0,0,8.482809
+Juma Masjid,mosque,4.5,0.5,mumbai,18.9490817,72.8322815,0,4.5,4642,0,0,8.443116
+CSMT,tourist attraction,4.6,0.5,mumbai,18.9404273,72.8354207,0,4.6,4196,0,0,8.342125
+Joseph Baptista Garden,park,4.4,0.5,mumbai,18.9664437,72.8424591,0,4.4,4088,0,0,8.316056
+Marine Drive Jogging Track,park,4.7,0.5,mumbai,18.9263038,72.8190977,0,4.7,3185,0,0,8.066521
+Tata Garden Park,tourist attraction,4.2,0.5,mumbai,18.9669168,72.8030794,0,4.2,3107,0,0,8.041735
+RBI Monetary Museum,museum,4.6,0.5,mumbai,18.9338333,72.8360852,0,4.6,2689,0,0,7.897296
+National Museum of Indian Cinema,museum,4.6,0.5,mumbai,18.9703243,72.8087666,0,4.6,2206,0,0,7.699389
+"St. Thomas’ Cathedral ( C.N.I ), Mumbai",tourist attraction,4.6,0.5,mumbai,18.9319003,72.8336849,0,4.6,1948,0,0,7.575072
+Gloria Church,tourist attraction,4.5,0.5,mumbai,18.9751463,72.8343331,0,4.5,1933,0,0,7.567346
+Babu Amichand Panalal Adishwarji Shwetambar Jain Temple,tourist attraction,4.8,0.5,mumbai,18.94919179999999,72.798893,0,4.8,1882,0,0,7.540622
+SHRI Mumbai Panjrapole,tourist attraction,4.4,0.5,mumbai,18.9545538,72.8271245,0,4.4,1644,0,0,7.405496
+Shivadi fort,tourist attraction,4.0,0.5,mumbai,19.0006679,72.86012649999999,0,4.0,1602,0,0,7.379632
+Sagar Upvan Garden,tourist attraction,4.2,0.5,mumbai,18.9118144,72.824715,0,4.2,1598,0,0,7.377134
+Khada Parsi Statue,tourist attraction,4.2,0.5,mumbai,18.9715541,72.83244270000002,0,4.2,1486,0,0,7.304516
+Malabar Hill Elevated Nature Trail,tourist attraction,4.3,0.5,mumbai,18.9540272,72.8042631,0,4.3,1385,0,0,7.234177
+Cathedral of the Holy Name,tourist attraction,4.8,0.5,mumbai,18.9233592,72.8306699,0,4.8,1246,0,0,7.128496
+"Shri Walkeshwar Temple, Mumbai",hindu temple,4.5,0.5,mumbai,18.9456144,72.7931926,0,4.5,1218,0,0,7.105786
+Girgaon Chowpatty Viewing Deck,tourist attraction,4.4,0.5,mumbai,18.9548181,72.8081114,0,4.4,1197,0,0,7.088409
+Rajabai Clock Tower,tourist attraction,4.6,0.5,mumbai,18.9297669,72.83008300000002,0,4.6,1159,0,0,7.056175
+Parsi Fire Temple,tourist attraction,4.2,0.5,mumbai,18.9351836,72.8359232,0,4.2,1015,0,0,6.923629
+Hasnabad Dargah,mosque,4.8,0.5,mumbai,18.9733505,72.8393936,0,4.8,945,0,0,6.852243
+Albela Hanuman Mandir,hindu temple,4.7,0.5,mumbai,19.0158715,72.8515491,0,4.7,793,0,0,6.677083
+Ismail Habib Sunni Masjid اسماعیل حبیب سُنّی مسجد,mosque,4.8,0.5,mumbai,18.954708,72.8338938,0,4.8,726,0,0,6.588926
+"Qutbi Masjid - قطبی مسجد, Bhendi Bazaar",mosque,4.7,0.5,mumbai,18.95971249999999,72.8300469,0,4.7,715,0,0,6.57368
+Sewri Mangrove Park,tourist attraction,4.1,0.5,mumbai,18.9955741,72.8616328,0,4.1,701,0,0,6.553933
+"Shree Swaminarayan Mandir, Mahalaxmi Mumbai",hindu temple,4.5,0.5,mumbai,18.9766579,72.80817309999999,0,4.5,661,0,0,6.495266
+"St. Teresa's Church, Girgaum",tourist attraction,4.3,0.5,mumbai,18.9553602,72.8185365,0,4.3,615,0,0,6.423247
+Chhatrapati Shivaji Maharaj Statue,tourist attraction,4.6,0.5,mumbai,18.9228403,72.8338811,0,4.6,519,0,0,6.253829
+"Gurratul Masajid - Saifee Masjid, Mumbai (Dawoodi Bohra)",mosque,4.9,0.5,mumbai,18.9586897,72.830428,0,4.9,450,0,0,6.111467
+Mumbai Pune Adventures | Best Travel Agency in Mumbai | Travel Agent | Tour operator,travel agency,4.9,0.5,mumbai,19.0166642,72.8464892,0,4.9,383,0,0,5.950643
+Atal Setu Entrance From Wadala side,tourist attraction,4.6,0.5,mumbai,18.9971171,72.8544161,0,4.6,357,0,0,5.880533
+Marine Drive view point,tourist attraction,4.6,0.5,mumbai,18.929756,72.821602,0,4.6,322,0,0,5.777652
+Bharat Point Sea Front,tourist attraction,4.2,0.5,mumbai,18.9143204,72.80800479999999,0,4.2,311,0,0,5.743003
+Shri Krishna Pranami Mandir,hindu temple,4.4,0.5,mumbai,18.9531218,72.8284463,0,4.4,307,0,0,5.7301
+Open Deck Bus Mumbai,tourist attraction,4.6,0.5,mumbai,18.9258165,72.8321454,0,4.6,301,0,0,5.710427
+"Dargah Sunni Masjid,Parel",mosque,4.6,0.5,mumbai,19.0076509,72.8399489,0,4.6,295,0,0,5.690359
+Keneseth Eliyahoo Synagogue,synagogue,4.4,0.5,mumbai,18.9281033,72.8325519,0,4.4,291,0,0,5.676754
+Marine Drive View Sunset Point,tourist attraction,4.5,0.5,mumbai,18.9336052,72.8233997,0,4.5,283,0,0,5.648974
+David Sassoon Library and Reading Room,library,4.4,0.5,mumbai,18.9277144,72.83109139999999,0,4.4,279,0,0,5.63479
+Malabar Hill Nature Trail (Entry Gate),tourist attraction,4.3,0.5,mumbai,18.9541097,72.8037243,0,4.3,270,0,0,5.602119
+Lok Bhavan Tour,tourist attraction,4.6,0.5,mumbai,18.9431854,72.7943306,0,4.6,227,0,0,5.429346
+"Shri Dhakleshwar Mahadev Temple, Mumbai",hindu temple,4.6,0.5,mumbai,18.976901,72.8070982,0,4.6,192,0,0,5.26269
+Bindu Madhav Thackeray Chowk,tourist attraction,4.4,0.5,mumbai,19.0043553,72.8133055,0,4.4,192,0,0,5.26269
+Coastal Road Marine Drive Starting point,tourist attraction,4.7,0.5,mumbai,18.9509841,72.81692439999999,0,4.7,186,0,0,5.231109
+Sunset Point - Marine Drive,tourist attraction,4.8,0.5,mumbai,18.9405393,72.8238245,0,4.8,169,0,0,5.135798
+Nana Chowk,tourist attraction,4.4,0.5,mumbai,18.9615804,72.8131519,0,4.4,173,0,0,5.159055
+Hutatma Memorial Statue,tourist attraction,4.4,0.5,mumbai,18.9327125,72.83145309999999,0,4.4,167,0,0,5.123964
+Mahalaxmi Sports Stadium,stadium,4.5,0.5,mumbai,18.9906215,72.8239571,0,4.5,154,0,0,5.043425
+Penguin Park,park,4.3,0.5,mumbai,18.9765658,72.8375162,0,4.3,153,0,0,5.036953
+Magen David Synagogue,synagogue,3.9,0.5,mumbai,18.9669457,72.8321706,0,3.9,153,0,0,5.036953
+Mumbai Skyline View Point,tourist attraction,4.7,0.5,mumbai,18.9441618,72.8225818,0,4.7,145,0,0,4.983607
+Icchapurti Sri Siddhivinayak Ganpati Temple,hindu temple,4.6,0.5,mumbai,18.994521,72.840836,0,4.6,143,0,0,4.969813
+Swami Vivekanand Statue,tourist attraction,4.6,0.5,mumbai,18.9228017,72.83473769999999,0,4.6,123,0,0,4.820282
+Sunset point,tourist attraction,4.7,0.5,mumbai,18.9274384,72.81990640000001,0,4.7,118,0,0,4.779123
+Chatterjee & Lal,art gallery,4.6,0.5,mumbai,18.932702,72.83537299999999,0,4.6,114,0,0,4.744932
+MOHAMMED ALI ROAD,tourist attraction,4.7,0.5,mumbai,18.9518278,72.8382898,0,4.7,113,0,0,4.736198
+Dhobi Ghat Viewing Deck,tourist attraction,4.5,0.5,mumbai,18.9821539,72.8247549,0,4.5,110,0,0,4.70953
+Fort George,tourist attraction,4.0,0.5,mumbai,18.9412367,72.838489,0,4.0,109,0,0,4.70048
+Mango Holidays India Pvt. Ltd.,tourist attraction,4.4,0.5,mumbai,19.019639,72.8361544,0,4.4,104,0,0,4.65396
+Passport Lifestyles,tourist attraction,5.0,0.5,mumbai,18.9452353,72.835162,0,5.0,93,0,0,4.543295
+Bomanjee Hormarjee Wadia Clock Tower,tourist attraction,4.4,0.5,mumbai,18.9345795,72.83580860000001,0,4.4,97,0,0,4.584967
+The Musical Road of Mumbai,tourist attraction,4.5,0.5,mumbai,18.9683049,72.8009143,0,4.5,92,0,0,4.532599
+BSE BULL Statue,tourist attraction,4.6,0.5,mumbai,18.9316707,72.8341698,0,4.6,84,0,0,4.442651
+Bharat point-Sunset Point,tourist attraction,4.2,0.5,mumbai,18.9213059,72.8144143,0,4.2,81,0,0,4.406719
+Linda Tours Mumbai,tourist attraction,4.9,0.5,mumbai,18.9910527,72.8317598,0,4.9,71,0,0,4.276666
+Coastal Road Worli Promenade Parking Entry,tourist attraction,4.6,0.5,mumbai,19.003478,72.81253199999999,0,4.6,65,0,0,4.189655
+Golanji Hill,hindu temple,4.0,0.5,mumbai,19.000811,72.850324,0,4.0,71,0,0,4.276666
+South Mumbai,tourist attraction,4.7,0.5,mumbai,18.9333299,72.8277731,0,4.7,63,0,0,4.158883
+Buddha's head statue,tourist attraction,4.6,0.5,mumbai,18.9265292,72.83186409999999,0,4.6,62,0,0,4.143135
+Gallery Maskara,art gallery,4.4,0.5,mumbai,18.918059,72.8275688,0,4.4,63,0,0,4.158883
+Byculla Garden,tourist attraction,4.3,0.5,mumbai,18.9804168,72.83555489999999,0,4.3,61,0,0,4.127134
+Sachin Tendulkar Statue,tourist attraction,4.1,0.5,mumbai,18.93923209999999,72.82505859999999,0,4.1,58,0,0,4.077537
+THE JACKPOT,clothing store,4.0,0.5,mumbai,18.9205398,72.8305503,0,4.0,57,0,0,4.060443
+Port Trust War Memorial,tourist attraction,4.5,0.5,mumbai,18.9340159,72.8401387,0,4.5,51,0,0,3.951244
+Sir Phiroj Shah Mehta Garden,tourist attraction,4.5,0.5,mumbai,18.9558639,72.8046738,0,4.5,50,0,0,3.931826
+Charni road,tourist attraction,4.5,0.5,mumbai,18.950275,72.8224621,0,4.5,48,0,0,3.89182
+Marine Drive Stone Stands,tourist attraction,4.6,0.5,mumbai,18.9253475,72.8180182,0,4.6,47,0,0,3.871201
+New Worli Sea Face Promenade,tourist attraction,4.6,0.5,mumbai,19.0091566,72.8131184,0,4.6,47,0,0,3.871201
+INS Mumbai - Worli Sea Face,tourist attraction,4.5,0.5,mumbai,19.0152507,72.81728989999999,0,4.5,48,0,0,3.89182
+Railway CST,tourist attraction,4.4,0.5,mumbai,18.9372605,72.8279062,0,4.4,46,0,0,3.850148
+CSMT view point,tourist attraction,4.6,0.5,mumbai,18.9399496,72.8346935,0,4.6,43,0,0,3.78419
+Eco Park,tourist attraction,4.1,0.5,mumbai,18.9592773,72.8039557,0,4.1,46,0,0,3.850148
+Rani Baug,tourist attraction,4.3,0.5,mumbai,18.9783145,72.8364174,0,4.3,40,0,0,3.713572
+Dolphin Lighthouse,tourist attraction,4.8,0.5,mumbai,18.91425419999999,72.8358429,0,4.8,34,0,0,3.555348
+Chinchpokli Station,tourist attraction,4.4,0.5,mumbai,18.9872162,72.8327925,0,4.4,38,0,0,3.663562
+Lord Shiva Temple,hindu temple,4.6,0.5,mumbai,18.9559377,72.82450639999999,0,4.6,34,0,0,3.555348
+Virmata Jijabai statue (with child Shivaji Maharaj),tourist attraction,4.6,0.5,mumbai,18.9783443,72.8363698,0,4.6,31,0,0,3.465736
+Chandika Devi Temple,hindu temple,4.5,0.5,mumbai,19.0008195,72.84743190000002,0,4.5,30,0,0,3.433987
+Prem Ramchandani Marg,tourist attraction,4.7,0.5,mumbai,18.9219428,72.8336296,0,4.7,27,0,0,3.332205
+Piramal Aranya,hindu temple,4.3,0.5,mumbai,18.9770041,72.8410117,0,4.3,30,0,0,3.433987
+Bien BonVoyage Pvt Ltd,travel agency,5.0,0.5,mumbai,18.9564259,72.8336103,0,5.0,22,0,0,3.135494
+DCT - Amphitheater,tourist attraction,4.6,0.5,mumbai,18.95468649999999,72.8468633,0,4.6,26,0,0,3.295837
+Sadhubella Temple,place of worship,4.8,0.5,mumbai,18.9770464,72.8082783,0,4.8,24,0,0,3.218876
+Girgaon Chowpati,tourist attraction,4.4,0.5,mumbai,18.9453962,72.8235998,0,4.4,26,0,0,3.295837
+Mevawala Agiary,tourist attraction,4.6,0.5,mumbai,18.9806891,72.8346129,0,4.6,24,0,0,3.218876
+CA B. N. Chaturvedi Chowk,tourist attraction,4.8,0.5,mumbai,18.9169375,72.8180625,0,4.8,18,0,0,2.944439
+Pahad Mahadev Mandir,hindu temple,4.8,0.5,mumbai,18.9538842,72.80423189999999,0,4.8,18,0,0,2.944439
+Mumbai Darshan Bus,tourist attraction,4.4,0.5,mumbai,18.993351,72.822403,0,4.4,21,0,0,3.091042
+Baab e Shohda e Karbala,tourist attraction,4.9,0.5,mumbai,18.9582785,72.83615089999999,0,4.9,15,0,0,2.772589
+Samaj Sevak Karbhari Shet Vitthal Palve Chowk,tourist attraction,5.0,0.5,mumbai,18.96365879999999,72.81773489999999,0,5.0,14,0,0,2.70805
+Murli Deora chowk,tourist attraction,4.8,0.5,mumbai,18.9269941,72.8196758,0,4.8,16,0,0,2.833213
+The Deoras - Krishna Villa,tourist attraction,4.8,0.5,mumbai,18.9605947,72.8021004,0,4.8,16,0,0,2.833213
+Malabar hill walk,tourist attraction,4.8,0.5,mumbai,18.9541002,72.8047479,0,4.8,16,0,0,2.833213
+Maharana Pratap Chowk,tourist attraction,5.0,0.5,mumbai,18.9687098,72.840604,0,5.0,12,0,0,2.564949
+M.Sadak Ali & Brothers,tourist attraction,4.3,0.5,mumbai,18.922864,72.832835,0,4.3,19,0,0,2.995732
+Seth Tulsidas Kilachand Garden,park,4.7,0.5,mumbai,18.9553701,72.8074446,0,4.7,15,0,0,2.772589
+Coastal Road Sunset viewpoint,tourist attraction,4.6,0.5,mumbai,18.9971754,72.8104895,0,4.6,16,0,0,2.833213
+Worli Wall Murals (W.W.M),tourist attraction,4.0,0.5,mumbai,19.0108351,72.8178535,0,4.0,21,0,0,3.091042
+Misty the Cat,tourist attraction,5.0,0.5,mumbai,18.9987957,72.8289066,0,5.0,11,0,0,2.484907
+Car entry point for Byculla Zoo,tourist attraction,4.5,0.5,mumbai,18.9792888,72.8341547,0,4.5,15,0,0,2.772589
+Koli Manus and Bai Statue,tourist attraction,4.2,0.5,mumbai,19.004162,72.8132804,0,4.2,17,0,0,2.890372
+Na,tourist attraction,5.0,0.5,mumbai,18.9665554,72.84465329999999,0,5.0,8,0,0,2.197225
+Harbor point,tourist attraction,4.5,0.5,mumbai,18.914,72.82388499999999,0,4.5,13,0,0,2.639057
+Black Horse,tourist attraction,4.7,0.5,mumbai,18.927877,72.831847,0,4.7,11,0,0,2.484907
+Parsi Gate,tourist attraction,4.4,0.5,mumbai,18.949747,72.81855089999999,0,4.4,13,0,0,2.639057
+Marin drive,tourist attraction,4.4,0.5,mumbai,18.9426858,72.8231909,0,4.4,13,0,0,2.639057
+Paradox Museum Mumbai,museum,4.7,0.5,mumbai,18.9364064,72.8314845,0,4.7,10022,0,0,9.212638
+Nehru Centre Art Gallery,art gallery,4.5,0.5,mumbai,18.988739,72.8154526,0,4.5,1825,0,0,7.509883
+Sassoon Dock Art Project,museum,4.4,0.5,mumbai,18.9125619,72.8251528,0,4.4,1441,0,0,7.273786
+Mani Bhavan Gandhi Sangrahalaya,museum,4.6,0.5,mumbai,18.9598453,72.8115152,0,4.6,1321,0,0,7.186901
+Science Museum,museum,4.4,0.5,mumbai,18.9907069,72.8179973,0,4.4,1176,0,0,7.070724
+Museum of Solutions (MuSo) - A Must-Visit Children’s Museum,museum,4.4,0.5,mumbai,19.0059118,72.8273935,0,4.4,1019,0,0,6.927558
+The Museum of Living History,museum,4.4,0.5,mumbai,19.0059121,72.8221927,0,4.4,395,0,0,5.981414
+CSMT Heritage Museum,museum,4.6,0.5,mumbai,18.9394959,72.8352862,0,4.6,338,0,0,5.826
+Coomaraswamy Hall (Prince of Wales Museum),museum,4.5,0.5,mumbai,18.9270318,72.83236699999999,0,4.5,235,0,0,5.463832
+Piramal Museum of Art,museum,4.4,0.5,mumbai,18.999654,72.82535899999999,0,4.4,202,0,0,5.313206
+DAG,art gallery,4.5,0.5,mumbai,18.9217139,72.8332233,0,4.5,112,0,0,4.727388
+Art Gallery,art gallery,4.4,0.5,mumbai,18.9321624,72.8263925,0,4.4,99,0,0,4.60517
+Western Railway Heritage Gallery,museum,4.5,0.5,mumbai,18.9337324,72.8283249,0,4.5,80,0,0,4.394449
+Framji Dadabhoy Alpaiwalla Museum,museum,4.6,0.5,mumbai,18.9604807,72.8086418,0,4.6,68,0,0,4.234107
+Muhammad Ali Jinnah House,museum,3.9,0.5,mumbai,18.9532679,72.8012933,0,3.9,67,0,0,4.219508
+Bunker Museum,museum,4.5,0.5,mumbai,18.9407298,72.7935134,0,4.5,61,0,0,4.127134
+e Art Gallery,art gallery,4.9,0.5,mumbai,18.9745596,72.8089342,0,4.9,51,0,0,3.951244
+King Edward Memorial Hospital Pathology Museum,museum,4.3,0.5,mumbai,19.0023231,72.84273379999999,0,4.3,56,0,0,4.043051
+Clark House Initiative,art gallery,4.3,0.5,mumbai,18.9249227,72.83145979999999,0,4.3,55,0,0,4.025352
+Nariman House,museum,4.7,0.5,mumbai,18.9165455,72.8276128,0,4.7,50,0,0,3.931826
+Institute of Contemporary Indian Arts,art gallery,4.4,0.5,mumbai,18.92759149999999,72.832777,0,4.4,49,0,0,3.912023
+MCA Sharad Pawar Cricket Museum,museum,5.0,0.5,mumbai,18.937554,72.825013,0,5.0,41,0,0,3.73767
+Artvista Art Gallery | Art Gallery in Mumbai | Art Exhibitions | luxury Art Gallery | Buy Paintings in Mumbai,art gallery,4.9,0.5,mumbai,18.933029,72.8327424,0,4.9,35,0,0,3.583519
+Gandhi Smarak Nidhi,museum,4.4,0.5,mumbai,18.9599518,72.8116265,0,4.4,35,0,0,3.583519
+Jehangir Nicholson Art Foundation,art gallery,4.7,0.5,mumbai,18.9263269,72.831559,0,4.7,26,0,0,3.295837
+The Shalimar Hotel (August Kranti Marg),art gallery,4.1,0.5,mumbai,18.9639998,72.8060284,0,4.1,2956,0,0,7.991931
+National Gallery of Modern Art,art gallery,4.4,0.5,mumbai,18.9257724,72.83144659999999,0,4.4,2269,0,0,7.727535
+Sir J. J. School of Art,art gallery,4.5,0.5,mumbai,18.94499,72.83353079999999,0,4.5,861,0,0,6.759255
+Ace Tattooz & Piercing studio Colaba south Mumbai,art gallery,4.9,0.5,mumbai,18.918626,72.82860509999999,0,4.9,847,0,0,6.742881
+Kamalnayan Bajaj Hall & Art Gallery,art gallery,4.4,0.5,mumbai,18.9259854,72.8224218,0,4.4,370,0,0,5.916202
+Snow Ball Studios Private Limited,art gallery,4.3,0.5,mumbai,18.9959351,72.82037799999999,0,4.3,310,0,0,5.739793
+Chemould Prescott Road,art gallery,4.5,0.5,mumbai,18.9352784,72.8323925,0,4.5,238,0,0,5.476464
+Tao Art Gallery,art gallery,4.4,0.5,mumbai,18.9876848,72.81408019999999,0,4.4,231,0,0,5.446737
+TARQ,art gallery,4.6,0.5,mumbai,18.9359395,72.8330127,0,4.6,222,0,0,5.407172
+Cymroza Art Gallery,art gallery,4.2,0.5,mumbai,18.9705225,72.8044291,0,4.2,212,0,0,5.361292
+Nine Fish Art Gallery,art gallery,4.7,0.5,mumbai,18.98174449999999,72.8365453,0,4.7,196,0,0,5.283204
+Nida Bridal mehandi designer,art gallery,4.9,0.5,mumbai,19.0059889,72.85064349999999,0,4.9,184,0,0,5.220356
+Planet Gift - Pankaj Archies Hallmark Paper Rose Shop,art gallery,3.7,0.5,mumbai,19.0176166,72.8573129,0,3.7,195,0,0,5.278115
+Nirmitee Art Connoisseurs,art gallery,4.6,0.5,mumbai,19.0188532,72.83434009999999,0,4.6,184,0,0,5.220356
+Project 88,art gallery,4.4,0.5,mumbai,18.9144475,72.8262927,0,4.4,182,0,0,5.209486
+Si Bambai,art gallery,4.4,0.5,mumbai,18.9286731,72.83405979999999,0,4.4,174,0,0,5.164786
+Kulture Shop,art gallery,4.7,0.5,mumbai,18.9288671,72.83274279999999,0,4.7,170,0,0,5.141664
+Method Kala Ghoda,art gallery,4.6,0.5,mumbai,18.9295381,72.8321509,0,4.6,171,0,0,5.147494
+Artisans' Art Gallery and Shop,art gallery,4.5,0.5,mumbai,18.928292,72.8325088,0,4.5,142,0,0,4.962845
+47-A Gallery,art gallery,4.7,0.5,mumbai,18.9553045,72.8210045,0,4.7,129,0,0,4.867534
+Sakshi Gallery,art gallery,4.5,0.5,mumbai,18.9181165,72.8273955,0,4.5,121,0,0,4.804021
+Kamala Nehru Park,park,4.3,0.5,mumbai,18.9550248,72.8049726,0,4.3,6122,0,0,8.719807
+Bhivaji Rao Nare Park,park,4.3,0.5,mumbai,18.9996684,72.8388086,0,4.3,3442,0,0,8.144098
+YMCA Ground Agripada,park,4.2,0.5,mumbai,18.9720352,72.8245773,0,4.2,1834,0,0,7.5148
+Colaba Woods Garden,park,4.2,0.5,mumbai,18.9131213,72.82011039999999,0,4.2,1043,0,0,6.950815
+Nana Nani Park,park,4.3,0.5,mumbai,18.9557231,72.8097623,0,4.3,894,0,0,6.796824
+Cuffe Parade Park,park,4.5,0.5,mumbai,18.9169024,72.815922,0,4.5,670,0,0,6.508769
+Marine Lines Station,park,4.4,0.5,mumbai,18.9457502,72.8237477,0,4.4,620,0,0,6.431331
+Mumbai Port Trust,park,4.2,0.5,mumbai,18.9118099,72.8246328,0,4.2,560,0,0,6.329721
+Belagav Karvar Sah Sanyukta Maharashtra Sangharsha Smruti Manoranjan Maidan,park,4.5,0.5,mumbai,19.0075941,72.84988249999999,0,4.5,530,0,0,6.274762
+Lokmanya Bal Gangadhar Tilak Uddyan,park,4.2,0.5,mumbai,18.9548501,72.8136931,0,4.2,410,0,0,6.018593
+Nirmal Park,park,4.2,0.5,mumbai,18.9832528,72.833755,0,4.2,409,0,0,6.016157
+Malabar Hills Forest Walk Way,park,4.3,0.5,mumbai,18.9540158,72.8046822,0,4.3,394,0,0,5.978886
+Banganga Lake,park,4.4,0.5,mumbai,18.9458745,72.7937683,0,4.4,376,0,0,5.932245
+Bhagwan Gautam Buddha Udyan,park,4.2,0.5,mumbai,19.0084823,72.81508389999999,0,4.2,323,0,0,5.780744
+Coconut Garden,park,4.3,0.5,mumbai,18.911684,72.8065658,0,4.3,296,0,0,5.693732
+Nadkarni Park,park,4.1,0.5,mumbai,19.0156256,72.8626239,0,4.1,242,0,0,5.493061
+Old Woman's Shoe,park,4.4,0.5,mumbai,18.9556539,72.80571789999999,0,4.4,223,0,0,5.411646
+Shastri Garden,park,4.2,0.5,mumbai,19.0000095,72.81405149999999,0,4.2,178,0,0,5.187386
+Nana Nani Park,park,3.8,0.5,mumbai,18.9695942,72.84259349999999,0,3.8,168,0,0,5.129899
+Holika Park,park,4.2,0.5,mumbai,18.910965,72.811204,0,4.2,161,0,0,5.087596
+Matoshree Ramabai Thackrey Udyan,park,4.4,0.5,mumbai,18.9990874,72.8268174,0,4.4,157,0,0,5.062595
+Tata Garden,park,4.5,0.5,mumbai,18.9343125,72.8291875,0,4.5,146,0,0,4.990433
+Park,park,3.8,0.5,mumbai,18.9722406,72.8147472,0,3.8,145,0,0,4.983607
+Nagre Jansam Park Kaaryalay,park,3.8,0.5,mumbai,18.9643148,72.8192653,0,3.8,137,0,0,4.927254
+Phoenix Palladium,shopping mall,4.5,0.5,mumbai,18.994459,72.825031,0,4.5,94365,0,0,11.454936
+Wankhede Stadium,stadium,4.5,0.5,mumbai,18.9388528,72.82576399999999,0,4.5,40653,0,0,10.612853
+"The Taj Mahal Palace, Mumbai",lodging,4.7,0.5,mumbai,18.9216631,72.8332028,0,4.7,33511,0,0,10.419659
+The St. Regis Mumbai,lodging,4.6,0.5,mumbai,18.99448169999999,72.8240099,0,4.6,18024,0,0,9.799515
+Four Seasons Hotel Mumbai,spa,4.5,0.5,mumbai,18.993915,72.8200655,0,4.5,15315,0,0,9.636653
+Delhi Darbar,restaurant,4.0,0.5,mumbai,18.9238178,72.8317462,0,4.0,13317,0,0,9.496872
+Aditi Veg Restaurant,restaurant,4.4,0.5,mumbai,19.0024167,72.8410267,0,4.4,11889,0,0,9.383453
+"The Oberoi, Mumbai",lodging,4.7,0.5,mumbai,18.9268126,72.8201297,0,4.7,10898,0,0,9.296426
+Copper Chimney Worli,restaurant,4.4,0.5,mumbai,18.9882861,72.8141704,0,4.4,10061,0,0,9.216521
+Barbeque Nation - Mumbai - Worli,restaurant,4.3,0.5,mumbai,18.9912457,72.8144358,0,4.3,9665,0,0,9.17637
+Dome SVP Stadium,stadium,4.4,0.5,mumbai,18.9863678,72.8154765,0,4.4,9142,0,0,9.120744
+Hotel Marine Plaza,lodging,4.3,0.5,mumbai,18.9313358,72.8230561,0,4.3,6366,0,0,8.758884
+Krishna Palace Hotel - Rooms | Restaurants | Banquets,lodging,4.2,0.5,mumbai,18.9625139,72.8142301,0,4.2,4931,0,0,8.5035
+Chinese N Grill,restaurant,4.0,0.5,mumbai,18.9549341,72.8338271,0,4.0,4809,0,0,8.478452
+"Chinchpokli Sarvajanik Utsav Mandal, Mumbai | Chinchpoklicha Chintamani | Chinchpoklichi AaiBhavani",hindu temple,4.7,0.5,mumbai,18.9880993,72.8332544,0,4.7,4417,0,0,8.393442
+The Ambassador,lodging,4.2,0.5,mumbai,18.93390149999999,72.82476989999999,0,4.2,3995,0,0,8.293049
+"Residency Hotel Fort, Mumbai",lodging,4.3,0.5,mumbai,18.9351141,72.8335101,0,4.3,3853,0,0,8.256867
+Café New York,cafe,4.2,0.5,mumbai,18.9579953,72.8109848,0,4.2,3432,0,0,8.14119
+Urmi Estate,point of interest,4.3,0.5,mumbai,18.9977608,72.8287918,0,4.3,3363,0,0,8.120886
+The Catholic Gymkhana Limited,church,4.3,0.5,mumbai,18.9494328,72.8204593,0,4.3,1116,0,0,7.018402
+AFGHAN CHURCH COLABA (Official),church,4.4,0.5,mumbai,18.906491,72.816388,0,4.4,927,0,0,6.833032
+St. Paul’s Catholic Church,church,4.6,0.5,mumbai,19.0081763,72.84254419999999,0,4.6,363,0,0,5.897154
+St. Stephen’s Catholic Church,church,4.5,0.5,mumbai,18.96447879999999,72.8045461,0,4.5,320,0,0,5.771441
+St. Joseph's R.C. Church,church,4.3,0.5,mumbai,18.89963269999999,72.81327399999999,0,4.3,289,0,0,5.669881
+Our Lady of Dolours Church,church,4.4,0.5,mumbai,18.9439299,72.8255458,0,4.4,269,0,0,5.598422
+"St. Dominic Savio Church, Wadala East",church,4.7,0.5,mumbai,19.0196912,72.863669,0,4.7,232,0,0,5.451038
+St. Ignatius Church,church,4.5,0.5,mumbai,18.9825487,72.82856960000001,0,4.5,205,0,0,5.327876
+The Church of Saint Mary The Virgin ( C.N.I ),church,4.5,0.5,mumbai,19.0064976,72.8373897,0,4.5,195,0,0,5.278115
+St. Anne's Church,church,4.7,0.5,mumbai,18.9696853,72.8355535,0,4.7,175,0,0,5.170484
+"Sacred Heart Church, Worli",church,4.6,0.5,mumbai,19.01502169999999,72.81936189999999,0,4.6,173,0,0,5.159055
+Our Lady Of The Rosary Church,church,4.6,0.5,mumbai,18.96724249999999,72.8449862,0,4.6,162,0,0,5.09375
+Christ Church ( C.N.I ),church,4.4,0.5,mumbai,18.9692948,72.8314453,0,4.4,161,0,0,5.087596
+Bombay Baptist Church,church,4.7,0.5,mumbai,18.9107228,72.8206447,0,4.7,157,0,0,5.062595
+Wesley Church ( C.N.I ),church,4.2,0.5,mumbai,18.9220934,72.8310568,0,4.2,162,0,0,5.09375
+St. Andrew's Cathedral,church,4.5,0.5,mumbai,18.9269409,72.83366819999999,0,4.5,158,0,0,5.068904
+Rahator Memorial Methodist Church Parel,church,4.6,0.5,mumbai,19.007041,72.83759359999999,0,4.6,153,0,0,5.036953
+St. Mary's Orthodox Cathedral.,church,4.8,0.5,mumbai,19.0133145,72.8465733,0,4.8,134,0,0,4.905275
+St. Francis Xavier’s Catholic Church,church,4.6,0.5,mumbai,18.9491629,72.82338159999999,0,4.6,133,0,0,4.89784
+Robinson Memorial Methodist Central Church,church,4.6,0.5,mumbai,18.9717894,72.8309143,0,4.6,129,0,0,4.867534
+"Shri Mahalakshmi Devi Temple, Mumbai",hindu temple,4.7,0.5,mumbai,18.9774442,72.80642329999999,0,4.7,37412,0,0,10.529774
+Ravindra Natya Mandir,hindu temple,4.3,0.5,mumbai,19.0153155,72.8306435,0,4.3,4817,0,0,8.480114
+"Shree Babulnath Mandir, Mumbai",hindu temple,4.8,0.5,mumbai,18.9587962,72.8085592,0,4.8,2611,0,0,7.867871
+Phadke Wadi Ganpati Temple,hindu temple,4.7,0.5,mumbai,18.9562974,72.8224444,0,4.7,1213,0,0,7.101676
+Lalbaug Sarvajanik Utsav Mandal,hindu temple,4.5,0.5,mumbai,18.9944698,72.83738509999999,0,4.5,940,0,0,6.846943
+Shri Venkateswara Balaji Mandir (Fanaswadi),hindu temple,4.8,0.5,mumbai,18.9518751,72.8255528,0,4.8,547,0,0,6.306275
+Sri Gururani Nagkanya (Yogini) and Sri Jimmy Nagputhra (Yogiraj) Trust Darshana Baithak Hall,hindu temple,4.7,0.5,mumbai,18.99026229999999,72.8462193,0,4.7,430,0,0,6.066108
+Trayambakeshwar Mahadev Temple,hindu temple,4.7,0.5,mumbai,18.9767483,72.8086874,0,4.7,359,0,0,5.886104
+Khandoba Mandir,hindu temple,4.7,0.5,mumbai,18.9456615,72.79540899999999,0,4.7,322,0,0,5.777652
+Shri Akkalkot Swami Samarth Maharaj Math - Mumbai,hindu temple,4.7,0.5,mumbai,19.0093889,72.8326306,0,4.7,266,0,0,5.587249
+Walkeshwar Shri Kashi Math Saunstan,hindu temple,4.7,0.5,mumbai,18.9460904,72.7933053,0,4.7,189,0,0,5.247024
+Shri Santoshi Mata Mandir Trust,hindu temple,4.5,0.5,mumbai,18.9863238,72.831288,0,4.5,148,0,0,5.003946
+Nath Gagangiri Maharaj Ashram......,hindu temple,4.6,0.5,mumbai,18.9538169,72.8042031,0,4.6,140,0,0,4.94876
+Arya Samaj Mumbai Kakadwadi,hindu temple,4.3,0.5,mumbai,18.9553613,72.82351469999999,0,4.3,136,0,0,4.919981
+Zaoba Shri Ram Mandir,hindu temple,4.7,0.5,mumbai,18.9511707,72.8236913,0,4.7,125,0,0,4.836282
+Shri Swami Samarth Math mahalaksmi,hindu temple,4.9,0.5,mumbai,18.9754951,72.80533009999999,0,4.9,106,0,0,4.672829
+Shree Markandeshwar Mahadev Mandir,hindu temple,4.7,0.5,mumbai,18.9922321,72.8134611,0,4.7,97,0,0,4.584967
+Shri Gaudapadacharya Matha - Kavale Matha - Walkeshwar Branch,hindu temple,4.8,0.5,mumbai,18.9462855,72.7937448,0,4.8,82,0,0,4.418841
+Jari Mari Mata Mandir,hindu temple,4.4,0.5,mumbai,18.9968364,72.8149358,0,4.4,85,0,0,4.454347
+Muhammad Haji Saboo Siddique MusafirKhana,mosque,4.4,0.5,mumbai,18.9484786,72.8367658,0,4.4,3307,0,0,8.104099
+Raudat Tahera,mosque,4.9,0.5,mumbai,18.9588772,72.8309251,0,4.9,3123,0,0,8.04687
+Dawat-e-Hadiyah Badri Mahal,mosque,4.8,0.5,mumbai,18.9365057,72.83437099999999,0,4.8,2660,0,0,7.886457
+Hazrat Peer Saiyed Ali Mira Datar Dargah,mosque,4.6,0.5,mumbai,18.9706733,72.8479542,0,4.6,1517,0,0,7.325149
+Mughal Masjid,mosque,4.7,0.5,mumbai,18.9593653,72.8336538,0,4.7,1261,0,0,7.140453
+Nawab Ayaz Masjid,mosque,4.6,0.5,mumbai,18.9569143,72.8318281,0,4.6,769,0,0,6.646391
+"Hatemi Masjid, Mumbai (Dawoodi Bohra)",mosque,4.6,0.5,mumbai,18.9721877,72.8434074,0,4.6,735,0,0,6.60123
+Grant Road Masjid,mosque,4.3,0.5,mumbai,18.9617889,72.8163774,0,4.3,713,0,0,6.570883
+"Jamali Masjid, Mustafa Bazaar",mosque,4.5,0.5,mumbai,18.9760685,72.8409058,0,4.5,694,0,0,6.543912
+"Badri Masjid, Fort (Dawoodi Bohra)",mosque,4.9,0.5,mumbai,18.9365904,72.83421299999999,0,4.9,550,0,0,6.311735
+Chuna Bhatti Markaz Masjid(چونا بَھَّٹی مرکز مسجد),mosque,4.7,0.5,mumbai,18.955323,72.83318469999999,0,4.7,539,0,0,6.291569
+Kinara Masjid Haji Ali Dargah,mosque,4.5,0.5,mumbai,18.9826649,72.8089026,0,4.5,509,0,0,6.234411
+Fine Touch Mosque & Islamic Centre,mosque,4.8,0.5,mumbai,18.9725784,72.8228358,0,4.8,480,0,0,6.175867
+Chabad India,synagogue,4.6,0.5,mumbai,18.9165394,72.8276102,0,4.6,177,0,0,5.181784
+Magen Hassidim Synagogue,synagogue,4.3,0.5,mumbai,18.9755251,72.8267809,0,4.3,65,0,0,4.189655
+Chabad Centre Mumbai (mazgaon),synagogue,4.9,0.5,mumbai,18.9707704,72.8429114,0,4.9,35,0,0,3.583519
+Israil Mohalla,synagogue,4.0,0.5,mumbai,18.9547457,72.8362154,0,4.0,34,0,0,3.555348
+Tiphereth Israel Synagogue,synagogue,4.8,0.5,mumbai,18.9810186,72.8255109,0,4.8,15,0,0,2.772589
+Share Rason Synagogue Bene Israel,synagogue,4.3,0.5,mumbai,18.9548022,72.8361858,0,4.3,15,0,0,2.772589
+Mukesh jee 3,synagogue,5.0,0.5,mumbai,18.9690277,72.8205186,0,5.0,1,0,0,0.693147
+Ramdas Yadav,synagogue,0.0,0.5,mumbai,18.9690277,72.8205186,0,0.0,0,0,0,0.0
+Heera Panna Shopping Centre,shopping mall,4.0,0.5,mumbai,18.9776648,72.8105094,0,4.0,10502,0,0,9.259416
+CR2 Shopping Mall,shopping mall,4.0,0.5,mumbai,18.9265098,72.8225937,0,4.0,8295,0,0,9.023529
+"Westside - Army Navy Building, Fort, Mumbai",clothing store,4.3,0.5,mumbai,18.9279955,72.8309238,0,4.3,6632,0,0,8.799812
+High Street Phoenix,shopping mall,4.3,0.5,mumbai,18.9948509,72.8252115,0,4.3,4695,0,0,8.454466
+Atria The Millennium Mall,shopping mall,4.1,0.5,mumbai,18.9910708,72.8146496,0,4.1,4047,0,0,8.305978
+"Westside - Hughes Road, Mumbai",clothing store,4.2,0.5,mumbai,18.9587045,72.810431,0,4.2,3899,0,0,8.268732
+Tewari Brothers,shopping mall,4.3,0.5,mumbai,18.9941283,72.8241719,0,4.3,3851,0,0,8.256348
+Lifestyle Stores,shopping mall,4.1,0.5,mumbai,18.9952595,72.8238496,0,4.1,3762,0,0,8.232972
+Jain Collection,shopping mall,4.5,0.5,mumbai,18.949411,72.82558999999999,0,4.5,2573,0,0,7.853216
+The Arcade Shopping Centre,shopping mall,4.1,0.5,mumbai,18.9142066,72.818443,0,4.1,2543,0,0,7.841493
+Mirza Ghalib Municipal Market,shopping mall,3.9,0.5,mumbai,18.9580508,72.82969589999999,0,3.9,2065,0,0,7.63337
+INCS,shopping mall,4.4,0.5,mumbai,18.9050865,72.8067034,0,4.4,1864,0,0,7.531016
+Ramesh Clothing Company | formerly Ramesh Tailors,shopping mall,4.6,0.5,mumbai,19.005672,72.84510449999999,0,4.6,1604,0,0,7.380879
+Metro Plaza,shopping mall,4.0,0.5,mumbai,18.9236306,72.8319884,0,4.0,1562,0,0,7.354362
+"MINI-SO, Colaba Causeway",shopping mall,4.2,0.5,mumbai,18.9226715,72.8316565,0,4.2,1441,0,0,7.273786
+City Centre Mumbai,shopping mall,4.1,0.5,mumbai,18.9680951,72.82388639999999,0,4.1,1231,0,0,7.116394
+Rubberwala The Platinum Mall,shopping mall,4.4,0.5,mumbai,18.9604316,72.8243243,0,4.4,774,0,0,6.652863
+Phoenix Mills,shopping mall,4.6,0.5,mumbai,18.9941406,72.82426699999999,0,4.6,512,0,0,6.240276
+Khadi India,shopping mall,4.8,0.5,mumbai,18.9349504,72.8328958,0,4.8,486,0,0,6.188264
+safa centre,shopping mall,4.0,0.5,mumbai,18.9477833,72.8330325,0,4.0,448,0,0,6.107023
+Fitt Zone,clothing store,5.0,0.5,mumbai,19.0045757,72.845389,0,5.0,329,0,0,5.799093
+Orchid City Centre Mumbai,shopping mall,4.1,0.5,mumbai,18.968118,72.82388600000002,0,4.1,313,0,0,5.749393
+Trident Shopping Centre,shopping mall,4.5,0.5,mumbai,18.9275277,72.8211755,0,4.5,284,0,0,5.652489
+Shrimant Dagdusheth Halwai Ganpati Mandir,hindu temple,4.8,0.5,pune,18.5164208,73.8561165,0,4.8,182933,0,0,12.116881
+Shaniwar Wada,tourist attraction,4.3,0.5,pune,18.5195841,73.85542079999999,0,4.3,129063,0,0,11.768064
+P L Deshpande Garden,tourist attraction,4.5,0.5,pune,18.4923958,73.83614779999999,0,4.5,31854,0,0,10.36895
+Empress Botanical Garden,tourist attraction,4.0,0.5,pune,18.5123005,73.8979112,0,4.0,14864,0,0,9.606765
+ISKCON Pune Camp,hindu temple,4.7,0.5,pune,18.5203582,73.8796204,0,4.7,12330,0,0,9.419872
+Raja Dinkar Kelkar Museum,museum,4.4,0.5,pune,18.51068549999999,73.8544307,0,4.4,12239,0,0,9.412465
+Saras Baug,tourist attraction,4.3,0.5,pune,18.5009133,73.8527869,0,4.3,11527,0,0,9.352534
+Taljai Tekdi,tourist attraction,4.6,0.5,pune,18.4756513,73.84363859999999,0,4.6,9135,0,0,9.119978
+National War Memorial Southern Command,tourist attraction,4.8,0.5,pune,18.5231259,73.8896668,0,4.8,9111,0,0,9.117348
+Lal Mahal,tourist attraction,4.5,0.5,pune,18.5187433,73.8566483,0,4.5,8800,0,0,9.082621
+"Shree Omkareshwar Temple, Pune",hindu temple,4.7,0.5,pune,18.5199001,73.8489738,0,4.7,7013,0,0,8.855663
+Mahadji Shinde Chhatri,hindu temple,4.4,0.5,pune,18.4916375,73.8972969,0,4.4,5773,0,0,8.66112
+Osho Teerth Park,park,4.1,0.5,pune,18.5358733,73.8906921,0,4.1,4923,0,0,8.501876
+Shree Devdeveshwar Temple (Parvati Temple),hindu temple,4.5,0.5,pune,18.4975732,73.84717169999999,0,4.5,4700,0,0,8.455531
+Peshwe Energy Park,park,4.3,0.5,pune,18.5023602,73.85223200000001,0,4.3,4184,0,0,8.339262
+"Shri Mahalaxmi Mandir, Pune",hindu temple,4.8,0.5,pune,18.49999,73.85407719999999,0,4.8,3809,0,0,8.245384
+SkyJumper Amusement Park - Trampoline | Amanora Mall | Laser Tag | VR Games | Kids Soft Play| Birthday Parties | School Trips,amusement park,4.9,0.5,pune,18.5190142,73.9340533,0,4.9,3054,0,0,8.024535
+Joshi's Museum Of Miniature Railways,museum,4.1,0.5,pune,18.5015865,73.822345,0,4.1,2950,0,0,7.989899
+Bagul Udyan,park,4.2,0.5,pune,18.4910317,73.85089599999999,0,4.2,2948,0,0,7.989221
+Yashwantrao Chavan Garden,tourist attraction,4.1,0.5,pune,18.4929192,73.8537753,0,4.1,2882,0,0,7.966587
+Blades of Glory Cricket Museum,museum,4.6,0.5,pune,18.4859379,73.8434206,0,4.6,2130,0,0,7.664347
+Mahatma Phule Museum,museum,4.2,0.5,pune,18.5237118,73.8456291,0,4.2,2123,0,0,7.661056
+Sadguru Shri Jangli Maharaj Samadhi Temple,hindu temple,4.7,0.5,pune,18.5265763,73.8504224,0,4.7,1979,0,0,7.590852
+Tulshibaug Shri Ram temple,hindu temple,4.7,0.5,pune,18.5137617,73.85536479999999,0,4.7,1925,0,0,7.563201
+Parvati Hill,tourist attraction,4.5,0.5,pune,18.4969411,73.8464995,0,4.5,1908,0,0,7.554335
+Shree Trishunda Ganpati Mandir,hindu temple,4.8,0.5,pune,18.5216712,73.86184039999999,0,4.8,1447,0,0,7.277939
+St. Xavier's Catholic Church,tourist attraction,4.5,0.5,pune,18.51308149999999,73.8762183,0,4.5,1237,0,0,7.121252
+Butterfly Park,park,3.5,0.5,pune,18.4859382,73.8522904,0,3.5,1227,0,0,7.113142
+Peshwe Museum,museum,4.3,0.5,pune,18.4972404,73.8469023,0,4.3,1203,0,0,7.093405
+St. Mary's Church,tourist attraction,4.6,0.5,pune,18.5079225,73.8844252,0,4.6,1171,0,0,7.066467
+Mughal Garden,tourist attraction,4.3,0.5,pune,18.4927315,73.83683330000001,0,4.3,1119,0,0,7.021084
+Darshan Museum,museum,4.5,0.5,pune,18.5240953,73.8764697,0,4.5,1008,0,0,6.916715
+Nana Wada,tourist attraction,4.3,0.5,pune,18.5182802,73.8561775,0,4.3,960,0,0,6.867974
+Pavan Tours,tourist attraction,3.5,0.5,pune,18.517301,73.84369540000002,0,3.5,886,0,0,6.787845
+Zero Stone,tourist attraction,4.4,0.5,pune,18.5230388,73.8762163,0,4.4,862,0,0,6.760415
+INDIA METEOROLOGICAL DEPARTMENT OFFICE OF CLIMATE RESEARCH AND SERVICE (Shimla Office),tourist attraction,4.3,0.5,pune,18.5300673,73.849589,0,4.3,809,0,0,6.697034
+Shree Ayyappa Temple Mandir,hindu temple,4.6,0.5,pune,18.5183298,73.8676177,0,4.6,768,0,0,6.645091
+Shree Tarkeshwar Mandir,hindu temple,4.5,0.5,pune,18.5458548,73.8819838,0,4.5,749,0,0,6.620073
+Shree Dulya Maruti Mandir,hindu temple,4.4,0.5,pune,18.516169,73.8627929,0,4.4,635,0,0,6.455199
+Shree Navagraha Shani Mandir,hindu temple,4.5,0.5,pune,18.5197528,73.85626309999999,0,4.5,606,0,0,6.408529
+Shitala Devi Temple,hindu temple,4.4,0.5,pune,18.5085098,73.85982899999999,0,4.4,483,0,0,6.182085
+Anandvan,tourist attraction,4.5,0.5,pune,18.4779041,73.9079919,0,4.5,452,0,0,6.115892
+Church of Our Lady of Perpetual Help,tourist attraction,4.5,0.5,pune,18.5305471,73.8745345,0,4.5,390,0,0,5.968708
+Taljai Watch Tower,tourist attraction,4.4,0.5,pune,18.4842627,73.8470966,0,4.4,390,0,0,5.968708
+Ohel David Synagogue(בית הכנסת אהל דוד),synagogue,4.0,0.5,pune,18.5192742,73.874652,0,4.0,302,0,0,5.713733
+Muredha Nala Park,park,4.1,0.5,pune,18.5132425,73.8862233,0,4.1,219,0,0,5.393628
+Tribal Research & Training Institute,museum,4.4,0.5,pune,18.5297626,73.8858862,0,4.4,205,0,0,5.327876
+Srujan Art Gallery,art gallery,4.6,0.5,pune,18.5171275,73.84764539999999,0,4.6,192,0,0,5.26269
+Gandhi National Memorial Society,tourist attraction,4.4,0.5,pune,18.5516227,73.9020893,0,4.4,187,0,0,5.236442
+Forest Area Wanowrie,park,4.5,0.5,pune,18.4884072,73.91205839999999,0,4.5,179,0,0,5.192957
+Chatushringi Hill,tourist attraction,4.6,0.5,pune,18.5373893,73.82664590000002,0,4.6,155,0,0,5.049856
+Hari Krishna Mandir,hindu temple,4.5,0.5,pune,18.5312318,73.8369656,0,4.5,143,0,0,4.969813
+Parimal Udyan,park,3.6,0.5,pune,18.5301051,73.8321332,0,3.6,146,0,0,4.990433
+Khadki War Cemetery,cemetery,4.5,0.5,pune,18.5520311,73.8566962,0,4.5,118,0,0,4.779123
+Parvati sunset view point,tourist attraction,4.5,0.5,pune,18.4969344,73.8460747,0,4.5,115,0,0,4.75359
+Prathamesh Park,park,4.0,0.5,pune,18.4782388,73.9277664,0,4.0,119,0,0,4.787492
+Kalubai Mandir,hindu temple,4.5,0.5,pune,18.489302,73.867088,0,4.5,105,0,0,4.663439
+Rani LaxmiBai of Jhansi Statue,tourist attraction,4.5,0.5,pune,18.5226477,73.8481697,0,4.5,99,0,0,4.60517
+Shri Waghjai goddess temple,hindu temple,4.3,0.5,pune,18.4875625,73.84018329999999,0,4.3,94,0,0,4.553877
+AL HIJAZI TOURS & TRAVELS,travel agency,4.8,0.5,pune,18.4730622,73.8913681,0,4.8,84,0,0,4.442651
+Shree Swami Samartha Temple,hindu temple,4.6,0.5,pune,18.5117218,73.85638229999999,0,4.6,83,0,0,4.430817
+Bund Garden Bandhara,tourist attraction,4.2,0.5,pune,18.5431024,73.8832848,0,4.2,82,0,0,4.418841
+Silkyworld Antiques Store,movie rental,4.5,0.5,pune,18.50711,73.87812,0,4.5,75,0,0,4.330733
+Gadima Bungalow (पंचवटी | Panchawati) / Ga Di Madgulkar Bungalow (ग दि माडगूळकर निवासस्थान । घर । बंगला),tourist attraction,4.9,0.5,pune,18.5376992,73.850201,0,4.9,66,0,0,4.204693
+Sangameshwar Temple,hindu temple,4.4,0.5,pune,18.5729137,73.8307901,0,4.4,69,0,0,4.248495
+The Western Routes - Heritage Walk Meeting Point,tourist attraction,4.5,0.5,pune,18.5202524,73.85551889999999,0,4.5,67,0,0,4.219508
+"Trippers : villas , resorts and tour pacakages",travel agency,5.0,0.5,pune,18.50011169999999,73.8340758,0,5.0,62,0,0,4.143135
+Shri Saibaba Mandir,hindu temple,4.2,0.5,pune,18.5131194,73.8650497,0,4.2,65,0,0,4.189655
+Deccan Gymkhana Karve Road,tourist attraction,4.5,0.5,pune,18.5150404,73.8410499,0,4.5,62,0,0,4.143135
+JUNAVANE TRAVELS PVT. LTD. | Bus on Rent,travel agency,4.5,0.5,pune,18.515891,73.846884,0,4.5,50,0,0,3.931826
+Shree Ram Temple,hindu temple,4.5,0.5,pune,18.5066307,73.85997309999999,0,4.5,47,0,0,3.871201
+Love Pune Sign,tourist attraction,4.2,0.5,pune,18.5187398,73.9333771,0,4.2,48,0,0,3.89182
+Veena bridge (वीणा पूल),tourist attraction,4.7,0.5,pune,18.5190951,73.847794,0,4.7,37,0,0,3.637586
+MEMORIES WORLDWIDE TOURS AND TRAVELS,tourist attraction,4.9,0.5,pune,18.5242209,73.9056414,0,4.9,34,0,0,3.555348
+Bliss Art Gallery,museum,3.5,0.5,pune,18.5400403,73.8939451,0,3.5,47,0,0,3.871201
+New Sky Walk bridge,tourist attraction,4.6,0.5,pune,18.5192941,73.847505,0,4.6,34,0,0,3.555348
+"Tiger Hill, VAMNICOM",tourist attraction,4.4,0.5,pune,18.5460163,73.8330003,0,4.4,36,0,0,3.610918
+Dr. BR Ambedkar Chowk,tourist attraction,4.2,0.5,pune,18.56882659999999,73.8322962,0,4.2,38,0,0,3.663562
+Ganesha Temple,hindu temple,4.4,0.5,pune,18.5030321,73.8423418,0,4.4,34,0,0,3.555348
+UNIVERSAL POWER MARTIAL ARTS INDIA,tourist attraction,4.1,0.5,pune,18.5466485,73.88220869999999,0,4.1,33,0,0,3.526361
+Shree Sangameshwar Mandir,hindu temple,4.4,0.5,pune,18.5301493,73.86127809999999,0,4.4,27,0,0,3.332205
+Shree Gurukrupa Tours And Travels,tourist attraction,3.5,0.5,pune,18.4969274,73.8572135,0,3.5,36,0,0,3.610918
+"Someshwar Mandir, Vishrantwadi",hindu temple,4.3,0.5,pune,18.5730383,73.8784845,0,4.3,24,0,0,3.218876
+ONEST,tourist attraction,4.8,0.5,pune,18.4665964,73.85571279999999,0,4.8,16,0,0,2.833213
+AL TAQWA TOURS,travel agency,4.3,0.5,pune,18.4737418,73.8910678,0,4.3,21,0,0,3.091042
+Field Marshal Sam Maneckshaw Memorial,tourist attraction,4.7,0.5,pune,18.5237102,73.8828803,0,4.7,14,0,0,2.70805
+TIB Pickup point,tourist attraction,4.5,0.5,pune,18.53371,73.852024,0,4.5,16,0,0,2.833213
+BM Thorat Chowk,tourist attraction,4.6,0.5,pune,18.5300698,73.8373518,0,4.6,15,0,0,2.772589
+Gautam Buddha statue,tourist attraction,5.0,0.5,pune,18.5361034,73.8921,0,5.0,9,0,0,2.302585
+PAALVI HOLIDAYS,travel agency,5.0,0.5,pune,18.5061459,73.853568,0,5.0,9,0,0,2.302585
+ANNA BHAVAN,tourist attraction,5.0,0.5,pune,18.5750606,73.88434749999999,0,5.0,9,0,0,2.302585
+Sadhu Vaswani Statue,tourist attraction,4.5,0.5,pune,18.5248728,73.87669749999999,0,4.5,13,0,0,2.639057
+Twr graffiti,tourist attraction,5.0,0.5,pune,18.54174,73.88351399999999,0,5.0,8,0,0,2.197225
+KRISA Travel Agency,travel agency,4.8,0.5,pune,18.5410242,73.8890893,0,4.8,10,0,0,2.397895
+स्व. बिंदू माधव बाळासाहेब ठाकरे चौक,tourist attraction,4.1,0.5,pune,18.5451723,73.8769161,0,4.1,17,0,0,2.890372
+War Tanker Display Corner,tourist attraction,4.9,0.5,pune,18.4996922,73.879638,0,4.9,9,0,0,2.302585
+CTC Ground,tourist attraction,4.4,0.5,pune,18.4913847,73.88574659999999,0,4.4,14,0,0,2.70805
+Dharmveer Sambhaji Maharaj Chowk,tourist attraction,4.6,0.5,pune,18.5482146,73.8836638,0,4.6,12,0,0,2.564949
+Seva Tours and Travel,car rental,4.9,0.5,pune,18.5451791,73.9373406,0,4.9,9,0,0,2.302585
+"Baobab Tree Ghole road, Pune",tourist attraction,4.6,0.5,pune,18.5243486,73.84398829999999,0,4.6,11,0,0,2.484907
+Stubborn chonky dog,tourist attraction,5.0,0.5,pune,18.5532205,73.89219589999999,0,5.0,7,0,0,2.079442
+Taljai Hills View Point,tourist attraction,4.9,0.5,pune,18.4801659,73.8465883,0,4.9,7,0,0,2.079442
+Pandhari Wari Statue,tourist attraction,4.9,0.5,pune,18.5195656,73.84948709999999,0,4.9,7,0,0,2.079442
+Viman Nagar cat hangout spot,tourist attraction,5.0,0.5,pune,18.5672013,73.9141984,0,5.0,6,0,0,1.94591
+Pigeons feeding place,tourist attraction,4.1,0.5,pune,18.5211037,73.8523189,0,4.1,14,0,0,2.70805
+Krantikari Sewalal Maharaj Statue Yerwada,tourist attraction,5.0,0.5,pune,18.5448077,73.8836303,0,5.0,4,0,0,1.609438
+Dnyaneshwar Temple,place of worship,3.9,0.5,pune,18.5117482,73.852572,0,3.9,15,0,0,2.772589
+SSTMM Chowk INDIRANAGAR,tourist attraction,5.0,0.5,pune,18.5585661,73.8756085,0,5.0,4,0,0,1.609438
+Pavana Mula River Sangam,tourist attraction,4.7,0.5,pune,18.57312,73.83197729999999,0,4.7,7,0,0,2.079442
+Anna travels,tourist attraction,5.0,0.5,pune,18.529732,73.87138399999999,0,5.0,3,0,0,1.386294
+Friendly sleeping Grey Tabby cat,tourist attraction,5.0,0.5,pune,18.5137891,73.8787624,0,5.0,3,0,0,1.386294
+YD chowk,tourist attraction,5.0,0.5,pune,18.48685709999999,73.8540227,0,5.0,3,0,0,1.386294
+Dips tours and travels,tourist attraction,5.0,0.5,pune,18.5153693,73.8500389,0,5.0,3,0,0,1.386294
+Poppy - The Cat,tourist attraction,5.0,0.5,pune,18.4773653,73.90016179999999,0,5.0,3,0,0,1.386294
+I Love FC Road,tourist attraction,4.5,0.5,pune,18.5192906,73.84132579999999,0,4.5,8,0,0,2.197225
+Noorai Circle,tourist attraction,5.0,0.5,pune,18.5485918,73.90591119999999,0,5.0,3,0,0,1.386294
+Mount Signature,tourist attraction,5.0,0.5,pune,18.5459635,73.9183381,0,5.0,3,0,0,1.386294
+Amnora mall main gate,tourist attraction,5.0,0.5,pune,18.5188095,73.9333371,0,5.0,3,0,0,1.386294
+Shripad Villa,tourist attraction,5.0,0.5,pune,18.5414078,73.83795930000001,0,5.0,3,0,0,1.386294
+Old Baobab or Gorakhchinch Tree in Pune,tourist attraction,5.0,0.5,pune,18.5054449,73.8537126,0,5.0,2,0,0,1.098612
+Dr Babasaheb Ambedkar Museum & Memorial,museum,4.7,0.5,pune,18.52424999999999,73.8299521,0,4.7,1654,0,0,7.411556
+Amazeum Children's Museum: Unique Play area for kids,museum,4.6,0.5,pune,18.5344208,73.8298135,0,4.6,1482,0,0,7.301822
+Vikram Pendse Cycles Private Museum,museum,4.6,0.5,pune,18.4957227,73.820155,0,4.6,631,0,0,6.448889
+Dr.Balasaheb Devras Aviation Gallery,museum,4.9,0.5,pune,18.5229751,73.85081799999999,0,4.9,467,0,0,6.148468
+Erandwane Fire Museum,museum,4.4,0.5,pune,18.5066168,73.83297639999999,0,4.4,229,0,0,5.438079
+Deccan College - Archaeology Museum,museum,4.5,0.5,pune,18.5475394,73.8714171,0,4.5,175,0,0,5.170484
+Tribe Chatari,jewelry store,4.8,0.5,pune,18.4985498,73.8497848,0,4.8,166,0,0,5.117994
+"Savitribai Phule Smarak, pune",museum,4.5,0.5,pune,18.5070127,73.8653336,0,4.5,161,0,0,5.087596
+Maratha History Museum,museum,4.3,0.5,pune,18.5487081,73.8724107,0,4.3,88,0,0,4.488636
+Van Gogh 360 Pune,museum,4.1,0.5,pune,18.5307619,73.9148093,0,4.1,82,0,0,4.418841
+"Tribal Cultural museum,Pune",museum,4.7,0.5,pune,18.5297077,73.88587799999999,0,4.7,53,0,0,3.988984
+Kiddokin Toy Library,library,5.0,0.5,pune,18.5181629,73.8742367,0,5.0,45,0,0,3.828641
+Shrimant Bhausaheb Rangari Bhavan,museum,4.7,0.5,pune,18.5175457,73.8552943,0,4.7,47,0,0,3.871201
+Museum of Land Records,museum,4.1,0.5,pune,18.5255652,73.8785626,0,4.1,51,0,0,3.951244
+Lokmanya Tilak Museum,museum,4.6,0.5,pune,18.5158777,73.8491149,0,4.6,46,0,0,3.850148
+Shree Ganesh Darshan Sangrahalay,museum,4.5,0.5,pune,18.500884,73.8527933,0,4.5,45,0,0,3.828641
+Art India Foundation,art gallery,4.3,0.5,pune,18.4905151,73.8263292,0,4.3,32,0,0,3.496508
+View From Parvati Hill,landmark,4.6,0.5,pune,18.497686,73.84719799999999,0,4.6,25,0,0,3.258097
+Padma Vilas Palace,museum,4.7,0.5,pune,18.4930353,73.89544409999999,0,4.7,22,0,0,3.135494
+"Tattoos 1960 -Best Tattoo Artists In Koregaon Park, Pune",art gallery,4.9,0.5,pune,18.5394047,73.89875339999999,0,4.9,2815,0,0,7.943073
+Pandit Jawaharlal Nehru Auditorium,art gallery,4.2,0.5,pune,18.5239407,73.8457019,0,4.2,2227,0,0,7.70886
+RJ Tattoo & Piercing Studio - Best Tattoo Designer in Pune,art gallery,4.9,0.5,pune,18.5395138,73.8980286,0,4.9,1962,0,0,7.582229
+Raja Ravi Varma Art Gallery,art gallery,4.3,0.5,pune,18.5244379,73.8457729,0,4.3,1241,0,0,7.124478
+Mayur artifacts(PUNE),art gallery,4.8,0.5,pune,18.5001733,73.8692346,0,4.8,1140,0,0,7.03966
+Monalisa Kalagram,art gallery,4.3,0.5,pune,18.5307633,73.90019029999999,0,4.3,766,0,0,6.642487
+Kalachhaya Cultural Centre,art gallery,4.2,0.5,pune,18.5236165,73.8256246,0,4.2,346,0,0,5.849325
+Art2Day,art gallery,4.4,0.5,pune,18.5240367,73.84549679999999,0,4.4,304,0,0,5.720312
+Parakh Frames,art gallery,4.9,0.5,pune,18.5526252,73.93602249999999,0,4.9,282,0,0,5.645447
+The Palkhi Handicraft Studio,art gallery,4.9,0.5,pune,18.491407,73.82640169999999,0,4.9,258,0,0,5.556828
+Decoreds,art gallery,4.9,0.5,pune,18.5060117,73.9066157,0,4.9,149,0,0,5.010635
+Kala Kollective,art gallery,4.4,0.5,pune,18.4795468,73.8730259,0,4.4,144,0,0,4.976734
+VHC Art Gallery | Vida Heydari Contemporary,art gallery,4.5,0.5,pune,18.5365145,73.89641759999999,0,4.5,130,0,0,4.875197
+"Art Hoonar Gifts, Home Decor & Interior Designing",art gallery,4.7,0.5,pune,18.50149129999999,73.93543129999999,0,4.7,108,0,0,4.691348
+Galaxy Glass Designer,art gallery,4.7,0.5,pune,18.508971,73.873659,0,4.7,105,0,0,4.663439
+Vesavar Art Gallery,art gallery,4.7,0.5,pune,18.51213899999999,73.8797938,0,4.7,100,0,0,4.615121
+Rahul Arts,art gallery,4.2,0.5,pune,18.4787225,73.8531245,0,4.2,95,0,0,4.564348
+Bala Gandharv KalaDalan,art gallery,4.6,0.5,pune,18.5220616,73.84870959999999,0,4.6,85,0,0,4.454347
+Fizdi Art Store,art gallery,4.3,0.5,pune,18.478234,73.873532,0,4.3,86,0,0,4.465908
+Kalasseeum,art gallery,4.5,0.5,pune,18.4873294,73.8257517,0,4.5,84,0,0,4.442651
+Aayaam by House of Aadyaa,art gallery,4.2,0.5,pune,18.5216359,73.84544989999999,0,4.2,76,0,0,4.343805
+The Frame Gala,painter,4.9,0.5,pune,18.4817355,73.89606979999999,0,4.9,62,0,0,4.143135
+Shri Ram Frames & Laminations,art gallery,4.3,0.5,pune,18.5153945,73.85366979999999,0,4.3,66,0,0,4.204693
+The Ravi Paranjape Studio,art gallery,4.8,0.5,pune,18.5290646,73.83819299999999,0,4.8,61,0,0,4.127134
+Shri Siddhivinayak Ganesh Temple Sarasbagh,hindu temple,4.6,0.5,pune,18.5008945,73.85305009999999,0,4.6,15824,0,0,9.669346
+Kamala Nehru Park,park,4.3,0.5,pune,18.5170408,73.8344134,0,4.3,10778,0,0,9.285355
+Chhatrapati Shivaji Maharaj Garden,park,4.5,0.5,pune,18.54941449999999,73.91838969999999,0,4.5,5105,0,0,8.538172
+Jogger's Park,park,4.6,0.5,pune,18.5496917,73.9024604,0,4.6,3740,0,0,8.227108
+Lokmanya Nagar Joggers Park,park,4.3,0.5,pune,18.5053069,73.8461572,0,4.3,2988,0,0,8.002694
+Gool Poonawalla Garden,park,4.3,0.5,pune,18.496533,73.8770438,0,4.3,1801,0,0,7.496652
+Chhatrapati Shivaji Maharaj Garden,park,4.2,0.5,pune,18.5694833,73.83277799999999,0,4.2,955,0,0,6.862758
+Jaisinghrao Sasane Garden Wanowrie Pune Corporation Garden,park,4.2,0.5,pune,18.5097437,73.9067523,0,4.2,862,0,0,6.760415
+Saras baug Pune Maharashtra,park,4.5,0.5,pune,18.5020699,73.85305009999999,0,4.5,782,0,0,6.663133
+Lakaki Park,park,4.4,0.5,pune,18.5295032,73.8418349,0,4.4,731,0,0,6.595781
+Rajmata Jijau Oxygen Park,park,4.6,0.5,pune,18.5561331,73.929279,0,4.6,701,0,0,6.553933
+Bhimale Udyan,park,4.3,0.5,pune,18.4872028,73.8746771,0,4.3,699,0,0,6.55108
+Pets Hangover Daycare And Resort,park,4.5,0.5,pune,18.5291127,73.9020601,0,4.5,572,0,0,6.350886
+Shankarrao Kaware Garden Aksharbag,park,4.3,0.5,pune,18.4870295,73.8548639,0,4.3,528,0,0,6.270988
+Nana Nani Park,park,4.3,0.5,pune,18.49160059999999,73.8314616,0,4.3,486,0,0,6.188264
+Anand park,park,4.2,0.5,pune,18.5511538,73.9260441,0,4.2,472,0,0,6.159095
+Shiv Kailash Park,park,4.5,0.5,pune,18.5585258,73.92062709999999,0,4.5,453,0,0,6.118097
+Damodar wagaskar Garden,park,4.4,0.5,pune,18.5382953,73.897953,0,4.4,437,0,0,6.082219
+Pu. La. Deshpande Udyan,park,4.5,0.5,pune,18.4912753,73.83708690000002,0,4.5,331,0,0,5.805135
+Sri Kailasa Garden,park,4.4,0.5,pune,18.5586185,73.9211003,0,4.4,323,0,0,5.780744
+Dr Babasaheb Ambedkar Udyan,park,4.2,0.5,pune,18.5248032,73.8715302,0,4.2,290,0,0,5.673323
+iCampers Journeys,travel agency,4.9,0.5,pune,18.4866598,73.84474399999999,0,4.9,272,0,0,5.609472
+Wagaskar PMC Garden,park,4.3,0.5,pune,18.5384134,73.8986074,0,4.3,243,0,0,5.497168
+Salisbury Park,park,4.6,0.5,pune,18.4956203,73.8762546,0,4.6,237,0,0,5.472271
+The Westin Pune Koregaon Park,lodging,4.4,0.5,pune,18.5389872,73.90593190000001,0,4.4,25148,0,0,10.132573
+Novotel Pune Nagar Road,lodging,4.5,0.5,pune,18.5589504,73.91094489999999,0,4.5,19491,0,0,9.877759
+Sheraton Grand Pune Bund Garden Hotel,lodging,4.5,0.5,pune,18.529933,73.8713461,0,4.5,15697,0,0,9.661289
+Hyatt Regency Pune & Residences,lodging,4.5,0.5,pune,18.5594209,73.9120476,0,4.5,13756,0,0,9.529303
+Ruby Hall Clinic - Sassoon Road,hospital,4.5,0.5,pune,18.5335842,73.87715659999999,0,4.5,13733,0,0,9.52763
+ibis Pune Viman Nagar,lodging,4.4,0.5,pune,18.5596851,73.9130023,0,4.4,13623,0,0,9.519588
+"St Laurn - Koregaon Park, Pune",restaurant,3.9,0.5,pune,18.538576,73.8859192,0,3.9,12513,0,0,9.434603
+Lemon Tree Premier Pune,gym,4.2,0.5,pune,18.5278748,73.87657999999999,0,4.2,11986,0,0,9.391578
+Hotel Aurora Towers,lodging,4.1,0.5,pune,18.5181274,73.87894589999999,0,4.1,11982,0,0,9.391244
+Hyatt Pune,lodging,4.4,0.5,pune,18.5541438,73.90484219999999,0,4.4,11859,0,0,9.380927
+VIJAY SALES - SOLAPUR ROAD (KROME MALL),electronics store,4.7,0.5,pune,18.5066444,73.90824580000002,0,4.7,10590,0,0,9.26776
+"Blue Diamond, Pune - IHCL SeleQtions",lodging,4.4,0.5,pune,18.538199,73.886309,0,4.4,8445,0,0,9.041448
+Crowne Plaza Pune City Centre by IHG,lodging,4.1,0.5,pune,18.5315247,73.8766732,0,4.1,7695,0,0,8.948456
+Shantai Hotel,restaurant,4.2,0.5,pune,18.5195905,73.871083,0,4.2,6124,0,0,8.720134
+Sudama Garden Restaurant,bar,4.2,0.5,pune,18.5261221,73.852228,0,4.2,5880,0,0,8.679482
+Marriott Suites Pune,lodging,4.5,0.5,pune,18.5327439,73.9105072,0,4.5,5808,0,0,8.667164
+"The Central Park Hotel, Pune",lodging,4.1,0.5,pune,18.5271764,73.8785874,0,4.1,4622,0,0,8.438799
+"Titan World - Shivajinagar, Pune",point of interest,4.7,0.5,pune,18.5241291,73.8492236,0,4.7,4147,0,0,8.330382
+Max,shopping mall,4.1,0.5,pune,18.5008964,73.8726552,0,4.1,3316,0,0,8.106816
+Hotel Shree Panchratna,restaurant,4.3,0.5,pune,18.5313923,73.87469850000001,0,4.3,3300,0,0,8.101981
+Dubai Visa Processing Centre,travel agency,4.2,0.5,pune,18.5061085,73.90646029999999,0,4.2,3230,0,0,8.080547
+OSHO International Meditation Resort,health,4.2,0.5,pune,18.5364096,73.8882102,0,4.2,3094,0,0,8.037543
+St. Patrick’s Cathedral,church,4.7,0.5,pune,18.5087966,73.8980787,0,4.7,1633,0,0,7.398786
+Hindustani Covenant Church Pune,church,4.6,0.5,pune,18.507108,73.888545,0,4.6,515,0,0,6.246107
+St. Ignatius Church,church,4.7,0.5,pune,18.5569041,73.8518993,0,4.7,509,0,0,6.234411
+St. Francis De Sales’ Catholic Church,church,4.7,0.5,pune,18.5613128,73.92393849999999,0,4.7,468,0,0,6.150603
+St. Anthony's Catholic Church,church,4.5,0.5,pune,18.5310982,73.8385608,0,4.5,369,0,0,5.913503
+Christ the King Parish,church,4.7,0.5,pune,18.553264,73.91511229999999,0,4.7,363,0,0,5.897154
+Emmanuel Church Assembly Of God,church,4.8,0.5,pune,18.5031985,73.8831915,0,4.8,348,0,0,5.855072
+St. Teresa's Church,church,4.2,0.5,pune,18.5038835,73.86114599999999,0,4.2,300,0,0,5.70711
+"St. Paul's Church, CNI Pune (Maharashtra) INDIA",church,4.7,0.5,pune,18.522199,73.87499389999999,0,4.7,285,0,0,5.655992
+Church Of Holy Name,church,4.5,0.5,pune,18.505464,73.8608503,0,4.5,263,0,0,5.575949
+Oldham Memorial Methodist Church,church,4.5,0.5,pune,18.508949,73.879995,0,4.5,261,0,0,5.568345
+Shrine of St. Anthony,church,4.8,0.5,pune,18.5139136,73.87448739999999,0,4.8,248,0,0,5.517453
+Christ Church ( U.C.N.I ) Pune,church,4.5,0.5,pune,18.5165462,73.8721711,0,4.5,217,0,0,5.384495
+Carmel Parish Syro-Malabar Catholic Church,church,4.6,0.5,pune,18.5553298,73.9145066,0,4.6,216,0,0,5.379897
+"St. Thomas Orthodox Syrian Valiyapally, Khadki, Pune",church,4.7,0.5,pune,18.5623017,73.840277,0,4.7,204,0,0,5.32301
+Divine Mercy Catholic Church,church,4.8,0.5,pune,18.5450794,73.9265994,0,4.8,187,0,0,5.236442
+Methodist Church,church,4.4,0.5,pune,18.5582959,73.85469739999999,0,4.4,180,0,0,5.198497
+All Saints’ Church,church,4.6,0.5,pune,18.5589201,73.8451724,0,4.6,138,0,0,4.934474
+"St. Mary's Orthodox Syrian Church, Pune",church,4.6,0.5,pune,18.52868699999999,73.9058175,0,4.6,137,0,0,4.927254
+Pune Seventh-day Adventist Church,church,4.6,0.5,pune,18.4923243,73.8732277,0,4.6,135,0,0,4.912655
+St Anthonys Chapel,church,4.8,0.5,pune,18.5530994,73.85327269999999,0,4.8,132,0,0,4.890349
+Shree Sadguru Shankar Maharaj Samadhi Math Dhankawadi,hindu temple,4.8,0.5,pune,18.4706803,73.8573179,0,4.8,13549,0,0,9.514142
+Grama Devata Sri Kasba Ganpati Mandir Devasthan,hindu temple,4.7,0.5,pune,18.5190414,73.8573208,0,4.7,3007,0,0,8.009031
+Ramakrishna Math,hindu temple,4.6,0.5,pune,18.4997658,73.8450792,0,4.6,2728,0,0,7.911691
+Shri Sharada Ganesh Mandir (Mandai Ganpati),hindu temple,4.7,0.5,pune,18.5118287,73.85618,0,4.7,1010,0,0,6.918695
+Shrimant Bhausaheb Rangari Ganpati,hindu temple,4.8,0.5,pune,18.5175403,73.8553125,0,4.8,817,0,0,6.706862
+Shree Vitthal Rukmini Temple Vitthalwadi,hindu temple,4.7,0.5,pune,18.4825399,73.8256755,0,4.7,801,0,0,6.687109
+Chhatrapati Rajaram Mandal,hindu temple,4.6,0.5,pune,18.512386,73.8473424,0,4.6,639,0,0,6.461468
+Shree Mahalaxmi Mandir श्री महालक्ष्मी मंदिर,hindu temple,4.8,0.5,pune,18.5128626,73.9308163,0,4.8,632,0,0,6.45047
+Shree Laxmibai Dagdusheth Halwai Datta Mandir,hindu temple,4.7,0.5,pune,18.5146608,73.8566412,0,4.7,578,0,0,6.361302
+Marigold Balaji Temple,hindu temple,4.7,0.5,pune,18.5452775,73.90678439999999,0,4.7,489,0,0,6.194405
+Shrimant Bhikardas Maruti Temple-Mandir,hindu temple,4.8,0.5,pune,18.5077533,73.8528068,0,4.8,480,0,0,6.175867
+Jagannath Temple Khadki Pune,hindu temple,4.8,0.5,pune,18.55008,73.83853409999999,0,4.8,420,0,0,6.042633
+Aashapura Mata Mandir,hindu temple,4.8,0.5,pune,18.4719892,73.87525169999999,0,4.8,366,0,0,5.905362
+Shri Somnath Temple,hindu temple,4.6,0.5,pune,18.5585663,73.92135510000001,0,4.6,344,0,0,5.843544
+Shree Shiva Temple,hindu temple,4.6,0.5,pune,18.5022509,73.92745719999999,0,4.6,318,0,0,5.765191
+Patrya Maruti Mandir,hindu temple,4.5,0.5,pune,18.5153309,73.8502726,0,4.5,295,0,0,5.690359
+Lord Shree Kalyana Venkateshwara Temple,hindu temple,4.7,0.5,pune,18.5230928,73.90480029999999,0,4.7,288,0,0,5.666427
+Shri Vighnaharta (Phadke) Ganesh Temple,hindu temple,4.7,0.5,pune,18.4883258,73.8299787,0,4.7,286,0,0,5.659482
+Pavitra Mandir - Hemant Traders,hindu temple,4.7,0.5,pune,18.5118111,73.8535126,0,4.7,277,0,0,5.627621
+Makka Masjid Mominpura,mosque,4.7,0.5,pune,18.5052892,73.8624913,0,4.7,1436,0,0,7.270313
+Chand Tara Masjid,mosque,4.7,0.5,pune,18.5166898,73.86472289999999,0,4.7,947,0,0,6.854355
+Hazarat Sayyed Ali Mira Datar Dargah,mosque,4.6,0.5,pune,18.514615,73.8612955,0,4.6,647,0,0,6.473891
+Azam Campus Masjid,mosque,4.6,0.5,pune,18.5052052,73.8759032,0,4.6,597,0,0,6.393591
+Masjid Jamiatul Quraish (Ahle Sunnat Wal Jamat Masjid) مسجدِ جماعتِ قُریش,mosque,4.7,0.5,pune,18.5087467,73.8779547,0,4.7,518,0,0,6.251904
+Masjid-e-Aqsa,mosque,4.4,0.5,pune,18.5457954,73.8898009,0,4.4,478,0,0,6.171701
+Roshan Masjid (Ahle Sunnat wal Jama'at),mosque,4.7,0.5,pune,18.5113035,73.87105009999999,0,4.7,462,0,0,6.137727
+Zainy Masjid Fakhri Hills,mosque,4.8,0.5,pune,18.480784,73.88878439999999,0,4.8,368,0,0,5.910797
+Inaam Masjid,mosque,4.7,0.5,pune,18.5342123,73.8719577,0,4.7,361,0,0,5.891644
+Mannu Shah Masjid,mosque,4.6,0.5,pune,18.5168237,73.868693,0,4.6,337,0,0,5.823046
+Madina Masjid,mosque,4.7,0.5,pune,18.5708769,73.9057495,0,4.7,317,0,0,5.762051
+Usmaniya Masjid–عثمانیہ مسجد,mosque,4.7,0.5,pune,18.5112841,73.87828329999999,0,4.7,286,0,0,5.659482
+HMJI Irani Imambara (Shia),mosque,4.9,0.5,pune,18.518012,73.874492,0,4.9,276,0,0,5.624018
+"Burhani Masjid (Poona Camp), Poona (Dawoodi Bohra)",mosque,4.7,0.5,pune,18.5128389,73.8788932,0,4.7,255,0,0,5.545177
+Jama Masjid {Viman Nagar Pune},mosque,4.8,0.5,pune,18.5672845,73.9201499,0,4.8,236,0,0,5.46806
+Masjid Quba,mosque,4.6,0.5,pune,18.5552631,73.9283356,0,4.6,231,0,0,5.446737
+Tandel Sunni Masjid(مسجد تاندل السني),mosque,4.7,0.5,pune,18.517363,73.8749289,0,4.7,228,0,0,5.433722
+Zakaria Masjid - زکریا مسجد,mosque,4.8,0.5,pune,18.5396698,73.9041376,0,4.8,226,0,0,5.42495
+Succath Shelomo Synagogue,synagogue,4.3,0.5,pune,18.5176601,73.86738369999999,0,4.3,43,0,0,3.78419
+Laal dewal,synagogue,0.0,0.5,pune,18.5194016,73.8746231,0,0.0,0,0,0,0.0
+XYZ,synagogue,0.0,0.5,pune,18.5573983,73.92837999999999,0,0.0,0,0,0,0.0
+Phoenix Marketcity Pune,shopping mall,4.5,0.5,pune,18.562254,73.9166943,0,4.5,147623,0,0,11.902424
+Seasons Mall,shopping mall,4.4,0.5,pune,18.5192075,73.9316898,0,4.4,86757,0,0,11.370878
+Amanora Mall,shopping mall,4.4,0.5,pune,18.518534,73.9350918,0,4.4,81777,0,0,11.311764
+The Pavillion Mall,shopping mall,4.5,0.5,pune,18.5336359,73.829622,0,4.5,48599,0,0,10.791379
+Piazza Pizza By Little Italy SGS Mall,shopping mall,4.0,0.5,pune,18.5195803,73.8773738,0,4.0,23960,0,0,10.084183
+Fashion Street Pune,shopping mall,3.9,0.5,pune,18.5091924,73.8789713,0,3.9,22964,0,0,10.041727
+Reliance Centro,shopping mall,4.0,0.5,pune,18.534521,73.838649,0,4.0,12819,0,0,9.458762
+93 AVENUE,shopping mall,4.2,0.5,pune,18.5060519,73.9064985,0,4.2,12522,0,0,9.435322
+Kumar Pacific mall,shopping mall,4.3,0.5,pune,18.5014884,73.87232139999999,0,4.3,10671,0,0,9.275379
+Creaticity,shopping mall,4.0,0.5,pune,18.5567362,73.89458150000002,0,4.0,9081,0,0,9.11405
+Shoppers Orbit,shopping mall,4.0,0.5,pune,18.5704195,73.87820409999999,0,4.0,8365,0,0,9.031931
+Reliance Mall,shopping mall,4.0,0.5,pune,18.5044971,73.8333912,0,4.0,6671,0,0,8.805675
+Textile Company PVT. LTD,shopping mall,3.8,0.5,pune,18.516486,73.8425151,0,3.8,6042,0,0,8.706656
+Lifestyle Stores,shopping mall,4.2,0.5,pune,18.5196211,73.93119159999999,0,4.2,5482,0,0,8.609408
+Lifestyle Stores,shopping mall,4.2,0.5,pune,18.5232316,73.8780043,0,4.2,5428,0,0,8.59951
+Mariplex Metro Square,shopping mall,4.0,0.5,pune,18.5455783,73.90654529999999,0,4.0,5169,0,0,8.550628
+Wax Museum Udaipur,tourist attraction,4.7,0.5,udaipur,24.5953732,73.6872296,0,4.7,46838,0,0,10.754471
+Saheliyon ki bari,tourist attraction,4.4,0.5,udaipur,24.6030064,73.6854901,0,4.4,22756,0,0,10.032628
+Jagdish Temple,hindu temple,4.7,0.5,udaipur,24.5796536,73.6836153,0,4.7,19288,0,0,9.86729
+"Under The Sun Aquarium, Udaipur",aquarium,4.2,0.5,udaipur,24.6025393,73.6794937,0,4.2,14278,0,0,9.566545
+Maharana Pratap Smarak Samiti Moti Magri,tourist attraction,4.5,0.5,udaipur,24.6002231,73.6804597,0,4.5,13974,0,0,9.545025
+Fateh Sagar Pal,tourist attraction,4.7,0.5,udaipur,24.6012962,73.67967949999999,0,4.7,13904,0,0,9.540004
+Gangaur Ghat,tourist attraction,4.6,0.5,udaipur,24.5799237,73.68192549999999,0,4.6,13569,0,0,9.515617
+Lake Pichola Municipal Boat Ride Point,tourist attraction,4.4,0.5,udaipur,24.56842619999999,73.6836515,0,4.4,12896,0,0,9.46475
+Ambrai Ghat,tourist attraction,4.7,0.5,udaipur,24.5775547,73.67990209999999,0,4.7,12236,0,0,9.412219
+Shilpgram,tourist attraction,4.3,0.5,udaipur,24.6109599,73.6615813,0,4.3,11946,0,0,9.388235
+Jagmandir Island Palace,tourist attraction,4.4,0.5,udaipur,24.5675944,73.6777615,0,4.4,10243,0,0,9.234447
+Navlakha Mahal (Satyarth Prakash Nyas),tourist attraction,4.9,0.5,udaipur,24.5728155,73.6925981,0,4.9,9415,0,0,9.150166
+"Karni Mata Mandir, Udaipur",hindu temple,4.6,0.5,udaipur,24.5659232,73.68919559999999,0,4.6,9073,0,0,9.113168
+Manshapurn Karni mata Ropeway Udaipur,tourist attraction,4.4,0.5,udaipur,24.5661871,73.68504329999999,0,4.4,7651,0,0,8.942722
+Sukhadia Circle Statue,park,4.4,0.5,udaipur,24.6010898,73.6915382,0,4.4,6876,0,0,8.835938
+Mahakaleshwar Temple,hindu temple,4.8,0.5,udaipur,24.5905075,73.6748199,0,4.8,3108,0,0,8.042056
+FatehSagar Lake Udaipur,tourist attraction,4.7,0.5,udaipur,24.599828,73.6701872,0,4.7,2730,0,0,7.912423
+"Pichola Lake, Udaipur",tourist attraction,4.6,0.5,udaipur,24.5719197,73.6834587,0,4.6,2652,0,0,7.883446
+Ghantaghar,tourist attraction,4.3,0.5,udaipur,24.5818372,73.685571,0,4.3,2645,0,0,7.880804
+Sunset Point Park Udaipur,tourist attraction,4.6,0.5,udaipur,24.5971393,73.6821676,0,4.6,2113,0,0,7.656337
+Kumbha Kala Krati-Folk Dance/Music/Cultural Progr...ams/Puppet Show in Udaipur,tourist attraction,4.6,0.5,udaipur,24.5973196,73.6935629,0,4.6,2102,0,0,7.65112
+Dewali Sunset Point,tourist attraction,4.6,0.5,udaipur,24.6087417,73.6776038,0,4.6,2097,0,0,7.64874
+Ahar Museum,tourist attraction,4.3,0.5,udaipur,24.5864133,73.72112469999999,0,4.3,1893,0,0,7.546446
+Marvel Water Park,tourist attraction,3.9,0.5,udaipur,24.5358679,73.6799253,0,3.9,1679,0,0,7.426549
+Hotel Indra Niwas,tourist attraction,4.4,0.5,udaipur,24.5477012,73.6802096,0,4.4,1115,0,0,7.017506
+Hall Of Heroes,museum,4.5,0.5,udaipur,24.5983758,73.6810144,0,4.5,1059,0,0,6.966024
+Whereabout Hostel,tourist attraction,4.4,0.5,udaipur,24.5824476,73.6806286,0,4.4,952,0,0,6.859615
+"MYBYK Fun Zone - Pedal & Electric Cycle Rentals, Hotel Lalit, Fateh Sagar",tourist attraction,4.3,0.5,udaipur,24.5936112,73.6806363,0,4.3,816,0,0,6.705639
+Pandit Deendayal Upadhyay Park,park,4.3,0.5,udaipur,24.56664809999999,73.6843396,0,4.3,730,0,0,6.594413
+"Neemach Mata Ropeway, Udaipur, by DRIL",tourist attraction,4.7,0.5,udaipur,24.6094298,73.67717689999999,0,4.7,580,0,0,6.364751
+VICKY TOUR'S | taxi & bikes service in udaipur,tourist attraction,4.9,0.5,udaipur,24.5801077,73.68301869999999,0,4.9,565,0,0,6.338594
+Udaipur Solar Observatory,tourist attraction,4.4,0.5,udaipur,24.6043098,73.6740489,0,4.4,536,0,0,6.285998
+Doodh Talai | दुध तलाई,tourist attraction,4.4,0.5,udaipur,24.5687717,73.684887,0,4.4,531,0,0,6.276643
+Wax Museum Mewar,tourist attraction,4.8,0.5,udaipur,24.57262669999999,73.6961795,0,4.8,525,0,0,6.265301
+Dharohar Folk Dance,tourist attraction,4.8,0.5,udaipur,24.5800151,73.68229099999999,0,4.8,468,0,0,6.150603
+Sai Baba temple,hindu temple,4.6,0.5,udaipur,24.559326,73.72326,0,4.6,368,0,0,5.910797
+Shri Mahalaxmi Mandir,hindu temple,4.8,0.5,udaipur,24.5771622,73.68532390000001,0,4.8,351,0,0,5.863631
+Guru Gobind Singh Park,park,4.4,0.5,udaipur,24.5985093,73.6787018,0,4.4,311,0,0,5.743003
+Udaipur Red Apple Taxi Service - Taxi Service In Udaipur | Best Cheapest Private Taxi Booking | Outstation & Sightseeing Cabs,taxi stand,4.9,0.5,udaipur,24.5971677,73.74635649999999,0,4.9,286,0,0,5.659482
+Pichola sunset point,tourist attraction,4.5,0.5,udaipur,24.56864269999999,73.6837809,0,4.5,180,0,0,5.198497
+Udaipur Tours,tourist attraction,4.9,0.5,udaipur,24.5674683,73.7237659,0,4.9,137,0,0,4.927254
+Lal Ghat,tourist attraction,4.5,0.5,udaipur,24.57891919999999,73.68220350000001,0,4.5,138,0,0,4.934474
+Dhanvi Tours | Best Taxi Services In Udaipur | Best Tour Operator in Udaipur | Udaipur Tour Packages,tourist attraction,4.7,0.5,udaipur,24.57639199999999,73.69394770000001,0,4.7,134,0,0,4.905275
+Musical Fountain,tourist attraction,4.1,0.5,udaipur,24.5676621,73.6843184,0,4.1,138,0,0,4.934474
+Sunset Point Karni Mata,tourist attraction,4.7,0.5,udaipur,24.5663637,73.6890964,0,4.7,132,0,0,4.890349
+Roop Sagar,tourist attraction,4.3,0.5,udaipur,24.5992496,73.7214164,0,4.3,130,0,0,4.875197
+Rishabh Travels,tourist attraction,3.6,0.5,udaipur,24.5975094,73.69325250000001,0,3.6,131,0,0,4.882802
+Hanuman Ghat Temple,hindu temple,4.6,0.5,udaipur,24.5805266,73.6800904,0,4.6,117,0,0,4.770685
+Mewar Art Gallery,art gallery,4.3,0.5,udaipur,24.6005261,73.75247279999999,0,4.3,118,0,0,4.779123
+Parshuram Chauraha,tourist attraction,4.6,0.5,udaipur,24.5632296,73.7115676,0,4.6,114,0,0,4.744932
+Rajasthan Tour and Travels - Travelling with pleasure,travel agency,4.8,0.5,udaipur,24.6190738,73.6899584,0,4.8,89,0,0,4.49981
+"Soul Shala – Pottery, Art & Travel Experiences",tourist attraction,5.0,0.5,udaipur,24.5853472,73.6831392,0,5.0,86,0,0,4.465908
+Rameshwar Ghat,tourist attraction,4.3,0.5,udaipur,24.5726643,73.6830708,0,4.3,89,0,0,4.49981
+mukkhi,tourist attraction,4.2,0.5,udaipur,24.5686396,73.72682309999999,0,4.2,88,0,0,4.488636
+JAGSTAY A Heritage Homestay in Udaipur,tourist attraction,4.9,0.5,udaipur,24.5714517,73.7322736,0,4.9,78,0,0,4.369448
+Gangaur Ghat View Point,tourist attraction,4.8,0.5,udaipur,24.5802768,73.6828737,0,4.8,73,0,0,4.304065
+Lake Garden,park,4.4,0.5,udaipur,24.59047469999999,73.6730845,0,4.4,77,0,0,4.356709
+Fateh Sagar lake view point,tourist attraction,4.6,0.5,udaipur,24.5980078,73.6777352,0,4.6,69,0,0,4.248495
+Guide Udaipur | The Culture Tours,tourist attraction,5.0,0.5,udaipur,24.5822972,73.68187739999999,0,5.0,64,0,0,4.174387
+Sunset Adventures Private Limited,travel agency,4.9,0.5,udaipur,24.5831231,73.7096542,0,4.9,63,0,0,4.158883
+Statue of Maharana Pratap,tourist attraction,4.6,0.5,udaipur,24.6248369,73.6717666,0,4.6,60,0,0,4.110874
+Moti magri lake view point,tourist attraction,4.5,0.5,udaipur,24.60045269999999,73.6805854,0,4.5,55,0,0,4.025352
+Ramadhani tour and travels,tourist attraction,5.0,0.5,udaipur,24.6032128,73.7090384,0,5.0,48,0,0,3.89182
+Mama Ji Ki Haveli,tourist attraction,4.3,0.5,udaipur,24.576287,73.685483,0,4.3,48,0,0,3.89182
+Swaroop Sagar Dam,tourist attraction,4.2,0.5,udaipur,24.5918067,73.6853094,0,4.2,47,0,0,3.871201
+Fatehsagar,tourist attraction,4.5,0.5,udaipur,24.5958482,73.6814065,0,4.5,42,0,0,3.7612
+Shree Balaji Temple,hindu temple,4.2,0.5,udaipur,24.5832641,73.7394233,0,4.2,43,0,0,3.78419
+R K circle,tourist attraction,4.7,0.5,udaipur,24.6069076,73.6998192,0,4.7,37,0,0,3.637586
+Moti mahal,tourist attraction,4.3,0.5,udaipur,24.6002088,73.67977599999999,0,4.3,40,0,0,3.713572
+Manak Chowk,tourist attraction,4.7,0.5,udaipur,24.5769233,73.683883,0,4.7,32,0,0,3.496508
+Lake Pichola Views,tourist attraction,4.8,0.5,udaipur,24.5727097,73.6768256,0,4.8,31,0,0,3.465736
+Pichhola Dudhtalai chaupati,tourist attraction,4.4,0.5,udaipur,24.5689385,73.6839251,0,4.4,33,0,0,3.526361
+Hanging Bridge,tourist attraction,4.8,0.5,udaipur,24.5642625,73.6864903,0,4.8,26,0,0,3.295837
+Simar Tour and Travels | Best Taxi in Udaipur,taxi stand,5.0,0.5,udaipur,24.5538149,73.69662,0,5.0,24,0,0,3.218876
+"Chand Pole , Udaipur",tourist attraction,4.6,0.5,udaipur,24.5825784,73.6815409,0,4.6,28,0,0,3.367296
+Sagar Park,park,4.3,0.5,udaipur,24.5481,73.6839,0,4.3,28,0,0,3.367296
+Aquarium Unique Fishes,tourist attraction,4.2,0.5,udaipur,24.6025512,73.67949039999999,0,4.2,29,0,0,3.401197
+Jagmandir Gul Mahal,tourist attraction,4.4,0.5,udaipur,24.567523,73.6789046,0,4.4,25,0,0,3.258097
+Pipli ghat,tourist attraction,4.1,0.5,udaipur,24.5777135,73.682479,0,4.1,28,0,0,3.367296
+Toran Pol,tourist attraction,4.5,0.5,udaipur,24.5766433,73.683846,0,4.5,21,0,0,3.091042
+Braal Watching Spot,tourist attraction,4.3,0.5,udaipur,24.5812521,73.6811678,0,4.3,23,0,0,3.178054
+Khammaghani Travelling & Holidays Udaipur,tourist attraction,5.0,0.5,udaipur,24.6005261,73.75247279999999,0,5.0,15,0,0,2.772589
+Chapti Point,tourist attraction,4.9,0.5,udaipur,24.6047881,73.66988839999999,0,4.9,16,0,0,2.833213
+Bhuvana choraha udaipur,tourist attraction,4.7,0.5,udaipur,24.628999,73.7119931,0,4.7,18,0,0,2.944439
+Tour Affair Madan Lal Chhabra,tourist attraction,5.0,0.5,udaipur,24.5849795,73.7011283,0,5.0,14,0,0,2.70805
+Udaipur tour car rental,car rental,4.9,0.5,udaipur,24.5962936,73.711963,0,4.9,15,0,0,2.772589
+Peace Stop,tourist attraction,4.6,0.5,udaipur,24.6042458,73.6673447,0,4.6,18,0,0,2.944439
+Fort wall,tourist attraction,4.2,0.5,udaipur,24.5635327,73.6870093,0,4.2,21,0,0,3.091042
+Sai Baba Mandir,hindu temple,4.5,0.5,udaipur,24.580044,73.6833387,0,4.5,15,0,0,2.772589
+Shri Thakurji Kalyanrai ji (Radha Krishna )Mandir,hindu temple,4.1,0.5,udaipur,24.5792767,73.6995319,0,4.1,19,0,0,2.995732
+Devra बृजेश्वर महादेव Balaji temple,hindu temple,3.9,0.5,udaipur,24.591822,73.75283929999999,0,3.9,21,0,0,3.091042
+Fateh Sagar Lake festival,tourist attraction,4.3,0.5,udaipur,24.603202,73.6791886,0,4.3,17,0,0,2.890372
+Hilltop Titrdi,tourist attraction,4.9,0.5,udaipur,24.5413889,73.7158333,0,4.9,10,0,0,2.397895
+Bherunath Temple,hindu temple,4.7,0.5,udaipur,24.5379001,73.7302107,0,4.7,12,0,0,2.564949
+Imli Ghat,tourist attraction,3.7,0.5,udaipur,24.5847909,73.68288869999999,0,3.7,22,0,0,3.135494
+Amba Pol Gate,tourist attraction,4.3,0.5,udaipur,24.5828839,73.67939179999999,0,4.3,16,0,0,2.833213
+Swyambhoo point,tourist attraction,4.3,0.5,udaipur,24.5924734,73.6715085,0,4.3,16,0,0,2.833213
+Uparlo Stay - Your cozy rooftop homestay in Udaipur,tourist attraction,5.0,0.5,udaipur,24.5714395,73.7322508,0,5.0,8,0,0,2.197225
+Water scooters,tourist attraction,4.8,0.5,udaipur,24.5982431,73.6777446,0,4.8,10,0,0,2.397895
+Badi talab,tourist attraction,5.0,0.5,udaipur,24.585445,73.712479,0,5.0,7,0,0,2.079442
+"TRIMURTI, Mewar Darshan Dirgha",tourist attraction,4.9,0.5,udaipur,24.59535589999999,73.68144869999999,0,4.9,8,0,0,2.197225
+The Terracotta Store (Molela Clay Works),tourist attraction,4.9,0.5,udaipur,24.6243841,73.71052879999999,0,4.9,8,0,0,2.197225
+Phaanda taalab,tourist attraction,4.4,0.5,udaipur,24.533254,73.7351891,0,4.4,12,0,0,2.564949
+Syphon Chouraha,tourist attraction,3.6,0.5,udaipur,24.6214266,73.6899292,0,3.6,20,0,0,3.044522
+Udaipur Rajasthan,tourist attraction,5.0,0.5,udaipur,24.5855964,73.7124705,0,5.0,5,0,0,1.791759
+City Palace,museum,4.5,0.5,udaipur,24.5764421,73.6835109,0,4.5,104180,0,0,11.553885
+Prabhav Celebrity Wax Museum Udaipur,museum,4.7,0.5,udaipur,24.5975177,73.6886279,0,4.7,10620,0,0,9.270588
+Bhartiya Lok Kala Mandal,museum,4.3,0.5,udaipur,24.5944492,73.6917173,0,4.3,9120,0,0,9.118335
+Pratap Gaurav Kendra Udaipur,museum,4.8,0.5,udaipur,24.626465,73.6715488,0,4.8,6297,0,0,8.747987
+Bagore Ki Haveli,museum,4.5,0.5,udaipur,24.5797664,73.6822359,0,4.5,5254,0,0,8.566935
+ILLUSION WORLD udaipur,museum,4.8,0.5,udaipur,24.5987881,73.68535059999999,0,4.8,3062,0,0,8.02715
+Lok Marudhar Nartya Udaipur,museum,4.8,0.5,udaipur,24.5877206,73.6888495,0,4.8,2660,0,0,7.886457
+"West Zone Cultural Centre , Udaipur",museum,4.4,0.5,udaipur,24.5798917,73.6822506,0,4.4,1756,0,0,7.471363
+Museum of Mewar,museum,4.6,0.5,udaipur,24.5997991,73.6879328,0,4.6,741,0,0,6.609349
+"Wonder World Collection ""Vintage Bike Museum""",museum,4.9,0.5,udaipur,24.5855759,73.7025792,0,4.9,712,0,0,6.569481
+"Vintage & Classic Car Collection, The Palace, Udaipur",museum,3.8,0.5,udaipur,24.5755663,73.69474629999999,0,3.8,286,0,0,5.659482
+Saloni Arts,art gallery,4.7,0.5,udaipur,24.62255399999999,73.7080655,0,4.7,243,0,0,5.497168
+Natural Handicrafts Pvt. Ltd.,museum,4.3,0.5,udaipur,24.6226879,73.7085354,0,4.3,229,0,0,5.438079
+MERCHANT MOTOART,museum,4.9,0.5,udaipur,24.592255,73.6844146,0,4.9,199,0,0,5.298317
+Lavanya art museum,museum,2.5,0.5,udaipur,24.5951124,73.6873173,0,2.5,175,0,0,5.170484
+Art & Frames,art gallery,4.8,0.5,udaipur,24.5988083,73.6857508,0,4.8,151,0,0,5.023881
+Om Arts and Crafts,art gallery,4.8,0.5,udaipur,24.6010276,73.68835469999999,0,4.8,141,0,0,4.955827
+Bedwas,museum,4.1,0.5,udaipur,24.58406879999999,73.7588178,0,4.1,71,0,0,4.276666
+Ashoka Arts – Handicraft | Miniature Painting | Art classes in Udaipur | Best Pichwai paintings,art gallery,4.9,0.5,udaipur,24.58052,73.68253299999999,0,4.9,868,0,0,6.767343
+Siddhi Vinayak Art gallery udaipur,art gallery,4.9,0.5,udaipur,24.5800973,73.6823739,0,4.9,607,0,0,6.410175
+Sanju Arts,art gallery,5.0,0.5,udaipur,24.5792865,73.68327599999999,0,5.0,295,0,0,5.690359
+Pacific Art Udaipur,art gallery,4.9,0.5,udaipur,24.5790188,73.678798,0,4.9,227,0,0,5.429346
+Rama Art Gallery,art gallery,4.4,0.5,udaipur,24.57899519999999,73.6711718,0,4.4,173,0,0,5.159055
+Khush Art Gallery |Painting Classes in Udaipur |Resin Art Classes in Udaipur,art gallery,4.9,0.5,udaipur,24.60868110000001,73.6908113,0,4.9,138,0,0,4.934474
+Kajri Art and Craft,art gallery,3.2,0.5,udaipur,24.5765198,73.6952812,0,3.2,144,0,0,4.976734
+Ganesh Emporium (Vipulshahbags),art gallery,4.6,0.5,udaipur,24.5787085,73.6838844,0,4.6,97,0,0,4.584967
+The place of art,art gallery,5.0,0.5,udaipur,24.5863973,73.68058280000001,0,5.0,88,0,0,4.488636
+Takhman Art Gallery,art gallery,4.9,0.5,udaipur,24.5858152,73.67130829999999,0,4.9,85,0,0,4.454347
+Aravali Arts,art gallery,4.9,0.5,udaipur,24.5806193,73.6823071,0,4.9,80,0,0,4.394449
+Eternal ink tattoo in Udaipur,art gallery,5.0,0.5,udaipur,24.5754948,73.685475,0,5.0,69,0,0,4.248495
+Elephant in the Room - Art & Handicrafts,art gallery,4.8,0.5,udaipur,24.5852961,73.6831127,0,4.8,71,0,0,4.276666
+Kalagya Arts & Crafts,art gallery,5.0,0.5,udaipur,24.595912,73.6869418,0,5.0,66,0,0,4.204693
+Gallery One,art gallery,4.7,0.5,udaipur,24.5818226,73.6818138,0,4.7,62,0,0,4.143135
+Janak Arts- miniature painting and nail art specialist Art class udaipur,art gallery,5.0,0.5,udaipur,24.5785599,73.6848038,0,5.0,56,0,0,4.043051
+Fine Art School,art gallery,4.9,0.5,udaipur,24.592153,73.692394,0,4.9,55,0,0,4.025352
+Inspirit Art Gallery,art gallery,4.9,0.5,udaipur,24.5791712,73.67988249999999,0,4.9,50,0,0,3.931826
+Patel Arts,art gallery,4.2,0.5,udaipur,24.623261,73.7092961,0,4.2,55,0,0,4.025352
+B. G. Sharma Art Gallery,art gallery,4.4,0.5,udaipur,24.6011045,73.6867563,0,4.4,49,0,0,3.912023
+Painting House,art gallery,5.0,0.5,udaipur,24.5752514,73.6855193,0,5.0,40,0,0,3.713572
+Gulab Bagh,park,4.4,0.5,udaipur,24.5721752,73.6927455,0,4.4,5306,0,0,8.576782
+Nehru Garden,park,4.2,0.5,udaipur,24.5962878,73.6734232,0,4.2,1770,0,0,7.4793
+Shree Mohanlal Sukhadiya Memorial Foundation Park,park,4.3,0.5,udaipur,24.5858295,73.7098752,0,4.3,1419,0,0,7.258412
+Vivek Park,park,4.3,0.5,udaipur,24.5756569,73.7251124,0,4.3,1417,0,0,7.257003
+Manik Lal Verma Park,park,4.2,0.5,udaipur,24.5689743,73.6858111,0,4.2,1001,0,0,6.909753
+Sanjay Gandhi Park,park,4.2,0.5,udaipur,24.5945248,73.6671016,0,4.2,866,0,0,6.765039
+M B College Ground,park,4.3,0.5,udaipur,24.5790566,73.7148553,0,4.3,842,0,0,6.736967
+Parmanand Garden,park,4.0,0.5,udaipur,24.6134732,73.709771,0,4.0,670,0,0,6.508769
+Swarn Jayanti Park,park,4.4,0.5,udaipur,24.5444704,73.6860074,0,4.4,542,0,0,6.297109
+Vibhuti Park,park,4.2,0.5,udaipur,24.605406,73.67893520000001,0,4.2,478,0,0,6.171701
+Udai Park,park,4.1,0.5,udaipur,24.56398159999999,73.72222,0,4.1,382,0,0,5.948035
+Pooja Park,park,4.2,0.5,udaipur,24.566694,73.7259952,0,4.2,255,0,0,5.545177
+Smart City Park,park,4.4,0.5,udaipur,24.5449435,73.6825504,0,4.4,212,0,0,5.361292
+Ganpati Park,park,4.2,0.5,udaipur,24.5500935,73.71120820000002,0,4.2,208,0,0,5.342334
+Amba Mata Park,park,4.3,0.5,udaipur,24.5604334,73.7207837,0,4.3,205,0,0,5.327876
+Durga Park,park,4.2,0.5,udaipur,24.5621456,73.7199797,0,4.2,201,0,0,5.308268
+"Sarv Ritu Vilas Park, Udaipur",park,4.1,0.5,udaipur,24.573306,73.697097,0,4.1,179,0,0,5.192957
+Community Park,park,4.2,0.5,udaipur,24.5890742,73.74125810000001,0,4.2,151,0,0,5.023881
+Railway Station Park,park,3.8,0.5,udaipur,24.5830616,73.72879209999999,0,3.8,154,0,0,5.043425
+Vinayak Nagar Park,park,3.8,0.5,udaipur,24.5694698,73.7192374,0,3.8,153,0,0,5.036953
+J P Nagar Park,park,4.0,0.5,udaipur,24.5562,73.7115,0,4.0,147,0,0,4.997212
+Children Park,park,4.0,0.5,udaipur,24.5680558,73.723946,0,4.0,147,0,0,4.997212
+Fatah Bag,park,4.1,0.5,udaipur,24.5685135,73.7165947,0,4.1,137,0,0,4.927254
+UIT Community Center,park,4.1,0.5,udaipur,24.5987774,73.72519679999999,0,4.1,136,0,0,4.919981
+ARCGATE Children Park,park,4.1,0.5,udaipur,24.5794414,73.7407066,0,4.1,130,0,0,4.875197
+Javahar Park,park,4.1,0.5,udaipur,24.5900522,73.742019,0,4.1,122,0,0,4.812184
+Gulab bagh Toy Train,park,3.6,0.5,udaipur,24.5732829,73.6879581,0,3.6,125,0,0,4.836282
+Dore Nagar Park (Nagar Nigam Udaipur),park,4.2,0.5,udaipur,24.5801,73.7244,0,4.2,117,0,0,4.770685
+City Council Park,park,4.0,0.5,udaipur,24.5822967,73.6972892,0,4.0,113,0,0,4.736198
+Pannadhay Park,park,4.6,0.5,udaipur,24.5448917,73.6825279,0,4.6,106,0,0,4.672829
+"Nexus Celebration Mall, Udaipur",shopping mall,4.5,0.5,udaipur,24.6124788,73.7024833,0,4.5,33979,0,0,10.433527
+Inox Lake City Mall,movie theater,4.1,0.5,udaipur,24.5861228,73.7104561,0,4.1,17254,0,0,9.755857
+Radisson Hotel Udaipur,lodging,4.7,0.5,udaipur,24.5860318,73.7106228,0,4.7,9035,0,0,9.108972
+SWAROOP VILAS - LAKE FACING BOUTIQUE HOTEL,bar,4.4,0.5,udaipur,24.5892019,73.68243,0,4.4,6300,0,0,8.748464
+"jüSTa Rajputana Resort and Convention Centre, Udaipur",lodging,4.1,0.5,udaipur,24.5530013,73.70265359999999,0,4.1,4454,0,0,8.401782
+Festiva Celebration Bakery & sweets,bakery,4.3,0.5,udaipur,24.6094275,73.6891103,0,4.3,4287,0,0,8.363576
+The LaLiT Laxmi Vilas Palace Udaipur,lodging,4.4,0.5,udaipur,24.5937874,73.6827512,0,4.4,3918,0,0,8.273592
+Amantra Comfort Hotel,spa,4.5,0.5,udaipur,24.602703,73.689095,0,4.5,3914,0,0,8.272571
+Hotel Hilltop Palace,lodging,4.1,0.5,udaipur,24.5904891,73.68154799999999,0,4.1,3662,0,0,8.206038
+Hotel Paras Mahal,lodging,4.2,0.5,udaipur,24.5610052,73.69373139999999,0,4.2,3563,0,0,8.178639
+"Purohit Cafe .. ✨ Where taste, trust, and tradition meet — since 1987.",cafe,4.3,0.5,udaipur,24.5879656,73.7116102,0,4.3,3244,0,0,8.084871
+Hotel Meenakshi Udaipur,lodging,3.9,0.5,udaipur,24.5649276,73.7256909,0,3.9,2590,0,0,7.859799
+Zostel Udaipur,lodging,4.3,0.5,udaipur,24.5837508,73.6830756,0,4.3,2530,0,0,7.83637
+Radiant Globus Hotels & Resorts,cafe,3.9,0.5,udaipur,24.5973495,73.69395279999999,0,3.9,2269,0,0,7.727535
+Hotel Vishnupriya | Hotel In City Centre | Hotel Near City Palace | Hotel Near City Station Udaipur,spa,4.1,0.5,udaipur,24.5763311,73.6950177,0,4.1,2245,0,0,7.716906
+The Red Pier - My Downtown Hotels,lodging,4.5,0.5,udaipur,24.5799307,73.682924,0,4.5,1992,0,0,7.597396
+Menaria Guest House,lodging,4.0,0.5,udaipur,24.5654077,73.71994169999999,0,4.0,1920,0,0,7.560601
+"Zone Connect by The Park, Udaipur",restaurant,3.7,0.5,udaipur,24.60889689999999,73.6947101,0,3.7,1905,0,0,7.552762
+Hotel Udai Median,lodging,4.2,0.5,udaipur,24.5949285,73.6922657,0,4.2,1837,0,0,7.516433
+Titanium Education of English Language Pvt. Ltd.,point of interest,5.0,0.5,udaipur,24.5854345,73.7222103,0,5.0,1787,0,0,7.488853
+Jaiwana Haveli - Lake Facing Hotel,cafe,4.4,0.5,udaipur,24.5791205,73.68248659999999,0,4.4,1651,0,0,7.409742
+Mohanlal Sukhadia University,point of interest,4.1,0.5,udaipur,24.5943052,73.7317884,0,4.1,1600,0,0,7.378384
+"Shepherd Memorial Church, Church of North India (C.N.I)",church,4.7,0.5,udaipur,24.5902977,73.691518,0,4.7,133,0,0,4.89784
+Our Lady of Fatima Cathedral,church,4.6,0.5,udaipur,24.5969346,73.6987312,0,4.6,126,0,0,4.844187
+Rajasthan Pentecostal Church,church,4.8,0.5,udaipur,24.5910983,73.66304629999999,0,4.8,117,0,0,4.770685
+St. Gregorios Orthodox Church,church,4.3,0.5,udaipur,24.5962937,73.710525,0,4.3,37,0,0,3.637586
+Emmanuel Marthoma Church,church,4.2,0.5,udaipur,24.5907415,73.71459779999999,0,4.2,21,0,0,3.091042
+अपोस्तोलिक ग्रेस Church. (prarthana Bhawan)अपोस्टोलिक चर्च .திருத்தூதர் கிருபை தேவாலயம்,church,5.0,0.5,udaipur,24.5428882,73.70335030000001,0,5.0,8,0,0,2.197225
+Bethel Pentecostal Church,church,5.0,0.5,udaipur,24.5974014,73.71191739999999,0,5.0,6,0,0,1.94591
+The Pentecostal Mission,church,5.0,0.5,udaipur,24.5364468,73.7023488,0,5.0,4,0,0,1.609438
+Church Of Lord Jesus Christ (End Time Message Church),church,5.0,0.5,udaipur,24.54288499999999,73.70416,0,5.0,2,0,0,1.098612
+मोड़ी मजरा थला रावत,church,5.0,0.5,udaipur,24.585445,73.712479,0,5.0,1,0,0,0.693147
+Calvary Covenant Church,church,4.5,0.5,udaipur,24.5490083,73.69102099999999,0,4.5,4,0,0,1.609438
+Rajasthan,church,0.0,0.5,udaipur,24.585445,73.712479,0,0.0,0,0,0,0.0
+Orthodox Church,church,0.0,0.5,udaipur,24.585445,73.712479,0,0.0,0,0,0,0.0
+Denney.kumar,church,0.0,0.5,udaipur,24.585445,73.712479,0,0.0,0,0,0,0.0
+Jamin,church,0.0,0.5,udaipur,24.585445,73.712479,0,0.0,0,0,0,0.0
+RADHE,church,0.0,0.5,udaipur,24.585445,73.712479,0,0.0,0,0,0,0.0
+Sourab Kuri,church,0.0,0.5,udaipur,24.5868954,73.7122814,0,0.0,0,0,0,0.0
+Church of God (FG) Udaipur,church,0.0,0.5,udaipur,24.5970588,73.71123899999999,0,0.0,0,0,0,0.0
+Christ For Youth Ministry,church,0.0,0.5,udaipur,24.5816864,73.6976146,0,0.0,0,0,0,0.0
+Ramesh,church,0.0,0.5,udaipur,24.5963206,73.69997310000001,0,0.0,0,0,0,0.0
+MAS_COMPANY,church,0.0,0.5,udaipur,24.598284,73.7242486,0,0.0,0,0,0,0.0
+ram asrey sweets,church,0.0,0.5,udaipur,24.598362,73.7245919,0,0.0,0,0,0,0.0
+Mandi ki badli sutra,church,0.0,0.5,udaipur,24.5827499,73.69229399999999,0,0.0,0,0,0,0.0
+Gopal Vadera,church,0.0,0.5,udaipur,24.5795864,73.6839485,0,0.0,0,0,0,0.0
+Bohra Ganeshji Temple,hindu temple,4.9,0.5,udaipur,24.589721,73.727328,0,4.9,2919,0,0,7.979339
+Neemach Mata Mandir,hindu temple,4.7,0.5,udaipur,24.61316099999999,73.6758204,0,4.7,1749,0,0,7.467371
+Aavri Mata Ji Mandir,hindu temple,4.7,0.5,udaipur,24.5624716,73.7019962,0,4.7,777,0,0,6.656727
+"Shrinathji Temple, Udaipur",hindu temple,4.7,0.5,udaipur,24.5797492,73.6883752,0,4.7,627,0,0,6.44254
+"ISKCON, Udaipur",hindu temple,4.7,0.5,udaipur,24.5887793,73.7190493,0,4.7,259,0,0,5.560682
+Pracheen Shani Maharaaj Mandir Dham,hindu temple,4.7,0.5,udaipur,24.587406,73.6876472,0,4.7,238,0,0,5.476464
+Jagannath Dham,hindu temple,4.8,0.5,udaipur,24.5543521,73.7219337,0,4.8,127,0,0,4.85203
+Kalka Mata Temple,hindu temple,4.7,0.5,udaipur,24.5959421,73.72466519999999,0,4.7,105,0,0,4.663439
+Shri Neelkanth Mahadev Temple,hindu temple,4.8,0.5,udaipur,24.5997314,73.6848499,0,4.8,83,0,0,4.430817
+Mahadevji Ka Mandir,hindu temple,4.3,0.5,udaipur,24.5682604,73.7319808,0,4.3,77,0,0,4.356709
+Nakoda Bhairav,hindu temple,4.4,0.5,udaipur,24.5726542,73.72498700000001,0,4.4,69,0,0,4.248495
+Kali Kalyan Dham Udaipur (Kaali),hindu temple,4.7,0.5,udaipur,24.57229929999999,73.7394834,0,4.7,59,0,0,4.094345
+Shri Radha Krishna Temple,hindu temple,4.6,0.5,udaipur,24.5890999,73.72489999999999,0,4.6,57,0,0,4.060443
+Kishkinda Hanuman Mandir,hindu temple,4.7,0.5,udaipur,24.5635152,73.7173186,0,4.7,53,0,0,3.988984
+New Ayyappa Temple,hindu temple,4.7,0.5,udaipur,24.60022649999999,73.7121587,0,4.7,46,0,0,3.850148
+Shani Dev Temple,hindu temple,4.5,0.5,udaipur,24.5972671,73.71284229999999,0,4.5,44,0,0,3.806662
+Shani Temple,hindu temple,4.7,0.5,udaipur,24.5801771,73.73868279999999,0,4.7,37,0,0,3.637586
+Thakur ji ka Temple,hindu temple,4.9,0.5,udaipur,24.5616161,73.7139985,0,4.9,34,0,0,3.555348
+Hanuman Temple,hindu temple,4.5,0.5,udaipur,24.5896604,73.6751365,0,4.5,37,0,0,3.637586
+Veer Hanuman Temple,hindu temple,4.7,0.5,udaipur,24.6070409,73.683443,0,4.7,35,0,0,3.583519
+Hanuman Temple,hindu temple,4.5,0.5,udaipur,24.61551369999999,73.68530369999999,0,4.5,35,0,0,3.583519
+Mangleshwar Mahadev Mandir,hindu temple,4.7,0.5,udaipur,24.5657708,73.7254652,0,4.7,32,0,0,3.496508
+Shree Ram Mandir,hindu temple,4.7,0.5,udaipur,24.5553311,73.69519369999999,0,4.7,30,0,0,3.433987
+Pala Ganesh Ji Temple,hindu temple,4.6,0.5,udaipur,24.5725229,73.6874951,0,4.6,30,0,0,3.433987
+Hatipole,hindu temple,4.4,0.5,udaipur,24.5871373,73.6875591,0,4.4,32,0,0,3.496508
+Rameshwar Mahadev Mandir,hindu temple,4.5,0.5,udaipur,24.5684914,73.72914829999999,0,4.5,30,0,0,3.433987
+"Burhani Masjid, Udaipur (Dawoodi Bohra)",mosque,4.7,0.5,udaipur,24.6134865,73.68437229999999,0,4.7,231,0,0,5.446737
+MASJID SYEDNA UMAR BIN KHATTAB,mosque,4.7,0.5,udaipur,24.5855751,73.6683924,0,4.7,139,0,0,4.941642
+Masjid Alipura,mosque,4.6,0.5,udaipur,24.5948678,73.6970548,0,4.6,128,0,0,4.859812
+Bilali Masjid مسجد,mosque,4.7,0.5,udaipur,24.5940574,73.7231351,0,4.7,116,0,0,4.762174
+Masjid E Gousia Nooriya Badi Masjid savina Sunni masjid,mosque,4.8,0.5,udaipur,24.543601,73.7078895,0,4.8,105,0,0,4.663439
+"Khara Kua Maszid, Anjuman Chowk",mosque,4.2,0.5,udaipur,24.5813376,73.6907837,0,4.2,107,0,0,4.682131
+Hazrat Khadijatul Kubra (R.A.) Hathipol Mosque مسجد,mosque,4.1,0.5,udaipur,24.5865331,73.6871774,0,4.1,102,0,0,4.634729
+Paltan Masjid,mosque,4.6,0.5,udaipur,24.59036609999999,73.6896825,0,4.6,89,0,0,4.49981
+Masjid E Helaan,mosque,4.0,0.5,udaipur,24.5817781,73.69564129999999,0,4.0,91,0,0,4.521789
+Rehmaniya Masjid,mosque,4.6,0.5,udaipur,24.5861056,73.70024769999999,0,4.6,76,0,0,4.343805
+Bhramhapole masjid,mosque,4.6,0.5,udaipur,24.5830304,73.6745583,0,4.6,66,0,0,4.204693
+Chishtiya Masjid,mosque,4.8,0.5,udaipur,24.6055261,73.72220659999999,0,4.8,60,0,0,4.110874
+Bohra Youth Masjid,mosque,4.3,0.5,udaipur,24.6131231,73.6824685,0,4.3,61,0,0,4.127134
+Hussaini Masjid,mosque,4.7,0.5,udaipur,24.5847,73.6927,0,4.7,56,0,0,4.043051
+Masjid Qutub E Aalam Khanjipeer,mosque,4.7,0.5,udaipur,24.5702201,73.6942576,0,4.7,53,0,0,3.988984
+"Madina Masjid, Lohar Colony, Ayad",mosque,4.5,0.5,udaipur,24.58710199999999,73.71305459999999,0,4.5,54,0,0,4.007333
+"Moeyyadpura Masjid, Udaipur (Dawoodi Bohra)",mosque,4.5,0.5,udaipur,24.5843894,73.6883762,0,4.5,52,0,0,3.970292
+Burhani Nagar Markaz,mosque,4.7,0.5,udaipur,24.6218719,73.6809425,0,4.7,50,0,0,3.931826
+Fateh Sagar Overflow Point,synagogue,4.6,0.5,udaipur,24.601334,73.6798089,0,4.6,42,0,0,3.7612
+नटनी का चबूतरा,synagogue,5.0,0.5,udaipur,24.5694529,73.6704946,0,5.0,2,0,0,1.098612
+Mr and I Udaipur,synagogue,0.0,0.5,udaipur,24.572,73.679,0,0.0,0,0,0,0.0
+Madhav das,synagogue,0.0,0.5,udaipur,24.63666,73.68010919999999,0,0.0,0,0,0,0.0
+Lake City Mall,shopping mall,4.1,0.5,udaipur,24.5860809,73.7107132,0,4.1,8560,0,0,9.054972
+Patanjali Mega Store,shopping mall,5.0,0.5,udaipur,24.5493368,73.69453320000001,0,5.0,7647,0,0,8.942199
+RKay Mall,shopping mall,3.7,0.5,udaipur,24.596985,73.690501,0,3.7,3564,0,0,8.178919
+Urban Square Mall Udaipur,shopping mall,4.2,0.5,udaipur,24.6320909,73.7126013,0,4.2,2493,0,0,7.821643
+Patanjali Mega Store & Chikitsalaya,supermarket,4.9,0.5,udaipur,24.5795043,73.6949616,0,4.9,2459,0,0,7.807917
+"Zudio - Udaipur Central, Udaipur",clothing store,4.1,0.5,udaipur,24.5803907,73.6967361,0,4.1,996,0,0,6.904751
+Max,shopping mall,4.5,0.5,udaipur,24.61279559999999,73.702387,0,4.5,711,0,0,6.568078
+City Centre Mall,shopping mall,4.2,0.5,udaipur,24.58606889999999,73.7046515,0,4.2,518,0,0,6.251904
+Connaught Place,shopping mall,4.3,0.5,udaipur,24.6085483,73.7093927,0,4.3,357,0,0,5.880533

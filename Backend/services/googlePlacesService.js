@@ -18,18 +18,22 @@ const buildPlacePhotoUrl = (photoReference, maxWidth = 800) => {
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const normalizeCity = (value) => String(value || '').trim().toLowerCase();
 
-const buildGeocodingAddress = (cityName) => (
-  CITY_LOOKUP.has(normalizeCity(cityName))
+const buildGeocodingAddress = (cityName, queryOverride = '') => {
+  if (String(queryOverride || '').trim()) {
+    return String(queryOverride).trim();
+  }
+
+  return CITY_LOOKUP.has(normalizeCity(cityName))
     ? `${cityName}, India`
-    : `${cityName}, Kerala, India`
-);
+    : `${cityName}, Kerala, India`;
+};
 
 /**
  * Get coordinates for a city using Google Geocoding API
  */
-const getCityCoordinates = async (cityName) => {
+const getCityCoordinates = async (cityName, queryOverride = '') => {
   try {
-    const address = buildGeocodingAddress(cityName);
+    const address = buildGeocodingAddress(cityName, queryOverride);
     const response = await axios.get(GEOCODING_URL, {
       params: {
         address,

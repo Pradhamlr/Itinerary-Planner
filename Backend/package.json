@@ -21,6 +21,7 @@
     "reset-expansion-cities": "node scripts/resetExpansionCities.js",
     "sync-hotels": "node scripts/syncHotels.js",
     "sync-hotels-expansion": "node scripts/syncHotels.js --priority 1",
+    "sync-hotels-next-expansion-batch": "node scripts/syncNextExpansionBatchHotels.js",
     "enrich-hotels": "node scripts/enrichHotelsHeuristically.js"
   },
   "keywords": [
