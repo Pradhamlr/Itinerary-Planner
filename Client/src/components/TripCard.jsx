@@ -75,9 +75,22 @@ function TripCard({ trip, onDelete, onComplete }) {
           </div>
           <Link
             to={`/trip/${trip._id}`}
-            className="text-sm font-semibold text-brand-palm transition hover:text-brand-secondary"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-brand-palm transition hover:text-brand-secondary"
           >
-            View plan →
+            View plan
+            <svg
+              aria-hidden="true"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="h-4 w-4"
+            >
+              <path d="M7 17 17 7" />
+              <path d="M9 7h8v8" />
+            </svg>
           </Link>
         </div>
 
@@ -102,9 +115,24 @@ function TripCard({ trip, onDelete, onComplete }) {
             <button
               type="button"
               onClick={() => onDelete(trip._id)}
-              className="rounded-full bg-red-100 px-4 py-2 text-sm font-semibold text-red-700 transition hover:bg-red-200"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-red-100 text-red-700 transition hover:bg-red-200"
+              aria-label={`Delete ${formatCityName(trip.city)} trip`}
             >
-              Delete
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="h-4 w-4"
+              >
+                <path d="M3 6h18" />
+                <path d="M8 6V4h8v2" />
+                <path d="M19 6l-1 14H6L5 6" />
+                <path d="M10 11v6" />
+                <path d="M14 11v6" />
+              </svg>
             </button>
           </div>
         </div>
